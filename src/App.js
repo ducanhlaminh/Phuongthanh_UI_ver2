@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-full h-full max-w-[1560px] mx-auto">
+    <div className="bg-purple-100 m-auto overflow-y-auto h-screen">
       <Routes>
 
         <Route path={path.PUBLIC} element={<Public />}>

@@ -3,7 +3,7 @@ const takeParamsVerifyToken = (url) => {
     let tempParam = "";
     for (let i = 0; i < url.length; i++) {
 
-        if (url[i] != '/') {
+        if (url[i] !== '/') {
             tempParam += url[i];
 
         }

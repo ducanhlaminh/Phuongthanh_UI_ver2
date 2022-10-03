@@ -22,6 +22,7 @@ export const path = {
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
+  DISCOUNT: 'giam-gia'
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
