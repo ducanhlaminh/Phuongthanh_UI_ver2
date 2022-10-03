@@ -1,4 +1,3 @@
-import { type } from "@testing-library/user-event/dist/type";
 import actionTypes from "../actions/actionTypes";
 
 const initState = {

@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-full h-full max-w-[1560px] mx-auto">
+    <div className="bg-gray-200 m-auto">
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
