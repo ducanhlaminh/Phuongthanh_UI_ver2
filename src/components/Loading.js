@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { ThreeCircles } from 'react-loader-spinner'
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -19,4 +19,4 @@ const Loading = () => {
     )
 }
 
-export default Loading
+export default memo(Loading)
