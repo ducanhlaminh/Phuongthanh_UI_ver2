@@ -2,13 +2,20 @@ import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 
 const Dropdown = ({ children,title }) => {
+  const [toggleArrow,setToggleArrow] = useState(false);
+  const activeRotate='rotate-90';
+  const activeDropdown='';
+  const dropdownClickHandler= ()=>{
+    setToggleArrow(!toggleArrow);
+  }
   return (
     <div>
-      <div className="flex items-center justify-between mx-[16px] h-[48px]">
+      <div className="flex items-center justify-between mx-[16px] h-[48px]" onClick={dropdownClickHandler}>
         <p className="text-[14px] text-[#171520] font-semibold leading-5">{title}</p>
-        <IoIosArrowForward className="text-[#171520] " size='20' />
+        {/* {toggleArrow ? (<IoIosArrowDown className="text-[#171520] " size='20'/>) :( <IoIosArrowForward className="text-[#171520] " size='20' />)} */}
+        <IoIosArrowForward className={`text-[#171520] transition-all ${toggleArrow?activeRotate:''}`} size='20' />
       </div>
-      <div>{children}</div>
+      <div className={`transition-all ${toggleArrow?activeDropdown:''}`}>{toggleArrow?children:""}</div>
     </div>
   );
 };

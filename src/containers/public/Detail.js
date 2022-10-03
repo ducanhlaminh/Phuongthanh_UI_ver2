@@ -5,6 +5,7 @@ import ApiComment from "../../apis/comment";
 import { IoImagesOutline } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
 import Dropdown from "../../components/Dropdown";
+import SideNavigateMenu from "../../components/SideNavigateMenu";
 
 const Detail = () => {
   const id = useParams()["id"];
@@ -24,7 +25,6 @@ const Detail = () => {
     fetchProduct();
   }, []);
 
-  console.log(product.votedCounter);
   return (
     <div className=" bg-[#f1f1f1]">
       <div className="bg-[white] pl-[16px]">
@@ -54,14 +54,27 @@ const Detail = () => {
           </div>
         </section>
 
-        <section className="leading-5">
+        <section className="leading-5 mt-[20px]">
           <p className="font-medium text-[16px]">{product.name}</p>
-          <p className="text-[#626262] text-[14px] font-medium">
+          <p className="text-[#626262] text-[14px] font-medium mt-[3px]">
             This is for short description of the product
           </p>
         </section>
 
-        <section className="flex">
+        <section className="flex items-center">
+          <p className="font-semibold text-[20px] text-[#171520] mr-[10px]">
+            $54.99
+          </p>
+          <div className="text-[#626262] relative mr-[8px]">
+            <span className=" font-medium text-[14px] leading-5">$69.99</span>
+            <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262]"></div>
+          </div>
+          <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter">
+            20%OFF
+          </p>
+        </section>
+
+        <section className="flex mt-[10px] pb-[20px]">
           <div className="flex items-center w-[74px] h-[38px] bg-[#f4f4f4] rounded-[4px] justify-center mr-[14px]">
             <p className="text-[#171520] text-[16px] leading-4 font-semibold mr-[4px]">
               {product.votedCounter === 0
@@ -83,11 +96,15 @@ const Detail = () => {
       </div>
 
       <section className="mt-[8px] bg-white">
-        <Dropdown title="Mô tả sản phẩm"></Dropdown>
+        <Dropdown title="Mô tả sản phẩm">
+          <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
+            {product.description}
+          </p>
+        </Dropdown>
       </section>
 
       <section className="mt-[8px] bg-white">
-        <Dropdown title="Đánh giá và bình luận"></Dropdown>
+        <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
       </section>
     </div>
   );
