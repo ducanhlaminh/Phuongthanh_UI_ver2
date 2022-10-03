@@ -34,10 +34,10 @@ function App() {
     <div className="w-full h-full max-w-[1560px] mx-auto">
       <Routes>
 
-        {/* <Route path={path.PUBLIC} element={<Public />}>
-          <Route path={path.HOME} element={<Home />} /> */}
-        <Route path="/" element={<ListProduct title="Đồ gia dụng" />} />
-        {/* </Route> */}
+        <Route path={path.PUBLIC} element={<Public />}>
+          <Route path={path.HOME} element={<Home />} />
+          <Route path={path.LIST_PRODUCTS} element={<ListProduct title="Đồ gia dụng" />} />
+        </Route>
 
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.SYSTEM} element={<System />}>
