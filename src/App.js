@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
 import Login from "./containers/public/Login";
+import ListProduct from "./containers/public/ListProduct";
 import {
   System,
   General,
@@ -15,7 +16,7 @@ import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect } from "react";
-import ApiBill from "./apis/bill";
+import AppBar from "./components/AppBar";
 
 
 function App() {
@@ -25,12 +26,6 @@ function App() {
   // Khi reload page get userdata again
   useEffect(() => {
     isLoggedIn && dispatch(actions.getCurrent());
-    // isLoggedIn && ApiBill({
-    //   email: 'ducanh9x@gmail.com',
-    //   address: 'hanoi',
-    //   phone: '0326770098',
-    //   products: JSON.stringify({ productId: "069c8827-8f72-4ad8-adda-a48cd584270e", cost: " ", quantity: 1 })
-    // })
   }, [isLoggedIn])
 
   useEffect(() => {
@@ -46,8 +41,8 @@ function App() {
     <div className="w-full h-full max-w-[1560px] mx-auto">
       <Routes>
         {/*Public routes */}
-        {/* <Route path="/" element={<Navigate to="/home/Households"></Navigate>} />
-        <Route path="/changePassword" element={<UserChangePassword></UserChangePassword>}></Route>
+        <Route path="/" element={<ListProduct title="Đồ gia dụng" />} />
+        {/* <Route path="/changePassword" element={<UserChangePassword></UserChangePassword>}></Route>
         <Route path={path.HOME} element={<Home />} />
         <Route path={path.FEED} element={<Feed />} />
         <Route path={path.PAYMENT} element={<Payment />} />

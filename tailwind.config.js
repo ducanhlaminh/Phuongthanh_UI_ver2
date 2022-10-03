@@ -15,6 +15,12 @@ module.exports = {
         'overlay-70': 'rgba(0,0,0,0.7)',
         'overlay-30': 'rgba(0,0,0,0.3)',
         'overlay-80': 'rgba(0,0,0,0.8)',
+        'primary': '#1B4B66',
+        'primary-tint': '#639599',
+      },
+      colors: {
+        'primary': '#1B4B66',
+
       },
       width: {
         '256': '256px',
