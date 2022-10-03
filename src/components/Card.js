@@ -7,15 +7,16 @@ const Card = ({
     price = "2000000",
     prePrice = "3000000",
     sale = "50",
+    image,
 }) => {
     return (
         <>
             <div className="max-w-[160px] h-[235px]">
                 <div className="h-[60%]">
                     <img
-                        src="https://i0.wp.com/tuixachhanghieu.com/wp-content/uploads/2021/05/Dior-Book-Tote-1.jpg?fit=1020%2C714&ssl=1"
+                        src={image}
                         alt=""
-                        className="object-cover h-full rounded-xl"
+                        className="object-cover h-full w-full rounded-xl"
                     />
                 </div>
                 <div className="h-[40%] p-1">
