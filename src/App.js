@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-gray-200 m-auto">
+    <div className="bg-purple-100 m-auto overflow-y-auto h-screen">
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />

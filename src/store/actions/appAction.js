@@ -1,7 +1,6 @@
 import actionTypes from "./actionTypes";
 import ApiCategory from "../../apis/category";
 import ApiProduct from "../../apis/product";
-import { login } from "./authAction";
 
 export const getCategory = () => async (dispatch) => {
   try {
