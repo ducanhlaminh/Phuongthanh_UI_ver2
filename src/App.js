@@ -1,22 +1,15 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
-import Login from "./containers/public/Login";
+import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile } from "./containers/system";
+import { Public, Login, Home } from "./containers/public";
 import ListProduct from "./containers/public/ListProduct";
-import {
-  System,
-  General,
-  EditProduct,
-  ManageProduct,
-  ManageCategory,
-  User,
-  Bill,
-  UpdateProfile,
-} from "./containers/system";
+
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect } from "react";
 import AppBar from "./components/AppBar";
+
 
 
 function App() {
@@ -40,20 +33,13 @@ function App() {
   return (
     <div className="w-full h-full max-w-[1560px] mx-auto">
       <Routes>
-        {/*Public routes */}
+
+        {/* <Route path={path.PUBLIC} element={<Public />}>
+          <Route path={path.HOME} element={<Home />} /> */}
         <Route path="/" element={<ListProduct title="Đồ gia dụng" />} />
-        {/* <Route path="/changePassword" element={<UserChangePassword></UserChangePassword>}></Route>
-        <Route path={path.HOME} element={<Home />} />
-        <Route path={path.FEED} element={<Feed />} />
-        <Route path={path.PAYMENT} element={<Payment />} />
-        <Route path={path.CART} element={<Cart />} />
-        <Route path={path.DETAIL} element={<Detail />} />
-        <Route path={path.USERCLIENT} element={<UserClient />} /> */}
+        {/* </Route> */}
 
-        {/*Login route */}
         <Route path={path.LOGIN} element={<Login />} />
-
-        {/*Private routes */}
         <Route path={path.SYSTEM} element={<System />}>
           <Route path={path.GENERAL} element={<General />} />
           <Route path={path.MANAGE_PRODUCT} element={<ManageProduct />} />
