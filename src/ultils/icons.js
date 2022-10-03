@@ -51,7 +51,7 @@ const icons = {
     RiSearchLine,
     RiUser6Line,
     BsDot,
-    GrFormNext
+    GrFormNext, AiOutlineHeart, MdArrowBackIos
 
 }
 

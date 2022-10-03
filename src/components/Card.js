@@ -1,13 +1,13 @@
 import icons from "../ultils/icons";
 const { AiOutlineHeart } = icons;
 
-function Card({
+const Card = ({
     name = "Túi Dior",
     shortDescription = "Christian dior",
     cost = "2000",
     preCost = "3000",
     sale = "50",
-}) {
+}) => {
     return (
         <>
             <div className="max-w-[160px] h-[230px]">
@@ -36,5 +36,7 @@ function Card({
         </>
     );
 }
+
+
 
 export default Card;
