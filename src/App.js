@@ -63,7 +63,8 @@ function App() {
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.DETAIL} element={<Detail />} />
           <Route path={path.HOME} element={<Home />} />
-          <Route path={path.LIST_PRODUCTS} element={<ListProduct/>}></Route>
+        <Route path={path.LIST_PRODUCTS} element={<ListProduct title="Thời trang" />} />
+
         </Route>
 
         <Route path={path.LOGIN} element={<Login />} />
