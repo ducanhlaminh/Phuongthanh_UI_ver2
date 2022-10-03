@@ -1,18 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  InputCustomWidth,
-  SelectCustomWidth,
-  HashTagCustomWidth,
-  TextCustomWidth,
-  InputVariant,
-} from "../../components/InputCtWidth";
 import Button from "../../components/Button";
 import FormData from "form-data";
 import { useSelector } from "react-redux";
 import ApiProduct from "../../apis/product";
 
-import { ProductCardCtHeight } from "../../components/ProductCard";
-import { GroupImageCtWidth } from "../../components/GroupImageCtWidth";
+
 import FormCreateProduct from "../../components/FormCreateProduct";
 const EditProduct = () => {
   const [productName, setProductName] = useState("");
