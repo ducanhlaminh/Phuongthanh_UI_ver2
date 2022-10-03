@@ -5,9 +5,10 @@ const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
+  PUBLIC: '/*',
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
-  HOME: "/home/*",
+  HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
   CART: "/cart",
