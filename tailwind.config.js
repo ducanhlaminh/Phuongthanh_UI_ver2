@@ -20,6 +20,7 @@ module.exports = {
       },
       colors: {
         'primary': '#1B4B66',
+        'highlight': '#E21D1D',
 
       },
       width: {
