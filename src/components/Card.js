@@ -2,7 +2,7 @@ import icons from "../ultils/icons";
 const { AiOutlineHeart } = icons;
 
 function Card({
-    name = "Tui Dior",
+    name = "Túi Dior",
     shortDescription = "Christian dior",
     cost = "2000",
     preCost = "3000",
@@ -10,7 +10,7 @@ function Card({
 }) {
     return (
         <>
-            <div className="max-w-[160px] h-[219px]">
+            <div className="max-w-[160px] h-[230px]">
                 <div className="h-[60%]">
                     <img
                         src="https://i0.wp.com/tuixachhanghieu.com/wp-content/uploads/2021/05/Dior-Book-Tote-1.jpg?fit=1020%2C714&ssl=1"

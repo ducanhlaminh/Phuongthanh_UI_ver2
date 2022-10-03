@@ -13,6 +13,9 @@ function ListProducts({ title }) {
                 <Card />
                 <Card />
                 <Card />
+                <Card />
+                <Card />
+                <Card />
                 <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
                     <div className="flex w-full h-full">
                         <div className="w-1/2 h-full flex justify-center items-center">
