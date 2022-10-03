@@ -4,13 +4,13 @@ const { AiOutlineHeart } = icons;
 const Card = ({
     name = "Túi Dior",
     shortDescription = "Christian dior",
-    cost = "2000",
-    preCost = "3000",
+    price = "2000000",
+    prePrice = "3000000",
     sale = "50",
 }) => {
     return (
         <>
-            <div className="max-w-[160px] h-[230px]">
+            <div className="max-w-[160px] h-[235px]">
                 <div className="h-[60%]">
                     <img
                         src="https://i0.wp.com/tuixachhanghieu.com/wp-content/uploads/2021/05/Dior-Book-Tote-1.jpg?fit=1020%2C714&ssl=1"
@@ -26,10 +26,14 @@ const Card = ({
                         </span>
                     </div>
                     <p className="text-sm">{shortDescription}</p>
-                    <div className="flex justify-around items-center">
-                        <span className="font-bold mr-1">{`$${cost}`}</span>
-                        <del className="text-xs inline-block h-[100%] mr-1">{`$${preCost}`}</del>
-                        <span className="text-xs text-highlight font-bold">{`Sale ${sale}%`}</span>
+                    <div className="flex justify-evenly items-center">
+                        <span className="font-bold mr-1 text-sm">{new Intl.NumberFormat('vi-VN', {
+                            style: 'currency', currency: 'VND'
+                        }).format(price)}</span>
+                        <del className="text-xs inline-block h-[100%] mr-1">{new Intl.NumberFormat('vi-VN', {
+                            style: 'currency', currency: 'VND'
+                        }).format(prePrice)}</del>
+
                     </div>
                 </div>
             </div>
