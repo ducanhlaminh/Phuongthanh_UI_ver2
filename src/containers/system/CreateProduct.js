@@ -64,7 +64,7 @@ const EditProduct = () => {
 
       <FormCreateProduct productName={productName} setProductName={setProductName} categories={categories} selectValue={selectValue} setSelectValue={setSelectValue} price={price} setPrice={setPrice} tags={tags} setTags={setTags} setVariantChild={setVariantChild} variantChild={variantChild} setVariants={setVariants} variants={variants} image={image} setImage={setImage} variantValue={variantValue} setVariantValue={setVariantValue} handleSubmit={handleSubmit} setShortDes={setShortDes} />
       <h1 className="text-3xl">Xem trước tại đây</h1>
-      <div className="w-full items-center bg-[#d9d9d9] rounded p-3 justify-between p-5">
+      <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5">
 
         <img src={image.imageMain?.preview ? image.imageMain?.preview : ''} width='100%' height='100%' alt="" />
       </div>

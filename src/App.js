@@ -48,7 +48,7 @@ function App() {
   }, []);
 
   return (
-    <div className="w-full h-full max-w-[1560px] mx-auto">
+    <div className="bg-purple-100 m-auto overflow-y-auto h-screen">
       <Routes>
         {/*Public routes */}
         {/* <Route path="/" element={<Navigate to="/home/Households"></Navigate>} />

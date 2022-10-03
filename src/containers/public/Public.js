@@ -1,11 +1,15 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import { HeaderLaptop } from '../../components'
 
 const Public = () => {
     return (
-        <div>
-            <div>
-                <Outlet/>
+        <div className='flex flex-col w-full max-w-[1280px] m-auto bg-white text-black'>
+            <div className='hidden md:block w-full h-[80px]'>
+                <HeaderLaptop />
+            </div>
+            <div className='flex-auto'>
+                <Outlet />
             </div>
         </div>
     )

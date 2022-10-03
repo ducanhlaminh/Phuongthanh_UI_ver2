@@ -4,4 +4,5 @@ export * from "./appAction";
 export * from "./popupAction";
 export * from "./userAction";
 export * from "./changePasswordAction";
+export * from "./productAction";
 
