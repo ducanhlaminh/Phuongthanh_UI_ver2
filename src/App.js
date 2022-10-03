@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
-import { Login, Detail, Public, Home } from "./containers/public";
+import { Login, Detail, Public, Home, ListProduct } from "./containers/public";
 import {
   System,
   General,
@@ -63,6 +63,7 @@ function App() {
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.DETAIL} element={<Detail />} />
           <Route path={path.HOME} element={<Home />} />
+          <Route path={path.LIST_PRODUCTS} element={<ListProduct/>}></Route>
         </Route>
 
         <Route path={path.LOGIN} element={<Login />} />
