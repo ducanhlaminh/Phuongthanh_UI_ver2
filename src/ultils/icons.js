@@ -1,8 +1,10 @@
+
 import { BsSpeedometer2, BsDot } from 'react-icons/bs'
 import { RiProductHuntLine, RiSearchLine, RiUser6Line } from 'react-icons/ri'
-import { FaUserEdit, FaInstagramSquare } from 'react-icons/fa'
+import { FaUserEdit, FaInstagramSquare, FaSortAmountDownAlt } from 'react-icons/fa'
+
 import { IoIosCreate, IoMdArrowRoundDown } from 'react-icons/io'
-import { FiMenu } from 'react-icons/fi'
+import { FiMenu, FiFilter } from 'react-icons/fi'
 import { BiSearchAlt, BiPurchaseTag } from 'react-icons/bi'
 import {
     AiOutlineClose,
@@ -10,14 +12,18 @@ import {
     AiOutlineInstagram,
     AiOutlineArrowRight,
     AiTwotoneStar,
-    AiOutlineShoppingCart
+
+    AiOutlineShoppingCart,
+    AiOutlineHeart,
 } from 'react-icons/ai'
-import { MdOutlinePhonelink } from 'react-icons/md'
+import { MdOutlinePhonelink, MdArrowBackIos } from 'react-icons/md'
 import { GrFacebook } from 'react-icons/gr'
 import { SiZalo } from 'react-icons/si'
 import { ImLocation2 } from 'react-icons/im'
 import { TiLocationOutline } from 'react-icons/ti'
+
 import { GrLinkNext, GrFormNext } from 'react-icons/gr'
+
 
 
 const icons = {
@@ -31,7 +37,7 @@ const icons = {
     AiOutlineClose,
     MdOutlinePhonelink,
     GrFacebook,
-    SiZalo,
+    SiZalo, FiFilter, FaSortAmountDownAlt,
     FaInstagramSquare,
     ImLocation2,
     AiOutlineFacebook,
@@ -46,6 +52,7 @@ const icons = {
     RiUser6Line,
     BsDot,
     GrFormNext
+
 }
 
 export default icons

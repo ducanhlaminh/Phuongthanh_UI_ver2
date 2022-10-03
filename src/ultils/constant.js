@@ -5,8 +5,9 @@ const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
-  PUBLIC: '/*',
+  PUBLIC: "/*",
   DETAIL: "detail/:id",
+  LIST_PRODUCTS: "listproducts",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   HOME: "",
@@ -21,7 +22,7 @@ export const path = {
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
-  DISCOUNT: 'giam-gia'
+  DISCOUNT: "giam-gia",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -91,8 +92,6 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
-
-
 
 export const getSite = (params) => {
   const site = {
