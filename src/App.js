@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
-import Login from "./containers/public/Login";
+import {Login,Detail} from "./containers/public";
 import {
   System,
   General,
@@ -17,7 +17,6 @@ import * as actions from "./store/actions";
 import { useEffect } from "react";
 import ApiBill from "./apis/bill";
 
-
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -31,14 +30,19 @@ function App() {
     //   phone: '0326770098',
     //   products: JSON.stringify({ productId: "069c8827-8f72-4ad8-adda-a48cd584270e", cost: " ", quantity: 1 })
     // })
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   useEffect(() => {
     dispatch(actions.getCategory());
-    if (window.location.href.includes('verify-token')) {
+    if (window.location.href.includes("verify-token")) {
       const params = takeParamsVerifyToken(window.location.href);
-      dispatch(actions.saveUseridToken({ userId: params[params.length - 2], tokenChangePassword: params[params.length - 1] }))
-      navigate('/changePassword');
+      dispatch(
+        actions.saveUseridToken({
+          userId: params[params.length - 2],
+          tokenChangePassword: params[params.length - 1],
+        })
+      );
+      navigate("/changePassword");
     }
   }, []);
 
@@ -52,10 +56,10 @@ function App() {
         <Route path={path.FEED} element={<Feed />} />
         <Route path={path.PAYMENT} element={<Payment />} />
         <Route path={path.CART} element={<Cart />} />
-        <Route path={path.DETAIL} element={<Detail />} />
-        <Route path={path.USERCLIENT} element={<UserClient />} /> */}
-
+      <Route path={path.USERCLIENT} element={<UserClient />} /> */}
         {/*Login route */}
+        <Route path={path.DETAIL} element={<Detail />} />
+
         <Route path={path.LOGIN} element={<Login />} />
 
         {/*Private routes */}
