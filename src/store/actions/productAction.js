@@ -65,3 +65,24 @@ export const getTopProducts = (params) => async (dispatch) => {
         });
     }
 };
+export const getFavoriteProducts = (params) => async (dispatch) => {
+    try {
+        const response = await ApiProduct.getAll(params);
+        if (response?.status === 0) {
+            dispatch({
+                type: actionTypes.GET_FAVORITE_PRODUCTS,
+                products: response.productData.rows,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.GET_FAVORITE_PRODUCTS,
+                products: null,
+            });
+        }
+    } catch (error) {
+        dispatch({
+            type: actionTypes.GET_FAVORITE_PRODUCTS,
+            products: null,
+        });
+    }
+};

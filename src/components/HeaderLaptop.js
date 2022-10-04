@@ -16,7 +16,7 @@ const HeaderLaptop = () => {
         <div className='w-full h-full flex items-center justify-between px-5 py-[18px]'>
             <div className='flex items-center gap-8 flex-auto'>
                 <Link to={'/' + path.HOME} className='font-lemonada font-semibold text-[#17494D] text-[25px] leading-8'>PHƯƠNGTHANH</Link>
-                <div className='flex items-center gap-5'>
+                <div className='lg:flex hidden items-center gap-5'>
                     {categories?.map(item => (
                         <NavLink
                             key={item.code}
