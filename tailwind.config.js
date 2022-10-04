@@ -18,6 +18,7 @@ module.exports = {
         'darkGrey-tint': '#B6B6B6',
         'lightGrey':'#f1f1f1',
         'yellow':'#FF8C4B',
+        'black':'#171520',
       },
       colors: {
         'primary': '#1B4B66',
@@ -26,6 +27,7 @@ module.exports = {
         "darkGrey-tint":'#B6B6B6',
         'lightGrey':'#f1f1f1',
         'yellow':'#FF8C4B',
+        'black':'#171520',
 
       },
       width: {
