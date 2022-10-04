@@ -24,7 +24,7 @@ const Slider = () => {
     }, [])
 
     return (
-        <div className='relative overflow-hidden bg-white h-[414px] rounded-lg px-5'>
+        <div className='relative overflow-hidden bg-white lg:h-[414px] md:h-[250px] h-[120px] rounded-lg md:mx-5 mx-4'>
             <div className='w-full h-full'></div>
             {categories?.map((item, index) => (
                 <Link
@@ -32,7 +32,7 @@ const Slider = () => {
                     to={`/`}
                     className={`slider-item rounded-lg absolute items-start justify-center animate-slide-right ${index === 1 ? 'flex' : 'hidden'} top-0 left-0 right-0 bottom-0 h-full`}
                 >
-                    <img src={item.image} className='w-full h-[400px] rounded-lg object-cover' alt="slider" />
+                    <img src={item.image} className='w-full md:h-[400px] h-[120px] rounded-lg object-cover' alt="slider" />
                 </Link>
             ))}
 

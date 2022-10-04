@@ -1,30 +1,25 @@
-
-import { BsSpeedometer2, BsDot } from 'react-icons/bs'
+import { BsSpeedometer2, BsDot, BsFacebook, BsYoutube } from 'react-icons/bs'
 import { RiProductHuntLine, RiSearchLine, RiUser6Line } from 'react-icons/ri'
-import { FaUserEdit, FaInstagramSquare, FaSortAmountDownAlt } from 'react-icons/fa'
-
+import { FaUserEdit, FaInstagramSquare } from 'react-icons/fa'
 import { IoIosCreate, IoMdArrowRoundDown } from 'react-icons/io'
-import { FiMenu, FiFilter } from 'react-icons/fi'
-import { BiSearchAlt, BiPurchaseTag } from 'react-icons/bi'
+import { FiMenu } from 'react-icons/fi'
+import { BiSearchAlt, BiPurchaseTag, BiMenuAltLeft } from 'react-icons/bi'
 import {
     AiOutlineClose,
     AiOutlineFacebook,
     AiOutlineInstagram,
     AiOutlineArrowRight,
     AiTwotoneStar,
-
     AiOutlineShoppingCart,
-    AiOutlineHeart,
+    AiOutlineCopyrightCircle
 } from 'react-icons/ai'
-import { MdOutlinePhonelink, MdArrowBackIos } from 'react-icons/md'
+import { MdOutlinePhonelink, MdNavigateNext, MdOutlineLocationOn } from 'react-icons/md'
 import { GrFacebook } from 'react-icons/gr'
 import { SiZalo } from 'react-icons/si'
 import { ImLocation2 } from 'react-icons/im'
 import { TiLocationOutline } from 'react-icons/ti'
-
 import { GrLinkNext, GrFormNext } from 'react-icons/gr'
-
-
+import { VscBell } from 'react-icons/vsc'
 
 const icons = {
     BsSpeedometer2,
@@ -37,7 +32,7 @@ const icons = {
     AiOutlineClose,
     MdOutlinePhonelink,
     GrFacebook,
-    SiZalo, FiFilter, FaSortAmountDownAlt,
+    SiZalo,
     FaInstagramSquare,
     ImLocation2,
     AiOutlineFacebook,
@@ -51,8 +46,14 @@ const icons = {
     RiSearchLine,
     RiUser6Line,
     BsDot,
-    GrFormNext, AiOutlineHeart, MdArrowBackIos
-
+    GrFormNext,
+    MdNavigateNext,
+    BsFacebook,
+    BsYoutube,
+    MdOutlineLocationOn,
+    AiOutlineCopyrightCircle,
+    BiMenuAltLeft,
+    VscBell
 }
 
 export default icons
