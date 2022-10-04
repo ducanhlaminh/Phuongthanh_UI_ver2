@@ -7,4 +7,5 @@ export { default as Search } from './Search'
 export { default as Slider } from './Slider'
 export { default as HomeItem } from './HomeItem'
 export { default as ProductItem } from './ProductItem'
+export { default as Footer } from './Footer'
 
