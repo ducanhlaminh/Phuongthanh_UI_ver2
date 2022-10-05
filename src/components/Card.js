@@ -12,11 +12,11 @@ const Card = ({
     return (
         <>
             <div className="max-w-[160px] h-[235px]">
-                <div className="h-[60%]">
+                <div className="h-[60%] w-[160px]">
                     <img
                         src={image}
                         alt=""
-                        className="object-cover h-full w-full rounded-xl"
+                        className="object-cover w-full h-full rounded-xl"
                     />
                 </div>
                 <div className="h-[40%] p-1">

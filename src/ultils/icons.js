@@ -13,11 +13,11 @@ import {
     AiTwotoneStar,
     AiOutlineShoppingCart,
     AiOutlineCopyrightCircle,
-    AiOutlineHeart,
+    AiOutlineHeart, AiOutlinePlus
 } from 'react-icons/ai'
 import { MdOutlinePhonelink, MdArrowBackIos, MdNavigateNext, MdOutlineLocationOn } from 'react-icons/md'
 
-import { GrFacebook } from 'react-icons/gr'
+import { GrFacebook, GrSubtract } from 'react-icons/gr'
 import { SiZalo } from 'react-icons/si'
 import { ImLocation2 } from 'react-icons/im'
 import { TiLocationOutline } from 'react-icons/ti'
@@ -29,14 +29,14 @@ import { VscBell } from 'react-icons/vsc'
 
 
 const icons = {
-    BsSpeedometer2,
+    BsSpeedometer2, GrSubtract,
     RiProductHuntLine,
     FaUserEdit,
     IoIosCreate,
     FiMenu,
     IoMdArrowRoundDown,
     BiSearchAlt,
-    AiOutlineClose,
+    AiOutlineClose, AiOutlinePlus,
     MdOutlinePhonelink,
     GrFacebook,
     SiZalo, FiFilter, FaSortAmountDownAlt,

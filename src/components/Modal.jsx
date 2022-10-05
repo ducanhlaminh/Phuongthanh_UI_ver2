@@ -556,7 +556,11 @@ export const Profile = ({ userCurrent, setIsShow }) => {
     </>
   );
 };
-export const FilterProductsMobile = ({ setSelectedFilter, selectedFilter, setIsShow }) => {
+export const FilterProductsMobile = ({
+  setSelectedFilter,
+  selectedFilter,
+  setIsShow,
+}) => {
 
   return (
     <>
@@ -567,24 +571,39 @@ export const FilterProductsMobile = ({ setSelectedFilter, selectedFilter, setIsS
           setIsShow(false);
         }}
       >
-        <div className="h-[40%] w-full absolute bottom-0 bg-white rounded-t-3xl" onClick={(e) => {
-          e.stopPropagation();
-
-        }}>
-          <div className="h-[15%] text-base flex justify-center items-center
-          "><span>Lọc theo</span></div>
+        <div
+          className="h-[40%] w-full absolute bottom-0 bg-white rounded-t-3xl"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div
+            className="h-[15%] text-base flex justify-center items-center
+          "
+          >
+            <span>Lọc theo</span>
+          </div>
           <hr />
           <div className="flex flex-col justify-around h-[85%] px-5">
             {filters.map((filter) => {
               const value = JSON.stringify(filter.sort);
               return (
-                <div className="" >
-                  <input type="radio" value={value} onChange={(e) => { setSelectedFilter(JSON.parse(e.target.value)); }} checked={selectedFilter === value} />
-                  <label className="ml-5" htmlFor="">{filter.valueVi}</label>
+                <div className="" key={filter.valueVi}>
+                  <input
+                    type="radio"
+                    value={value}
+                    onChange={(e) => {
+                      setSelectedFilter(JSON.parse(e.target?.value));
+                    }}
+                    checked={JSON.stringify(selectedFilter) === (value)}
+
+                  />
+                  <label className="ml-5" htmlFor="">
+                    {filter.valueVi}
+                  </label>
                 </div>
-              )
-            })
-            }
+              );
+            })}
           </div>
         </div>
       </div>

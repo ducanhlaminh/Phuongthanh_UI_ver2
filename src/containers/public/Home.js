@@ -33,6 +33,7 @@ const Home = () => {
                     </span>
                 </div>
             </div>
+
             <div className='w-full hidden md:flex flex-wrap px-4 items-center justify-center h-[50px] bg-[#E5E5E5] text-sm'>
                 <span className='text-center'>
                     <span className='mr-2'>Chào mừng quý khách đến với cửa hàng tạp hóa Phương Thanh. Chúng tôi đang có rất nhiều deal hot dành riêng cho bạn</span>
