@@ -1,4 +1,4 @@
-import {BsPersonCircle} from "react-icons/bs";
+import Avatar from "../assets/anonAvatar.png";
 
 const ReviewAndRating=({commentData})=>{
     console.log(commentData);
@@ -8,7 +8,7 @@ const ReviewAndRating=({commentData})=>{
             return <div key={i} className='mb-[24px]'>
                 <div className="flex items-center mb-[12px]">
                     <div className="mr-[12px]">
-                        <BsPersonCircle size='70'/>
+                       <img src={Avatar} className='rounded-[50px] w-[80px] h-[80px]'></img>
                     </div>
                     <div>
                         <p className="text-black font-semibold lg:text-[24px]">{comment?.commentator?.name}</p>

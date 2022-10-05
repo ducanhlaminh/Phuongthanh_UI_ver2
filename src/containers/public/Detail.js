@@ -285,7 +285,7 @@ const Detail = () => {
                 <RelatedProduct/>
               </div>
               <div className={`${activeTab[2]===1?'block':'hidden'}`}>
-                <ReviewAndRating commentData={comments.rows}/>
+                <ReviewAndRating commentData={comments?.rows}/>
               </div>
             </section>
 
