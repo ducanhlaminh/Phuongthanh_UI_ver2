@@ -3,7 +3,8 @@ import actionTypes from "../actions/actionTypes";
 const initState = {
     products: [],
     lastestProducts: [],
-    topProducts: []
+    topProducts: [],
+    favoriteProducts: []
 };
 
 const productReducer = (state = initState, action) => {
@@ -22,6 +23,11 @@ const productReducer = (state = initState, action) => {
             return {
                 ...state,
                 topProducts: action.products || []
+            }
+        case actionTypes.GET_FAVORITE_PRODUCTS:
+            return {
+                ...state,
+                favoriteProducts: action.products || []
             }
 
         default:
