@@ -14,10 +14,20 @@ module.exports = {
         'overlay-80': 'rgba(0,0,0,0.8)',
         'primary': '#1B4B66',
         'primary-tint': '#639599',
+        'darkGrey':'#626262',
+        'darkGrey-tint': '#B6B6B6',
+        'lightGrey':'#f1f1f1',
+        'yellow':'#FF8C4B',
+        'black':'#171520',
       },
       colors: {
         'primary': '#1B4B66',
         'highlight': '#E21D1D',
+        'darkGrey':'#626262',
+        "darkGrey-tint":'#B6B6B6',
+        'lightGrey':'#f1f1f1',
+        'yellow':'#FF8C4B',
+        'black':'#171520',
 
       },
       width: {

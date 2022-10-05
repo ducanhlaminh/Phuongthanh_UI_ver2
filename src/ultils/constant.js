@@ -1,19 +1,18 @@
 import icons from "./icons";
-import image from "./image";
 
 const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
-  PUBLIC: '/*',
-  LIST_PRODUCTS: 'listproducts',
+  PUBLIC: "/*",
+  DETAIL: "detail/:id",
+  LIST_PRODUCTS: "listproducts",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
   CART: "/cart",
-  DETAIL: "/detail/:id",
   GENERAL: "*",
   EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
@@ -22,7 +21,7 @@ export const path = {
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
-  DISCOUNT: 'giam-gia'
+  DISCOUNT: "giam-gia",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -93,49 +92,3 @@ export const adminMenu = [
   },
 ];
 
-
-
-export const getSite = (params) => {
-  const site = {
-    color: "",
-    banner: "",
-    naviLeft: "",
-    naviLeftText: "",
-    naviLeftImage: "",
-    linkLeft: "",
-    naviRight: "",
-    naviRightText: "",
-    naviRightImage: "",
-    linkRight: "",
-  };
-  if (params["*"] === "fashion") {
-    site.color = "#3f9df3";
-    site.banner = image.fashionbanner;
-    site.naviLeftText = "Đồ gia dụng";
-    site.linkLeft = "appliance";
-    site.naviLeftImage = image.navigro1;
-    site.naviRightText = "Tạp hóa";
-    site.linkRight = "grocery";
-    site.naviRightImage = image.naviapp1;
-  } else if (params["*"] === "appliance") {
-    site.color = "#EF7300";
-    site.banner = image.appliancebanner;
-    site.naviLeftText = "Tạp hóa";
-    site.linkLeft = "grocery";
-    site.naviLeftImage = image.navigro2;
-    site.naviRightText = "Thời trang";
-    site.linkRight = "fashion";
-    site.naviRightImage = image.navifashion2;
-  } else {
-    site.color = "#10C600";
-    site.banner = image.grocerybanner;
-    site.naviLeftText = "Đồ gia dụng";
-    site.linkLeft = "appliance";
-    site.naviLeftImage = image.naviapp3;
-    site.naviRightText = "Thời trang";
-    site.linkRight = "fashion";
-    site.naviRightImage = image.navifashion3;
-  }
-
-  return site;
-};
