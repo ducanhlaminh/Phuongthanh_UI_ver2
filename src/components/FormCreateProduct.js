@@ -15,7 +15,6 @@ export default function FormCreateProduct({ productName, setProductName, categor
 
         if (editorRef.current) {
             const des = editorRef.current.getContent()
-            console.log(des);
             setShortDes(des)
         }
     };

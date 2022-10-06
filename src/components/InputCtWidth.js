@@ -281,8 +281,6 @@ const InputFileCustomWidth = React.memo(
 
 const InputVariant = ({ setVariantChild, setVariants, variants, variantChild, variantValue, setVariantValue }) => {
     useEffect(() => {
-        console.log(variants);
-
     }, [variants]);
     return (
         <div className={`w-full`}>

@@ -10,9 +10,16 @@ import ButtonFooterContainer from "../../components/ButtonFooterContainer";
 import LongButton from "../../components/LongButton";
 import { RiHandbagLine } from "react-icons/ri";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { IoIosArrowForward } from "react-icons/io";
 import RelatedProduct from "../../components/RelatedProduct";
-import ReviewAndRating from "../../components/ReviewAndRating";
+import {
+  ReviewAndRatingMobile,
+  ReviewAndRatingDesktop,
+} from "../../components/ReviewAndRating";
+import Voucher from "../../components/Voucher";
+import ImageDetail from "../../components/ImageDetail";
+import NameAndDescription from "../../components/NameAndDescription";
+import DetailNavDesktop from "../../components/DetailNavDesktop";
+import CreateComponentPopup from "../../components/CreateCommentPopup";
 
 const Detail = () => {
   const id = useParams()["id"];
@@ -22,10 +29,11 @@ const Detail = () => {
   const [product, setProduct] = useState({});
   const [comments, setComments] = useState({});
   const [mainImage, setMainImage] = useState(product?.mainImage);
-  const [selectedImage, setSelectedImage] = useState();
   const [initPosition, setInitPosition] = useState({ left: 0, width: 0 });
-  const activeImage = "border-[3px] border-primary";
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
+  const [Vouchers, setVouchers] = useState([]);
+  const [showPopupReview, setShowPopupReview] = useState(false);
+  const [showPopupComment, setShowPopupComment] = useState(false);
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -72,71 +80,40 @@ const Detail = () => {
     <>
       {product && (
         <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
+          {showPopupReview && (
+            <ReviewAndRatingMobile
+              commentData={comments?.rows}
+              name={product.name}
+              shortDescription={product?.shortDescription}
+              score={product?.scores}
+              setShowPopupReview={setShowPopupReview}
+              setShowPopupComment={setShowPopupComment}
+            />
+          )}
+          {showPopupComment && <CreateComponentPopup setShowPopupComment={setShowPopupComment} id={product.id}/>}
           <div className="bg-[white] pl-[16px] ">
             <div className="lg:flex">
               <section>
                 <div className="relative">
                   {/* image mobile */}
-                  <div className="flex overflow-x-auto h-[340px] lg:hidden">
-                    <img
-                      src={product.mainImage}
-                      className="object-cover mr-[8px] rounded-[10px] w-[332px]"
-                      alt="image"
-                    ></img>
-                    <img
-                      src={product.image1}
-                      className="object-cover mr-[8px] rounded-[10px] w-[332px]"
-                      alt="image"
-                    ></img>
-                    <img
-                      src={product.image3}
-                      className="object-cover mr-[8px] rounded-[10px] w-[332px]"
-                      alt="image"
-                    ></img>
-                    <img
-                      src={product.image2}
-                      className="object-cover mr-[8px] rounded-[10px] w-[332px]"
-                      alt="image"
-                    ></img>
-                  </div>
+                  <ImageDetail
+                    mainImage={product.mainImage}
+                    image1={product.image1}
+                    image2={product.image2}
+                    image3={product.image3}
+                    type="mobile"
+                    mainImageScreen=""
+                  />
 
                   {/* image desktop */}
-                  <div className="h-[704px] hidden lg:block">
-                    <div className="h-[605px] w-[605px]">
-                      <img
-                        src={mainImage}
-                        className="w-full h-full object-cover rounded-[16px]"
-                      ></img>
-                    </div>
-                    <div className="flex justify-center mt-[24px] items-center">
-                      <IoIosArrowForward
-                        className="rotate-[180deg]"
-                        size="25px"
-                      ></IoIosArrowForward>
-                      <img
-                        src={product.mainImage}
-                        className={`object-cover mx-[15px] rounded-[10px] w-[75px] h-[75px] ${activeImage}`}
-                        alt="image"
-                      ></img>
-                      <img
-                        src={product.image1}
-                        className={`object-cover mx-[15px] rounded-[10px] w-[75px] h-[75px]`}
-                        alt="image"
-                      ></img>
-                      <img
-                        src={product.image3}
-                        className={`object-cover mx-[15px] rounded-[10px] w-[75px] h-[75px]`}
-                        alt="image"
-                      ></img>
-                      <img
-                        src={product.image2}
-                        className={`object-cover mx-[15px] rounded-[10px] w-[75px] h-[75px]`}
-                        alt="image"
-                      ></img>
-                      <IoIosArrowForward size="25px"></IoIosArrowForward>
-                    </div>
-                  </div>
-
+                  <ImageDetail
+                    mainImage={product.mainImage}
+                    image1={product.image1}
+                    image2={product.image2}
+                    image3={product.image3}
+                    type="desktop"
+                    mainImageScreen={mainImage}
+                  />
                   <div className="absolute bottom-[16px] right-[41px] w-[40px] h-[40px] bg-lightGrey rounded-[50%] flex items-center justify-center lg:hidden">
                     <IoImagesOutline size={20} className="text-[#626262]" />
                   </div>
@@ -144,14 +121,10 @@ const Detail = () => {
               </section>
 
               <div className="lg:ml-[20px]">
-                <section className="leading-5 mt-[20px]">
-                  <p className="font-medium text-[16px] lg:text-[34px] lg:font-semibold">
-                    {product.name}
-                  </p>
-                  <p className="text-[#626262] text-[14px] font-medium mt-[3px] lg:text-[20px] lg:font-semibold leading-7 lg:mt-[13px]">
-                    This is for short description of the product
-                  </p>
-                </section>
+                <NameAndDescription
+                  name={product.name}
+                  shortDescription={product?.shortDescription}
+                />
 
                 <section className="hidden lg:flex mt-[28px] mb-[30px]">
                   {handleRenderStar(product?.scores)?.map((content, i) => (
@@ -164,7 +137,8 @@ const Detail = () => {
 
                 <section className="flex items-center">
                   <p className="font-semibold text-[20px] text-[#171520] mr-[10px] lg:text-[40px] lg:font-semibold">
-                    $54.99
+                    <span>đ</span>
+                    {Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] lg:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 lg:text-[34px] lg:font-semibold lg:text-[#B6B6B6]">
@@ -178,6 +152,35 @@ const Detail = () => {
                   <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] lg:font-semibold lg:text-[#FF404B]">
                     20%OFF
                   </p>
+                </section>
+                <section className="pb-[16px] hidden lg:block mt-[20px]">
+                  <Voucher Vouchers={Vouchers}></Voucher>
+                </section>
+
+                <section className="hidden lg:flex">
+                  <LongButton
+                    width="328px"
+                    height="44px"
+                    backgroundColor="#1B4B66"
+                    size="14px"
+                    color="white"
+                  >
+                    <RiHandbagLine size="24px"></RiHandbagLine>
+                    <p>Thêm vào giỏ</p>
+                  </LongButton>
+
+                  <div className="border-[2px] border-primary rounded-[8px] ml-[24px]">
+                    <LongButton
+                      width="240px"
+                      height="40px"
+                      backgroundColor="white"
+                      size="14px"
+                      color="#1B4B66"
+                    >
+                      <RiHandbagLine size="24px"></RiHandbagLine>
+                      <p>Thêm vào yêu thích</p>
+                    </LongButton>
+                  </div>
                 </section>
               </div>
             </div>
@@ -199,6 +202,10 @@ const Detail = () => {
                 </div>
               </div>
             </section>
+
+            <section className="pb-[16px] lg:hidden">
+              <Voucher Vouchers={Vouchers}></Voucher>
+            </section>
           </div>
 
           <section className="mt-[8px] bg-white lg:hidden">
@@ -209,85 +216,40 @@ const Detail = () => {
             </Dropdown>
           </section>
 
-          <section className="mt-[8px] bg-white lg:hidden">
+          <section
+            className="mt-[8px] bg-white lg:hidden"
+            onClick={() => {
+              setShowPopupReview(true);
+            }}
+          >
             <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
           </section>
 
           <div className="h-[66px] lg:hidden"></div>
 
-          <div className="h-[48px] items-center relative bg-lightGrey mx-[20px] rounded-[12px] px-[16px] mt-[55px] hidden lg:flex">
-            <div
-              className={`px-[18px] py-[10px] z-10 ${
-                activeTab[0] === 1 ? "text-white" : "text-darkGrey"
-              }`}
-              ref={productDetailRef}
-              onClick={() => {
-                infoClickHandler(productDetailRef);
-                setActiveTab([1, 0, 0]);
-              }}
-            >
-              <p
-                className="text-[16px] font-medium"
-                style={{ userSelect: "none" }}
-              >
-                Thông tin chi tiết
-              </p>
-            </div>
-            <div
-              className={`px-[18px] py-[10px] z-10 ${
-                activeTab[1] === 1 ? "text-white" : "text-darkGrey"
-              }`}
-              ref={relatedProductRef}
-              onClick={() => {
-                infoClickHandler(relatedProductRef);
-                setActiveTab([0, 1, 0]);
-              }}
-            >
-              <p
-                className="text-[16px] font-medium"
-                style={{ userSelect: "none" }}
-              >
-                Sản phẩm liên quan
-              </p>
-            </div>
-            <div
-              className={`px-[18px] py-[10px] z-10 ${
-                activeTab[2] === 1 ? "text-white" : "text-darkGrey"
-              }`}
-              ref={ratingAndReviewRef}
-              onClick={() => {
-                infoClickHandler(ratingAndReviewRef);
-                setActiveTab([0, 0, 1]);
-              }}
-            >
-              <p
-                className="text-[16px] font-medium"
-                style={{ userSelect: "none" }}
-              >
-                Đánh giá và bình luận
-              </p>
-            </div>
-
-            <div
-              className={`absolute bg-primary h-[32px] top-[19%] transition-all rounded-[8px] z-1`}
-              style={{
-                width: `${initPosition.width}px`,
-                left: `${initPosition.left}px`,
-              }}
-            ></div>
-          </div>
+          <DetailNavDesktop
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            productDetailRef={productDetailRef}
+            relatedProductRef={relatedProductRef}
+            ratingAndReviewRef={ratingAndReviewRef}
+            initPosition={initPosition}
+            infoClickHandler={infoClickHandler}
+          />
 
           <section className="hidden lg:block ml-[20px] mt-[24px] mb-[95px]">
-              <div className={`${activeTab[0]===1?'block':'hidden'}`}>
-                <p className="text-darkGrey text-[16px] font-medium">{product.description}</p>
-              </div>
-              <div className={`${activeTab[1]===1?'block':'hidden'}`}>
-                <RelatedProduct/>
-              </div>
-              <div className={`${activeTab[2]===1?'block':'hidden'}`}>
-                <ReviewAndRating commentData={comments?.rows}/>
-              </div>
-            </section>
+            <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
+              <p className="text-darkGrey text-[16px] font-medium">
+                {product.description}
+              </p>
+            </div>
+            <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>
+              <RelatedProduct />
+            </div>
+            <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
+              <ReviewAndRatingDesktop commentData={comments?.rows} />
+            </div>
+          </section>
 
           <div className="lg:hidden">
             <ButtonFooterContainer>
@@ -295,7 +257,13 @@ const Detail = () => {
                 <AiOutlineHeart size="24px"></AiOutlineHeart>
               </button>
               <div className="h-[44px] w-[272px]">
-                <LongButton>
+                <LongButton
+                  width="100%"
+                  height="100%"
+                  color="white"
+                  backgroundColor="#1B4B66"
+                  size="14px"
+                >
                   <RiHandbagLine size="24px"></RiHandbagLine>
                   <p>Thêm vào giỏ</p>
                 </LongButton>
