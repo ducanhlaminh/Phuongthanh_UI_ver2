@@ -36,6 +36,10 @@ const ApiProduct = {
     const url = `/api/v1/admin/product/`;
     return axiosClients.get(url, { params });
   },
+  voteProduct: (data) => {
+    const url='/api/v1/product/votes';
+    return axiosClients.post(url, { ...data });
+  }
 };
 
 export default ApiProduct;

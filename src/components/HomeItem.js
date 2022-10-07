@@ -19,6 +19,7 @@ const HomeItem = ({ products, v2, title }) => {
                 {products?.map(item => (
                     <ProductItem
                         key={item.id}
+                        id={item.id}
                         image={item?.mainImage}
                         title={item?.name}
                         description={item?.description}

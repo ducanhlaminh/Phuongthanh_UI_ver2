@@ -114,9 +114,6 @@ const Detail = () => {
                     type="desktop"
                     mainImageScreen={mainImage}
                   />
-                  <div className="absolute bottom-[16px] right-[41px] w-[40px] h-[40px] bg-lightGrey rounded-[50%] flex items-center justify-center lg:hidden">
-                    <IoImagesOutline size={20} className="text-[#626262]" />
-                  </div>
                 </div>
               </section>
 

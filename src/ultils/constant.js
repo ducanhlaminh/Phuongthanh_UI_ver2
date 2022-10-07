@@ -9,6 +9,7 @@ export const path = {
   LIST_PRODUCTS: "listproducts",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
+  PROFILE:'profile',
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",

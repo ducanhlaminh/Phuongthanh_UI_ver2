@@ -13,8 +13,8 @@ export const ReviewAndRatingMobile = ({
   setShowPopupComment,
 }) => {
   return (
-    <div className="fixed z-20 h-screen w-screen top-0 left-0 bg-lightGrey lg:hidden">
-      <header className="bg-white h-[56px] pl-[16px] flex items-center ">
+    <div className="fixed z-20 h-screen w-screen top-0 left-0 bg-lightGrey flex flex-col lg:hidden">
+      <header className="bg-white h-[56px] pl-[16px] flex-none flex items-center ">
         <MdOutlineArrowBackIosNew
           size="24"
           onClick={() => {
@@ -38,7 +38,7 @@ export const ReviewAndRatingMobile = ({
         </div>
       </section>
 
-      <section className="bg-white pl-[16px] mt-[8px]">
+      <section className="bg-white pl-[16px] flex-auto overflow-y-auto mt-[8px]">
         {commentData.length > 0 ? (
           <div className="pt-[24px]">
             {commentData?.map((comment, i) => {
@@ -68,6 +68,7 @@ export const ReviewAndRatingMobile = ({
                 </div>
               );
             })}
+            <div className="h-[66px]"></div>
           </div>
         ) : (
           <div className="h-[50px] flex items-center justify-center text-[16px] font-medium text-darkGrey">
@@ -75,7 +76,12 @@ export const ReviewAndRatingMobile = ({
           </div>
         )}
       </section>
-      <div onClick={()=>{setShowPopupComment(true)}}>
+
+      <div
+        onClick={() => {
+          setShowPopupComment(true);
+        }}
+      >
         <ButtonFooterContainer>
           <LongButton
             width="90%"

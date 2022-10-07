@@ -4,7 +4,8 @@ import { path } from '../../ultils/constant'
 import { Slider, HomeItem } from '../../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLastestProducts, getTopProducts, getFavoriteProducts } from '../../store/actions'
-import icons from '../../ultils/icons'
+import icons from '../../ultils/icons';
+import Footer from '../../components/Footer';
 
 const { AiOutlineArrowRight, BiMenuAltLeft, RiSearchLine, VscBell } = icons
 
@@ -78,6 +79,10 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className='flex-none'>
+                <Footer />
             </div>
         </div>
     )
