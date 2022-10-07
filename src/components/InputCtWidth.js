@@ -52,6 +52,7 @@ const InputCustomWidth = React.memo(
 */
 const SelectCustomWidth = React.memo(
     ({ options, lable, widthP, selectValue, setSelectValue }) => {
+        console.log(selectValue.valueVi);
         return (
             <div className={`w-${widthP} h-full`}>
                 <label
@@ -75,7 +76,8 @@ const SelectCustomWidth = React.memo(
                                 setSelectValue(e.target.value);
                             }
                         }}
-                        defaultValue={selectValue}
+
+
                     >
                         {options?.length !== 0 ? (
                             options?.map((option, index) => {
@@ -83,6 +85,7 @@ const SelectCustomWidth = React.memo(
                                     <option
                                         key={option.code ? option.code : option.valueVi}
                                         value={option.code ? option.code : JSON.stringify(option)}
+                                        selected={JSON.stringify(option) === JSON.stringify(selectValue)}
                                     >
                                         {option.valueVi}
                                     </option>

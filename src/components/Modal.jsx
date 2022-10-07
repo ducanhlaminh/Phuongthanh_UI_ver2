@@ -586,7 +586,7 @@ export const FilterProductsMobile = ({
           <hr />
           <div className="flex flex-col justify-around h-[85%] px-5">
             {filters.map((filter) => {
-              const value = JSON.stringify(filter.sort);
+              const value = JSON.stringify(filter);
               return (
                 <div className="" key={filter.valueVi}>
                   <input

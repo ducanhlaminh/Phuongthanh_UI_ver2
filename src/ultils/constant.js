@@ -48,6 +48,15 @@ export const filters = [
   { valueVi: "Giá cao -> thấp", sort: { type: "costPerUnit", code: "DESC" } },
   { valueVi: "Giá thấp -> cao", sort: { type: "costPerUnit", code: "ASC" } },
 ];
+export const filtersSider = [
+
+
+  {
+    valueVi: "Stocking",
+    code: 1,
+  },
+
+];
 export const adminMenu = [
   {
     name: "Tổng sản phẩm",
@@ -91,4 +100,3 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
-

@@ -1,7 +1,7 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
 import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile } from "./containers/system";
-import { Public, Login, Home } from "./containers/public";
+import { Public, Login, Home, Detail } from "./containers/public";
 import ListProduct from "./containers/public/ListProduct";
 
 import { path } from "./ultils/constant";
@@ -36,6 +36,7 @@ function App() {
 
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
+          <Route path={path.DETAIL} element={<Detail />} />
           <Route path={path.LIST_PRODUCTS} element={<ListProduct title="Đồ gia dụng" />} />
         </Route>
 
