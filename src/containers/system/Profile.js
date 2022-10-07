@@ -1,15 +1,18 @@
 import React from 'react'
 import { Button2, SidebarProfile } from '../../components'
 import icons from '../../ultils/icons'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
+import { menuProfile } from '../../ultils/menu'
+
 
 const { FiLogOut } = icons
 
 const Profile = () => {
+    const location = useLocation()
     return (
         <div className='px-5 py-6'>
             <div className='pb-6 flex items-center justify-between pr-[76px]'>
-                <h3 className='text-[34px] font-bold text-[#1B4B66]'>Thông tin cá nhân</h3>
+                <h3 className='text-[34px] font-bold text-[#1B4B66]'>{menuProfile.find(item => item.path === location.pathname)?.text}</h3>
                 <Button2
                     text='Đăng xuất'
                     icBefore={<FiLogOut />}
