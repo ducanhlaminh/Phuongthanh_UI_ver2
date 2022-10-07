@@ -1,16 +1,18 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
 import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile } from "./containers/system";
-import { Public, Login, Home } from "./containers/public";
+import { Public, Login, Home, DetailProduct, Category } from "./containers/public";
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect } from "react";
+import { generatePath } from '../src/ultils/fn'
 // import ApiBill from "./apis/bill";
 
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { categories } = useSelector(state => state.app)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Khi reload page get userdata again
@@ -32,6 +34,10 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
+          <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
+          {categories?.map(item => (
+            <Route key={item.id} path={generatePath(item.valueVi)} element={<Category categoryData={item} />} />
+          ))}
         </Route>
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.SYSTEM} element={<System />}>

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { path } from '../../ultils/constant'
-import { Slider, HomeItem } from '../../components'
+import { Slider, HomeItem, Footer } from '../../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLastestProducts, getTopProducts, getFavoriteProducts } from '../../store/actions'
 import icons from '../../ultils/icons'
+import { generatePath } from '../../ultils/fn'
 
 const { AiOutlineArrowRight, BiMenuAltLeft, RiSearchLine, VscBell } = icons
 
@@ -51,34 +52,35 @@ const Home = () => {
                 <HomeItem products={topProducts && topProducts} v2={true} title='#topbanchay' />
                 <HomeItem products={favoriteProducts && favoriteProducts} title='Sản phẩm được yêu thích nhất' />
                 <div className='flex flex-col md:gap-10 gap-4 px-5'>
-                    <div className='w-full relative'>
+                    <Link to={`/${generatePath(categories[0]?.valueVi)}`} className='w-full relative'>
                         <img className='w-full rounded-lg md:h-[400px] h-[132px] object-cover' src={categories && categories[0]?.image} alt='category' />
                         <div className='absolute top-0 flex justify-center items-end md:gap-4 gap-3 flex-col md:pr-[61px] pr-4 left-0 right-0 bottom-0 rounded-lg bg-gradient-to-l text-white from-gray-500 to-transparent'>
                             <span className='md:text-[52px] text-lg font-bold'>{categories[0]?.valueVi}</span>
                             <span className='p-3 hidden md:block bg-white w-fit text-black rounded-full'><AiOutlineArrowRight size={20} /></span>
                             <span className='p-2 md:hidden bg-white w-fit text-black rounded-full'><AiOutlineArrowRight size={14} /></span>
                         </div>
-                    </div>
+                    </Link>
                     <div className='w-full flex items-center md:gap-8 gap-4'>
-                        <div className='w-full relative'>
+                        <Link to={`/${generatePath(categories[1]?.valueVi)}`} className='w-full relative'>
                             <img className='w-full rounded-lg md:h-[228px] h-[100px] object-cover' src={categories && categories[1]?.image} alt='category' />
                             <div className='absolute top-0 flex justify-center items-end md:gap-4 gap-3 flex-col md:pr-[61px] pr-4 left-0 right-0 bottom-0 rounded-lg bg-gradient-to-l text-white from-purple-800 to-transparent'>
                                 <span className='md:text-[52px] text-lg font-bold'>{categories[1]?.valueVi}</span>
                                 <span className='p-3 hidden md:block bg-white w-fit text-black rounded-full'><AiOutlineArrowRight size={20} /></span>
                                 <span className='p-2 md:hidden bg-white w-fit text-black rounded-full'><AiOutlineArrowRight size={14} /></span>
                             </div>
-                        </div>
-                        <div className='w-full relative'>
+                        </Link>
+                        <Link to={`/${generatePath(categories[2]?.valueVi)}`} className='w-full relative'>
                             <img className='w-full rounded-lg md:h-[228px] h-[100px] object-cover' src={categories && categories[2]?.image} alt='category' />
                             <div className='absolute top-0 flex justify-center items-end md:gap-4 gap-3 flex-col md:pr-[61px] pr-4 left-0 right-0 bottom-0 rounded-lg bg-gradient-to-l text-white from-sky-800 to-transparent'>
                                 <span className='md:text-[52px] text-lg font-bold'>{categories[2]?.valueVi}</span>
                                 <span className='p-3 hidden md:block bg-white w-fit text-black rounded-full'><AiOutlineArrowRight size={20} /></span>
                                 <span className='p-2 md:hidden bg-white w-fit text-black rounded-full'><AiOutlineArrowRight size={14} /></span>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

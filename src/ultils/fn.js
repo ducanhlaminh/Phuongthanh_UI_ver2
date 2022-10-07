@@ -5,4 +5,5 @@ export const generatePath = (value) => {
         .replace(/[\u0300-\u036f]/g, "")
         .split(" ")
         .join("-")
+        .replace('đ', 'd')
 }

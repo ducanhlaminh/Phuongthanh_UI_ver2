@@ -11,7 +11,7 @@ const Public = () => {
             <div className='flex-auto'>
                 <Outlet />
             </div>
-            <div className='flex-none'>
+            <div className='flex-none hidden md:block'>
                 <Footer />
             </div>
         </div>
