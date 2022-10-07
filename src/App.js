@@ -1,14 +1,14 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
-import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile, Profile, Orders, PersonalInformation } from "./containers/system";
 import { Public, Login, Home, DetailProduct, Category } from "./containers/public";
+import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile, Profile, Orders, PersonalInformation } from "./containers/system";
+
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect } from "react";
 import { generatePath } from '../src/ultils/fn'
 // import ApiBill from "./apis/bill";
-
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -18,21 +18,43 @@ function App() {
   // Khi reload page get userdata again
   useEffect(() => {
     isLoggedIn && dispatch(actions.getCurrent());
-  }, [isLoggedIn])
+    // isLoggedIn && ApiBill({
+    //   email: 'ducanh9x@gmail.com',
+    //   address: 'hanoi',
+    //   phone: '0326770098',
+    //   products: JSON.stringify({ productId: "069c8827-8f72-4ad8-adda-a48cd584270e", cost: " ", quantity: 1 })
+    // })
+  }, [isLoggedIn]);
 
   useEffect(() => {
     dispatch(actions.getCategory());
-    if (window.location.href.includes('verify-token')) {
+    if (window.location.href.includes("verify-token")) {
       const params = takeParamsVerifyToken(window.location.href);
-      dispatch(actions.saveUseridToken({ userId: params[params.length - 2], tokenChangePassword: params[params.length - 1] }))
-      navigate('/changePassword');
+      dispatch(
+        actions.saveUseridToken({
+          userId: params[params.length - 2],
+          tokenChangePassword: params[params.length - 1],
+        })
+      );
+      navigate("/changePassword");
     }
   }, []);
 
   return (
     <div className="bg-purple-100 m-auto overflow-y-auto h-screen">
       <Routes>
+        {/*Public routes */}
+        {/* <Route path="/" element={<Navigate to="/home/Households"></Navigate>} />
+        <Route path="/changePassword" element={<UserChangePassword></UserChangePassword>}></Route>
+        <Route path={path.HOME} element={<Home />} />
+        <Route path={path.FEED} element={<Feed />} />
+        <Route path={path.PAYMENT} element={<Payment />} />
+        <Route path={path.CART} element={<Cart />} />
+      <Route path={path.USERCLIENT} element={<UserClient />} /> */}
+        {/*Login route */}
+
         <Route path={path.PUBLIC} element={<Public />}>
+          <Route path={path.DETAIL} element={<DetailProduct />} />
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<Profile />}>
@@ -43,7 +65,9 @@ function App() {
           {categories?.map(item => (
             <Route key={item.id} path={generatePath(item.valueVi)} element={<Category categoryData={item} />} />
           ))}
+
         </Route>
+
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.SYSTEM} element={<System />}>
           <Route path={path.GENERAL} element={<General />} />
