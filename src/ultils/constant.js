@@ -1,12 +1,11 @@
 import icons from "./icons";
+import image from "./image";
 
 const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
-  PUBLIC: "/*",
-  DETAIL: "detail/:id",
-  LIST_PRODUCTS: "listproducts",
+  PUBLIC: '/*',
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   HOME: "",
@@ -21,7 +20,12 @@ export const path = {
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
-  DISCOUNT: "giam-gia",
+  DISCOUNT: 'giam-gia',
+  DETAIL: "chi-tiet-san-pham",
+  DETAIL__PRODUCTID: "chi-tiet-san-pham/:id",
+  PROFILE: 'ho-so/',
+  ORDERS: 'hoa-don-cua-toi',
+  PERSONAL: ''
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -47,15 +51,6 @@ export const filters = [
   { valueVi: "Z-A", sort: { type: "name", code: "ASC" } },
   { valueVi: "Giá cao -> thấp", sort: { type: "costPerUnit", code: "DESC" } },
   { valueVi: "Giá thấp -> cao", sort: { type: "costPerUnit", code: "ASC" } },
-];
-export const filtersSider = [
-
-
-  {
-    valueVi: "Stocking",
-    code: 1,
-  },
-
 ];
 export const adminMenu = [
   {
@@ -100,3 +95,50 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
+
+
+
+export const getSite = (params) => {
+  const site = {
+    color: "",
+    banner: "",
+    naviLeft: "",
+    naviLeftText: "",
+    naviLeftImage: "",
+    linkLeft: "",
+    naviRight: "",
+    naviRightText: "",
+    naviRightImage: "",
+    linkRight: "",
+  };
+  if (params["*"] === "fashion") {
+    site.color = "#3f9df3";
+    site.banner = image.fashionbanner;
+    site.naviLeftText = "Đồ gia dụng";
+    site.linkLeft = "appliance";
+    site.naviLeftImage = image.navigro1;
+    site.naviRightText = "Tạp hóa";
+    site.linkRight = "grocery";
+    site.naviRightImage = image.naviapp1;
+  } else if (params["*"] === "appliance") {
+    site.color = "#EF7300";
+    site.banner = image.appliancebanner;
+    site.naviLeftText = "Tạp hóa";
+    site.linkLeft = "grocery";
+    site.naviLeftImage = image.navigro2;
+    site.naviRightText = "Thời trang";
+    site.linkRight = "fashion";
+    site.naviRightImage = image.navifashion2;
+  } else {
+    site.color = "#10C600";
+    site.banner = image.grocerybanner;
+    site.naviLeftText = "Đồ gia dụng";
+    site.linkLeft = "appliance";
+    site.naviLeftImage = image.naviapp3;
+    site.naviRightText = "Thời trang";
+    site.linkRight = "fashion";
+    site.naviRightImage = image.navifashion3;
+  }
+
+  return site;
+};

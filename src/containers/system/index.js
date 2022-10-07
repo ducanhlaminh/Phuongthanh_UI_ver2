@@ -7,3 +7,6 @@ export { default as ManageCategory } from "./ManageCategory";
 export { default as User } from "./User";
 export { default as Bill } from "./Bill";
 export { default as UpdateProfile } from "./UpdateProfile";
+export { default as Profile } from './Profile'
+export { default as PersonalInformation } from './PersonalInformation'
+export { default as Orders } from './Orders'

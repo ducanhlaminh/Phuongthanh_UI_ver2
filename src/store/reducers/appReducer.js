@@ -3,7 +3,7 @@ import actionTypes from "../actions/actionTypes";
 const initState = {
   products: [],
   categories: [],
-  code: "OĐAIGNUD8",
+  code: "",
   pageLength: "",
   productsBestSeller: [],
   productsCurrentUpdate: [],
