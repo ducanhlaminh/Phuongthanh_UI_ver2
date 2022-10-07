@@ -2,6 +2,7 @@ import authReducer from "./authReducer";
 import cartReducer from "./cartReducer";
 import popupReducer from "./popupReducer"
 import appReducer from "./appReducer";
+import homenavReducer from "./homenavReducer";
 import productReducer from "./productReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
     app: appReducer,
     popup: popupReducer,
     changePassword: changePasswordReducer,
-    products: productReducer
+    products: productReducer,
+    homenav: homenavReducer,
 
 })
 

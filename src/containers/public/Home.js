@@ -81,6 +81,7 @@ const Home = () => {
                 </div>
             </div>
             <Footer />
+            <div className="h-[66px] flex-none"></div>
         </div>
     )
 }

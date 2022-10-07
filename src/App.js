@@ -1,18 +1,37 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
-import { Public, Login, Home, DetailProduct, Category } from "./containers/public";
-import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile, Profile, Orders, PersonalInformation } from "./containers/system";
+import {
+  Public,
+  Login,
+  Home,
+  DetailProduct,
+  Category,
+  ProfileClient,
+} from "./containers/public";
+import {
+  System,
+  General,
+  EditProduct,
+  ManageProduct,
+  ManageCategory,
+  User,
+  Bill,
+  UpdateProfile,
+  Profile,
+  Orders,
+  PersonalInformation,
+} from "./containers/system";
 
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect } from "react";
-import { generatePath } from '../src/ultils/fn'
+import { generatePath } from "../src/ultils/fn";
 // import ApiBill from "./apis/bill";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const { categories } = useSelector(state => state.app)
+  const { categories } = useSelector((state) => state.app);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Khi reload page get userdata again
@@ -41,7 +60,7 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-purple-100 m-auto overflow-y-auto h-screen">
+    <div className="bg-white m-auto overflow-y-auto h-screen">
       <Routes>
         {/*Public routes */}
         {/* <Route path="/" element={<Navigate to="/home/Households"></Navigate>} />
@@ -57,15 +76,18 @@ function App() {
           <Route path={path.DETAIL} element={<DetailProduct />} />
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
-          <Route path={path.PROFILE} element={<Profile />}>
+          <Route path={path.PROFILE} element={<ProfileClient />}>
             <Route path={path.PERSONAL} element={<PersonalInformation />} />
             <Route path={path.ORDERS} element={<Orders />} />
-            <Route path='*' element={<PersonalInformation />} />
+            <Route path="*" element={<PersonalInformation />} />
           </Route>
-          {categories?.map(item => (
-            <Route key={item.id} path={generatePath(item.valueVi)} element={<Category categoryData={item} />} />
+          {categories?.map((item) => (
+            <Route
+              key={item.id}
+              path={generatePath(item.valueVi)}
+              element={<Category categoryData={item} />}
+            />
           ))}
-
         </Route>
 
         <Route path={path.LOGIN} element={<Login />} />
