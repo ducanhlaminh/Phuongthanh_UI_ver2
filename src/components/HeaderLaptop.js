@@ -31,9 +31,9 @@ const HeaderLaptop = () => {
             <div className='w-[45%] flex-none flex justify-between items-center gap-5'>
                 <Search />
                 <div className='w-[120px] flex items-center justify-end gap-5 flex-none'>
-                    <span>
+                    <Link to={`/${path.PROFILE}`}>
                         <RiUser6Line size={24} />
-                    </span>
+                    </Link>
                     <span className='relative'>
                         <AiOutlineShoppingCart size={26} />
                         <span className='absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full'></span>

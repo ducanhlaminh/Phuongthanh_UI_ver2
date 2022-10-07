@@ -2,7 +2,7 @@ import { BsSpeedometer2, BsDot, BsFacebook, BsYoutube } from 'react-icons/bs'
 import { RiProductHuntLine, RiSearchLine, RiUser6Line } from 'react-icons/ri'
 import { FaUserEdit, FaInstagramSquare } from 'react-icons/fa'
 import { IoIosCreate, IoMdArrowRoundDown } from 'react-icons/io'
-import { FiMenu } from 'react-icons/fi'
+import { FiMenu, FiLogOut } from 'react-icons/fi'
 import { BiSearchAlt, BiPurchaseTag, BiMenuAltLeft } from 'react-icons/bi'
 import {
     AiOutlineClose,
@@ -53,7 +53,8 @@ const icons = {
     MdOutlineLocationOn,
     AiOutlineCopyrightCircle,
     BiMenuAltLeft,
-    VscBell
+    VscBell,
+    FiLogOut
 }
 
 export default icons
