@@ -5,7 +5,7 @@ const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
-  PUBLIC: '/*',
+  PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   HOME: "",
@@ -20,12 +20,12 @@ export const path = {
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
-  DISCOUNT: 'giam-gia',
+  DISCOUNT: "giam-gia",
   DETAIL: "chi-tiet-san-pham",
   DETAIL__PRODUCTID: "chi-tiet-san-pham/:id",
-  PROFILE: 'ho-so/',
-  ORDERS: 'hoa-don-cua-toi',
-  PERSONAL: ''
+  PROFILE: "ho-so/",
+  ORDERS: "hoa-don-cua-toi",
+  PERSONAL: "",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -51,6 +51,12 @@ export const filters = [
   { valueVi: "Z-A", sort: { type: "name", code: "ASC" } },
   { valueVi: "Giá cao -> thấp", sort: { type: "costPerUnit", code: "DESC" } },
   { valueVi: "Giá thấp -> cao", sort: { type: "costPerUnit", code: "ASC" } },
+];
+export const filtersSider = [
+  {
+    valueVi: "Stocking",
+    code: 1,
+  },
 ];
 export const adminMenu = [
   {
@@ -95,8 +101,6 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
-
-
 
 export const getSite = (params) => {
   const site = {
