@@ -12,8 +12,6 @@ export const path = {
   PAYMENT: "/payment",
   FEED: "/feed",
   CART: "/cart",
-  DETAIL: "detail",
-  DETAIL__PRODUCTID: "detail/:id",
   GENERAL: "*",
   EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
@@ -22,7 +20,12 @@ export const path = {
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
-  DISCOUNT: 'giam-gia'
+  DISCOUNT: 'giam-gia',
+  DETAIL: "chi-tiet-san-pham",
+  DETAIL__PRODUCTID: "chi-tiet-san-pham/:id",
+  PROFILE: 'ho-so/',
+  ORDERS: 'hoa-don-cua-toi',
+  PERSONAL: ''
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",

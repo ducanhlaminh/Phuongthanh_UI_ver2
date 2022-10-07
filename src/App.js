@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
-import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile } from "./containers/system";
+import { System, General, EditProduct, ManageProduct, ManageCategory, User, Bill, UpdateProfile, Profile, Orders, PersonalInformation } from "./containers/system";
 import { Public, Login, Home, DetailProduct, Category } from "./containers/public";
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,6 +35,11 @@ function App() {
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
+          <Route path={path.PROFILE} element={<Profile />}>
+            <Route path={path.PERSONAL} element={<PersonalInformation />} />
+            <Route path={path.ORDERS} element={<Orders />} />
+            <Route path='*' element={<PersonalInformation />} />
+          </Route>
           {categories?.map(item => (
             <Route key={item.id} path={generatePath(item.valueVi)} element={<Category categoryData={item} />} />
           ))}

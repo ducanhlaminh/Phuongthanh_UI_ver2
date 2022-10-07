@@ -1,4 +1,5 @@
 export const generatePath = (value) => {
+    if (!value) return
     return value
         .toLowerCase()
         .normalize("NFD")
