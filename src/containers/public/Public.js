@@ -36,7 +36,7 @@ const Public = () => {
             <HiOutlineViewGrid size='24px'/>
             {activeNav[1]===1 &&<p className={`text-[12px] font-medium leading-4`}>Gian hàng</p>}
           </Link>
-          <Link to='/ho-so' className={`flex flex-col justify-center items-center text-primary ${activeNav[2]===1?"text-primary":"text-darkGrey-tint"} transition-all`} onClick={()=>{setActiveNav([0,0,1,0])}}>
+          <Link to='/tai-khoan' className={`flex flex-col justify-center items-center text-primary ${activeNav[2]===1?"text-primary":"text-darkGrey-tint"} transition-all`} onClick={()=>{setActiveNav([0,0,1,0])}}>
             <MdOutlinePersonOutline size='24px'/>
             {activeNav[2]===1 &&<p className={`text-[12px] font-medium leading-4`}>Tài khoản</p>}
           </Link>

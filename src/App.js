@@ -7,6 +7,7 @@ import {
   DetailProduct,
   Category,
   ProfileClient,
+  UserMobileNav,
 } from "./containers/public";
 import {
   System,
@@ -75,6 +76,7 @@ function App() {
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.DETAIL} element={<DetailProduct />} />
           <Route path={path.HOME} element={<Home />} />
+          <Route path={path.USERMOBILENAV} element={<UserMobileNav/>} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<ProfileClient />}>
             <Route path={path.PERSONAL} element={<PersonalInformation />} />

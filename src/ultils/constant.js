@@ -8,6 +8,7 @@ export const path = {
   PUBLIC: '/*',
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
+  USERMOBILENAV:'tai-khoan',
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
