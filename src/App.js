@@ -8,6 +8,7 @@ import {
   Category,
   ProfileClient,
   UserMobileNav,
+  Personal,
 } from "./containers/public";
 import {
   System,
@@ -79,9 +80,9 @@ function App() {
           <Route path={path.USERMOBILENAV} element={<UserMobileNav/>} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<ProfileClient />}>
-            <Route path={path.PERSONAL} element={<PersonalInformation />} />
+            <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
-            <Route path="*" element={<PersonalInformation />} />
+            <Route path="*" element={<Personal />} />
           </Route>
           {categories?.map((item) => (
             <Route

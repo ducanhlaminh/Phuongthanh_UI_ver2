@@ -20,6 +20,7 @@ module.exports = {
         'lightGrey2':'#7e7e7e',
         'yellow':'#FF8C4B',
         'black':'#171520',
+        'red':'#B00020',
       },
       colors: {
         'primary': '#1B4B66',
@@ -30,6 +31,7 @@ module.exports = {
         'lightGrey2':'#7e7e7e',
         'yellow':'#FF8C4B',
         'black':'#171520',
+        'red':'#B00020',
 
       },
       width: {
