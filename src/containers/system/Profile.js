@@ -20,7 +20,7 @@ const Profile = () => {
     return (
         <div className='px-5 py-6 h-full'>
             <div className='pb-6 flex items-center justify-between pr-[76px]'>
-                {!detailOrder && <h3 className='text-[34px] font-bold text-[#1B4B66]'>{menuProfile.find(item => item.path === location.pathname)?.text}</h3>}
+            {!detailOrder && <h3 className='text-[34px] font-bold text-[#1B4B66]'>{menuProfile.find(item => item.path === location.pathname)?.text}</h3>}
                 {detailOrder && <div className='flex items-center gap-4 text-[#1B4B66]'>
                     <span title='Quay lại' onClick={() => dispatch(actions.detailOrder(null))} className='cursor-pointer'><MdOutlineArrowBackIosNew size={24} /></span>
                     <h3 className='text-[34px] font-bold'>{`Hoá đơn #${detailOrder?.id?.replace(/\D/g, "")?.slice(0, 9)}`}</h3>

@@ -79,7 +79,7 @@ function App() {
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.USERMOBILENAV} element={<UserMobileNav/>} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
-          <Route path={path.PROFILE} element={<ProfileClient />}>
+          <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
             <Route path="*" element={<Personal />} />
