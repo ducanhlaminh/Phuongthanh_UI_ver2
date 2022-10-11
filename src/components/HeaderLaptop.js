@@ -30,7 +30,7 @@ const HeaderLaptop = () => {
             </div>
             <div className='w-[50%] flex-none flex justify-between items-center gap-5'>
                 <Search />
-                <div className=' flex items-center justify-end gap-5 flex-none' style={{width:isLoggedIn?'120px':'120px'}}>
+                <div className=' flex items-center justify-end gap-5 flex-none' style={{width:isLoggedIn?'120px':'180px'}}>
                     <Link to={`/${path.PROFILE}`}>
                         {isLoggedIn ? <RiUser6Line size={24} /> : <p className='text-[14px] font-semibold'>Đăng nhập/Đăng kí</p>}
                     </Link>

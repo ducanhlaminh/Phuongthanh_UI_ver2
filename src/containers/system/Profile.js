@@ -1,9 +1,9 @@
 import React from "react";
 import { Button2, SidebarProfile } from "../../components";
 import icons from "../../ultils/icons";
-import { Outlet, useLocation, Navigate } from "react-router-dom";
+import { Outlet, useLocation, Navigate,useNavigate  } from "react-router-dom";
 import { menuProfile } from "../../ultils/menu";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { path } from "../../ultils/constant";
 import * as actions from "../../store/actions";
 
@@ -12,6 +12,7 @@ const { FiLogOut, MdOutlineArrowBackIosNew } = icons;
 const Profile = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { detailOrder } = useSelector((state) => state.app);
 
@@ -38,7 +39,10 @@ const Profile = () => {
               ?.slice(0, 9)}`}</h3>
           </div>
         )}
-        <div onClick={() => dispatch(actions.logout())}>
+        <div onClick={() => {
+          dispatch(actions.logout())
+          navigate('/');
+          }}>
           <Button2
             text="Đăng xuất"
             icBefore={<FiLogOut />}
@@ -50,7 +54,7 @@ const Profile = () => {
         <div className="w-[286px] flex-none hidden md:block">
           <SidebarProfile />
         </div>
-        <div className="flex-auto">
+        <div className="w-full md:flex-auto">
           <Outlet />
         </div>
       </div>
