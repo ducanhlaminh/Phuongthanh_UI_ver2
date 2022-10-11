@@ -10,7 +10,7 @@ import { path } from '../ultils/constant'
 const { RiUser6Line, AiOutlineShoppingCart, BsDot } = icons
 
 const HeaderLaptop = () => {
-
+    const {isLoggedIn} =useSelector((state) => state.auth);
     const { categories } = useSelector(state => state.app)
     return (
         <div className='w-full h-full flex items-center justify-between px-5 py-[18px]'>
@@ -28,11 +28,11 @@ const HeaderLaptop = () => {
                     ))}
                 </div>
             </div>
-            <div className='w-[45%] flex-none flex justify-between items-center gap-5'>
+            <div className='w-[50%] flex-none flex justify-between items-center gap-5'>
                 <Search />
-                <div className='w-[120px] flex items-center justify-end gap-5 flex-none'>
+                <div className=' flex items-center justify-end gap-5 flex-none' style={{width:isLoggedIn?'120px':'120px'}}>
                     <Link to={`/${path.PROFILE}`}>
-                        <RiUser6Line size={24} />
+                        {isLoggedIn ? <RiUser6Line size={24} /> : <p className='text-[14px] font-semibold'>Đăng nhập/Đăng kí</p>}
                     </Link>
                     <span className='relative'>
                         <AiOutlineShoppingCart size={26} />

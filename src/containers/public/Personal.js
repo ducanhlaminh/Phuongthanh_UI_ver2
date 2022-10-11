@@ -1,8 +1,11 @@
 import image from "../../assets/anonAvatar.png";
 import LongButton from "../../components/LongButton";
 import { RiDeleteBinLine } from "react-icons/ri";
+import * as actions from "../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const Personal = () => {
+  const {userCurrent}=useSelector(state=>state.auth);
   return (
     <div className="pr-[76px]">
       <div>
@@ -37,19 +40,13 @@ const Personal = () => {
           <label className="block font-medium text-[16px] text-black">
             Họ và tên
           </label>
-          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] min-w-[600px]" />
+          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] min-w-[600px]" placeholder={userCurrent?.name} />
         </div>
         <div>
           <label className="block font-medium text-[16px] text-black mt-[8px]">
-            Email
+            {userCurrent?.email?'Email':'Số điện thoại'}
           </label>
-          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] min-w-[600px]" />
-        </div>
-        <div>
-          <label className="block font-medium text-[16px] text-black mt-[8px]">
-            Số điện thoại{" "}
-          </label>
-          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] min-w-[600px]" />
+          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] min-w-[600px]" placeholder={userCurrent?.email?userCurrent?.email:userCurrent?.phone}/>
         </div>
         <div className="flex justify-end mt-[24px]">
           <LongButton
@@ -74,15 +71,15 @@ const Personal = () => {
         </div>
       </div>
       <div className="flex justify-end mt-[24px]">
-          <LongButton
-            backgroundColor="#1B4B66"
-            color="white"
-            height="36px"
-            width="136px"
-          >
-            <p className="text-[16px] font-medium">Xác nhận</p>
-          </LongButton>
-        </div>
+        <LongButton
+          backgroundColor="#1B4B66"
+          color="white"
+          height="36px"
+          width="136px"
+        >
+          <p className="text-[16px] font-medium">Xác nhận</p>
+        </LongButton>
+      </div>
     </div>
   );
 };

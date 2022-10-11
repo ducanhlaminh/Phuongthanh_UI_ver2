@@ -8,17 +8,16 @@ import { MdOutlinePersonOutline } from "react-icons/md";
 import { RiHandbagLine } from "react-icons/ri";
 import {useDispatch,useSelector} from "react-redux";
 import * as actions from "../../store/actions/";
-import {Link} from "react-router-dom"
+import {Link,useParams,useNavigate} from "react-router-dom"
 
 const Public = () => {
   const [activeNav,setActiveNav]=useState([1,0,0,0]);
   const dispatch=useDispatch();
-  const showNav=useSelector((state=>state.homenav));
+  const params=useParams();
   return (
     <div className="flex flex-col w-full max-w-[1280px] m-auto text-sm md:text-base bg-white text-black">
       <div className="hidden md:block w-full h-[80px]">
         <HeaderLaptop />
-
       </div>
       <div className="flex-auto">
         <Outlet />
@@ -26,7 +25,7 @@ const Public = () => {
       <div className="flex-none hidden lg:block">
         <Footer />
       </div>
-      {showNav.showHomenav&&<div className="flex-none lg:hidden z-50">
+      {(params['*']===''||params['*']==='category'||params['*']==='tai-khoan'||params['*']==='bag')&&<div className="flex-none lg:hidden z-50">
         <ButtonFooterContainer>
           <Link to='/' className={`flex flex-col justify-center items-center text-primary ${activeNav[0]===1?"text-primary":"text-darkGrey-tint"} transition-all`} onClick={()=>{setActiveNav([1,0,0,0])}}>
             <BiHomeAlt size='24px'/>
