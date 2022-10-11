@@ -9,6 +9,7 @@ const initState = {
   productsCurrentUpdate: [],
   count: 0,
   currentProduct: null,
+  detailOrder: null
 };
 
 const appReducer = (state = initState, action) => {
@@ -43,6 +44,11 @@ const appReducer = (state = initState, action) => {
       return {
         ...state,
         code: action.data,
+      };
+    case actionTypes.DETAIL_ORDER:
+      return {
+        ...state,
+        detailOrder: action.order || null,
       };
     default:
       return state;

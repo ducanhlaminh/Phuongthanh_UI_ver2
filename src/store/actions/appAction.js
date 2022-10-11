@@ -121,3 +121,8 @@ export const getCodeCategory = (code) => {
     data: code,
   };
 };
+
+export const detailOrder = (order) => ({
+  type: actionTypes.DETAIL_ORDER,
+  order
+})

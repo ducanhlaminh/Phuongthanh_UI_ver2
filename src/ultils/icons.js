@@ -13,7 +13,7 @@ import {
     AiOutlineShoppingCart,
     AiOutlineCopyrightCircle
 } from 'react-icons/ai'
-import { MdOutlinePhonelink, MdNavigateNext, MdOutlineLocationOn } from 'react-icons/md'
+import { MdOutlinePhonelink, MdNavigateNext, MdOutlineLocationOn, MdOutlineArrowBackIosNew } from 'react-icons/md'
 import { GrFacebook } from 'react-icons/gr'
 import { SiZalo } from 'react-icons/si'
 import { ImLocation2 } from 'react-icons/im'
@@ -54,7 +54,8 @@ const icons = {
     AiOutlineCopyrightCircle,
     BiMenuAltLeft,
     VscBell,
-    FiLogOut
+    FiLogOut,
+    MdOutlineArrowBackIosNew
 }
 
 export default icons

@@ -1,6 +1,6 @@
 import React, { memo } from "react";
-import {AiOutlineEye,AiOutlineEyeInvisible} from 'react-icons/ai';
-import {useState} from 'react'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useState } from 'react'
 
 const InputField = ({
   label,
@@ -11,7 +11,7 @@ const InputField = ({
   setInvalidFields,
   invalidFields,
 }) => {
-  const [typeInputState,setTypeInputState]=useState(typeInput);
+  const [typeInputState, setTypeInputState] = useState(typeInput);
   return (
     <div className="w-full my-3">
       <label htmlFor="field" className="text-xs">
@@ -19,7 +19,7 @@ const InputField = ({
       </label>
       <div className='flex bg-[#f3f4f6] items-center'>
         <input type={typeInputState}
-          id="field"
+          id={label?.replace(' ', '')}
           value={value}
           onChange={(e) =>
             setValue((prev) => ({
@@ -30,17 +30,21 @@ const InputField = ({
           className="outline-none p-2 bg-gray-100 rounded-md w-full"
           onFocus={() => setInvalidFields([])}>
         </input>
-          {typeInput==='password'&& (typeInputState==='password'? <AiOutlineEye size={26} className='mr-[20px]' onClick={()=>{setTypeInputState((prev)=>{
-            if(prev==='password'){
+        {typeInput === 'password' && (typeInputState === 'password' ? <AiOutlineEye size={26} className='mr-[20px]' onClick={() => {
+          setTypeInputState((prev) => {
+            if (prev === 'password') {
               return 'text';
             }
             else return 'password';
-          })}}></AiOutlineEye> : <AiOutlineEyeInvisible size={26} className='mr-[20px]' onClick={()=>{setTypeInputState((prev)=>{
-            if(prev==='password'){
+          })
+        }}></AiOutlineEye> : <AiOutlineEyeInvisible size={26} className='mr-[20px]' onClick={() => {
+          setTypeInputState((prev) => {
+            if (prev === 'password') {
               return 'text';
             }
             else return 'password';
-          })}}></AiOutlineEyeInvisible>)}
+          })
+        }}></AiOutlineEyeInvisible>)}
       </div>
 
       {invalidFields.length > 0 &&
