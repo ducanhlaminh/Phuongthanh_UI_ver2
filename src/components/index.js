@@ -9,5 +9,7 @@ export { default as ProductItem } from './ProductItem'
 export { default as Footer } from './Footer'
 export { default as Button2 } from './Button2'
 export { default as SidebarProfile } from './SidebarProfile'
+export { default as OrderItem } from './OrderItem'
+export { default as DetailOrder } from './DetailOrder'
 
 
