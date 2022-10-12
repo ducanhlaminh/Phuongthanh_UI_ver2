@@ -11,7 +11,7 @@ export const path = {
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
-  CART: "/cart",
+  CART: "cart",
   GENERAL: "*",
   EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
@@ -53,6 +53,14 @@ export const filters = [
   { valueVi: "Giá thấp -> cao", sort: { type: "costPerUnit", code: "ASC" } },
 ];
 export const filtersSider = [
+  {
+    valueVi: "Stocking",
+    code: 1,
+  },
+  {
+    valueVi: "Stocking",
+    code: 1,
+  },
   {
     valueVi: "Stocking",
     code: 1,

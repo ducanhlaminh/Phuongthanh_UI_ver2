@@ -12,6 +12,7 @@ import * as actions from "../../src/store/actions";
 import { useDispatch } from "react-redux";
 import avatar from "../assets/avatar-anon.png";
 import { filters } from "../ultils/constant";
+import { Slider } from "@mui/material";
 
 export const ModalEditCate = ({ setIsShowEdit, selectCate }) => {
   const [newCategory, setNewCategory] = useState(`${selectCate.valueVi}`);
@@ -560,6 +561,7 @@ export const FilterProductsMobile = ({
   setSelectedFilter,
   selectedFilter,
   setIsShow,
+  handleChange2, value2, numFormatter,
 }) => {
 
   return (
@@ -604,6 +606,17 @@ export const FilterProductsMobile = ({
                 </div>
               );
             })}
+            <Slider
+              getAriaLabel={() => 'Minimum distance shift'}
+              value={value2}
+              onChange={handleChange2}
+              valueLabelDisplay="on"
+              step={100000} marks
+              disableSwap
+              max={1000000}
+
+              valueLabelFormat={value => <div>{numFormatter(value)}</div>}
+            />
           </div>
         </div>
       </div>

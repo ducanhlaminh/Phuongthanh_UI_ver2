@@ -18,10 +18,9 @@ import {
   Public,
   Login,
   Home,
-  Detail,
   DetailProduct,
-  Category,
   ListProduct,
+  Mycart,
 } from "./containers/public";
 
 import { path } from "./ultils/constant";
@@ -30,6 +29,7 @@ import * as actions from "./store/actions";
 import { useEffect } from "react";
 
 import { generatePath } from "../src/ultils/fn";
+import ListProducts from "./containers/public/ListProduct";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -60,21 +60,19 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
-          <Route
-            path={path.LIST_PRODUCTS}
-            element={<ListProduct title="Đồ gia dụng" />}
-          />
+
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<PersonalInformation />} />
             <Route path={path.ORDERS} element={<Orders />} />
             <Route path="*" element={<PersonalInformation />} />
           </Route>
+          <Route path={path.CART} element={<Mycart />} />
           {categories?.map((item) => (
             <Route
               key={item.id}
               path={generatePath(item.valueVi)}
-              element={<Category categoryData={item} />}
+              element={<ListProducts categoryData={item} />}
             />
           ))}
         </Route>

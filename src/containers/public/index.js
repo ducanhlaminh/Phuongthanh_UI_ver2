@@ -5,3 +5,4 @@ export { default as Public } from "./Public";
 export { default as ListProduct } from "./ListProduct";
 export { default as Category } from "./Category";
 export { default as DetailProduct } from "./DetailProduct";
+export { default as Mycart } from "./MyCart";
