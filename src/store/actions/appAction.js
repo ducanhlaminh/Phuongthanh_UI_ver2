@@ -24,8 +24,6 @@ export const getCategory = () => async (dispatch) => {
   }
 };
 
-
-
 export const getProductBestSeller = (params) => async (dispatch) => {
   try {
     const response = await ApiProduct.getAll(params);
@@ -94,7 +92,7 @@ export const getProductByIdClient = (params) => async (dispatch) => {
 
 export const getProduct = (params) => async (dispatch) => {
   try {
-    dispatch({ type: 'Loading', status: "true" })
+    dispatch({ type: "Loading", status: "true" });
     const response = await ApiProduct.getAll(params);
     if (response?.status === 0) {
       dispatch({
@@ -126,7 +124,10 @@ export const getCodeCategory = (code) => {
 };
 export const Loading = (status) => {
   return {
-    type: 'Loading',
-
+    type: "Loading",
   };
 };
+export const detailOrder = (order) => ({
+  type: actionTypes.DETAIL_ORDER,
+  order,
+});

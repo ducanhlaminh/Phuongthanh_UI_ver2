@@ -30,6 +30,9 @@ module.exports = {
         'black':'#171520',
 
       },
+      flex: {
+        '5': '5 5 0%'
+      },
       width: {
         '256': '256px',
         'r256': 'calc(100% - 256px)'
@@ -40,7 +43,8 @@ module.exports = {
       animation: {
         'modalShow': 'modalShow .3s linear ',
         'modalClose': 'modalShow .3s linear ',
-        'slide-right': 'slide-right 0.3s ease-out both;'
+        'slide-right': 'slide-right 0.3s ease-out both;',
+        'slide-left': 'slide-left 0.3s ease-out both;',
       },
       keyframes: {
         modalShow: {
@@ -55,6 +59,16 @@ module.exports = {
           '0%': {
             '-webkit-transform': 'translateX(-500px);',
             transform: 'translateX(-500px);'
+          },
+          '100%': {
+            ' -webkit-transform': 'translateX(0);',
+            transform: 'translateX(0);'
+          }
+        },
+        'slide-left': {
+          '0%': {
+            '-webkit-transform': 'translateX(1000px);',
+            transform: 'translateX(1000px);'
           },
           '100%': {
             ' -webkit-transform': 'translateX(0);',
