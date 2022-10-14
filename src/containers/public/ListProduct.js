@@ -30,7 +30,6 @@ function ListProducts({ categoryData }) {
     if (!Array.isArray(newValue)) {
       return;
     }
-
     if (newValue[1] - newValue[0] < minDistance) {
       console.log(newValue);
       if (activeThumb === 0) {
@@ -57,7 +56,7 @@ function ListProducts({ categoryData }) {
       actions.getProduct({
         categoryCode: categoryData.code,
         inStocking: 1,
-        price: value2,
+        // price: value2,
         order: [...filter],
       })
     );
