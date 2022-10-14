@@ -3,12 +3,32 @@ import LongButton from "../../components/LongButton";
 import { RiDeleteBinLine } from "react-icons/ri";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { useRef, useState } from "react";
 import Swal from "sweetalert2";
+import ApiChangePassword from "../../apis/changePassword";
+import Loading from "../../components/Loading";
 
 const Personal = () => {
-  const {userCurrent}=useSelector(state=>state.auth);
+  const { userCurrent } = useSelector((state) => state.auth);
+  const passwordRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async (email, password) => {
+    try {
+      const res = await ApiChangePassword.verifyAccount({
+        email: email,
+        password: password,
+      });
+      setIsLoading(false);
+      if (res.status === 0) Swal.fire("Thành công", res.message, "success");
+      else Swal.fire("Thất bại", res.message, "error");
+    } catch (err) {
+      setIsLoading(false);
+      Swal.fire("Thất bại", err.message, "error");
+    }
+  };
   return (
     <div className="md:pr-[76px]">
+      {isLoading && <Loading />}
       <div>
         <p className="text-[20px] font-semibold border-b-[1px] border-darkGrey-tint pb-[6px]">
           Thông tin cá nhân
@@ -41,13 +61,21 @@ const Personal = () => {
           <label className="block font-medium text-[16px] text-black">
             Họ và tên
           </label>
-          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]" placeholder={userCurrent?.name} />
+          <input
+            className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]"
+            placeholder={userCurrent?.name}
+          />
         </div>
         <div>
           <label className="block font-medium text-[16px] text-black mt-[8px]">
-            {userCurrent?.email?'Email':'Số điện thoại'}
+            {userCurrent?.email ? "Email" : "Số điện thoại"}
           </label>
-          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]" placeholder={userCurrent?.email?userCurrent?.email:userCurrent?.phone}/>
+          <input
+            className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]"
+            placeholder={
+              userCurrent?.email ? userCurrent?.email : userCurrent?.phone
+            }
+          />
         </div>
         <div className="flex justify-end mt-[24px]">
           <LongButton
@@ -68,10 +96,19 @@ const Personal = () => {
           <label className="block font-medium text-[16px] text-black">
             Mật khẩu hiện tại
           </label>
-          <input className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]" />
+          <input
+            className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]"
+            ref={passwordRef}
+          />
         </div>
       </div>
-      <div className="flex justify-end mt-[24px]">
+      <div
+        className="flex justify-end mt-[24px]"
+        onClick={() => {
+          handleSubmit(userCurrent?.email, passwordRef?.current.value);
+          passwordRef.current.value = '';
+        }}
+      >
         <LongButton
           backgroundColor="#1B4B66"
           color="white"
