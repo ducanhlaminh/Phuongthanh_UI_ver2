@@ -9,16 +9,23 @@ const initState = {
   productsCurrentUpdate: [],
   count: 0,
   currentProduct: null,
-  detailOrder: null
+  detailOrder: null,
+  loading: false,
+
 };
 
 const appReducer = (state = initState, action) => {
   switch (action.type) {
+    case "Loading":
+      return {
+        ...state, loading: true
+      }
     case actionTypes.GET_PRODUCT:
       // const pageLength = action.data[1].pages;
       return {
         ...state,
         products: action.data,
+        loading: false,
       };
     case actionTypes.GET_PRODUCT_BEST_SELLER:
       return {

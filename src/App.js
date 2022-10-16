@@ -9,6 +9,7 @@ import {
   ProfileClient,
   UserMobileNav,
   Personal,
+  Mycart,
 } from "./containers/public";
 import {
   System,
@@ -23,13 +24,13 @@ import {
   Orders,
   PersonalInformation,
 } from "./containers/system";
-
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect } from "react";
+
 import { generatePath } from "../src/ultils/fn";
-// import ApiBill from "./apis/bill";
+import ListProducts from "./containers/public/ListProduct";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -39,12 +40,6 @@ function App() {
   // Khi reload page get userdata again
   useEffect(() => {
     isLoggedIn && dispatch(actions.getCurrent());
-    // isLoggedIn && ApiBill({
-    //   email: 'ducanh9x@gmail.com',
-    //   address: 'hanoi',
-    //   phone: '0326770098',
-    //   products: JSON.stringify({ productId: "069c8827-8f72-4ad8-adda-a48cd584270e", cost: " ", quantity: 1 })
-    // })
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -74,21 +69,27 @@ function App() {
       <Route path={path.USERCLIENT} element={<UserClient />} /> */}
         {/*Login route */}
 
+
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.DETAIL} element={<DetailProduct />} />
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.USERMOBILENAV} element={<UserMobileNav/>} />
+
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
+
             <Route path="*" element={<Personal />} />
           </Route>
+          <Route path={path.CART} element={<Mycart />} />
           {categories?.map((item) => (
             <Route
               key={item.id}
               path={generatePath(item.valueVi)}
-              element={<Category categoryData={item} />}
+
+              element={<ListProducts categoryData={item} />}
+
             />
           ))}
         </Route>

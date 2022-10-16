@@ -11,6 +11,8 @@ import ApiProduct from "../apis/product";
 import * as actions from "../../src/store/actions";
 import { useDispatch } from "react-redux";
 import avatar from "../assets/avatar-anon.png";
+import { filters } from "../ultils/constant";
+import { Slider } from "@mui/material";
 
 export const ModalEditCate = ({ setIsShowEdit, selectCate }) => {
   const [newCategory, setNewCategory] = useState(`${selectCate.valueVi}`);
@@ -542,12 +544,78 @@ export const Profile = ({ userCurrent, setIsShow }) => {
                         </div>
                       </div>
                     </div>
-                  )
+                  );
                 })}
               </div>
 
               <hr />
             </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+export const FilterProductsMobile = ({
+  setSelectedFilter,
+  selectedFilter,
+  setIsShow,
+  handleChange2, value2, numFormatter,
+}) => {
+
+  return (
+    <>
+      <div
+        className="fixed h-full w-full top-0 right-0 bg-gray-500/[.09] drop-shadow-lg z-10"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsShow(false);
+        }}
+      >
+        <div
+          className="h-[40%] w-full absolute bottom-0 bg-white rounded-t-3xl"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div
+            className="h-[15%] text-base flex justify-center items-center
+          "
+          >
+            <span>Lọc theo</span>
+          </div>
+          <hr />
+          <div className="flex flex-col justify-around h-[85%] px-5">
+            {filters.map((filter) => {
+              const value = JSON.stringify(filter);
+              return (
+                <div className="" key={filter.valueVi}>
+                  <input
+                    type="radio"
+                    value={value}
+                    onChange={(e) => {
+                      setSelectedFilter(JSON.parse(e.target?.value));
+                    }}
+                    checked={JSON.stringify(selectedFilter) === (value)}
+
+                  />
+                  <label className="ml-5" htmlFor="">
+                    {filter.valueVi}
+                  </label>
+                </div>
+              );
+            })}
+            <Slider
+              getAriaLabel={() => 'Minimum distance shift'}
+              value={value2}
+              onChange={handleChange2}
+              valueLabelDisplay="on"
+              step={100000} marks
+              disableSwap
+              max={1000000}
+
+              valueLabelFormat={value => <div>{numFormatter(value)}</div>}
+            />
           </div>
         </div>
       </div>
