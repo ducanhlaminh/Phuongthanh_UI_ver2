@@ -49,6 +49,7 @@ module.exports = {
         'modalClose': 'modalShow .3s linear ',
         'slide-right': 'slide-right 0.3s ease-out both;',
         'slide-left': 'slide-left 0.3s ease-out both;',
+        'top-popup':'top-popup 2s ease-in-out both;'
       },
       keyframes: {
         modalShow: {
@@ -78,6 +79,25 @@ module.exports = {
             ' -webkit-transform': 'translateX(0);',
             transform: 'translateX(0);'
           }
+        },
+        'top-popup':{
+          '0%':{
+            'transform': 'translateY(-70px)',
+          },
+          
+          '30%':{
+            'transform': 'translateY(15px)',
+          },
+          '50%':{
+            'transform': 'translateY(15px)',
+          },
+          '60%':{
+            'transform': 'translateY(20px)',
+          },
+          '100%':{
+            'transform': 'translateY(-70px)',
+          }
+        
         }
       },
       fontFamily: {

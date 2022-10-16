@@ -1,19 +1,55 @@
 import { MdClose } from "react-icons/md";
 import ButtonFooterContainer from "./ButtonFooterContainer";
 import LongButton from "./LongButton";
-import { useRef } from "react";
+import { useRef, memo, useState } from "react";
 import ApiComment from "../apis/comment";
-const CreateComponentPopup = ({ setShowPopupComment, id }) => {
+import UploadStatus from "../components/UploadStatus";
+
+const CreateComponentPopup = ({
+  setShowPopupComment,
+  id,
+  showPopupComment,
+}) => {
+  const [status, setStatus] = useState();
+  const [isClick, setIsClick] = useState(false);
   const createComment = async () => {
-    await ApiComment.createComment({
-      productId: id,
-      content: commentRef?.current?.innerHTML,
-    });
+    try {
+      const res = await ApiComment.createComment({
+        productId: id,
+        content: commentRef?.current?.innerHTML,
+      });
+      if (res.status === 0) {
+        setStatus(true);
+      }
+    } catch (e) {
+      setStatus(false);
+    }
   };
   const commentRef = useRef();
-  console.log(commentRef);
+  const popupRef = useRef();
+  console.log(status);
   return (
-    <div className="fixed w-screen h-screen bg-white z-30 lg:hidden">
+    <div
+      className={`fixed w-screen h-screen bg-white z-30 lg:hidden ${
+        !showPopupComment ? "translate-x-[100%]" : "translate-x-[0]"
+      } transition-all`}
+    >
+      <div
+        className={`relative translate-y-[-70px] ${
+          isClick ? " animate-top-popup" : ""
+        }`}
+        onAnimationEnd={() => {
+          setIsClick(false);
+        }}
+        ref={popupRef}
+      >
+        <UploadStatus
+          status={status}
+          content={
+            status ? "Đăng bình luận thành công" : `Có lỗi xảy ra thử lại sau`
+          }
+        />
+      </div>
       <header className="bg-white h-[56px] pl-[16px] flex items-center text-primary">
         <div
           onClick={() => {
@@ -38,6 +74,7 @@ const CreateComponentPopup = ({ setShowPopupComment, id }) => {
         onClick={() => {
           createComment();
           commentRef.current.innerHTML = "";
+          setIsClick(true);
         }}
       >
         <ButtonFooterContainer>
@@ -56,4 +93,4 @@ const CreateComponentPopup = ({ setShowPopupComment, id }) => {
   );
 };
 
-export default CreateComponentPopup;
+export default memo(CreateComponentPopup);

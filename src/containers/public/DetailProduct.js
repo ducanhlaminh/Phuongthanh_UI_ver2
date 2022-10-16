@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import ApiProduct from "../../apis/product";
 import ApiComment from "../../apis/comment";
-import { IoImagesOutline } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
 import Dropdown from "../../components/Dropdown";
 import SideNavigateMenu from "../../components/SideNavigateMenu";
@@ -20,6 +19,10 @@ import ImageDetail from "../../components/ImageDetail";
 import NameAndDescription from "../../components/NameAndDescription";
 import DetailNavDesktop from "../../components/DetailNavDesktop";
 import CreateComponentPopup from "../../components/CreateCommentPopup";
+import DownPopup from "../../components/DownPopup";
+import Header from "../../components/Header";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
 
 const DetailProduct = () => {
   const id = useParams()["id"];
@@ -34,6 +37,8 @@ const DetailProduct = () => {
   const [Vouchers, setVouchers] = useState([]);
   const [showPopupReview, setShowPopupReview] = useState(false);
   const [showPopupComment, setShowPopupComment] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [showPopupCart, setShowPopupCart] = useState(false);
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -80,17 +85,104 @@ const DetailProduct = () => {
     <>
       {product && (
         <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
-          {showPopupReview && (
-            <ReviewAndRatingMobile
-              commentData={comments?.rows}
-              name={product.name}
-              shortDescription={product?.shortDescription}
-              score={product?.scores}
-              setShowPopupReview={setShowPopupReview}
-              setShowPopupComment={setShowPopupComment}
-            />
+          <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
+            <div className="flex gap-[16px]">
+              <div>
+                <img
+                  src={mainImage}
+                  className="w-[74px] h-[74px] rounded-[8px]"
+                ></img>
+              </div>
+              <div className="">
+                <p className="font-semibold text-xs text-black">
+                  {product.name}
+                </p>
+                <p className="font-medium text-xs text-darkGrey mt-[2px] mb-[4px]">
+                  This is short description
+                </p>
+                <p className="font-semibold text-sm text-black">
+                  đ{Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <div
+              className="flex my-[24px]"
+              onClick={() => {
+                setShowPopupCart(false);
+                setShowPopupReview(true);
+              }}
+            >
+              <div className="flex items-center w-[74px] h-[38px] bg-[#f4f4f4] rounded-[4px] justify-center mr-[14px]">
+                <p className="text-[#171520] text-[16px] leading-4 font-semibold mr-[4px]">
+                  {product.scores}
+                </p>
+                <AiFillStar className="text-[#FF8C4B]" size="20px" />
+              </div>
+              <div>
+                <p className="text-[#171520] text-[14px] font-semibold leading-5">
+                  Lượt đánh giá
+                </p>
+                <div className="text-[#626262] text-[14px] font-medium leading-5">
+                  <span>{product.votedCounter} Đánh giá và </span>
+                  <span>{comments.count} bình luận</span>
+                </div>
+              </div>
+
+              <div className="ml-auto">
+                <IoIosArrowForward
+                  className="text-darkGrey justify-self-end"
+                  size="30"
+                ></IoIosArrowForward>
+              </div>
+            </div>
+
+            <div>
+              {product?.variants?.map((variant, i) => {
+                return (
+                  <div>
+                    <p className="text-xm font-semibold text-black">
+                      {variant?.name}
+                    </p>
+                    <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
+                      {variant?.value.map((value, i) => (
+                        <div className="p-[8px] border-[2px] border-darkGrey-tint rounded-[8px]">
+                          {value.type}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex justify-center mt-[30px] pb-[11px]">
+              <LongButton width="90%" backgroundColor="#1B4B66" color="white" height='44px'>
+                <RiHandbagLine />
+                <p>Thêm vào giỏ</p>
+              </LongButton>
+            </div>
+          </DownPopup>
+          {showHeader && (
+            <Header>
+              <MdOutlineArrowBackIosNew size="24" />
+            </Header>
           )}
-          {showPopupComment && <CreateComponentPopup setShowPopupComment={setShowPopupComment} id={product.id}/>}
+
+          <ReviewAndRatingMobile
+            commentData={comments?.rows}
+            name={product.name}
+            shortDescription={product?.shortDescription}
+            score={product?.scores}
+            setShowPopupReview={setShowPopupReview}
+            showPopupReview={showPopupReview}
+            setShowPopupComment={setShowPopupComment}
+            setShowHeader={setShowHeader}
+          />
+
+          <CreateComponentPopup
+            setShowPopupComment={setShowPopupComment}
+            showPopupComment={showPopupComment}
+            id={product.id}
+          />
           <div className="bg-[white] pl-[16px] ">
             <div className="lg:flex">
               <section>
@@ -217,6 +309,7 @@ const DetailProduct = () => {
             className="mt-[8px] bg-white lg:hidden"
             onClick={() => {
               setShowPopupReview(true);
+              setShowHeader(false);
             }}
           >
             <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
@@ -253,7 +346,12 @@ const DetailProduct = () => {
               <button className="w-[44px] h-[44px] bg-[#F4F4F4] rounded-[8px] flex items-center justify-center text-primary">
                 <AiOutlineHeart size="24px"></AiOutlineHeart>
               </button>
-              <div className="h-[44px] w-[272px]">
+              <div
+                className="h-[44px] w-[272px]"
+                onClick={() => {
+                  setShowPopupCart(true);
+                }}
+              >
                 <LongButton
                   width="100%"
                   height="100%"

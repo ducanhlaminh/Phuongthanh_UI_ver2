@@ -9,7 +9,6 @@ import { RiHandbagLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions/";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
 
 const Public = () => {
   const [activeNav, setActiveNav] = useState([1, 0, 0, 0]);
@@ -20,11 +19,6 @@ const Public = () => {
       <div className="hidden md:block w-full h-[80px]">
         <HeaderLaptop />
       </div>
-      {params["*"] !== "" && (
-        <div className="md:block">
-          <Header />
-        </div>
-      )}
       <div className="flex-auto">
         <Outlet />
       </div>
