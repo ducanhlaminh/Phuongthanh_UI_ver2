@@ -82,7 +82,7 @@ function App() {
 
             <Route path="*" element={<Personal />} />
           </Route>
-          <Route path={path.CART} element={<Mycart />} />
+          
           {categories?.map((item) => (
             <Route
               key={item.id}
@@ -93,7 +93,7 @@ function App() {
             />
           ))}
         </Route>
-
+        {/* <Route path={path.CART} element={<Mycart />} /> */}
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.SYSTEM} element={<System />}>
           <Route path={path.GENERAL} element={<General />} />
