@@ -19,8 +19,8 @@ import {
   Login,
   Home,
   DetailProduct,
-  ListProduct,
   Mycart,
+  CheckOut,
 } from "./containers/public";
 
 import { path } from "./ultils/constant";
@@ -67,7 +67,8 @@ function App() {
             <Route path={path.ORDERS} element={<Orders />} />
             <Route path="*" element={<PersonalInformation />} />
           </Route>
-          <Route path={path.CART} element={<Mycart />} />
+          <Route path={path.CART} element={<Mycart />}></Route>
+          <Route path={path.CHECKOUT} element={<CheckOut />} />
           {categories?.map((item) => (
             <Route
               key={item.id}

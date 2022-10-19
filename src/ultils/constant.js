@@ -5,13 +5,13 @@ const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
-  PUBLIC: "/*",
+  PUBLIC: "/",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
-  CART: "cart",
+  CART: "cart/",
   GENERAL: "*",
   EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
@@ -26,6 +26,7 @@ export const path = {
   PROFILE: "ho-so/",
   ORDERS: "hoa-don-cua-toi",
   PERSONAL: "",
+  CHECKOUT: "checkout",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -154,5 +155,3 @@ export const getSite = (params) => {
 
   return site;
 };
-
-

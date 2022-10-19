@@ -56,7 +56,7 @@ function ListProducts({ categoryData }) {
       actions.getProduct({
         categoryCode: categoryData.code,
         inStocking: 1,
-        // price: value2,
+        price: value2,
         order: [...filter],
       })
     );
