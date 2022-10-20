@@ -2,9 +2,9 @@ import React, { memo } from 'react'
 import vnd from '../assets/vnd.png'
 import { Link } from 'react-router-dom'
 import { path } from '../ultils/constant'
+import * as actions from "../store/actions/";
 
 const ProductItem = ({ image, title, description, cost, v2, productId }) => {
-
     return (
         <Link
             to={`/${path.DETAIL}/${productId}`}

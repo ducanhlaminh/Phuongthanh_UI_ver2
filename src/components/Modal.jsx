@@ -519,7 +519,6 @@ export const Profile = ({ userCurrent, setIsShow }) => {
 
               <div className="h-[85%] overflow-auto ">
                 {userCurrent.products.map((product) => {
-                  console.log(product);
                   return (
                     <div className="h-[25%] flex m-3 border-b-2">
                       <div className="w-[80%] flex h-full ">
