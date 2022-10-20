@@ -7,3 +7,4 @@ export { default as Category } from "./Category";
 export { default as DetailProduct } from "./DetailProduct";
 export { default as Mycart } from "./MyCart";
 export { default as CheckOut } from "./CheckOut";
+export { default as UserMobileNav } from "./UserMobileNav";
