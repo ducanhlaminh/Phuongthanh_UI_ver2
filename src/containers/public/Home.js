@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import { path } from '../../ultils/constant'
 import { Slider, HomeItem, Footer } from '../../components'
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getLastestProducts, getTopProducts, getFavoriteProducts } from '../../store/actions'
 import icons from '../../ultils/icons'
 import { generatePath } from '../../ultils/fn'
+import MenuNav from "../../components/MenuNav";
 
 const { AiOutlineArrowRight, BiMenuAltLeft, RiSearchLine, VscBell } = icons
 
@@ -14,6 +15,7 @@ const Home = () => {
     const dispatch = useDispatch()
     const { lastestProducts, topProducts, favoriteProducts } = useSelector(state => state.products)
     const { categories } = useSelector(state => state.app)
+    const [showMenuNav,setShowMenuNav]=useState(false);
 
     useEffect(() => {
         dispatch(getLastestProducts({ limitProduct: 4, order: ['createdAt', 'DESC'] }))
@@ -24,6 +26,7 @@ const Home = () => {
 
     return (
         <div className='w-full'>
+            <MenuNav setShowMenuNav={setShowMenuNav} showMenuNav={showMenuNav}></MenuNav>
             <div className='md:hidden'>
                 <div className='w-full h-6 bg-white'></div>
                 <div className='h-[56px] flex items-center justify-between w-full py-[15px] px-4'>
@@ -51,7 +54,7 @@ const Home = () => {
                 <HomeItem products={lastestProducts && lastestProducts} title='Sản phẩm mới về' />
                 <HomeItem products={topProducts && topProducts} v2={true} title='#topbanchay' />
                 <HomeItem products={favoriteProducts && favoriteProducts} title='Sản phẩm được yêu thích nhất' />
-                <div className='flex flex-col md:gap-10 gap-4 px-5'>
+                {categories&&<div className='flex flex-col md:gap-10 gap-4 px-5'>
                     <Link to={`/${generatePath(categories[0]?.valueVi)}`} className='w-full relative'>
                         <img className='w-full rounded-lg md:h-[400px] h-[132px] object-cover' src={categories && categories[0]?.image} alt='category' />
                         <div className='absolute top-0 flex justify-center items-end md:gap-4 gap-3 flex-col md:pr-[61px] pr-4 left-0 right-0 bottom-0 rounded-lg bg-gradient-to-l text-white from-gray-500 to-transparent'>
@@ -78,7 +81,7 @@ const Home = () => {
                             </div>
                         </Link>
                     </div>
-                </div>
+                </div>}
             </div>
             <Footer />
             <div className="h-[66px] flex-none"></div>

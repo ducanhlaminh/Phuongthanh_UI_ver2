@@ -10,12 +10,7 @@ function numFormatter(num) {
     currency: "VND",
   }).format(num); // if value < 1000, nothing to do
 }
-const data = {
-  pids: [
-    "017a880b-c9b8-4f67-b22a-e63b9cfaa81a",
-    "0751bc12-2430-4a43-be71-67fc738f5215",
-  ],
-};
+
 function MyCart() {
   useEffect(() => {
     ApiCart.get();
@@ -196,7 +191,7 @@ function MyCart() {
             </div>
           </div>
         </div>
-        <div className=" px-8 py-6 h-1/5">
+        <div className="min-h-[200px] ">
           <p className="text-base font-bold p-2 border-b-2">
             Thông tin hóa đơn
           </p>
@@ -223,7 +218,7 @@ function MyCart() {
             </div>
           </div>
         </div>
-        <div className="h-[10%] bg-[#eeeeeefc] flex items-center p-3 justify-between ">
+        <div className="max-[80px] bg-[#eeeeeefc] flex items-center p-3 justify-between ">
           <div className="flex flex-col items-center">
             <p className="font-bold">Total Bag Amount : </p>
             <p>{numFormatter(100000)}</p>
@@ -238,7 +233,7 @@ function MyCart() {
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           <SliderImage />
 
-          <div className=" w-full lg:block px-6 ">
+          <div className=" w-full md:block px-6 ">
             <h2 className=" text-3xl font-extrabold">My Cart</h2>
             <div className="flex justify-between">
               <div className="w-[60%] ">
@@ -250,6 +245,13 @@ function MyCart() {
                 </div>
                 <div className=" overflow-auto h-[300px] scroll-smooth">
                   {/* product */}
+                  <CartItem />
+                  <CartItem />
+                  <CartItem />
+                  <CartItem />
+                  <CartItem />
+                  <CartItem />
+                  <CartItem />
                   <CartItem />
                 </div>
               </div>

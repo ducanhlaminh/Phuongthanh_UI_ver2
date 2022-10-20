@@ -1,32 +1,33 @@
 import icons from "./icons";
 
-
 const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
-  PUBLIC: '/*',
+  PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
-  USERMOBILENAV:'tai-khoan',
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
-  CART: "/cart",
+  CART: "cart/",
   GENERAL: "*",
   EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
   MANAGE_CATEGORY: "manage-category",
+  USERMOBILENAV: "tai-khoan",
+  CATEGORY:'gian-hang',
   USER: "user",
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
-  DISCOUNT: 'giam-gia',
+  DISCOUNT: "giam-gia",
   DETAIL: "chi-tiet-san-pham",
   DETAIL__PRODUCTID: "chi-tiet-san-pham/:id",
-  PROFILE: 'ho-so/',
-  ORDERS: 'hoa-don-cua-toi',
-  PERSONAL: ''
+  PROFILE: "ho-so/",
+  ORDERS: "hoa-don-cua-toi",
+  PERSONAL: "",
+  CHECKOUT: "checkout",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -110,5 +111,4 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
-
 

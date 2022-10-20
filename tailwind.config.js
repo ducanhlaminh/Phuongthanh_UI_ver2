@@ -106,6 +106,9 @@ module.exports = {
         'tactitle': ['Syne Tactile', 'cursive'],
         'qwitcher': ['Qwitcher Grypen', 'cursive']
       },
+      zIndex: {
+        '60':60,
+      }
     },
   },
   plugins: [

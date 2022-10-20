@@ -12,7 +12,7 @@ const ImageDetail = ({
   const [selectedImage, setSelectedImage] = useState();
   if (type === "mobile") {
     return (
-      <div className="flex overflow-x-auto h-[340px] lg:hidden">
+      <div className="flex overflow-x-auto h-[340px] md:hidden">
         <img
           src={mainImage}
           className="object-cover mr-[8px] rounded-[10px] w-[332px]"
@@ -37,7 +37,7 @@ const ImageDetail = ({
     );
   } else {
     return (
-      <div className="h-[704px] hidden lg:block">
+      <div className="h-[704px] hidden md:block">
         <div className="h-[605px] w-[605px]">
           <img
             src={mainImageScreen}

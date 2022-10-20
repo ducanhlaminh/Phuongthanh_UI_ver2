@@ -22,14 +22,14 @@ const Public = () => {
       <div className="flex-auto">
         <Outlet />
       </div>
-      <div className="flex-none hidden lg:block">
+      <div className="flex-none hidden md:block">
         <Footer />
       </div>
       {(params["*"] === "" ||
-        params["*"] === "category" ||
+        params["*"] === "gian-hang" ||
         params["*"] === "tai-khoan" ||
         params["*"] === "bag") && (
-        <div className="flex-none lg:hidden z-50">
+        <div className="flex-none md:hidden z-50">
           <ButtonFooterContainer>
             <Link
               to="/"
@@ -46,7 +46,7 @@ const Public = () => {
               )}
             </Link>
             <Link
-              to="/category"
+              to="/gian-hang"
               className={`flex flex-col justify-center items-center text-primary ${
                 activeNav[1] === 1 ? "text-primary" : "text-darkGrey-tint"
               } transition-all`}
