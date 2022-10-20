@@ -560,9 +560,11 @@ export const FilterProductsMobile = ({
   setSelectedFilter,
   selectedFilter,
   setIsShow,
-  handleChange2, value2, numFormatter,
+  handleChange2,
+  value,
+  numFormatter,
+  handleChange,
 }) => {
-
   return (
     <>
       <div
@@ -596,8 +598,7 @@ export const FilterProductsMobile = ({
                     onChange={(e) => {
                       setSelectedFilter(JSON.parse(e.target?.value));
                     }}
-                    checked={JSON.stringify(selectedFilter) === (value)}
-
+                    checked={JSON.stringify(selectedFilter) === value}
                   />
                   <label className="ml-5" htmlFor="">
                     {filter.valueVi}
@@ -606,15 +607,16 @@ export const FilterProductsMobile = ({
               );
             })}
             <Slider
-              getAriaLabel={() => 'Minimum distance shift'}
-              value={value2}
-              onChange={handleChange2}
+              getAriaLabel={() => "Minimum distance shift"}
+              value={value}
+              onChange={handleChange}
+              onChangeCommitted={handleChange2}
               valueLabelDisplay="on"
-              step={100000} marks
+              step={100000}
+              marks
               disableSwap
               max={1000000}
-
-              valueLabelFormat={value => <div>{numFormatter(value)}</div>}
+              valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             />
           </div>
         </div>

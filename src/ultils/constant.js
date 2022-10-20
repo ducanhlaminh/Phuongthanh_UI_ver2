@@ -4,7 +4,11 @@ const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
+<<<<<<< HEAD
   PUBLIC: "/*",
+=======
+  PUBLIC: "/",
+>>>>>>> a61e2f006b2564c908cfdccfac0fc317dee24129
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   HOME: "",
@@ -111,4 +115,7 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
+<<<<<<< HEAD
 
+=======
+>>>>>>> a61e2f006b2564c908cfdccfac0fc317dee24129
