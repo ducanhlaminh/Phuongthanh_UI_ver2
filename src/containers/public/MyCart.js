@@ -1,9 +1,11 @@
 import AppBar from "../../components/AppBar";
 import { Button2 } from "../../components";
-import ApiCart from "../../apis/cart";
 import { useEffect } from "react";
 import { Slider as SliderImage } from "../../components";
 import CartItem from "../../components/CartItem";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../store/actions";
+
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -12,8 +14,10 @@ function numFormatter(num) {
 }
 
 function MyCart() {
+  const dispatch = useDispatch();
+  const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
-    ApiCart.get();
+    dispatch(actions.addToCart());
   }, []);
 
   return (
@@ -231,7 +235,7 @@ function MyCart() {
       {/* Desktop */}
       <div className="md:block hidden w-full ">
         <div className="py-6 mb-6 flex flex-col gap-8 ">
-          <SliderImage />
+          {/* <SliderImage /> */}
 
           <div className=" w-full lg:block px-6 ">
             <h2 className=" text-3xl font-extrabold">My Cart</h2>
@@ -245,14 +249,22 @@ function MyCart() {
                 </div>
                 <div className=" overflow-auto h-[300px] scroll-smooth">
                   {/* product */}
+                  {/* <CartItem />
                   <CartItem />
                   <CartItem />
                   <CartItem />
                   <CartItem />
                   <CartItem />
                   <CartItem />
-                  <CartItem />
-                  <CartItem />
+                  <CartItem /> */}
+                  {productsCart?.map((product, index) => (
+                    <CartItem
+                      name={product.productData.name}
+                      image={product.productData.image1}
+                      quantity={product.quanity}
+                      price={product.productData.costPerUnit}
+                    />
+                  ))}
                 </div>
               </div>
               <div className="w-1/3">

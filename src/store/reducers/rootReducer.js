@@ -1,6 +1,6 @@
 import authReducer from "./authReducer";
 import cartReducer from "./cartReducer";
-import popupReducer from "./popupReducer"
+import popupReducer from "./popupReducer";
 import appReducer from "./appReducer";
 import productReducer from "./productReducer";
 import { persistReducer } from "redux-persist";
@@ -10,30 +10,23 @@ import changePasswordReducer from "./changePasswordReducer";
 import { combineReducers } from "redux";
 
 const commonConfig = {
-    storage,
-    stateReconciler: autoMergeLevel2
-}
+  storage,
+  stateReconciler: autoMergeLevel2,
+};
 
 const authConfig = {
-    ...commonConfig,
-    key: 'auth',
-    whitelist: ['isLoggedIn', 'accessToken']
-}
-
-const cartConfig = {
-    ...commonConfig,
-    key: 'cart',
-    whitelist: ['products', 'count']
-}
+  ...commonConfig,
+  key: "auth",
+  whitelist: ["isLoggedIn", "accessToken"],
+};
 
 const rootReducer = combineReducers({
-    auth: persistReducer(authConfig, authReducer),
-    cart: persistReducer(cartConfig, cartReducer),
-    app: appReducer,
-    popup: popupReducer,
-    changePassword: changePasswordReducer,
-    products: productReducer
+  auth: persistReducer(authConfig, authReducer),
+  cart: cartReducer,
+  app: appReducer,
+  popup: popupReducer,
+  changePassword: changePasswordReducer,
+  products: productReducer,
+});
 
-})
-
-export default rootReducer
+export default rootReducer;
