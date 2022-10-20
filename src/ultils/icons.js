@@ -1,15 +1,41 @@
 import { BsSpeedometer2, BsDot, BsFacebook, BsYoutube } from "react-icons/bs";
-import { RiProductHuntLine, RiSearchLine, RiUser6Line } from "react-icons/ri";
 import {
-  AiOutlineArrowRight, AiOutlineCopyrightCircle,
-  AiOutlineHeart, AiFillStar,
-  AiOutlinePlus, AiOutlineShoppingCart
+  RiProductHuntLine,
+  RiSearchLine,
+  RiUser6Line,
+  RiHandbagLine,
+} from "react-icons/ri";
+import {
+  FaUserEdit,
+  FaInstagramSquare,
+  FaSortAmountDownAlt,
+} from "react-icons/fa";
+import {
+  IoIosCreate,
+  IoMdArrowRoundDown,
+  IoIosArrowForward,
+} from "react-icons/io";
+import { FiMenu, FiFilter, FiLogOut } from "react-icons/fi";
+import { BiSearchAlt, BiPurchaseTag, BiMenuAltLeft } from "react-icons/bi";
+
+import {
+  AiOutlineClose,
+  AiOutlineFacebook,
+  AiOutlineInstagram,
+  AiOutlineArrowRight,
+  AiTwotoneStar,
+  AiOutlineShoppingCart,
+  AiOutlineCopyrightCircle,
+  AiOutlineHeart,
+  AiFillStar,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import {
   MdOutlinePhonelink,
   MdArrowBackIos,
   MdNavigateNext,
   MdOutlineLocationOn,
+  MdOutlineArrowBackIosNew,
 } from "react-icons/md";
 
 import { GrFacebook, GrSubtract } from "react-icons/gr";
@@ -21,18 +47,35 @@ import { GrLinkNext, GrFormNext } from "react-icons/gr";
 import { VscBell } from "react-icons/vsc";
 
 const icons = {
+  AiFillStar,
   BsSpeedometer2,
   GrSubtract,
+  RiHandbagLine,
   RiProductHuntLine,
+  IoIosArrowForward,
+  FaUserEdit,
+  IoIosCreate,
+  MdOutlineArrowBackIosNew,
+  FiMenu,
+  IoMdArrowRoundDown,
+  BiSearchAlt,
+  AiOutlineClose,
   AiOutlinePlus,
   MdOutlinePhonelink,
   GrFacebook,
   SiZalo,
+  FiFilter,
+  FaSortAmountDownAlt,
+  FaInstagramSquare,
   ImLocation2,
+  AiOutlineFacebook,
+  AiOutlineInstagram,
   TiLocationOutline,
   AiOutlineArrowRight,
   GrLinkNext,
+  AiTwotoneStar,
   AiOutlineShoppingCart,
+  BiPurchaseTag,
   RiSearchLine,
   RiUser6Line,
   BsDot,
@@ -42,10 +85,11 @@ const icons = {
   BsYoutube,
   MdOutlineLocationOn,
   AiOutlineCopyrightCircle,
+  BiMenuAltLeft,
   VscBell,
   AiOutlineHeart,
   MdArrowBackIos,
-  AiFillStar
+  FiLogOut,
 };
 
 export default icons;
