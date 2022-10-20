@@ -1,5 +1,4 @@
 import icons from "./icons";
-import image from "./image";
 
 const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 

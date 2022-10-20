@@ -12,7 +12,10 @@ import { RiHandbagLine } from "react-icons/ri";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IoIosArrowForward } from "react-icons/io";
 import RelatedProduct from "../../components/RelatedProduct";
-import ReviewAndRating from "../../components/ReviewAndRating";
+import {
+  ReviewAndRatingMobile,
+  ReviewAndRatingDesktop,
+} from "../../components/ReviewAndRating";
 
 const Detail = () => {
   const id = useParams()["id"];
@@ -278,16 +281,18 @@ const Detail = () => {
           </div>
 
           <section className="hidden lg:block ml-[20px] mt-[24px] mb-[95px]">
-              <div className={`${activeTab[0]===1?'block':'hidden'}`}>
-                <p className="text-darkGrey text-[16px] font-medium">{product.description}</p>
-              </div>
-              <div className={`${activeTab[1]===1?'block':'hidden'}`}>
-                <RelatedProduct/>
-              </div>
-              <div className={`${activeTab[2]===1?'block':'hidden'}`}>
-                <ReviewAndRating commentData={comments?.rows}/>
-              </div>
-            </section>
+            <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
+              <p className="text-darkGrey text-[16px] font-medium">
+                {product.description}
+              </p>
+            </div>
+            <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>
+              <RelatedProduct />
+            </div>
+            <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
+              <ReviewAndRating commentData={comments?.rows} />
+            </div>
+          </section>
 
           <div className="lg:hidden">
             <ButtonFooterContainer>
