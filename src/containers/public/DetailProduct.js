@@ -1,33 +1,35 @@
-import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import ApiComment from "../../apis/comment";
+import { useState, useEffect, useRef } from "react";
 import ApiProduct from "../../apis/product";
-import ButtonFooterContainer from "../../components/ButtonFooterContainer";
-import CreateComponentPopup from "../../components/CreateCommentPopup";
-import DetailNavDesktop from "../../components/DetailNavDesktop";
+import ApiComment from "../../apis/comment";
+import { AiFillStar } from "react-icons/ai";
 import Dropdown from "../../components/Dropdown";
-import Header from "../../components/Header";
-import ImageDetail from "../../components/ImageDetail";
+import SideNavigateMenu from "../../components/SideNavigateMenu";
+import ButtonFooterContainer from "../../components/ButtonFooterContainer";
 import LongButton from "../../components/LongButton";
-import NameAndDescription from "../../components/NameAndDescription";
+import { RiHandbagLine } from "react-icons/ri";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import RelatedProduct from "../../components/RelatedProduct";
 import {
-  ReviewAndRatingDesktop,
   ReviewAndRatingMobile,
+  ReviewAndRatingDesktop,
 } from "../../components/ReviewAndRating";
-import SideNavigateMenu from "../../components/SideNavigateMenu";
 import Voucher from "../../components/Voucher";
-import SelectvariantPopup from "../../triggercompoents/SelectVariantPopup";
-import icons from "../../ultils/icons";
+import ImageDetail from "../../components/ImageDetail";
+import NameAndDescription from "../../components/NameAndDescription";
+import DetailNavDesktop from "../../components/DetailNavDesktop";
+import CreateComponentPopup from "../../components/CreateCommentPopup";
+import DownPopup from "../../components/DownPopup";
+import Header from "../../components/Header";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
 
-const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
-  icons;
 const DetailProduct = () => {
   const id = useParams()["id"];
   const productDetailRef = useRef();
   const relatedProductRef = useRef();
   const ratingAndReviewRef = useRef();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState({});
   const [comments, setComments] = useState({});
   const [mainImage, setMainImage] = useState(product?.mainImage);
   const [initPosition, setInitPosition] = useState({ left: 0, width: 0 });
@@ -83,15 +85,91 @@ const DetailProduct = () => {
   return (
     <>
       {product && (
-        <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
-          {/* <SelectvariantPopup 
-            setShowPopupCart={setShowPopupCart}
-            showPopupCart={showPopupCart}
-            product={product}
-            setShowPopupReview={setShowPopupReview}
-            comments={comments}
-          /> */}
+        <div className=" bg-lightGrey relative md:bg-white md:mt-[64px]">
+          <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
+            <div className="flex gap-[16px]">
+              <div>
+                <img
+                  src={mainImage}
+                  className="w-[74px] h-[74px] rounded-[8px]"
+                ></img>
+              </div>
+              <div className="">
+                <p className="font-semibold text-xs text-black">
+                  {product.name}
+                </p>
+                <p className="font-medium text-xs text-darkGrey mt-[2px] mb-[4px]">
+                  This is short description
+                </p>
+                <p className="font-semibold text-sm text-black">
+                  đ{Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <div
+              className="flex my-[24px]"
+              onClick={() => {
+                setShowPopupCart(false);
+                setShowPopupReview(true);
+              }}
+            >
+              <div className="flex items-center w-[74px] h-[38px] bg-[#f4f4f4] rounded-[4px] justify-center mr-[14px]">
+                <p className="text-[#171520] text-[16px] leading-4 font-semibold mr-[4px]">
+                  {product.scores}
+                </p>
+                <AiFillStar className="text-[#FF8C4B]" size="20px" />
+              </div>
+              <div>
+                <p className="text-[#171520] text-[14px] font-semibold leading-5">
+                  Lượt đánh giá
+                </p>
+                <div className="text-[#626262] text-[14px] font-medium leading-5">
+                  <span>{product.votedCounter} Đánh giá và </span>
+                  <span>{comments.count} bình luận</span>
+                </div>
+              </div>
 
+              <div className="ml-auto">
+                <IoIosArrowForward
+                  className="text-darkGrey justify-self-end"
+                  size="30"
+                ></IoIosArrowForward>
+              </div>
+            </div>
+
+            <div>
+              {product?.variants?.map((variant, i) => {
+                return (
+                  <div key={i}>
+                    <p className="text-xm font-semibold text-black">
+                      {variant?.name}
+                    </p>
+                    <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
+                      {variant?.value.map((value, i) => (
+                        <div
+                          key={i}
+                          className={`p-[8px] border-[2px] border-darkGrey-tint rounded-[8px] `}
+                        >
+                          {value.type}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex justify-center mt-[30px] pb-[11px]">
+              <LongButton
+                width="90%"
+                backgroundColor="#1B4B66"
+                color="white"
+                height="44px"
+              >
+                <RiHandbagLine size="24" />
+                <p>Thêm vào giỏ</p>
+              </LongButton>
+            </div>
+          </DownPopup>
           {showHeader && (
             <div className="md:hidden">
               <Header>
@@ -180,16 +258,16 @@ const DetailProduct = () => {
                 </section>
 
                 <div className="hidden md:block mb-[16px]">
-                  {product&&JSON.parse(product?.variants).map((variant) => {
+                  {product?.variants?.map((variant, i) => {
                     return (
-                      <div key={variant.id}>
+                      <div key={i}>
                         <p className="text-[18px] font-semibold text-black">
                           {variant?.name}
                         </p>
                         <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-                          {variant?.value.map((value) => (
+                          {variant?.value.map((value, i) => (
                             <div
-                              key={value.id}
+                              key={i}
                               className={`p-[8px] border-[3px] border-darkGrey-tint rounded-[8px] `}
                             >
                               {value.type}
@@ -315,7 +393,7 @@ const DetailProduct = () => {
                   size="14px"
                 >
                   <RiHandbagLine size="24px"></RiHandbagLine>
-                  <p>Chọn loại hàng</p>
+                  <p>Thêm vào giỏ</p>
                 </LongButton>
               </div>
             </ButtonFooterContainer>
