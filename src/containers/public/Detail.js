@@ -71,13 +71,13 @@ const Detail = () => {
   return (
     <>
       {product && (
-        <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
+        <div className=" bg-lightGrey relative md:bg-white md:mt-[64px]">
           <div className="bg-[white] pl-[16px] ">
-            <div className="lg:flex">
+            <div className="md:flex">
               <section>
                 <div className="relative">
                   {/* image mobile */}
-                  <div className="flex overflow-x-auto h-[340px] lg:hidden">
+                  <div className="flex overflow-x-auto h-[340px] md:hidden">
                     <img
                       src={product.mainImage}
                       className="object-cover mr-[8px] rounded-[10px] w-[332px]"
@@ -101,7 +101,7 @@ const Detail = () => {
                   </div>
 
                   {/* image desktop */}
-                  <div className="h-[704px] hidden lg:block">
+                  <div className="h-[704px] hidden md:block">
                     <div className="h-[605px] w-[605px]">
                       <img
                         src={mainImage}
@@ -137,23 +137,23 @@ const Detail = () => {
                     </div>
                   </div>
 
-                  <div className="absolute bottom-[16px] right-[41px] w-[40px] h-[40px] bg-lightGrey rounded-[50%] flex items-center justify-center lg:hidden">
+                  <div className="absolute bottom-[16px] right-[41px] w-[40px] h-[40px] bg-lightGrey rounded-[50%] flex items-center justify-center md:hidden">
                     <IoImagesOutline size={20} className="text-[#626262]" />
                   </div>
                 </div>
               </section>
 
-              <div className="lg:ml-[20px]">
+              <div className="md:ml-[20px]">
                 <section className="leading-5 mt-[20px]">
-                  <p className="font-medium text-[16px] lg:text-[34px] lg:font-semibold">
+                  <p className="font-medium text-[16px] md:text-[34px] md:font-semibold">
                     {product.name}
                   </p>
-                  <p className="text-[#626262] text-[14px] font-medium mt-[3px] lg:text-[20px] lg:font-semibold leading-7 lg:mt-[13px]">
+                  <p className="text-[#626262] text-[14px] font-medium mt-[3px] md:text-[20px] md:font-semibold leading-7 md:mt-[13px]">
                     This is for short description of the product
                   </p>
                 </section>
 
-                <section className="hidden lg:flex mt-[28px] mb-[30px]">
+                <section className="hidden md:flex mt-[28px] mb-[30px]">
                   {handleRenderStar(product?.scores)?.map((content, i) => (
                     <span key={i}>{content}</span>
                   ))}
@@ -163,26 +163,26 @@ const Detail = () => {
                 </section>
 
                 <section className="flex items-center">
-                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] lg:text-[40px] lg:font-semibold">
+                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
                     $54.99
                   </p>
-                  <div className="text-[#626262] relative mr-[8px] lg:translate-y-[5px]">
-                    <span className=" font-medium text-[14px] leading-5 lg:text-[34px] lg:font-semibold lg:text-[#B6B6B6]">
+                  <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
+                    <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
                       <span>đ</span>
                       {Number(
                         product.costPerUnit?.toFixed(1)
                       )?.toLocaleString()}
                     </span>
-                    <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] lg:top-[35%]"></div>
+                    <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] lg:font-semibold lg:text-[#FF404B]">
+                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[20px] md:font-semibold md:text-[#FF404B]">
                     20%OFF
                   </p>
                 </section>
               </div>
             </div>
 
-            <section className="flex mt-[10px] pb-[20px] lg:hidden">
+            <section className="flex mt-[10px] pb-[20px] md:hidden">
               <div className="flex items-center w-[74px] h-[38px] bg-[#f4f4f4] rounded-[4px] justify-center mr-[14px]">
                 <p className="text-[#171520] text-[16px] leading-4 font-semibold mr-[4px]">
                   {product.scores}
@@ -201,7 +201,7 @@ const Detail = () => {
             </section>
           </div>
 
-          <section className="mt-[8px] bg-white lg:hidden">
+          <section className="mt-[8px] bg-white md:hidden">
             <Dropdown title="Mô tả sản phẩm">
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
                 {product.description}
@@ -209,13 +209,13 @@ const Detail = () => {
             </Dropdown>
           </section>
 
-          <section className="mt-[8px] bg-white lg:hidden">
+          <section className="mt-[8px] bg-white md:hidden">
             <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
           </section>
 
-          <div className="h-[66px] lg:hidden"></div>
+          <div className="h-[66px] md:hidden"></div>
 
-          <div className="h-[48px] items-center relative bg-lightGrey mx-[20px] rounded-[12px] px-[16px] mt-[55px] hidden lg:flex">
+          <div className="h-[48px] items-center relative bg-lightGrey mx-[20px] rounded-[12px] px-[16px] mt-[55px] hidden md:flex">
             <div
               className={`px-[18px] py-[10px] z-10 ${
                 activeTab[0] === 1 ? "text-white" : "text-darkGrey"
@@ -277,7 +277,7 @@ const Detail = () => {
             ></div>
           </div>
 
-          <section className="hidden lg:block ml-[20px] mt-[24px] mb-[95px]">
+          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px]">
               <div className={`${activeTab[0]===1?'block':'hidden'}`}>
                 <p className="text-darkGrey text-[16px] font-medium">{product.description}</p>
               </div>
@@ -289,7 +289,7 @@ const Detail = () => {
               </div>
             </section>
 
-          <div className="lg:hidden">
+          <div className="md:hidden">
             <ButtonFooterContainer>
               <button className="w-[44px] h-[44px] bg-[#F4F4F4] rounded-[8px] flex items-center justify-center text-primary">
                 <AiOutlineHeart size="24px"></AiOutlineHeart>

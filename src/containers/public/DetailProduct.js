@@ -39,6 +39,7 @@ const DetailProduct = () => {
   const [showPopupComment, setShowPopupComment] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [showPopupCart, setShowPopupCart] = useState(false);
+  const activeVariant = "border-primary bg-[#d9eff1]";
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -84,7 +85,7 @@ const DetailProduct = () => {
   return (
     <>
       {product && (
-        <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
+        <div className=" bg-lightGrey relative md:bg-white md:mt-[64px]">
           <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
             <div className="flex gap-[16px]">
               <div>
@@ -139,13 +140,16 @@ const DetailProduct = () => {
             <div>
               {product?.variants?.map((variant, i) => {
                 return (
-                  <div>
+                  <div key={i}>
                     <p className="text-xm font-semibold text-black">
                       {variant?.name}
                     </p>
                     <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
                       {variant?.value.map((value, i) => (
-                        <div className="p-[8px] border-[2px] border-darkGrey-tint rounded-[8px]">
+                        <div
+                          key={i}
+                          className={`p-[8px] border-[2px] border-darkGrey-tint rounded-[8px] `}
+                        >
                           {value.type}
                         </div>
                       ))}
@@ -155,16 +159,23 @@ const DetailProduct = () => {
               })}
             </div>
             <div className="flex justify-center mt-[30px] pb-[11px]">
-              <LongButton width="90%" backgroundColor="#1B4B66" color="white" height='44px'>
-                <RiHandbagLine />
+              <LongButton
+                width="90%"
+                backgroundColor="#1B4B66"
+                color="white"
+                height="44px"
+              >
+                <RiHandbagLine size="24" />
                 <p>Thêm vào giỏ</p>
               </LongButton>
             </div>
           </DownPopup>
           {showHeader && (
-            <Header>
-              <MdOutlineArrowBackIosNew size="24" />
-            </Header>
+            <div className="md:hidden">
+              <Header>
+                <MdOutlineArrowBackIosNew size="24" />
+              </Header>
+            </div>
           )}
 
           <ReviewAndRatingMobile
@@ -184,7 +195,7 @@ const DetailProduct = () => {
             id={product.id}
           />
           <div className="bg-[white] pl-[16px] ">
-            <div className="lg:flex">
+            <div className="md:flex">
               <section>
                 <div className="relative">
                   {/* image mobile */}
@@ -209,13 +220,13 @@ const DetailProduct = () => {
                 </div>
               </section>
 
-              <div className="lg:ml-[20px]">
+              <div className="md:ml-[20px]">
                 <NameAndDescription
                   name={product.name}
                   shortDescription={product?.shortDescription}
                 />
 
-                <section className="hidden lg:flex mt-[28px] mb-[30px]">
+                <section className="hidden md:flex mt-[28px] mb-[30px]">
                   {handleRenderStar(product?.scores)?.map((content, i) => (
                     <span key={i}>{content}</span>
                   ))}
@@ -225,28 +236,50 @@ const DetailProduct = () => {
                 </section>
 
                 <section className="flex items-center">
-                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] lg:text-[40px] lg:font-semibold">
+                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
                     <span>đ</span>
                     {Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
                   </p>
-                  <div className="text-[#626262] relative mr-[8px] lg:translate-y-[5px]">
-                    <span className=" font-medium text-[14px] leading-5 lg:text-[34px] lg:font-semibold lg:text-[#B6B6B6]">
+                  <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
+                    <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
                       <span>đ</span>
                       {Number(
                         product.costPerUnit?.toFixed(1)
                       )?.toLocaleString()}
                     </span>
-                    <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] lg:top-[35%]"></div>
+                    <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] lg:font-semibold lg:text-[#FF404B]">
+                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[20px] md:font-semibold md:text-[#FF404B]">
                     20%OFF
                   </p>
                 </section>
-                <section className="pb-[16px] hidden lg:block mt-[20px]">
+                <section className="pb-[16px] hidden md:block mt-[20px]">
                   <Voucher Vouchers={Vouchers}></Voucher>
                 </section>
 
-                <section className="hidden lg:flex">
+                <div className="hidden md:block mb-[16px]">
+                  {product?.variants?.map((variant, i) => {
+                    return (
+                      <div key={i}>
+                        <p className="text-[18px] font-semibold text-black">
+                          {variant?.name}
+                        </p>
+                        <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
+                          {variant?.value.map((value, i) => (
+                            <div
+                              key={i}
+                              className={`p-[8px] border-[3px] border-darkGrey-tint rounded-[8px] `}
+                            >
+                              {value.type}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <section className="hidden md:flex">
                   <LongButton
                     width="328px"
                     height="44px"
@@ -274,7 +307,7 @@ const DetailProduct = () => {
               </div>
             </div>
 
-            <section className="flex mt-[10px] pb-[20px] lg:hidden">
+            <section className="flex mt-[10px] pb-[20px] md:hidden">
               <div className="flex items-center w-[74px] h-[38px] bg-[#f4f4f4] rounded-[4px] justify-center mr-[14px]">
                 <p className="text-[#171520] text-[16px] leading-4 font-semibold mr-[4px]">
                   {product.scores}
@@ -292,12 +325,12 @@ const DetailProduct = () => {
               </div>
             </section>
 
-            <section className="pb-[16px] lg:hidden">
+            <section className="pb-[16px] md:hidden">
               <Voucher Vouchers={Vouchers}></Voucher>
             </section>
           </div>
 
-          <section className="mt-[8px] bg-white lg:hidden">
+          <section className="mt-[8px] bg-white md:hidden">
             <Dropdown title="Mô tả sản phẩm">
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
                 {product.description}
@@ -306,7 +339,7 @@ const DetailProduct = () => {
           </section>
 
           <section
-            className="mt-[8px] bg-white lg:hidden"
+            className="mt-[8px] bg-white md:hidden"
             onClick={() => {
               setShowPopupReview(true);
               setShowHeader(false);
@@ -315,7 +348,7 @@ const DetailProduct = () => {
             <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
           </section>
 
-          <div className="h-[66px] lg:hidden"></div>
+          <div className="h-[66px] md:hidden"></div>
 
           <DetailNavDesktop
             activeTab={activeTab}
@@ -327,7 +360,7 @@ const DetailProduct = () => {
             infoClickHandler={infoClickHandler}
           />
 
-          <section className="hidden lg:block ml-[20px] mt-[24px] mb-[95px]">
+          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
                 {product.description}
@@ -341,7 +374,7 @@ const DetailProduct = () => {
             </div>
           </section>
 
-          <div className="lg:hidden">
+          <div className="md:hidden">
             <ButtonFooterContainer>
               <button className="w-[44px] h-[44px] bg-[#F4F4F4] rounded-[8px] flex items-center justify-center text-primary">
                 <AiOutlineHeart size="24px"></AiOutlineHeart>

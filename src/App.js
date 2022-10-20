@@ -59,22 +59,11 @@ function App() {
   return (
     <div className="bg-white m-auto overflow-y-auto h-screen">
       <Routes>
-        {/*Public routes */}
-        {/* <Route path="/" element={<Navigate to="/home/Households"></Navigate>} />
-        <Route path="/changePassword" element={<UserChangePassword></UserChangePassword>}></Route>
-        <Route path={path.HOME} element={<Home />} />
-        <Route path={path.FEED} element={<Feed />} />
-        <Route path={path.PAYMENT} element={<Payment />} />
-        <Route path={path.CART} element={<Cart />} />
-      <Route path={path.USERCLIENT} element={<UserClient />} /> */}
-        {/*Login route */}
-
-
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.DETAIL} element={<DetailProduct />} />
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.USERMOBILENAV} element={<UserMobileNav/>} />
-
+          <Route path={path.CATEGORY} element={<Category></Category>}></Route>
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />

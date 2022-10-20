@@ -15,7 +15,7 @@ export const ReviewAndRatingMobile = ({
   setShowHeader,
 }) => {
   return (
-    <div className={`fixed z-20 h-screen w-screen top-0 left-0 bg-lightGrey flex flex-col lg:hidden ${ !showPopupReview?'translate-x-[100%]':'translate-x-[0]'} transition-all`}>
+    <div className={`fixed z-20 h-screen w-screen top-0 left-0 bg-lightGrey flex flex-col md:hidden ${ !showPopupReview?'translate-x-[100%]':'translate-x-[0]'} transition-all`}>
       <header className="bg-white h-[56px] pl-[16px] flex-none flex items-center ">
         <MdOutlineArrowBackIosNew
           size="24"
@@ -55,16 +55,16 @@ export const ReviewAndRatingMobile = ({
                       ></img>
                     </div>
                     <div>
-                      <p className="text-black font-semibold lg:text-[14px]">
+                      <p className="text-black font-semibold md:text-[14px]">
                         {comment?.commentator?.name}
                       </p>
-                      <p className="text-darkGrey-tint font-medium lg:text-[14px]">
+                      <p className="text-darkGrey-tint font-medium md:text-[14px]">
                         {comment?.createdAt.substring(0, 10)}
                       </p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-darkGrey-tint font-medium lg:text-[14px]">
+                    <p className="text-darkGrey-tint font-medium md:text-[14px]">
                       {comment?.content}
                     </p>
                   </div>
@@ -117,16 +117,16 @@ export const ReviewAndRatingDesktop = ({ commentData }) => {
                 ></img>
               </div>
               <div>
-                <p className="text-black font-semibold lg:text-[24px]">
+                <p className="text-black font-semibold md:text-[24px]">
                   {comment?.commentator?.name}
                 </p>
-                <p className="text-darkGrey-tint font-medium lg:text-[20px]">
+                <p className="text-darkGrey-tint font-medium md:text-[20px]">
                   {comment?.createdAt.substring(0, 10)}
                 </p>
               </div>
             </div>
             <div>
-              <p className="text-darkGrey-tint font-medium lg:text-[20px]">
+              <p className="text-darkGrey-tint font-medium md:text-[20px]">
                 {comment?.content}
               </p>
             </div>

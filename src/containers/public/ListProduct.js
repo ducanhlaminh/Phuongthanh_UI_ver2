@@ -111,10 +111,10 @@ function ListProducts({ categoryData }) {
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           <SliderImage />
 
-          <div className=" w-full lg:block px-6">
+          <div className=" w-full md:block px-6">
             <h2 className=" text-3xl font-extrabold">{categoryData.valueVi}</h2>
             <div className="flex ">
-              <div className="w-[20%]  p-5 hidden lg:block">
+              <div className="w-[20%]  p-5 hidden md:block">
                 <div>
                   <div
                     className="border-b-2 py-3 justify-between flex "
@@ -157,7 +157,7 @@ function ListProducts({ categoryData }) {
                 </div>
               </div>
 
-              <div className="w-auto flex flex-wrap justify-evenly lg:w-[80%]">
+              <div className="w-auto flex flex-wrap justify-evenly md:w-[80%]">
                 <div className="min-h-[56px] w-full bg-slate-200 flex justify-between p-3">
                   <div className="w-[20%]"></div>
                   <div className="w-[30%]">

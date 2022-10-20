@@ -9,6 +9,7 @@ export const path = {
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   USERMOBILENAV:'tai-khoan',
+  CATEGORY:'gian-hang',
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",

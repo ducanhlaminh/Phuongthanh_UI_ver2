@@ -1,5 +1,5 @@
 const DetailNavDesktop = ({activeTab,setActiveTab,productDetailRef,relatedProductRef,infoClickHandler,ratingAndReviewRef,initPosition}) => {
-  return <div className="h-[48px] items-center relative bg-lightGrey mx-[20px] rounded-[12px] px-[16px] mt-[55px] hidden lg:flex">
+  return <div className="h-[48px] items-center relative bg-lightGrey mx-[20px] rounded-[12px] px-[16px] mt-[55px] hidden md:flex">
   <div
     className={`px-[18px] py-[10px] z-10 ${
       activeTab[0] === 1 ? "text-white" : "text-darkGrey"

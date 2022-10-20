@@ -238,7 +238,7 @@ function MyCart() {
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           <SliderImage />
 
-          <div className=" w-full lg:block px-6 ">
+          <div className=" w-full md:block px-6 ">
             <h2 className=" text-3xl font-extrabold">My Cart</h2>
             <div className="flex justify-between">
               <div className="w-[60%] ">
