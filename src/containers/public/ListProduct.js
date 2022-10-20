@@ -23,10 +23,11 @@ function ListProducts({ categoryData }) {
   const minDistance = 100000;
 
   const [value2, setValue2] = useState([50000, 80000]);
-  useEffect(() => {
-    console.log(value2);
-  }, [value2]);
+  const [value, setValue] = useState([50000, 80000]);
   const handleChange2 = (event, newValue, activeThumb) => {
+    setValue2(newValue);
+  };
+  const handleChange = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
     }
@@ -34,13 +35,13 @@ function ListProducts({ categoryData }) {
       console.log(newValue);
       if (activeThumb === 0) {
         const clamped = Math.min(newValue[0], 1000000 - minDistance);
-        setValue2([clamped, clamped + minDistance]);
+        setValue([clamped, clamped + minDistance]);
       } else {
         const clamped = Math.max(newValue[1], minDistance);
-        setValue2([clamped - minDistance, clamped]);
+        setValue([clamped - minDistance, clamped]);
       }
     } else {
-      setValue2(newValue);
+      setValue(newValue);
     }
   };
   function numFormatter(num) {
@@ -101,8 +102,9 @@ function ListProducts({ categoryData }) {
             setSelectedFilter={setSelectedFilter}
             setIsShow={setIsShow}
             handleChange2={handleChange2}
+            handleChange={handleChange}
             numFormatter={numFormatter}
-            value2={value2}
+            value={value}
           />
         )}
       </div>
@@ -140,8 +142,9 @@ function ListProducts({ categoryData }) {
                       <div className="mt-[50px]">
                         <Slider
                           getAriaLabel={() => "Minimum distance shift"}
-                          value={value2}
-                          onChange={handleChange2}
+                          value={value}
+                          onChange={handleChange}
+                          onChangeCommitted={handleChange2}
                           valueLabelDisplay="on"
                           step={100000}
                           marks

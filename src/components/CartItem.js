@@ -5,23 +5,22 @@ function numFormatter(num) {
   }).format(num); // if value < 1000, nothing to do
 }
 const CartItem = ({
-  name = "Dior Bag",
+  name,
   image,
   shortDes = "Chistian Dior",
   price = 100000,
-  quantity = 2,
+  quantity = 5,
 }) => {
   return (
     <>
-      <div className="mb-3 border-b-2">
+      <div className="my-3 border-b-2 px-3">
         <div className="w-full flex h-[80px]">
           <div className=" w-[50%]">
             <div className="flex h-full ">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover h-full"
-              />
+              <div className="w-[80px]">
+                <img src={image} alt="" className="object-cover h-full" />
+              </div>
+
               <div className="p-2 flex flex-col justify-evenly">
                 <p className=" font-bold">{name}</p>
                 <p className="text-xs">{shortDes}</p>
@@ -35,17 +34,18 @@ const CartItem = ({
                     name=""
                     id=""
                     className="bg-slate-300 text-xs h-[20px]"
+                    defaultValue={quantity.toString()}
                   >
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
                   </select>
                 </div>
               </div>
@@ -53,7 +53,7 @@ const CartItem = ({
           </div>
 
           <div className="w-[20%] text-center">{numFormatter(price)}</div>
-          <div className="w-[15%] text-center">3</div>
+          <div className="w-[15%] text-center">{quantity}</div>
           <div className="w-[15%] text-center">
             {numFormatter(price * quantity)}
           </div>

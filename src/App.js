@@ -12,6 +12,7 @@ import {
   Mycart,
   CheckOut,
 } from "./containers/public";
+
 import {
   System,
   General,
@@ -59,19 +60,17 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-white m-auto overflow-y-auto h-screen">
+    <div className="bg-purple-100 m-auto overflow-y-auto h-screen">
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
-          <Route path={path.DETAIL} element={<DetailProduct />} />
           <Route path={path.HOME} element={<Home />} />
-          <Route path={path.USERMOBILENAV} element={<UserMobileNav/>} />
+          <Route path={path.USERMOBILENAV} element={<UserMobileNav />} />
           <Route path={path.CATEGORY} element={<Category></Category>}></Route>
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<Profile />}>
-            <Route path={path.PERSONAL} element={<Personal />} />
+            <Route path={path.PERSONAL} element={<PersonalInformation />} />
             <Route path={path.ORDERS} element={<Orders />} />
-
-            <Route path="*" element={<Personal />} />
+            <Route path="*" element={<PersonalInformation />} />
           </Route>
           <Route path={path.CART} element={<Mycart />}></Route>
           <Route path={path.CHECKOUT} element={<CheckOut />} />
@@ -80,13 +79,11 @@ function App() {
             <Route
               key={item.id}
               path={generatePath(item.valueVi)}
-
               element={<ListProducts categoryData={item} />}
-
             />
           ))}
         </Route>
-        {/* <Route path={path.CART} element={<Mycart />} /> */}
+
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.SYSTEM} element={<System />}>
           <Route path={path.GENERAL} element={<General />} />
