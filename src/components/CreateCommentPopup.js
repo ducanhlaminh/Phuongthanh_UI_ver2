@@ -27,7 +27,6 @@ const CreateComponentPopup = ({
   };
   const commentRef = useRef();
   const popupRef = useRef();
-  console.log(status);
   return (
     <div
       className={`fixed w-screen h-screen bg-white z-30 lg:hidden ${

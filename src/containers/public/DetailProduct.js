@@ -29,7 +29,7 @@ const DetailProduct = () => {
   const productDetailRef = useRef();
   const relatedProductRef = useRef();
   const ratingAndReviewRef = useRef();
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [comments, setComments] = useState({});
   const [mainImage, setMainImage] = useState(product?.mainImage);
   const [initPosition, setInitPosition] = useState({ left: 0, width: 0 });
@@ -91,7 +91,8 @@ const DetailProduct = () => {
                 <img
                   src={mainImage}
                   className="w-[74px] h-[74px] rounded-[8px]"
-                ></img>
+                  alt="anh san pham"
+                />
               </div>
               <div className="">
                 <p className="font-semibold text-xs text-black">
@@ -137,7 +138,7 @@ const DetailProduct = () => {
             </div>
 
             <div>
-              {product?.variants?.map((variant, i) => {
+              {product&&JSON.parse(product?.variants).map((variant, i) => {
                 return (
                   <div>
                     <p className="text-xm font-semibold text-black">
