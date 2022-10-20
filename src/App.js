@@ -10,6 +10,7 @@ import {
   UserMobileNav,
   Personal,
   Mycart,
+  CheckOut,
 } from "./containers/public";
 import {
   System,
@@ -24,6 +25,7 @@ import {
   Orders,
   PersonalInformation,
 } from "./containers/system";
+
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
@@ -71,7 +73,9 @@ function App() {
 
             <Route path="*" element={<Personal />} />
           </Route>
-          
+          <Route path={path.CART} element={<Mycart />}></Route>
+          <Route path={path.CHECKOUT} element={<CheckOut />} />
+
           {categories?.map((item) => (
             <Route
               key={item.id}
