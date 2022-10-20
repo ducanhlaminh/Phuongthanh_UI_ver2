@@ -64,7 +64,7 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
-
+          <Route path={path.USERMOBILENAV} element={<UserMobileNav />} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<PersonalInformation />} />
