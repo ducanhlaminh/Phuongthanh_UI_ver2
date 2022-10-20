@@ -178,16 +178,16 @@ const DetailProduct = () => {
                 </section>
 
                 <div className="hidden md:block mb-[16px]">
-                  {product?.variants?.map((variant, i) => {
+                  {product&&JSON.parse(product?.variants).map((variant) => {
                     return (
-                      <div key={i}>
+                      <div key={variant.id}>
                         <p className="text-[18px] font-semibold text-black">
                           {variant?.name}
                         </p>
                         <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-                          {variant?.value.map((value, i) => (
+                          {variant?.value.map((value) => (
                             <div
-                              key={i}
+                              key={value.id}
                               className={`p-[8px] border-[3px] border-darkGrey-tint rounded-[8px] `}
                             >
                               {value.type}
