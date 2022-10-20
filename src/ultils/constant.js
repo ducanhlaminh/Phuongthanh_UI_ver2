@@ -1,11 +1,10 @@
 import icons from "./icons";
-import image from "./image";
 
 const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
   LOGIN: "/login",
-  PUBLIC: "/",
+  PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
   HOME: "",
@@ -16,6 +15,8 @@ export const path = {
   EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
   MANAGE_CATEGORY: "manage-category",
+  USERMOBILENAV: "tai-khoan",
+  CATEGORY:'gian-hang',
   USER: "user",
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
@@ -111,47 +112,3 @@ export const adminMenu = [
   },
 ];
 
-export const getSite = (params) => {
-  const site = {
-    color: "",
-    banner: "",
-    naviLeft: "",
-    naviLeftText: "",
-    naviLeftImage: "",
-    linkLeft: "",
-    naviRight: "",
-    naviRightText: "",
-    naviRightImage: "",
-    linkRight: "",
-  };
-  if (params["*"] === "fashion") {
-    site.color = "#3f9df3";
-    site.banner = image.fashionbanner;
-    site.naviLeftText = "Đồ gia dụng";
-    site.linkLeft = "appliance";
-    site.naviLeftImage = image.navigro1;
-    site.naviRightText = "Tạp hóa";
-    site.linkRight = "grocery";
-    site.naviRightImage = image.naviapp1;
-  } else if (params["*"] === "appliance") {
-    site.color = "#EF7300";
-    site.banner = image.appliancebanner;
-    site.naviLeftText = "Tạp hóa";
-    site.linkLeft = "grocery";
-    site.naviLeftImage = image.navigro2;
-    site.naviRightText = "Thời trang";
-    site.linkRight = "fashion";
-    site.naviRightImage = image.navifashion2;
-  } else {
-    site.color = "#10C600";
-    site.banner = image.grocerybanner;
-    site.naviLeftText = "Đồ gia dụng";
-    site.linkLeft = "appliance";
-    site.naviLeftImage = image.naviapp3;
-    site.naviRightText = "Thời trang";
-    site.linkRight = "fashion";
-    site.naviRightImage = image.navifashion3;
-  }
-
-  return site;
-};
