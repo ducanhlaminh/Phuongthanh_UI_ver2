@@ -69,7 +69,7 @@ function ListProducts({ categoryData }) {
       <div className="md:hidden">
         <AppBar title={categoryData.valueVi} />
         <div className="w-full flex flex-wrap justify-evenly my-[56px]">
-          {products.map((product) => (
+          {products?.map((product) => (
             <Card
               key={product.id}
               name={product.name}
@@ -178,7 +178,7 @@ function ListProducts({ categoryData }) {
                   {loading === true ? (
                     <LoadingPageDesktop />
                   ) : (
-                    products.map((item) => (
+                    products?.map((item) => (
                       <div className="w-1/3 flex justify-center">
                         <ProductItem
                           key={item.id}

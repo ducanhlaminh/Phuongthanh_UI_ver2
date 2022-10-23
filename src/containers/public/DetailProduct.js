@@ -311,6 +311,7 @@ const DetailProduct = () => {
                   color="white"
                   backgroundColor="#1B4B66"
                   size="14px"
+                  disabled={false}
                 >
                   <RiHandbagLine size="24px"></RiHandbagLine>
                   <p>Chọn loại hàng</p>
