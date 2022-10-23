@@ -178,7 +178,7 @@ const DetailProduct = () => {
                 </section>
 
                 <div className="hidden md:block mb-[16px]">
-                  {product&&JSON.parse(product?.variants).map((variant) => {
+                  {product?.variants.map((variant) => {
                     return (
                       <div key={variant.id}>
                         <p className="text-[18px] font-semibold text-black">

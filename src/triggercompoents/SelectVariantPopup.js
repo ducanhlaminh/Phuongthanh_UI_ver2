@@ -7,7 +7,7 @@ import { PriceCaculator } from "../ultils/caculator";
 const { AiFillStar, IoIosArrowForward, RiHandbagLine } = icons
 
 const SelectvariantPopup = ({ setShowPopupCart, showPopupCart, product, setShowPopupReview, comments }) => {
-  const [variantTypes, setVariantTypes] = useState(new Array(JSON.parse(product?.variants).length).fill(null))
+  const [variantTypes, setVariantTypes] = useState(new Array(product?.variants.length).fill(null))
   const [canAtc, setCanAtc] = useState(false)
 
   const hanlePickVariants = (variant,value,price,index) => {
@@ -34,7 +34,13 @@ const SelectvariantPopup = ({ setShowPopupCart, showPopupCart, product, setShowP
     }
   }
 
-  const handleSubmit = () => console.log('hehe')
+  const handleATC = () => {
+    let data = {
+      id : product?.id,
+      variant : variantTypes,
+    }
+    console.log(data)
+  }
 
   useEffect(() => {
     !variantTypes.includes(null)?setCanAtc(true):setCanAtc(false)
@@ -93,7 +99,7 @@ const SelectvariantPopup = ({ setShowPopupCart, showPopupCart, product, setShowP
     </div>
     <div className={`text-[#e21d1d] ${canAtc?'invisible':'visible'}`} >Vui lòng chọn loại hàng để thêm vào giỏ</div>
     <div>
-      {product && JSON.parse(product?.variants).map((variant, index) => {
+      {product?.variants.map((variant, index) => {
         return (
           <div>
             <p className="text-xm font-semibold text-black">
@@ -119,7 +125,7 @@ const SelectvariantPopup = ({ setShowPopupCart, showPopupCart, product, setShowP
       color="white" 
       height='44px'
       disabled={!canAtc}
-      handleClick={() => handleSubmit()}>
+      handleClick={() => handleATC()}>
         <RiHandbagLine />
         <p>Thêm vào giỏ</p>
       </LongButton>
