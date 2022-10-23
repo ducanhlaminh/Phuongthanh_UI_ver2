@@ -12,14 +12,16 @@ import LongButton from "../../components/LongButton";
 import NameAndDescription from "../../components/NameAndDescription";
 import RelatedProduct from "../../components/RelatedProduct";
 import {
-  ReviewAndRatingDesktop, ReviewAndRatingMobile
+  ReviewAndRatingDesktop,
+  ReviewAndRatingMobile,
 } from "../../components/ReviewAndRating";
 import SideNavigateMenu from "../../components/SideNavigateMenu";
 import Voucher from "../../components/Voucher";
-import SelectvariantPopup from "../../triggercompoents/SelectVariantPopup";
+
 import icons from "../../ultils/icons";
 
-const {AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine} =  icons
+const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
+  icons;
 const DetailProduct = () => {
   const id = useParams()["id"];
   const productDetailRef = useRef();
@@ -81,13 +83,13 @@ const DetailProduct = () => {
     <>
       {product && (
         <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
-          <SelectvariantPopup 
+          {/* <SelectvariantPopup 
             setShowPopupCart={setShowPopupCart}
             showPopupCart={showPopupCart}
             product={product}
             setShowPopupReview={setShowPopupReview}
             comments={comments}
-          />
+          /> */}
           {showHeader && (
             <Header>
               <MdOutlineArrowBackIosNew size="24" />

@@ -15,6 +15,10 @@ export const path = {
   EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
   MANAGE_CATEGORY: "manage-category",
+
+  USERMOBILENAV: "tai-khoan",
+  CATEGORY: "gian-hang",
+
   USER: "user",
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
@@ -26,6 +30,7 @@ export const path = {
   ORDERS: "hoa-don-cua-toi",
   PERSONAL: "",
   CHECKOUT: "checkout",
+  ADD_ADDRESS: "address",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",

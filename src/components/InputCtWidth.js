@@ -22,7 +22,7 @@ const InputCustomWidth = React.memo(
         </label>
 
         <input
-          className={`focus:ring-indigo-500 
+          className={`focus:ring-indigo-500 outline-none
                 focus:border-indigo-500 block bg-gray-200
                 w-full ${PLarge ? "pl-7 pr-12" : "pl-2 pr-2"} sm:text-sm 
                 border-gray-300 rounded-md ${lable ? "min-h-[42px]" : "h-full"}

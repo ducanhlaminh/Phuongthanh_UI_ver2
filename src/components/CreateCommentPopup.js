@@ -26,7 +26,6 @@ const CreateComponentPopup = ({
     }
   };
   const commentRef = useRef();
-  const popupRef = useRef();
   return (
     <div
       className={`fixed w-screen h-screen bg-white z-30 lg:hidden ${
@@ -40,7 +39,6 @@ const CreateComponentPopup = ({
         onAnimationEnd={() => {
           setIsClick(false);
         }}
-        ref={popupRef}
       >
         <UploadStatus
           status={status}

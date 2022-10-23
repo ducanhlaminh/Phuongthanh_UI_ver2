@@ -6,14 +6,17 @@ import { Slider as SliderImage } from "../../components";
 import CartItem from "../../components/CartItem";
 import { InputCustomWidth, SelectPayment } from "../../components/InputCtWidth";
 import ApiAddress from "../../apis/ApiAddress";
-
+import UploadStatus from "../../components/UploadStatus";
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
   }).format(num); // if value < 1000, nothing to do
 }
-function CheckOut() {
+function AddAddress() {
+  const [status, setStatus] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [infoUser, setInfoUser] = useState({ name: "", phone: "" });
   const [province, setProvince] = useState([]);
   const [provinceCur, setProvinceCur] = useState("DEFAULT");
   const [district, setDistrict] = useState([]);
@@ -43,7 +46,6 @@ function CheckOut() {
 
     provinceCur !== "DEFAULT" && fetchDistricts();
   }, [provinceCur]);
-
   useEffect(() => {
     const fetchWarn = async () => {
       const res = await ApiAddress.Ward(districtCur);
@@ -58,19 +60,49 @@ function CheckOut() {
   return (
     <>
       {/* Mobile */}
-      <div className="md:hidden h-screen">
-        <AppBar title="Checkout" />
+
+      <div
+        className="md:hidden h-screen relative"
+        onClick={() => setShowPopup(false)}
+      >
+        <AppBar title="Thêm địa chỉ" />
+
+        <div
+          className={`relative translate-y-[-70px] ${
+            showPopup ? " animate-top-popup" : ""
+          }`}
+          onAnimationEnd={() => {
+            setShowPopup(false);
+          }}
+        >
+          <UploadStatus
+            status={status}
+            content={
+              status ? "Them dia chi thanh cong" : `Có lỗi xảy ra thử lại sau`
+            }
+          />
+        </div>
 
         <hr />
         <div className="w-full pt-[56px] p-3 h-[40%]">
           <p>Thông tin liên lạc</p>
           <hr />
           <div className="w-full h-[42px] my-3">
-            <InputCustomWidth placeholder="Họ và tên" />
+            <InputCustomWidth
+              placeholder="Họ và tên"
+              value={infoUser.name}
+              setValue={setInfoUser}
+              type="name"
+            />
           </div>
           <div className="">
             <div className="w-full h-[42px]">
-              <InputCustomWidth placeholder="Số điện thoại" />
+              <InputCustomWidth
+                placeholder="Số điện thoại"
+                value={infoUser.phone}
+                setValue={setInfoUser}
+                type="phone"
+              />
             </div>
           </div>
         </div>
@@ -106,9 +138,35 @@ function CheckOut() {
           </div>
           <div
             className=""
-            onClick={() => console.log(provinceCur, districtCur, wardCur)}
+            onClick={() => {
+              const data = {
+                address: JSON.stringify({
+                  province: provinceCur.ProvinceName,
+                  provinceId: provinceCur.ProvinceID,
+                  district: districtCur.DistrictName,
+                  districtId: districtCur.DistrictID,
+                  ward: wardCur.WardName,
+                  wardId: wardCur.WardCode,
+                }),
+                name: infoUser.name,
+                phone: infoUser.phone,
+              };
+              const add = async (data) => {
+                try {
+                  const res = await ApiAddress.Add(data);
+                  if (res.status === 0) {
+                    setStatus(true);
+                    setShowPopup(true);
+                  }
+                } catch (err) {
+                  setStatus(false);
+                  setShowPopup(true);
+                }
+              };
+              add(data);
+            }}
           >
-            <Button2 text="Xác nhận đơn hàng" onC />
+            <Button2 text="Xác nhận đơn hàng" />
           </div>
         </div>
       </div>
@@ -119,4 +177,4 @@ function CheckOut() {
   );
 }
 
-export default CheckOut;
+export default AddAddress;

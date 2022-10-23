@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -11,6 +13,7 @@ const CartItem = ({
   price = 100000,
   quantity = 5,
 }) => {
+  const [quanti, setQuanti] = useState(quantity);
   return (
     <>
       <div className="my-3 border-b-2 px-3">
@@ -34,7 +37,11 @@ const CartItem = ({
                     name=""
                     id=""
                     className="bg-slate-300 text-xs h-[20px]"
-                    defaultValue={quantity.toString()}
+                    defaultValue={quanti.toString()}
+                    onChange={(e) => {
+                      const slg = e.target.value;
+                      setQuanti(Number(slg));
+                    }}
                   >
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -53,17 +60,17 @@ const CartItem = ({
           </div>
 
           <div className="w-[20%] text-center">{numFormatter(price)}</div>
-          <div className="w-[15%] text-center">{quantity}</div>
+          <div className="w-[15%] text-center">{quanti}</div>
           <div className="w-[15%] text-center">
-            {numFormatter(price * quantity)}
+            {numFormatter(price * quanti)}
           </div>
         </div>
         <div className="flex justify-end h-[20px] mb-2 font-bold">
           <div className="w-fit flex justify-between">
-            <p className=" text-primary border-b-4 border-b-primary pb-5 w-fit cursor-pointer mr-2">
+            <p className=" text-primary border-b-4 border-b-primary pb-5 w-fit cursor-pointer mr-10">
               Add to Wishlist
             </p>
-            <p className=" text-red-700 border-b-4 border-b-red-700 pb-5 w-fit cursor-pointer">
+            <p className=" text-rose-600 border-b-4 border-b-rose-700 pb-5 w-fit cursor-pointer">
               Remove
             </p>
           </div>

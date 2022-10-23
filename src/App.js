@@ -2,6 +2,19 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
 
 import {
+  Public,
+  Login,
+  Home,
+  DetailProduct,
+  Category,
+  ProfileClient,
+  UserMobileNav,
+  Personal,
+  Mycart,
+  AddAddress,
+} from "./containers/public";
+
+import {
   System,
   General,
   EditProduct,
@@ -14,14 +27,6 @@ import {
   Orders,
   PersonalInformation,
 } from "./containers/system";
-import {
-  Public,
-  Login,
-  Home,
-  DetailProduct,
-  Mycart,
-  CheckOut,
-} from "./containers/public";
 
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,7 +73,7 @@ function App() {
             <Route path="*" element={<PersonalInformation />} />
           </Route>
           <Route path={path.CART} element={<Mycart />}></Route>
-          <Route path={path.CHECKOUT} element={<CheckOut />} />
+          <Route path={path.ADD_ADDRESS} element={<AddAddress />} />
           {categories?.map((item) => (
             <Route
               key={item.id}
