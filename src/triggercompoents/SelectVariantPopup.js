@@ -11,6 +11,9 @@ const SelectvariantPopup = ({
   setShowPopupReview,
   comments,
 }) => {
+  const handlePickVariants = (variant, value) => {
+    console.log(variant, value);
+  };
   return (
     <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
       <div className="flex gap-[16px]">
@@ -63,24 +66,26 @@ const SelectvariantPopup = ({
       </div>
 
       <div>
-        {/* {product&&JSON.parse(product?.variants).map((variant) => {
-                return (
-                  <div>
-                    <p className="text-xm font-semibold text-black">
-                      {variant?.name}
-                    </p>
-                    <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-                      {variant?.value.map((value) => (
-                        <div 
-                        onClick={(e) => console.log(e.target.className)}
-                        className="p-[8px] border-[2px] border-darkGrey-tint rounded-[8px]">
-                          {value.type}
-                        </div>
-                      ))}
+        {product &&
+          JSON.parse(product?.variants).map((variant) => {
+            return (
+              <div>
+                <p className="text-xm font-semibold text-black">
+                  {variant?.name}
+                </p>
+                <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
+                  {variant?.value.map((value) => (
+                    <div
+                      onClick={(e) => console.log(e.target.className)}
+                      className="p-[8px] border-[2px] border-darkGrey-tint rounded-[8px]"
+                    >
+                      {value.type}
                     </div>
-                  </div>
-                );
-              })} */}
+                  ))}
+                </div>
+              </div>
+            );
+          })}
       </div>
       <div className="flex justify-center mt-[30px] pb-[11px]">
         <LongButton
