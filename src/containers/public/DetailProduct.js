@@ -87,7 +87,7 @@ const DetailProduct = () => {
       {product && (
         <div className=" bg-lightGrey relative md:bg-white md:mt-[64px]">
           <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
-            <div className="flex gap-[16px]">
+            <div className="flex gap-[16px] w-full">
               <div>
                 <img
                   src={mainImage}
@@ -197,7 +197,7 @@ const DetailProduct = () => {
           <div className="bg-[white] pl-[16px] ">
             <div className="md:flex">
               <section>
-                <div className="relative">
+                <div className="relative w-[390px] lg:w-[605px] flex-none">
                   {/* image mobile */}
                   <ImageDetail
                     mainImage={product.mainImage}
@@ -220,7 +220,7 @@ const DetailProduct = () => {
                 </div>
               </section>
 
-              <div className="md:ml-[20px]">
+              <div className="md:ml-[20px] flex-auto ">
                 <NameAndDescription
                   name={product.name}
                   shortDescription={product?.shortDescription}
@@ -236,12 +236,12 @@ const DetailProduct = () => {
                 </section>
 
                 <section className="flex items-center">
-                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
+                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[30px] lg:text-[40px] md:font-semibold">
                     <span>đ</span>
                     {Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
-                    <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
+                    <span className=" font-medium text-[14px] leading-5 md:text-[26px] lg:text-[34px] md:font-semibold md:text-[#B6B6B6]">
                       <span>đ</span>
                       {Number(
                         product.costPerUnit?.toFixed(1)
@@ -249,7 +249,7 @@ const DetailProduct = () => {
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[20px] md:font-semibold md:text-[#FF404B]">
+                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[14px] lg:text-[20px]  md:font-semibold md:text-[#FF404B]">
                     20%OFF
                   </p>
                 </section>
@@ -280,27 +280,29 @@ const DetailProduct = () => {
                 </div>
 
                 <section className="hidden md:flex">
-                  <LongButton
-                    width="328px"
-                    height="44px"
-                    backgroundColor="#1B4B66"
-                    size="14px"
-                    color="white"
-                  >
-                    <RiHandbagLine size="24px"></RiHandbagLine>
-                    <p>Thêm vào giỏ</p>
-                  </LongButton>
-
-                  <div className="border-[2px] border-primary rounded-[8px] ml-[24px]">
+                  <div className="w-[210px] lg:w-[328px]">
                     <LongButton
-                      width="240px"
+                      width="100%"
+                      height="44px"
+                      backgroundColor="#1B4B66"
+                      size="14px"
+                      color="white"
+                    >
+                      <RiHandbagLine size="24px"></RiHandbagLine>
+                      <p>Thêm vào giỏ</p>
+                    </LongButton>
+                  </div>
+
+                  <div className="border-[2px] border-primary rounded-[8px] ml-[24px] w-[152px] lg:w-[240px]">
+                    <LongButton
+                      width="100%"
                       height="40px"
                       backgroundColor="white"
                       size="14px"
                       color="#1B4B66"
                     >
                       <RiHandbagLine size="24px"></RiHandbagLine>
-                      <p>Thêm vào yêu thích</p>
+                      <p>Yêu thích</p>
                     </LongButton>
                   </div>
                 </section>

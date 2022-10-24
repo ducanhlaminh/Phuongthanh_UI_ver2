@@ -11,6 +11,7 @@ import {
   Personal,
   Mycart,
   CheckOut,
+  Search,
 } from "./containers/public";
 import {
   System,
@@ -67,6 +68,8 @@ function App() {
           <Route path={path.USERMOBILENAV} element={<UserMobileNav/>} />
           <Route path={path.CATEGORY} element={<Category></Category>}></Route>
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
+          <Route path={path.SEARCH} element={<Search/>}></Route>
+          <Route path={path.SEARCH__KEYWORD} element={<Search/>}></Route>
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />

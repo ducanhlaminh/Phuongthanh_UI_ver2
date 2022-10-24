@@ -26,11 +26,10 @@ const CreateComponentPopup = ({
     }
   };
   const commentRef = useRef();
-  const popupRef = useRef();
   console.log(status);
   return (
     <div
-      className={`fixed w-screen h-screen bg-white z-30 md:hidden ${
+      className={`fixed w-screen h-screen bg-white z-30 lg:hidden ${
         !showPopupComment ? "translate-x-[100%]" : "translate-x-[0]"
       } transition-all`}
     >
@@ -41,7 +40,6 @@ const CreateComponentPopup = ({
         onAnimationEnd={() => {
           setIsClick(false);
         }}
-        ref={popupRef}
       >
         <UploadStatus
           status={status}

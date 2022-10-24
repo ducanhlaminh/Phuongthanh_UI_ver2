@@ -10,3 +10,4 @@ export {default as Personal} from "./Personal"
 export { default as Mycart } from "./MyCart";
 export { default as ListProduct } from "./ListProduct";
 export { default as CheckOut } from "./CheckOut";
+export {default as Search} from "./Search";
