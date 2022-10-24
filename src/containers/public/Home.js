@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import { path } from '../../ultils/constant'
-import { Slider, HomeItem, Footer } from '../../components'
+import { Slider, HomeItem } from '../../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getLastestProducts, getTopProducts, getFavoriteProducts } from '../../store/actions'
 import icons from '../../ultils/icons'
