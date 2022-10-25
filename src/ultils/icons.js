@@ -1,11 +1,20 @@
 import { BsSpeedometer2, BsDot, BsFacebook, BsYoutube } from "react-icons/bs";
-import { RiProductHuntLine, RiSearchLine, RiUser6Line } from "react-icons/ri";
+import {
+  RiProductHuntLine,
+  RiSearchLine,
+  RiUser6Line,
+  RiHandbagLine,
+} from "react-icons/ri";
 import {
   FaUserEdit,
   FaInstagramSquare,
   FaSortAmountDownAlt,
 } from "react-icons/fa";
-import { IoIosCreate, IoMdArrowRoundDown } from "react-icons/io";
+import {
+  IoIosCreate,
+  IoMdArrowRoundDown,
+  IoIosArrowForward,
+} from "react-icons/io";
 import { FiMenu, FiFilter, FiLogOut } from "react-icons/fi";
 import { BiSearchAlt, BiPurchaseTag, BiMenuAltLeft } from "react-icons/bi";
 
@@ -18,6 +27,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlineCopyrightCircle,
   AiOutlineHeart,
+  AiFillStar,
   AiOutlinePlus,
 } from "react-icons/ai";
 import {
@@ -25,6 +35,7 @@ import {
   MdArrowBackIos,
   MdNavigateNext,
   MdOutlineLocationOn,
+  MdOutlineArrowBackIosNew,
 } from "react-icons/md";
 
 import { GrFacebook, GrSubtract } from "react-icons/gr";
@@ -36,11 +47,15 @@ import { GrLinkNext, GrFormNext } from "react-icons/gr";
 import { VscBell } from "react-icons/vsc";
 
 const icons = {
+  AiFillStar,
   BsSpeedometer2,
   GrSubtract,
+  RiHandbagLine,
   RiProductHuntLine,
+  IoIosArrowForward,
   FaUserEdit,
   IoIosCreate,
+  MdOutlineArrowBackIosNew,
   FiMenu,
   IoMdArrowRoundDown,
   BiSearchAlt,

@@ -19,14 +19,15 @@ function ListProducts({ categoryData }) {
   const [selectedFilterSider, setSelectedFilterSider] = useState([]);
   const [isShow, setIsShow] = useState(false);
   const { products, loading } = useSelector((state) => state.app);
-  const [isShowFilter, setIsShowFilter] = useState(false);
+  const [isShowFilter, setIsShowFilter] = useState(true);
   const minDistance = 100000;
 
-  const [value2, setValue2] = useState([50000, 80000]);
-  useEffect(() => {
-    console.log(value2);
-  }, [value2]);
+  const [value2, setValue2] = useState([50000, 200000]);
+  const [value, setValue] = useState([50000, 200000]);
   const handleChange2 = (event, newValue, activeThumb) => {
+    setValue2(newValue);
+  };
+  const handleChange = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
       return;
     }
@@ -34,13 +35,13 @@ function ListProducts({ categoryData }) {
       console.log(newValue);
       if (activeThumb === 0) {
         const clamped = Math.min(newValue[0], 1000000 - minDistance);
-        setValue2([clamped, clamped + minDistance]);
+        setValue([clamped, clamped + minDistance]);
       } else {
         const clamped = Math.max(newValue[1], minDistance);
-        setValue2([clamped - minDistance, clamped]);
+        setValue([clamped - minDistance, clamped]);
       }
     } else {
-      setValue2(newValue);
+      setValue(newValue);
     }
   };
   function numFormatter(num) {
@@ -51,31 +52,37 @@ function ListProducts({ categoryData }) {
   }
   useEffect(() => {
     const filter = Object.values(selectedFilter.sort);
-
     dispatch(
       actions.getProduct({
         categoryCode: categoryData.code,
-        inStocking: 1,
+        inStocking: selectedFilterSider.some((item) => item.valueVi) ? 1 : 0,
         price: value2,
         order: [...filter],
       })
     );
-  }, [selectedFilter, categoryData, value2]);
-
+  }, [selectedFilter, categoryData, value2, selectedFilterSider]);
+  useEffect(() => {
+    console.log(selectedFilterSider);
+  }, [selectedFilterSider]);
   return (
     <>
       {/* Mobile */}
       <div className="md:hidden">
         <AppBar title={categoryData.valueVi} />
-        <div className="w-full flex flex-wrap justify-evenly my-[56px]">
-          {products.map((product) => (
-            <Card
-              key={product.id}
-              name={product.name}
-              image={product.mainImage}
-              price={product.costPerUnit}
-            />
-          ))}
+        <div className="w-full flex flex-wrap  my-[56px]">
+          {loading === true ? (
+            <LoadingPageDesktop />
+          ) : (
+            products?.map((product) => (
+              <div className="w-1/2 flex justify-center" key={product.id}>
+                <Card
+                  name={product.name}
+                  image={product.mainImage}
+                  price={product.costPerUnit}
+                />
+              </div>
+            ))
+          )}
 
           <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
             <div
@@ -101,8 +108,9 @@ function ListProducts({ categoryData }) {
             setSelectedFilter={setSelectedFilter}
             setIsShow={setIsShow}
             handleChange2={handleChange2}
+            handleChange={handleChange}
             numFormatter={numFormatter}
-            value2={value2}
+            value={value}
           />
         )}
       </div>
@@ -111,10 +119,10 @@ function ListProducts({ categoryData }) {
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           <SliderImage />
 
-          <div className=" w-full md:block px-6">
+          <div className=" w-full lg:block px-6">
             <h2 className=" text-3xl font-extrabold">{categoryData.valueVi}</h2>
             <div className="flex ">
-              <div className="w-[20%]  p-5 hidden md:block">
+              <div className="w-[20%]  p-5 hidden lg:block">
                 <div>
                   <div
                     className="border-b-2 py-3 justify-between flex "
@@ -131,6 +139,17 @@ function ListProducts({ categoryData }) {
                             type="checkbox"
                             value={JSON.stringify(filter)}
                             className="w-1/5"
+                            onClick={() => {
+                              setSelectedFilterSider((prev) => {
+                                return prev.some(
+                                  (item) => item.valueVi === filter.valueVi
+                                )
+                                  ? prev.filter(
+                                      (item) => item.valueVi !== filter.valueVi
+                                    )
+                                  : [...prev, filter];
+                              });
+                            }}
                           />
                           <label htmlFor="" className="w-4/5 text-center">
                             {filter.valueVi}
@@ -140,8 +159,9 @@ function ListProducts({ categoryData }) {
                       <div className="mt-[50px]">
                         <Slider
                           getAriaLabel={() => "Minimum distance shift"}
-                          value={value2}
-                          onChange={handleChange2}
+                          value={value}
+                          onChange={handleChange}
+                          onChangeCommitted={handleChange2}
                           valueLabelDisplay="on"
                           step={100000}
                           marks
@@ -157,7 +177,7 @@ function ListProducts({ categoryData }) {
                 </div>
               </div>
 
-              <div className="w-auto flex flex-wrap justify-evenly md:w-[80%]">
+              <div className="w-auto flex flex-wrap justify-evenly lg:w-[80%]">
                 <div className="min-h-[56px] w-full bg-slate-200 flex justify-between p-3">
                   <div className="w-[20%]"></div>
                   <div className="w-[30%]">

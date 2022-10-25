@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 
-const Dropdown = ({ children,title }) => {
-  const [toggleArrow,setToggleArrow] = useState(false);
+const Dropdown = ({ children,title, opened }) => {
+  const [toggleArrow,setToggleArrow] = useState(opened||false);
   const activeRotate='rotate-90';
   const activeDropdown='';
   const dropdownClickHandler= ()=>{

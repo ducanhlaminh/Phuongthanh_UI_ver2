@@ -1,58 +1,49 @@
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import ApiProduct from "../../apis/product";
 import ApiComment from "../../apis/comment";
-import { AiFillStar } from "react-icons/ai";
-import Dropdown from "../../components/Dropdown";
-import SideNavigateMenu from "../../components/SideNavigateMenu";
+import ApiProduct from "../../apis/product";
+import ApiCart from "../../apis/cart";
 import ButtonFooterContainer from "../../components/ButtonFooterContainer";
+import CreateComponentPopup from "../../components/CreateCommentPopup";
+import DetailNavDesktop from "../../components/DetailNavDesktop";
+import Dropdown from "../../components/Dropdown";
+import Header from "../../components/Header";
+import ImageDetail from "../../components/ImageDetail";
 import LongButton from "../../components/LongButton";
-import { RiHandbagLine } from "react-icons/ri";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import NameAndDescription from "../../components/NameAndDescription";
 import RelatedProduct from "../../components/RelatedProduct";
 import {
-  ReviewAndRatingMobile,
-  ReviewAndRatingDesktop,
+  ReviewAndRatingDesktop, ReviewAndRatingMobile
 } from "../../components/ReviewAndRating";
+import SideNavigateMenu from "../../components/SideNavigateMenu";
 import Voucher from "../../components/Voucher";
-import ImageDetail from "../../components/ImageDetail";
-import NameAndDescription from "../../components/NameAndDescription";
-import DetailNavDesktop from "../../components/DetailNavDesktop";
-import CreateComponentPopup from "../../components/CreateCommentPopup";
-import DownPopup from "../../components/DownPopup";
-import Header from "../../components/Header";
-import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import { IoIosArrowForward } from "react-icons/io";
+import SelectvariantPopup from "../../triggercompoents/SelectVariantPopup";
+import icons from "../../ultils/icons";
+import {PriceCaculator} from '../../ultils/caculator'
+import { NotiStatus } from "../../components/UploadStatus";
 
+const {AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine} =  icons
 const DetailProduct = () => {
   const id = useParams()["id"];
-  const productDetailRef = useRef();
-  const relatedProductRef = useRef();
   const ratingAndReviewRef = useRef();
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [comments, setComments] = useState({});
-  const [mainImage, setMainImage] = useState(product?.mainImage);
-  const [initPosition, setInitPosition] = useState({ left: 0, width: 0 });
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
   const [showPopupReview, setShowPopupReview] = useState(false);
   const [showPopupComment, setShowPopupComment] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [showPopupCart, setShowPopupCart] = useState(false);
-  const activeVariant = "border-primary bg-[#d9eff1]";
+  const [variantTypes, setVariantTypes] = useState([]);
+  const [canAtc, setCanAtc] = useState(false);
+  const [activeNotiStatus, setActiveNotiStatus] = useState(false)
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
-      setProduct(res.productData.rows[0]);
-      setMainImage(res.productData.rows[0].mainImage);
+      let product = res.productData.rows[0]
+      setProduct(product);
+      setVariantTypes(new Array(product?.variants.length).fill(null))
     };
-    setInitPosition((prev) => {
-      return {
-        ...prev,
-        left: productDetailRef?.current?.offsetLeft,
-        width: productDetailRef?.current?.offsetWidth,
-      };
-    });
 
     const fetchComments = async () => {
       const res = await ApiComment.getComment({ productId: id });
@@ -61,12 +52,7 @@ const DetailProduct = () => {
     fetchComments();
     fetchProduct();
   }, []);
-  const infoClickHandler = (ref) => {
-    setInitPosition({
-      left: ref.current.offsetLeft,
-      width: ref.current.offsetWidth,
-    });
-  };
+
   const handleRenderStar = (starValue) => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -82,94 +68,65 @@ const DetailProduct = () => {
     return stars;
   };
 
+  const hanlePickVariants = (variant,value,price,index) => {
+    setVariantTypes((prev) => {
+      for (let i = 0; i < prev.length; i++) {
+        if (i === index) {
+          let data = {
+            variant: variant,
+            value: value,
+            price: price
+          }
+          prev[i] = data;
+        }
+      }
+      return [...prev];
+    })
+  }
+  useEffect(() => {
+    !variantTypes.includes(null)?setCanAtc(true):setCanAtc(false)
+  },[variantTypes])
+
+  const handleATC = async (id,variantTypes) => {
+    try {
+      let data = {
+        pid : id,
+        variant : variantTypes,
+      }
+      let res = await ApiCart.create(data)
+      if(res.status === 0) {
+        setVariantTypes(new Array(product?.variants.length).fill(null))
+        setCanAtc(false)
+        setActiveNotiStatus('success')
+        setShowPopupCart(false)
+      }else if (res.status === 1){
+        setActiveNotiStatus('warning')
+        setShowPopupCart(false)
+      }
+    } catch (error) {
+      setActiveNotiStatus('error')
+      console.log(error)
+    }
+  }
   return (
     <>
+      {<NotiStatus 
+        active={activeNotiStatus}
+        setActive={setActiveNotiStatus}
+      />}
       {product && (
-        <div className=" bg-lightGrey relative md:bg-white md:mt-[64px]">
-          <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
-            <div className="flex gap-[16px] w-full">
-              <div>
-                <img
-                  src={mainImage}
-                  className="w-[74px] h-[74px] rounded-[8px]"
-                ></img>
-              </div>
-              <div className="">
-                <p className="font-semibold text-xs text-black">
-                  {product.name}
-                </p>
-                <p className="font-medium text-xs text-darkGrey mt-[2px] mb-[4px]">
-                  This is short description
-                </p>
-                <p className="font-semibold text-sm text-black">
-                  đ{Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
-                </p>
-              </div>
-            </div>
-            <div
-              className="flex my-[24px]"
-              onClick={() => {
-                setShowPopupCart(false);
-                setShowPopupReview(true);
-              }}
-            >
-              <div className="flex items-center w-[74px] h-[38px] bg-[#f4f4f4] rounded-[4px] justify-center mr-[14px]">
-                <p className="text-[#171520] text-[16px] leading-4 font-semibold mr-[4px]">
-                  {product.scores}
-                </p>
-                <AiFillStar className="text-[#FF8C4B]" size="20px" />
-              </div>
-              <div>
-                <p className="text-[#171520] text-[14px] font-semibold leading-5">
-                  Lượt đánh giá
-                </p>
-                <div className="text-[#626262] text-[14px] font-medium leading-5">
-                  <span>{product.votedCounter} Đánh giá và </span>
-                  <span>{comments.count} bình luận</span>
-                </div>
-              </div>
+        <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
+          <SelectvariantPopup 
+            setShowPopupCart={setShowPopupCart}
+            showPopupCart={showPopupCart}
+            product={product}
+            setShowPopupReview={setShowPopupReview}
+            comments={comments}
+            handleATC={handleATC}
+            activeNotiStatus={activeNotiStatus}
+            setActiveNotiStatus={setActiveNotiStatus}
+          />
 
-              <div className="ml-auto">
-                <IoIosArrowForward
-                  className="text-darkGrey justify-self-end"
-                  size="30"
-                ></IoIosArrowForward>
-              </div>
-            </div>
-
-            <div>
-              {product?.variants?.map((variant, i) => {
-                return (
-                  <div key={i}>
-                    <p className="text-xm font-semibold text-black">
-                      {variant?.name}
-                    </p>
-                    <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-                      {variant?.value.map((value, i) => (
-                        <div
-                          key={i}
-                          className={`p-[8px] border-[2px] border-darkGrey-tint rounded-[8px] `}
-                        >
-                          {value.type}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex justify-center mt-[30px] pb-[11px]">
-              <LongButton
-                width="90%"
-                backgroundColor="#1B4B66"
-                color="white"
-                height="44px"
-              >
-                <RiHandbagLine size="24" />
-                <p>Thêm vào giỏ</p>
-              </LongButton>
-            </div>
-          </DownPopup>
           {showHeader && (
             <div className="md:hidden">
               <Header>
@@ -197,7 +154,7 @@ const DetailProduct = () => {
           <div className="bg-[white] pl-[16px] ">
             <div className="md:flex">
               <section>
-                <div className="relative w-[390px] lg:w-[605px] flex-none">
+                <div className="relative">
                   {/* image mobile */}
                   <ImageDetail
                     mainImage={product.mainImage}
@@ -205,7 +162,6 @@ const DetailProduct = () => {
                     image2={product.image2}
                     image3={product.image3}
                     type="mobile"
-                    mainImageScreen=""
                   />
 
                   {/* image desktop */}
@@ -215,12 +171,11 @@ const DetailProduct = () => {
                     image2={product.image2}
                     image3={product.image3}
                     type="desktop"
-                    mainImageScreen={mainImage}
                   />
                 </div>
               </section>
 
-              <div className="md:ml-[20px] flex-auto ">
+              <div className="md:ml-[20px]">
                 <NameAndDescription
                   name={product.name}
                   shortDescription={product?.shortDescription}
@@ -236,12 +191,13 @@ const DetailProduct = () => {
                 </section>
 
                 <section className="flex items-center">
-                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[30px] lg:text-[40px] md:font-semibold">
+                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
                     <span>đ</span>
-                    {Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {!canAtc&&Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {canAtc&&PriceCaculator(product,variantTypes)}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
-                    <span className=" font-medium text-[14px] leading-5 md:text-[26px] lg:text-[34px] md:font-semibold md:text-[#B6B6B6]">
+                    <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
                       <span>đ</span>
                       {Number(
                         product.costPerUnit?.toFixed(1)
@@ -249,7 +205,7 @@ const DetailProduct = () => {
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[14px] lg:text-[20px]  md:font-semibold md:text-[#FF404B]">
+                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[20px] md:font-semibold md:text-[#FF404B]">
                     20%OFF
                   </p>
                 </section>
@@ -258,17 +214,19 @@ const DetailProduct = () => {
                 </section>
 
                 <div className="hidden md:block mb-[16px]">
-                  {product?.variants?.map((variant, i) => {
+                <div className={`text-[#e21d1d] ${canAtc?'invisible':'visible'}`} >Vui lòng chọn loại hàng để thêm vào giỏ</div>
+                  {product?.variants.map((variant,index) => {
                     return (
-                      <div key={i}>
+                      <div key={variant.id} className="select-none">
                         <p className="text-[18px] font-semibold text-black">
                           {variant?.name}
                         </p>
                         <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-                          {variant?.value.map((value, i) => (
+                          {variant?.value.map((value) => (
                             <div
-                              key={i}
-                              className={`p-[8px] border-[3px] border-darkGrey-tint rounded-[8px] `}
+                              onClick={() => hanlePickVariants(variant?.name,value?.type,value?.price,index)}
+                              key={value.id}
+                              className={`p-[8px] cursor-pointer border-[3px] rounded-[8px] ${variantTypes[index]?.value === value?.type? 'border-[#1b4b66]':''}`}
                             >
                               {value.type}
                             </div>
@@ -280,29 +238,29 @@ const DetailProduct = () => {
                 </div>
 
                 <section className="hidden md:flex">
-                  <div className="w-[210px] lg:w-[328px]">
-                    <LongButton
-                      width="100%"
-                      height="44px"
-                      backgroundColor="#1B4B66"
-                      size="14px"
-                      color="white"
-                    >
-                      <RiHandbagLine size="24px"></RiHandbagLine>
-                      <p>Thêm vào giỏ</p>
-                    </LongButton>
-                  </div>
+                  <LongButton
+                    width="328px"
+                    height="44px"
+                    backgroundColor="#1B4B66"
+                    size="14px"
+                    color="white"
+                    disabled={!canAtc}
+                    handleClick={() => handleATC(product?.id,variantTypes)}
+                  >
+                    <RiHandbagLine size="24px"></RiHandbagLine>
+                    <p>Thêm vào giỏ</p>
+                  </LongButton>
 
-                  <div className="border-[2px] border-primary rounded-[8px] ml-[24px] w-[152px] lg:w-[240px]">
+                  <div className="border-[2px] border-primary rounded-[8px] ml-[24px]">
                     <LongButton
-                      width="100%"
+                      width="240px"
                       height="40px"
                       backgroundColor="white"
                       size="14px"
                       color="#1B4B66"
                     >
                       <RiHandbagLine size="24px"></RiHandbagLine>
-                      <p>Yêu thích</p>
+                      <p>Thêm vào yêu thích</p>
                     </LongButton>
                   </div>
                 </section>
@@ -333,7 +291,8 @@ const DetailProduct = () => {
           </div>
 
           <section className="mt-[8px] bg-white md:hidden">
-            <Dropdown title="Mô tả sản phẩm">
+            <Dropdown title="Mô tả sản phẩm" 
+            opened={true}>
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
                 {product.description}
               </p>
@@ -355,14 +314,10 @@ const DetailProduct = () => {
           <DetailNavDesktop
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            productDetailRef={productDetailRef}
-            relatedProductRef={relatedProductRef}
             ratingAndReviewRef={ratingAndReviewRef}
-            initPosition={initPosition}
-            infoClickHandler={infoClickHandler}
           />
 
-          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px]">
+          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px] min-h-[300px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
                 {product.description}
@@ -393,9 +348,10 @@ const DetailProduct = () => {
                   color="white"
                   backgroundColor="#1B4B66"
                   size="14px"
+                  disabled={false}
                 >
                   <RiHandbagLine size="24px"></RiHandbagLine>
-                  <p>Thêm vào giỏ</p>
+                  <p>Chọn loại hàng</p>
                 </LongButton>
               </div>
             </ButtonFooterContainer>
