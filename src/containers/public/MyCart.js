@@ -1,7 +1,6 @@
 import AppBar from "../../components/AppBar";
 import { Button2 } from "../../components";
-import { useEffect } from "react";
-import { Slider as SliderImage } from "../../components";
+import { useEffect, useState } from "react";
 import CartItem from "../../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
@@ -14,6 +13,7 @@ function numFormatter(num) {
 }
 
 function MyCart() {
+  const [totalPrice, setTotalPrice] = useState(0)
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
@@ -236,9 +236,8 @@ function MyCart() {
       <div className="md:block hidden w-full ">
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           {/* <SliderImage /> */}
-
           <div className=" w-full md:block px-6 ">
-            <h2 className=" text-3xl font-extrabold">My Cart</h2>
+            <h2 className=" text-3xl font-extrabold">Giỏ hàng của tôi</h2>
             <div className="flex justify-between">
               <div className="w-[60%] ">
                 <div className="flex font-bold text-gray-500 border-b-2 items-center p-2">
@@ -247,22 +246,14 @@ function MyCart() {
                   <p className="w-[15%] text-center">Số lượng</p>
                   <p className="w-[15%] text-center">Tổng</p>
                 </div>
-                <div className=" overflow-auto h-[300px] scroll-smooth">
+                <div className=" overflow-auto h-[560px] scroll-smooth">
                   {/* product */}
-                  {/* <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem /> */}
-                  {productsCart?.map((product, index) => (
+                  {productsCart?.map((product) => (
                     <CartItem
-                      name={product.productData.name}
-                      image={product.productData.image1}
-                      quantity={product.quanity}
-                      price={product.productData.costPerUnit}
+                      product={product?.productData}
+                      variants={product?.variant}
+                      quanity={product?.quanity}
+                      setTotalPrice={setTotalPrice}
                     />
                   ))}
                 </div>
