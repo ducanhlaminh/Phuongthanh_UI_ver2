@@ -3,7 +3,7 @@ import ButtonFooterContainer from "./ButtonFooterContainer";
 import LongButton from "./LongButton";
 import { useRef, memo, useState } from "react";
 import ApiComment from "../apis/comment";
-import UploadStatus from "../components/UploadStatus";
+import { Upload } from "./UploadStatus";
 
 const CreateComponentPopup = ({
   setShowPopupComment,
@@ -42,10 +42,10 @@ const CreateComponentPopup = ({
         }}
         ref={popupRef}
       >
-        <UploadStatus
+        <Upload
           status={status}
           content={
-            status ? "Đăng bình luận thành công" : `Có lỗi xảy ra thử lại sau`
+            status ? "Đăng bình luận thành công" : `Đã có lỗi xảy ra`
           }
         />
       </div>

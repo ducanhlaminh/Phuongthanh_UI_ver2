@@ -3,10 +3,20 @@ import LongButton from "../components/LongButton";
 import icons from "../ultils/icons";
 import { useEffect, useState } from "react";
 import { PriceCaculator } from "../ultils/caculator";
+import { NotiStatusMobile } from "../components/UploadStatus";
 
 const { AiFillStar, IoIosArrowForward, RiHandbagLine } = icons
 
-const SelectvariantPopup = ({ setShowPopupCart, showPopupCart, product, setShowPopupReview, comments }) => {
+const SelectvariantPopup = ({ 
+  setShowPopupCart, 
+  showPopupCart, 
+  product, 
+  setShowPopupReview, 
+  comments, 
+  handleATC,
+  setActiveNotiStatus,
+  activeNotiStatus }
+  ) => {
   const [variantTypes, setVariantTypes] = useState(new Array(product?.variants.length).fill(null))
   const [canAtc, setCanAtc] = useState(false)
 
@@ -34,19 +44,18 @@ const SelectvariantPopup = ({ setShowPopupCart, showPopupCart, product, setShowP
     }
   }
 
-  const handleATC = () => {
-    let data = {
-      id : product?.id,
-      variant : variantTypes,
-    }
-    console.log(data)
-  }
 
   useEffect(() => {
     !variantTypes.includes(null)?setCanAtc(true):setCanAtc(false)
   },[variantTypes])
 
-  return (<DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
+  return (
+  <>
+  <NotiStatusMobile 
+    active={activeNotiStatus}
+    setActive={setActiveNotiStatus}
+  />
+  <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
     <div className="flex gap-[16px]">
       <div>
         <img
@@ -125,12 +134,13 @@ const SelectvariantPopup = ({ setShowPopupCart, showPopupCart, product, setShowP
       color="white" 
       height='44px'
       disabled={!canAtc}
-      handleClick={() => handleATC()}>
+      handleClick={() => handleATC(product?.id,variantTypes)}>
         <RiHandbagLine />
         <p>Thêm vào giỏ</p>
       </LongButton>
     </div>
-  </DownPopup>)
+  </DownPopup>
+  </>)
 }
 
 export default SelectvariantPopup

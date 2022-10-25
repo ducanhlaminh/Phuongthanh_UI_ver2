@@ -49,7 +49,9 @@ module.exports = {
         'modalClose': 'modalShow .3s linear ',
         'slide-right': 'slide-right 0.3s ease-out both;',
         'slide-left': 'slide-left 0.3s ease-out both;',
-        'top-popup':'top-popup 2s ease-in-out both;'
+        'top-popup':'top-popup 2s ease-in-out both;',
+        'top-popup2':'top-popup2 2s ease-in-out both;',
+        'show-noti-left': 'show-noti-left 5s ease-out both;',
       },
       keyframes: {
         modalShow: {
@@ -82,22 +84,62 @@ module.exports = {
         },
         'top-popup':{
           '0%':{
-            'transform': 'translateY(-70px)',
+            'transform': 'translate(0 , -70px)',
+          },
+          '30%':{
+            'transform': 'translate(0 , 15px)',
+          },
+          '50%':{
+            'transform': 'translate(0 , 15px)',
+          },
+          '60%':{
+            'transform': 'translate(0 , 20px)',
+          },
+          '100%':{
+            'transform': 'translateY(0 , -70px)',
+          }
+        
+        },
+        'top-popup2':{
+          '0%':{
+            'transform': 'translate(35% , -70px)',
           },
           
           '30%':{
-            'transform': 'translateY(15px)',
+            'transform': 'translate(35% , 15px)',
           },
           '50%':{
-            'transform': 'translateY(15px)',
+            'transform': 'translate(35% , 15px)',
           },
           '60%':{
-            'transform': 'translateY(20px)',
+            'transform': 'translate(35% , 20px)',
           },
           '100%':{
-            'transform': 'translateY(-70px)',
+            'transform': 'translateY(35% , -70px)',
           }
         
+        },
+        'show-noti-left': {
+          '0%': {
+            'transform': 'translateX(0)',
+            'opacity': 0
+          },
+          '10%': {
+            'transform': 'translateX(-140px)',
+            'opacity': 0.4
+          },
+          '20%': {
+            'transform': 'translateX(-150px)',
+            'opacity': 1
+          },
+          '90%': {
+            'transform': 'translateX(-150px)',
+            'opacity': 1
+          },
+          '100%': {
+            'transform': 'translateX(0)',
+            'opacity': 0
+          }
         }
       },
       fontFamily: {
@@ -108,6 +150,7 @@ module.exports = {
       },
       zIndex: {
         '60':60,
+        '70':70,
       }
     },
   },

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ApiComment from "../../apis/comment";
 import ApiProduct from "../../apis/product";
+import ApiCart from "../../apis/cart";
 import ButtonFooterContainer from "../../components/ButtonFooterContainer";
 import CreateComponentPopup from "../../components/CreateCommentPopup";
 import DetailNavDesktop from "../../components/DetailNavDesktop";
@@ -18,37 +19,31 @@ import SideNavigateMenu from "../../components/SideNavigateMenu";
 import Voucher from "../../components/Voucher";
 import SelectvariantPopup from "../../triggercompoents/SelectVariantPopup";
 import icons from "../../ultils/icons";
+import {PriceCaculator} from '../../ultils/caculator'
+import { NotiStatus } from "../../components/UploadStatus";
 
 const {AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine} =  icons
 const DetailProduct = () => {
   const id = useParams()["id"];
-  const productDetailRef = useRef();
-  const relatedProductRef = useRef();
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
   const [comments, setComments] = useState({});
-  const [mainImage, setMainImage] = useState(product?.mainImage);
-  const [initPosition, setInitPosition] = useState({ left: 0, width: 0 });
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
   const [showPopupReview, setShowPopupReview] = useState(false);
   const [showPopupComment, setShowPopupComment] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [showPopupCart, setShowPopupCart] = useState(false);
-  const activeVariant = "border-primary bg-[#d9eff1]";
+  const [variantTypes, setVariantTypes] = useState([]);
+  const [canAtc, setCanAtc] = useState(false);
+  const [activeNotiStatus, setActiveNotiStatus] = useState(false)
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
-      setProduct(res.productData.rows[0]);
-      setMainImage(res.productData.rows[0].mainImage);
+      let product = res.productData.rows[0]
+      setProduct(product);
+      setVariantTypes(new Array(product?.variants.length).fill(null))
     };
-    setInitPosition((prev) => {
-      return {
-        ...prev,
-        left: productDetailRef?.current?.offsetLeft,
-        width: productDetailRef?.current?.offsetWidth,
-      };
-    });
 
     const fetchComments = async () => {
       const res = await ApiComment.getComment({ productId: id });
@@ -57,12 +52,7 @@ const DetailProduct = () => {
     fetchComments();
     fetchProduct();
   }, []);
-  const infoClickHandler = (ref) => {
-    setInitPosition({
-      left: ref.current.offsetLeft,
-      width: ref.current.offsetWidth,
-    });
-  };
+
   const handleRenderStar = (starValue) => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -78,8 +68,52 @@ const DetailProduct = () => {
     return stars;
   };
 
+  const hanlePickVariants = (variant,value,price,index) => {
+    setVariantTypes((prev) => {
+      for (let i = 0; i < prev.length; i++) {
+        if (i === index) {
+          let data = {
+            variant: variant,
+            value: value,
+            price: price
+          }
+          prev[i] = data;
+        }
+      }
+      return [...prev];
+    })
+  }
+  useEffect(() => {
+    !variantTypes.includes(null)?setCanAtc(true):setCanAtc(false)
+  },[variantTypes])
+
+  const handleATC = async (id,variantTypes) => {
+    try {
+      let data = {
+        pid : id,
+        variant : variantTypes,
+      }
+      let res = await ApiCart.create(data)
+      if(res.status === 0) {
+        setVariantTypes(new Array(product?.variants.length).fill(null))
+        setCanAtc(false)
+        setActiveNotiStatus('success')
+        setShowPopupCart(false)
+      }else if (res.status === 1){
+        setActiveNotiStatus('warning')
+        setShowPopupCart(false)
+      }
+    } catch (error) {
+      setActiveNotiStatus('error')
+      console.log(error)
+    }
+  }
   return (
     <>
+      {<NotiStatus 
+        active={activeNotiStatus}
+        setActive={setActiveNotiStatus}
+      />}
       {product && (
         <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
           <SelectvariantPopup 
@@ -88,6 +122,9 @@ const DetailProduct = () => {
             product={product}
             setShowPopupReview={setShowPopupReview}
             comments={comments}
+            handleATC={handleATC}
+            activeNotiStatus={activeNotiStatus}
+            setActiveNotiStatus={setActiveNotiStatus}
           />
 
           {showHeader && (
@@ -125,7 +162,6 @@ const DetailProduct = () => {
                     image2={product.image2}
                     image3={product.image3}
                     type="mobile"
-                    mainImageScreen=""
                   />
 
                   {/* image desktop */}
@@ -135,7 +171,6 @@ const DetailProduct = () => {
                     image2={product.image2}
                     image3={product.image3}
                     type="desktop"
-                    mainImageScreen={mainImage}
                   />
                 </div>
               </section>
@@ -158,7 +193,8 @@ const DetailProduct = () => {
                 <section className="flex items-center">
                   <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
                     <span>đ</span>
-                    {Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {!canAtc&&Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {canAtc&&PriceCaculator(product,variantTypes)}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
@@ -178,17 +214,19 @@ const DetailProduct = () => {
                 </section>
 
                 <div className="hidden md:block mb-[16px]">
-                  {product?.variants.map((variant) => {
+                <div className={`text-[#e21d1d] ${canAtc?'invisible':'visible'}`} >Vui lòng chọn loại hàng để thêm vào giỏ</div>
+                  {product?.variants.map((variant,index) => {
                     return (
-                      <div key={variant.id}>
+                      <div key={variant.id} className="select-none">
                         <p className="text-[18px] font-semibold text-black">
                           {variant?.name}
                         </p>
                         <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
                           {variant?.value.map((value) => (
                             <div
+                              onClick={() => hanlePickVariants(variant?.name,value?.type,value?.price,index)}
                               key={value.id}
-                              className={`p-[8px] border-[3px] border-darkGrey-tint rounded-[8px] `}
+                              className={`p-[8px] cursor-pointer border-[3px] rounded-[8px] ${variantTypes[index]?.value === value?.type? 'border-[#1b4b66]':''}`}
                             >
                               {value.type}
                             </div>
@@ -206,6 +244,8 @@ const DetailProduct = () => {
                     backgroundColor="#1B4B66"
                     size="14px"
                     color="white"
+                    disabled={!canAtc}
+                    handleClick={() => handleATC(product?.id,variantTypes)}
                   >
                     <RiHandbagLine size="24px"></RiHandbagLine>
                     <p>Thêm vào giỏ</p>
@@ -251,7 +291,8 @@ const DetailProduct = () => {
           </div>
 
           <section className="mt-[8px] bg-white md:hidden">
-            <Dropdown title="Mô tả sản phẩm">
+            <Dropdown title="Mô tả sản phẩm" 
+            opened={true}>
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
                 {product.description}
               </p>
@@ -273,14 +314,10 @@ const DetailProduct = () => {
           <DetailNavDesktop
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            productDetailRef={productDetailRef}
-            relatedProductRef={relatedProductRef}
             ratingAndReviewRef={ratingAndReviewRef}
-            initPosition={initPosition}
-            infoClickHandler={infoClickHandler}
           />
 
-          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px]">
+          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px] min-h-[300px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
                 {product.description}
