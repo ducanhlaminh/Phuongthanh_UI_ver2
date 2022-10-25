@@ -1,17 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
-import {
-  Public,
-  Login,
-  Home,
-  DetailProduct,
-  Category,
-  ProfileClient,
-  UserMobileNav,
-  Personal,
-  Mycart,
-  CheckOut,
-} from "./containers/public";
 
 import {
   Public,

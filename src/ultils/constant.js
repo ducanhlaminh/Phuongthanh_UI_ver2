@@ -16,7 +16,7 @@ export const path = {
   MANAGE_PRODUCT: "manage-product",
   MANAGE_CATEGORY: "manage-category",
   USERMOBILENAV: "tai-khoan",
-  CATEGORY:'gian-hang',
+  CATEGORY: "gian-hang",
   USER: "user",
   BILL: "bill",
   CREATE_CATEGORY: "create-category",
@@ -27,7 +27,7 @@ export const path = {
   PROFILE: "ho-so/",
   ORDERS: "hoa-don-cua-toi",
   PERSONAL: "",
-  CHECKOUT: "checkout",
+  ADD_ADDRESS: "address",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",

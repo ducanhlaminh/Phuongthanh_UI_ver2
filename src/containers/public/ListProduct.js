@@ -69,15 +69,20 @@ function ListProducts({ categoryData }) {
       {/* Mobile */}
       <div className="md:hidden">
         <AppBar title={categoryData.valueVi} />
-        <div className="w-full flex flex-wrap  justify-evenly my-[56px]">
-          {products?.map((product) => (
-            <Card
-              key={product.id}
-              name={product.name}
-              image={product.mainImage}
-              price={product.costPerUnit}
-            />
-          ))}
+        <div className="w-full flex flex-wrap  my-[56px]">
+          {loading === true ? (
+            <LoadingPageDesktop />
+          ) : (
+            products?.map((product) => (
+              <div className="w-1/2 flex justify-center" key={product.id}>
+                <Card
+                  name={product.name}
+                  image={product.mainImage}
+                  price={product.costPerUnit}
+                />
+              </div>
+            ))
+          )}
 
           <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
             <div

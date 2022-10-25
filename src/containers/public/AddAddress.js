@@ -6,7 +6,7 @@ import { Slider as SliderImage } from "../../components";
 import CartItem from "../../components/CartItem";
 import { InputCustomWidth, SelectPayment } from "../../components/InputCtWidth";
 import ApiAddress from "../../apis/ApiAddress";
-import UploadStatus from "../../components/UploadStatus";
+import { Upload } from "../../components/UploadStatus";
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -75,7 +75,7 @@ function AddAddress() {
             setShowPopup(false);
           }}
         >
-          <UploadStatus
+          <Upload
             status={status}
             content={
               status ? "Them dia chi thanh cong" : `Có lỗi xảy ra thử lại sau`
