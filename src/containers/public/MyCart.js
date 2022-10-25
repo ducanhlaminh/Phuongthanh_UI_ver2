@@ -1,90 +1,28 @@
 import AppBar from "../../components/AppBar";
 import { Button2 } from "../../components";
 import { useEffect, useState } from "react";
-import { Slider as SliderImage } from "../../components";
 import CartItem from "../../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
-import DownPopup from "../../components/DownPopup";
-import ApiAddress from "../../apis/ApiAddress";
+
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
   }).format(num); // if value < 1000, nothing to do
 }
+
 function MyCart() {
-  const [showPopupCart, setShowPopupCart] = useState(true);
-  const [address, setAddress] = useState();
-  const [price, setPrice] = useState(0);
-  const [selectAddress, setSelectAddress] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0)
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
-    const fetchAddress = async () => {
-      const res = await ApiAddress.Get();
-      setAddress(res);
-    };
-    fetchAddress();
     dispatch(actions.addToCart());
   }, []);
 
   return (
     <>
       {/* Mobile */}
-      <DownPopup setShowPopup={setShowPopupCart} showPopup={showPopupCart}>
-        <div className="">
-          <div className="flex justify-between">
-            <span className="font-bold text-gray-400 pb-2 border-b-2 mb-3">
-              Vui lòng chọn địa chỉ giao hàng
-            </span>
-            <span className="font-bold text-primary cursor-pointer">
-              Thêm địa chỉ
-            </span>
-          </div>
-
-          <div className="h-[250px] overflow-auto">
-            {address &&
-              address.yourAddress?.map((addres, index) => {
-                const data = JSON.parse(addres.address);
-
-                return (
-                  <div className="flex pb-3" key={addres.id}>
-                    <input
-                      type="radio"
-                      className="mr-4"
-                      value={addres.address}
-                      checked={
-                        selectAddress
-                          ? selectAddress === addres.address
-                          : index === 0
-                      }
-                      onClick={() => setSelectAddress(addres.address)}
-                      onChange={() => console.log(selectAddress)}
-                    />
-                    <div className="">
-                      <div className="flex">
-                        <span>Địa chỉ :</span>
-                        <p className="font-bold">{` ${data.ward} - ${data.district} - ${data.province}`}</p>
-                      </div>
-                      <div className="flex">
-                        <span>Tên người nhận : </span>
-                        <p>{addres.name}</p>
-                      </div>
-                      <div className="flex">
-                        <span>Số điện thoại : </span>
-                        <p>{addres.phone}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-          <div className="p-3">
-            <Button2 text="Giao hàng tới đây" />
-          </div>
-        </div>
-      </DownPopup>
       <div className="md:hidden h-screen">
         <AppBar title="My Cart" />
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
@@ -298,9 +236,8 @@ function MyCart() {
       <div className="md:block hidden w-full ">
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           {/* <SliderImage /> */}
-
-          <div className=" w-full lg:block px-6 ">
-            <h2 className=" text-3xl font-extrabold">My Cart</h2>
+          <div className=" w-full md:block px-6 ">
+            <h2 className=" text-3xl font-extrabold">Giỏ hàng của tôi</h2>
             <div className="flex justify-between">
               <div className="w-[60%] ">
                 <div className="flex font-bold text-gray-500 border-b-2 items-center p-2">
@@ -309,21 +246,16 @@ function MyCart() {
                   <p className="w-[15%] text-center">Số lượng</p>
                   <p className="w-[15%] text-center">Tổng</p>
                 </div>
-                <div className=" overflow-auto h-[300px] scroll-smooth">
+                <div className=" overflow-auto h-[560px] scroll-smooth">
                   {/* product */}
-
-                  {productsCart?.map((product, index) => {
-                    return (
-                      <CartItem
-                        name={product.productData.name}
-                        image={product.productData.image1}
-                        quantity={product.quanity}
-                        price={product.productData.costPerUnit}
-                        setPrice={setPrice}
-                        key={product.productData.name}
-                      />
-                    );
-                  })}
+                  {productsCart?.map((product) => (
+                    <CartItem
+                      product={product?.productData}
+                      variants={product?.variant}
+                      quanity={product?.quanity}
+                      setTotalPrice={setTotalPrice}
+                    />
+                  ))}
                 </div>
               </div>
               <div className="w-1/3">
@@ -349,7 +281,7 @@ function MyCart() {
                     <p className="font-bold text-black">Grand Total : </p>
                   </div>
                   <div className="w-1/3  text-black text-center">
-                    <p className="font-extrabold">{numFormatter(price)}</p>
+                    <p className="font-extrabold">{numFormatter(100000)}</p>
                   </div>
                 </div>
               </div>

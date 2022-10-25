@@ -3,7 +3,7 @@ import ButtonFooterContainer from "./ButtonFooterContainer";
 import LongButton from "./LongButton";
 import { useRef, memo, useState } from "react";
 import ApiComment from "../apis/comment";
-import UploadStatus from "../components/UploadStatus";
+import { Upload } from "./UploadStatus";
 
 const CreateComponentPopup = ({
   setShowPopupComment,
@@ -28,7 +28,7 @@ const CreateComponentPopup = ({
   const commentRef = useRef();
   return (
     <div
-      className={`fixed w-screen h-screen bg-white z-30 lg:hidden ${
+      className={`fixed w-screen h-screen bg-white z-30 md:hidden ${
         !showPopupComment ? "translate-x-[100%]" : "translate-x-[0]"
       } transition-all`}
     >
@@ -40,10 +40,10 @@ const CreateComponentPopup = ({
           setIsClick(false);
         }}
       >
-        <UploadStatus
+        <Upload
           status={status}
           content={
-            status ? "Đăng bình luận thành công" : `Có lỗi xảy ra thử lại sau`
+            status ? "Đăng bình luận thành công" : `Đã có lỗi xảy ra`
           }
         />
       </div>

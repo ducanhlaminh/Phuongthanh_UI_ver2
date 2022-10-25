@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ApiComment from "../../apis/comment";
 import ApiProduct from "../../apis/product";
+import ApiCart from "../../apis/cart";
 import ButtonFooterContainer from "../../components/ButtonFooterContainer";
 import CreateComponentPopup from "../../components/CreateCommentPopup";
 import DetailNavDesktop from "../../components/DetailNavDesktop";
@@ -12,44 +13,37 @@ import LongButton from "../../components/LongButton";
 import NameAndDescription from "../../components/NameAndDescription";
 import RelatedProduct from "../../components/RelatedProduct";
 import {
-  ReviewAndRatingDesktop,
-  ReviewAndRatingMobile,
+  ReviewAndRatingDesktop, ReviewAndRatingMobile
 } from "../../components/ReviewAndRating";
 import SideNavigateMenu from "../../components/SideNavigateMenu";
 import Voucher from "../../components/Voucher";
-
+import SelectvariantPopup from "../../triggercompoents/SelectVariantPopup";
 import icons from "../../ultils/icons";
+import {PriceCaculator} from '../../ultils/caculator'
+import { NotiStatus } from "../../components/UploadStatus";
 
-const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
-  icons;
+const {AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine} =  icons
 const DetailProduct = () => {
   const id = useParams()["id"];
-  const productDetailRef = useRef();
-  const relatedProductRef = useRef();
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
   const [comments, setComments] = useState({});
-  const [mainImage, setMainImage] = useState(product?.mainImage);
-  const [initPosition, setInitPosition] = useState({ left: 0, width: 0 });
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
   const [showPopupReview, setShowPopupReview] = useState(false);
   const [showPopupComment, setShowPopupComment] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const [showPopupCart, setShowPopupCart] = useState(false);
+  const [variantTypes, setVariantTypes] = useState([]);
+  const [canAtc, setCanAtc] = useState(false);
+  const [activeNotiStatus, setActiveNotiStatus] = useState(false)
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
-      setProduct(res.productData.rows[0]);
-      setMainImage(res.productData.rows[0].mainImage);
+      let product = res.productData.rows[0]
+      setProduct(product);
+      setVariantTypes(new Array(product?.variants.length).fill(null))
     };
-    setInitPosition((prev) => {
-      return {
-        ...prev,
-        left: productDetailRef?.current?.offsetLeft,
-        width: productDetailRef?.current?.offsetWidth,
-      };
-    });
 
     const fetchComments = async () => {
       const res = await ApiComment.getComment({ productId: id });
@@ -58,12 +52,7 @@ const DetailProduct = () => {
     fetchComments();
     fetchProduct();
   }, []);
-  const infoClickHandler = (ref) => {
-    setInitPosition({
-      left: ref.current.offsetLeft,
-      width: ref.current.offsetWidth,
-    });
-  };
+
   const handleRenderStar = (starValue) => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -79,21 +68,71 @@ const DetailProduct = () => {
     return stars;
   };
 
+  const hanlePickVariants = (variant,value,price,index) => {
+    setVariantTypes((prev) => {
+      for (let i = 0; i < prev.length; i++) {
+        if (i === index) {
+          let data = {
+            variant: variant,
+            value: value,
+            price: price
+          }
+          prev[i] = data;
+        }
+      }
+      return [...prev];
+    })
+  }
+  useEffect(() => {
+    !variantTypes.includes(null)?setCanAtc(true):setCanAtc(false)
+  },[variantTypes])
+
+  const handleATC = async (id,variantTypes) => {
+    try {
+      let data = {
+        pid : id,
+        variant : variantTypes,
+      }
+      let res = await ApiCart.create(data)
+      if(res.status === 0) {
+        setVariantTypes(new Array(product?.variants.length).fill(null))
+        setCanAtc(false)
+        setActiveNotiStatus('success')
+        setShowPopupCart(false)
+      }else if (res.status === 1){
+        setActiveNotiStatus('warning')
+        setShowPopupCart(false)
+      }
+    } catch (error) {
+      setActiveNotiStatus('error')
+      console.log(error)
+    }
+  }
   return (
     <>
+      {<NotiStatus 
+        active={activeNotiStatus}
+        setActive={setActiveNotiStatus}
+      />}
       {product && (
         <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
-          {/* <SelectvariantPopup 
+          <SelectvariantPopup 
             setShowPopupCart={setShowPopupCart}
             showPopupCart={showPopupCart}
             product={product}
             setShowPopupReview={setShowPopupReview}
             comments={comments}
-          /> */}
+            handleATC={handleATC}
+            activeNotiStatus={activeNotiStatus}
+            setActiveNotiStatus={setActiveNotiStatus}
+          />
+
           {showHeader && (
-            <Header>
-              <MdOutlineArrowBackIosNew size="24" />
-            </Header>
+            <div className="md:hidden">
+              <Header>
+                <MdOutlineArrowBackIosNew size="24" />
+              </Header>
+            </div>
           )}
 
           <ReviewAndRatingMobile
@@ -113,7 +152,7 @@ const DetailProduct = () => {
             id={product.id}
           />
           <div className="bg-[white] pl-[16px] ">
-            <div className="lg:flex">
+            <div className="md:flex">
               <section>
                 <div className="relative">
                   {/* image mobile */}
@@ -123,7 +162,6 @@ const DetailProduct = () => {
                     image2={product.image2}
                     image3={product.image3}
                     type="mobile"
-                    mainImageScreen=""
                   />
 
                   {/* image desktop */}
@@ -133,18 +171,17 @@ const DetailProduct = () => {
                     image2={product.image2}
                     image3={product.image3}
                     type="desktop"
-                    mainImageScreen={mainImage}
                   />
                 </div>
               </section>
 
-              <div className="lg:ml-[20px]">
+              <div className="md:ml-[20px]">
                 <NameAndDescription
                   name={product.name}
                   shortDescription={product?.shortDescription}
                 />
 
-                <section className="hidden lg:flex mt-[28px] mb-[30px]">
+                <section className="hidden md:flex mt-[28px] mb-[30px]">
                   {handleRenderStar(product?.scores)?.map((content, i) => (
                     <span key={i}>{content}</span>
                   ))}
@@ -154,34 +191,61 @@ const DetailProduct = () => {
                 </section>
 
                 <section className="flex items-center">
-                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] lg:text-[40px] lg:font-semibold">
+                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
                     <span>đ</span>
-                    {Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {!canAtc&&Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {canAtc&&PriceCaculator(product,variantTypes)}
                   </p>
-                  <div className="text-[#626262] relative mr-[8px] lg:translate-y-[5px]">
-                    <span className=" font-medium text-[14px] leading-5 lg:text-[34px] lg:font-semibold lg:text-[#B6B6B6]">
+                  <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
+                    <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
                       <span>đ</span>
                       {Number(
                         product.costPerUnit?.toFixed(1)
                       )?.toLocaleString()}
                     </span>
-                    <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] lg:top-[35%]"></div>
+                    <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] lg:font-semibold lg:text-[#FF404B]">
+                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[20px] md:font-semibold md:text-[#FF404B]">
                     20%OFF
                   </p>
                 </section>
-                <section className="pb-[16px] hidden lg:block mt-[20px]">
+                <section className="pb-[16px] hidden md:block mt-[20px]">
                   <Voucher Vouchers={Vouchers}></Voucher>
                 </section>
 
-                <section className="hidden lg:flex">
+                <div className="hidden md:block mb-[16px]">
+                <div className={`text-[#e21d1d] ${canAtc?'invisible':'visible'}`} >Vui lòng chọn loại hàng để thêm vào giỏ</div>
+                  {product?.variants.map((variant,index) => {
+                    return (
+                      <div key={variant.id} className="select-none">
+                        <p className="text-[18px] font-semibold text-black">
+                          {variant?.name}
+                        </p>
+                        <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
+                          {variant?.value.map((value) => (
+                            <div
+                              onClick={() => hanlePickVariants(variant?.name,value?.type,value?.price,index)}
+                              key={value.id}
+                              className={`p-[8px] cursor-pointer border-[3px] rounded-[8px] ${variantTypes[index]?.value === value?.type? 'border-[#1b4b66]':''}`}
+                            >
+                              {value.type}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <section className="hidden md:flex">
                   <LongButton
                     width="328px"
                     height="44px"
                     backgroundColor="#1B4B66"
                     size="14px"
                     color="white"
+                    disabled={!canAtc}
+                    handleClick={() => handleATC(product?.id,variantTypes)}
                   >
                     <RiHandbagLine size="24px"></RiHandbagLine>
                     <p>Thêm vào giỏ</p>
@@ -203,7 +267,7 @@ const DetailProduct = () => {
               </div>
             </div>
 
-            <section className="flex mt-[10px] pb-[20px] lg:hidden">
+            <section className="flex mt-[10px] pb-[20px] md:hidden">
               <div className="flex items-center w-[74px] h-[38px] bg-[#f4f4f4] rounded-[4px] justify-center mr-[14px]">
                 <p className="text-[#171520] text-[16px] leading-4 font-semibold mr-[4px]">
                   {product.scores}
@@ -221,13 +285,14 @@ const DetailProduct = () => {
               </div>
             </section>
 
-            <section className="pb-[16px] lg:hidden">
+            <section className="pb-[16px] md:hidden">
               <Voucher Vouchers={Vouchers}></Voucher>
             </section>
           </div>
 
-          <section className="mt-[8px] bg-white lg:hidden">
-            <Dropdown title="Mô tả sản phẩm">
+          <section className="mt-[8px] bg-white md:hidden">
+            <Dropdown title="Mô tả sản phẩm" 
+            opened={true}>
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
                 {product.description}
               </p>
@@ -235,7 +300,7 @@ const DetailProduct = () => {
           </section>
 
           <section
-            className="mt-[8px] bg-white lg:hidden"
+            className="mt-[8px] bg-white md:hidden"
             onClick={() => {
               setShowPopupReview(true);
               setShowHeader(false);
@@ -244,19 +309,15 @@ const DetailProduct = () => {
             <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
           </section>
 
-          <div className="h-[66px] lg:hidden"></div>
+          <div className="h-[66px] md:hidden"></div>
 
           <DetailNavDesktop
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            productDetailRef={productDetailRef}
-            relatedProductRef={relatedProductRef}
             ratingAndReviewRef={ratingAndReviewRef}
-            initPosition={initPosition}
-            infoClickHandler={infoClickHandler}
           />
 
-          <section className="hidden lg:block ml-[20px] mt-[24px] mb-[95px]">
+          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px] min-h-[300px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
                 {product.description}
@@ -270,7 +331,7 @@ const DetailProduct = () => {
             </div>
           </section>
 
-          <div className="lg:hidden">
+          <div className="md:hidden">
             <ButtonFooterContainer>
               <button className="w-[44px] h-[44px] bg-[#F4F4F4] rounded-[8px] flex items-center justify-center text-primary">
                 <AiOutlineHeart size="24px"></AiOutlineHeart>
@@ -287,6 +348,7 @@ const DetailProduct = () => {
                   color="white"
                   backgroundColor="#1B4B66"
                   size="14px"
+                  disabled={false}
                 >
                   <RiHandbagLine size="24px"></RiHandbagLine>
                   <p>Chọn loại hàng</p>

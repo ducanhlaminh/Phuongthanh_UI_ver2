@@ -1,5 +1,32 @@
-const DetailNavDesktop = ({activeTab,setActiveTab,productDetailRef,relatedProductRef,infoClickHandler,ratingAndReviewRef,initPosition}) => {
-  return <div className="h-[48px] items-center relative bg-lightGrey mx-[20px] rounded-[12px] px-[16px] mt-[55px] hidden lg:flex">
+import { useEffect, useRef, useState } from "react";
+
+const DetailNavDesktop = (
+  {activeTab,
+  setActiveTab,
+  ratingAndReviewRef,}
+  ) => {
+  const relatedProductRef = useRef();
+  const productDetailRef = useRef();
+  const [initPosition, setInitPosition] = useState({ left: 0, width: 0 });
+
+  const infoClickHandler = (ref) => {
+    setInitPosition({
+      left: ref.current.offsetLeft,
+      width: ref.current.offsetWidth,
+    });
+  };
+  
+  useEffect(() => {
+    setInitPosition((prev) => {
+      return {
+        ...prev,
+        left: productDetailRef?.current?.offsetLeft,
+        width: productDetailRef?.current?.offsetWidth,
+      };
+    });
+
+  },[relatedProductRef,productDetailRef])
+  return <div className="h-[48px] items-center relative bg-lightGrey mx-[20px] rounded-[12px] px-[16px] mt-[55px] hidden md:flex">
   <div
     className={`px-[18px] py-[10px] z-10 ${
       activeTab[0] === 1 ? "text-white" : "text-darkGrey"

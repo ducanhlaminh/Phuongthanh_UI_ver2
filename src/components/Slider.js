@@ -17,14 +17,14 @@ const Slider = () => {
                 }
             }
             chosen = chosen >= (sliderItems.length - 1) ? 0 : chosen + 1
-        }, 2500)
+        }, 3500)
         return () => {
             intervalId && clearInterval(intervalId)
         }
     }, [])
 
     return (
-        <div className='relative overflow-hidden bg-white lg:h-[414px] md:h-[250px] h-[120px] rounded-lg md:mx-5 mx-4'>
+        <div className='relative overflow-hidden bg-white md:h-[414px] md:h-[300px] h-[150px] rounded-lg md:mx-5 mx-4'>
             <div className='w-full h-full'></div>
             {categories?.map((item, index) => (
                 <Link

@@ -1,5 +1,17 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
+import {
+  Public,
+  Login,
+  Home,
+  DetailProduct,
+  Category,
+  ProfileClient,
+  UserMobileNav,
+  Personal,
+  Mycart,
+  CheckOut,
+} from "./containers/public";
 
 import {
   Public,
@@ -65,7 +77,7 @@ function App() {
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
-
+          <Route path={path.USERMOBILENAV} element={<UserMobileNav />} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<PersonalInformation />} />
