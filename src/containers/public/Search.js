@@ -1,7 +1,7 @@
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { RiSearchLine } from "react-icons/ri";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import ApiProduct from "../../apis/product";
 import Card from "../../components/Card";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
@@ -10,7 +10,6 @@ const Search = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [products, setProducts] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(products)
   useEffect(() => {
     const fetchProduct = async () => {
       try {
