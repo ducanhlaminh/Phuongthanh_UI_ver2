@@ -301,6 +301,9 @@ const InputVariant = ({
   useEffect(() => {
     console.log(variants);
   }, [variants]);
+  useEffect(() => {
+    console.log(variantValue);
+  }, [variantValue]);
   return (
     <div className={`w-full`}>
       <div className="h-[50%] flex">
@@ -322,6 +325,7 @@ const InputVariant = ({
             textColor="#fff"
             height="2"
             onClick={() => {
+              console.log(variantValue.value.length);
               if (variantValue.value) {
                 setVariants((prev) => [...prev, variantValue]);
                 setVariantValue({ name: "", value: [] });
@@ -330,7 +334,7 @@ const InputVariant = ({
                 console.log(variantChild.type !== "");
                 console.log(variantChild.price !== "");
                 console.log(variantValue.name !== "");
-                console.log(variantValue);
+                console.log("ể");
               }
             }}
           ></Button>
@@ -370,43 +374,46 @@ const InputVariant = ({
                 (variantChild.price !== "") &
                 (variantValue.name !== "")
               ) {
-                console.log(12);
                 setVariantValue((prev) => {
                   const type = "value";
-                  return { ...prev, [type]: variantChild };
+                  return { ...prev, [type]: [...prev.value, variantChild] };
                 });
+                setVariantChild({ type: "", price: "" });
               }
             }}
           ></Button>
         </div>
       </div>
-      {/* <div className="flex flex-wrap">
-                {variants?.map((variant, index) =>
-                (<div className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px]" key={index}>
-                    <b className=" ">{`${variant?.name} : `}</b>
+      <div className="flex flex-wrap">
+        {variants?.map((variant, index) => (
+          <div
+            className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px]"
+            key={index}
+            onClick={() =>
+              setVariants((prev) => [...prev].filter((item, i) => i !== index))
+            }
+          >
+            <b className=" ">{`${variant?.name} : `}</b>
+            <div className="">
+              {variant?.value?.map((type, index) => {
+                const cost = Intl.NumberFormat("it-IT", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(type.price);
+
+                return (
+                  <>
                     <div className="">
-                        {variant?.value?.map((type, index) => {
-
-                            const cost = Intl.NumberFormat("it-IT", {
-                                style: "currency",
-                                currency: "VND",
-                            }).format(type.price)
-
-                            return (
-                                <>
-                                    <div className="">
-                                        <span className=" p-2">{`Loại : ${type.type}`}</span>
-                                        <span className="">{`Giá :  ${cost}`}</span>
-                                    </div>
-
-                                </>
-                            )
-                        })}
+                      <span className=" p-2">{`Loại : ${type.type}`}</span>
+                      <span className="">{`Giá :  ${cost}`}</span>
                     </div>
-
-                </div>)
-                )}
-            </div> */}
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

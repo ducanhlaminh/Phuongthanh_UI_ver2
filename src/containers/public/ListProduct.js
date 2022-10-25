@@ -19,11 +19,11 @@ function ListProducts({ categoryData }) {
   const [selectedFilterSider, setSelectedFilterSider] = useState([]);
   const [isShow, setIsShow] = useState(false);
   const { products, loading } = useSelector((state) => state.app);
-  const [isShowFilter, setIsShowFilter] = useState(false);
+  const [isShowFilter, setIsShowFilter] = useState(true);
   const minDistance = 100000;
 
-  const [value2, setValue2] = useState([50000, 80000]);
-  const [value, setValue] = useState([50000, 80000]);
+  const [value2, setValue2] = useState([50000, 200000]);
+  const [value, setValue] = useState([50000, 200000]);
   const handleChange2 = (event, newValue, activeThumb) => {
     setValue2(newValue);
   };
@@ -52,23 +52,24 @@ function ListProducts({ categoryData }) {
   }
   useEffect(() => {
     const filter = Object.values(selectedFilter.sort);
-
     dispatch(
       actions.getProduct({
         categoryCode: categoryData.code,
-        inStocking: 1,
+        inStocking: selectedFilterSider.some((item) => item.valueVi) ? 1 : 0,
         price: value2,
         order: [...filter],
       })
     );
-  }, [selectedFilter, categoryData, value2]);
-
+  }, [selectedFilter, categoryData, value2, selectedFilterSider]);
+  useEffect(() => {
+    console.log(selectedFilterSider);
+  }, [selectedFilterSider]);
   return (
     <>
       {/* Mobile */}
       <div className="md:hidden">
         <AppBar title={categoryData.valueVi} />
-        <div className="w-full flex flex-wrap justify-evenly my-[56px]">
+        <div className="w-full flex flex-wrap  justify-evenly my-[56px]">
           {products?.map((product) => (
             <Card
               key={product.id}
@@ -133,6 +134,17 @@ function ListProducts({ categoryData }) {
                             type="checkbox"
                             value={JSON.stringify(filter)}
                             className="w-1/5"
+                            onClick={() => {
+                              setSelectedFilterSider((prev) => {
+                                return prev.some(
+                                  (item) => item.valueVi === filter.valueVi
+                                )
+                                  ? prev.filter(
+                                      (item) => item.valueVi !== filter.valueVi
+                                    )
+                                  : [...prev, filter];
+                              });
+                            }}
                           />
                           <label htmlFor="" className="w-4/5 text-center">
                             {filter.valueVi}

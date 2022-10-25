@@ -13,10 +13,10 @@ function numFormatter(num) {
     currency: "VND",
   }).format(num); // if value < 1000, nothing to do
 }
-
 function MyCart() {
   const [showPopupCart, setShowPopupCart] = useState(true);
   const [address, setAddress] = useState();
+  const [price, setPrice] = useState(0);
   const [selectAddress, setSelectAddress] = useState("");
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
@@ -49,7 +49,7 @@ function MyCart() {
                 const data = JSON.parse(addres.address);
 
                 return (
-                  <div className="flex pb-3" key={addres.address}>
+                  <div className="flex pb-3" key={addres.id}>
                     <input
                       type="radio"
                       className="mr-4"
@@ -311,22 +311,19 @@ function MyCart() {
                 </div>
                 <div className=" overflow-auto h-[300px] scroll-smooth">
                   {/* product */}
-                  {/* <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem />
-                  <CartItem /> */}
-                  {productsCart?.map((product, index) => (
-                    <CartItem
-                      name={product.productData.name}
-                      image={product.productData.image1}
-                      quantity={product.quanity}
-                      price={product.productData.costPerUnit}
-                    />
-                  ))}
+
+                  {productsCart?.map((product, index) => {
+                    return (
+                      <CartItem
+                        name={product.productData.name}
+                        image={product.productData.image1}
+                        quantity={product.quanity}
+                        price={product.productData.costPerUnit}
+                        setPrice={setPrice}
+                        key={product.productData.name}
+                      />
+                    );
+                  })}
                 </div>
               </div>
               <div className="w-1/3">
@@ -352,7 +349,7 @@ function MyCart() {
                     <p className="font-bold text-black">Grand Total : </p>
                   </div>
                   <div className="w-1/3  text-black text-center">
-                    <p className="font-extrabold">{numFormatter(100000)}</p>
+                    <p className="font-extrabold">{numFormatter(price)}</p>
                   </div>
                 </div>
               </div>

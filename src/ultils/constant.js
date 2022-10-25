@@ -62,14 +62,6 @@ export const filtersSider = [
     valueVi: "Stocking",
     code: 1,
   },
-  {
-    valueVi: "Stocking",
-    code: 1,
-  },
-  {
-    valueVi: "Stocking",
-    code: 1,
-  },
 ];
 export const adminMenu = [
   {

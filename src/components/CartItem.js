@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
@@ -12,8 +12,10 @@ const CartItem = ({
   shortDes = "Chistian Dior",
   price = 100000,
   quantity = 5,
+  setPrice,
 }) => {
   const [quanti, setQuanti] = useState(quantity);
+  setPrice(price * quantity);
   return (
     <>
       <div className="my-3 border-b-2 px-3">
