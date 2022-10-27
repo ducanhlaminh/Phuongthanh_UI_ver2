@@ -34,10 +34,10 @@ const HeaderLaptop = () => {
                     <Link to={`/${path.PROFILE}`}>
                         {isLoggedIn ? <RiUser6Line size={24} /> : <p className='text-[14px] font-semibold'>Đăng nhập/Đăng kí</p>}
                     </Link>
-                    <span className='relative'>
+                    <Link to={'/cart'} className='relative'>
                         <AiOutlineShoppingCart size={26} />
                         <span className='absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full'></span>
-                    </span>
+                    </Link>
                 </div>
             </div>
         </div>

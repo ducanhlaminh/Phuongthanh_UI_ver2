@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CartItem from "../../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
+import { TotalPriceCaculator } from "../../ultils/caculator";
 
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
@@ -14,11 +15,24 @@ function numFormatter(num) {
 
 function MyCart() {
   const [totalPrice, setTotalPrice] = useState(0)
+  const [checkedList, setCheckedList] = useState([])
+  const [quanityList, setQuanityList] = useState([])
+  const [deliverFee, setDeliverFee] = useState(0)
+
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
     dispatch(actions.addToCart());
   }, []);
+
+
+  useEffect(() => {
+    if(checkedList.length !== 0 && quanityList.length !== 0 && productsCart){
+     let tmpPrice =  TotalPriceCaculator(productsCart,checkedList,quanityList)
+     setTotalPrice(tmpPrice)
+    }
+  },[checkedList,quanityList])
+
 
   return (
     <>
@@ -252,8 +266,10 @@ function MyCart() {
                     <CartItem
                       product={product?.productData}
                       variants={product?.variant}
-                      quanity={product?.quanity}
-                      setTotalPrice={setTotalPrice}
+                      checkedList={checkedList}
+                      setCheckedList={setCheckedList}
+                      setQuanityList={setQuanityList}
+                      quanityList={quanityList}
                     />
                   ))}
                 </div>
@@ -265,13 +281,13 @@ function MyCart() {
 
                 <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
                   <div className="w-1/2 ">
-                    <p>Sub total : </p>
-                    <p>Delivery Fee : </p>
+                    <p>Tổng hóa đơn : </p>
+                    <p>Phí vận chuyển : </p>
                     {/* <p className="font-bold text-black">Grand Total : </p> */}
                   </div>
-                  <div className="w-1/3  text-black text-center">
-                    <p>{numFormatter(100000)}</p>
-                    <p>{numFormatter(100000)}</p>
+                  <div className="w-1/3  text-black text-right">
+                    <p>{numFormatter(totalPrice)}</p>
+                    <p>{numFormatter(0)}</p>
 
                     {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
                   </div>
@@ -280,8 +296,8 @@ function MyCart() {
                   <div className="w-1/2 ">
                     <p className="font-bold text-black">Grand Total : </p>
                   </div>
-                  <div className="w-1/3  text-black text-center">
-                    <p className="font-extrabold">{numFormatter(100000)}</p>
+                  <div className="w-1/3  text-black text-right">
+                    <p className="font-extrabold">{numFormatter(deliverFee+totalPrice)}</p>
                   </div>
                 </div>
               </div>

@@ -8,18 +8,47 @@ function numFormatter(num) {
     currency: "VND",
   }).format(num); // if value < 1000, nothing to do
 }
-const CartItem = ({product,variants,quanity,setTotalPrice}) => {
+const CartItem = ({
+  product,variants,
+  setQuanityList,
+  quanityList,
+  checkedList,
+  setCheckedList}
+  ) => {
   const{id,name,mainImage,soldCounter} = product 
   const [price, setPrice] = useState(0)
-  const [quanityProduct, setQuanityProduct] = useState(quanity)
+  const [quanityProduct, setQuanityProduct] = useState(1)
   const [isChecked, setIsChecked] = useState(false)
+  let idUnique = null
+
+  const getIdUnique = () => {
+    idUnique=id
+    variants.map((variant) => {
+      idUnique += `--${variant.variant}-${variant.value}_${variant.price}`
+    })
+  }
+  getIdUnique()
 
   useEffect(() => setPrice(PriceCaculator(product,variants)),[])
   useEffect(() => {
+    let index = checkedList.indexOf(idUnique)
+    if(isChecked) {
+      if(index !== -1){
+        quanityList.splice(index,1,quanityProduct)
+        let data = quanityList
+        setQuanityList([...data])
+      }else{
+        setQuanityList(prev => [...prev,quanityProduct])
+        setCheckedList(prev => [...prev,idUnique])
+      }
+    }else if(!isChecked){
+      if(index!==-1){
+        quanityList.splice(index,1)
+        setCheckedList(prev => prev.filter(id => id !== idUnique))
+      }
+    }
+  },[quanityProduct,isChecked])
 
-  },[quanityProduct])
-  console.log(isChecked)
-  let idUnique = id+Math.random()
   return (
     <>
       <div key={idUnique} className="my-3 border-b-2 px-3">
@@ -41,19 +70,19 @@ const CartItem = ({product,variants,quanity,setTotalPrice}) => {
                   </div>
                   <select
                     className="bg-slate-300 text-xs h-[20px]"
-                    defaultValue={quanityProduct}
+                    defaultValue={1}
                     onChange={(e) => setQuanityProduct(e.target.value)}
                   >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                    <option value={6}>6</option>
+                    <option value={7}>7</option>
+                    <option value={8}>8</option>
+                    <option value={9}>9</option>
+                    <option value={10}>10</option>
                   </select>
                 </div>
                 <div className="inline">{
@@ -84,6 +113,7 @@ const CartItem = ({product,variants,quanity,setTotalPrice}) => {
               <input id={idUnique} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
               <label className="cursor-pointer" htmlFor={idUnique}>Chọn</label>
             </p>
+            <p className="text-primary border-b-4 border-b-primary ml-[24px] pb-5 w-fit mr-2">Thêm vào mục yêu thích</p>
             <p className=" text-red-700 border-b-4 ml-[24px] border-b-red-700 pb-5 w-fit cursor-pointer">
               Xóa
             </p>
