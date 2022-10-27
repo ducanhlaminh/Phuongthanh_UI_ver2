@@ -21,9 +21,9 @@ function ListProducts({ categoryData }) {
   const { products, loading } = useSelector((state) => state.app);
   const [isShowFilter, setIsShowFilter] = useState(true);
   const minDistance = 100000;
-
-  const [value2, setValue2] = useState([50000, 200000]);
-  const [value, setValue] = useState([50000, 200000]);
+  const {keyword}= useSelector((state) => state.search);
+  const [value2, setValue2] = useState([50000, 2000000000]);
+  const [value, setValue] = useState([50000, 2000000000]);
   const handleChange2 = (event, newValue, activeThumb) => {
     setValue2(newValue);
   };
@@ -51,11 +51,20 @@ function ListProducts({ categoryData }) {
   }
   useEffect(() => {
     const filter = Object.values(selectedFilter.sort);
-    dispatch(
+    (keyword&&!categoryData)?dispatch(
+      actions.getProduct({
+        inStocking: selectedFilterSider.some((item) => item.valueVi) ? 1 : 0,
+        name:keyword,
+        limitProduct:10,
+        price: value2,
+        order: [...filter],
+      })
+    ):dispatch(
       actions.getProduct({
         categoryCode: categoryData.code,
         inStocking: selectedFilterSider.some((item) => item.valueVi) ? 1 : 0,
         price: value2,
+        limitProduct:10,
         order: [...filter],
       })
     );

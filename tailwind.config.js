@@ -52,8 +52,24 @@ module.exports = {
         'top-popup':'top-popup 2s ease-in-out both;',
         'top-popup2':'top-popup2 2s ease-in-out both;',
         'show-noti-left': 'show-noti-left 5s ease-out both;',
+        'bounce2':'bounce2 .5s'
       },
       keyframes: {
+        bounce2:{
+          '0%':{
+            transform: 'translateY(0%)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%':{
+            'transform': 'translateY(25%)',
+            'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+          '100%':{
+            transform: 'translateY(0%)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+        }
+        ,
         modalShow: {
           '0%': { transform: 'translateX(-100px)', },
           '100%': { transform: 'translateX(0%)' }

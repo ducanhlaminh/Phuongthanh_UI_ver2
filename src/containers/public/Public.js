@@ -27,8 +27,7 @@ const Public = () => {
       </div>
       {(params["*"] === "" ||
         params["*"] === "gian-hang" ||
-        params["*"] === "tai-khoan" ||
-        params["*"] === "bag") && (
+        params["*"] === "tai-khoan") && (
         <div className="flex-none md:hidden z-50">
           <ButtonFooterContainer>
             <Link
@@ -74,7 +73,7 @@ const Public = () => {
               )}
             </Link>
             <Link
-              to="/bag"
+              to="/cart"
               className={`flex flex-col justify-center items-center text-primary ${
                 activeNav[3] === 1 ? "text-primary" : "text-darkGrey-tint"
               } transition-all`}
