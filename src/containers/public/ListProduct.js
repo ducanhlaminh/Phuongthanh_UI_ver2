@@ -32,7 +32,6 @@ function ListProducts({ categoryData }) {
       return;
     }
     if (newValue[1] - newValue[0] < minDistance) {
-      console.log(newValue);
       if (activeThumb === 0) {
         const clamped = Math.min(newValue[0], 1000000 - minDistance);
         setValue([clamped, clamped + minDistance]);

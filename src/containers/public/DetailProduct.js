@@ -51,7 +51,7 @@ const DetailProduct = () => {
     };
     fetchComments();
     fetchProduct();
-  }, []);
+  }, [id]);
 
   const handleRenderStar = (starValue) => {
     let stars = [];

@@ -71,11 +71,10 @@ function App() {
           <Route path={path.USERMOBILENAV} element={<UserMobileNav />} />
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.SEARCH} element={<Search/>}></Route>
-          <Route path={path.SEARCH__KEYWORD} element={<Search/>}></Route>
           <Route path={path.PROFILE} element={<Profile />}>
-            <Route path={path.PERSONAL} element={<PersonalInformation />} />
+            <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
-            <Route path="*" element={<PersonalInformation />} />
+            <Route path="*" element={<Personal />} />
           </Route>
           <Route path={path.CART} element={<Mycart />}></Route>
           <Route path={path.ADD_ADDRESS} element={<AddAddress />} />
@@ -86,7 +85,11 @@ function App() {
               element={<ListProducts categoryData={item} />}
             />
           ))}
+
+          <Route path={path.SEARCH__KEYWORD} element={<ListProducts categoryData=''/>}></Route>
         </Route>
+
+        
 
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.SYSTEM} element={<System />}>
