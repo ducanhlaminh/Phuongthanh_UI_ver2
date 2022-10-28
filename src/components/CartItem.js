@@ -13,6 +13,8 @@ const CartItem = ({
   setQuanityList,
   quanityList,
   checkedList,
+  setOpenAlertPopup,
+  setIdDelete,
   setCheckedList}
   ) => {
   const{id,name,mainImage,soldCounter} = product 
@@ -113,8 +115,12 @@ const CartItem = ({
               <input id={idUnique} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
               <label className="cursor-pointer" htmlFor={idUnique}>Chọn</label>
             </p>
-            <p className="text-primary border-b-4 border-b-primary ml-[24px] pb-5 w-fit mr-2">Thêm vào mục yêu thích</p>
-            <p className=" text-red-700 border-b-4 ml-[24px] border-b-red-700 pb-5 w-fit cursor-pointer">
+            <p className="text-primary border-b-4 border-b-primary ml-[24px] pb-5 w-fit mr-2 cursor-pointer">Yêu thích</p>
+            <p 
+            onClick={() => {
+              setIdDelete(id)
+              setOpenAlertPopup(true)}}
+            className=" text-red-700 border-b-4 ml-[24px] border-b-red-700 pb-5 w-fit cursor-pointer">
               Xóa
             </p>
           </div>

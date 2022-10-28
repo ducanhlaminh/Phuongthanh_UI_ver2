@@ -5,19 +5,15 @@ import CartItem from "../../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
 import { TotalPriceCaculator } from "../../ultils/caculator";
-
-function numFormatter(num) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(num); // if value < 1000, nothing to do
-}
+import AlertPopup from "../../triggercompoents/AlertPopup";
+import { numFormatter } from "../../ultils/fn";
 
 function MyCart() {
   const [totalPrice, setTotalPrice] = useState(0)
   const [checkedList, setCheckedList] = useState([])
   const [quanityList, setQuanityList] = useState([])
-  const [deliverFee, setDeliverFee] = useState(0)
+  const [openAlertPopup, setOpenAlertPopup] = useState(false)
+  const [idDelete, setIdDelete] = useState(null)
 
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
@@ -30,6 +26,8 @@ function MyCart() {
     if(checkedList.length !== 0 && quanityList.length !== 0 && productsCart){
      let tmpPrice =  TotalPriceCaculator(productsCart,checkedList,quanityList)
      setTotalPrice(tmpPrice)
+    }else{
+      setTotalPrice(0)
     }
   },[checkedList,quanityList])
 
@@ -40,174 +38,19 @@ function MyCart() {
       <div className="md:hidden h-screen">
         <AppBar title="My Cart" />
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm vào yêu thích</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm vào yêu thích</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm vào yêu thích</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
+          {/* product */}
+          {productsCart?.map((product) => (
+            <CartItem
+              product={product?.productData}
+              variants={product?.variant}
+              checkedList={checkedList}
+              setCheckedList={setCheckedList}
+              setQuanityList={setQuanityList}
+              quanityList={quanityList}
+              setOpenAlertPopup={setOpenAlertPopup}
+              setIdDelete={setIdDelete}
+            />
+          ))}
         </div>
         <div className="min-h-[200px] ">
           <p className="text-base font-bold p-2 border-b-2">
@@ -270,6 +113,8 @@ function MyCart() {
                       setCheckedList={setCheckedList}
                       setQuanityList={setQuanityList}
                       quanityList={quanityList}
+                      setOpenAlertPopup={setOpenAlertPopup}
+                      setIdDelete={setIdDelete}
                     />
                   ))}
                 </div>
@@ -282,22 +127,19 @@ function MyCart() {
                 <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
                   <div className="w-1/2 ">
                     <p>Tổng hóa đơn : </p>
-                    <p>Phí vận chuyển : </p>
                     {/* <p className="font-bold text-black">Grand Total : </p> */}
                   </div>
                   <div className="w-1/3  text-black text-right">
                     <p>{numFormatter(totalPrice)}</p>
-                    <p>{numFormatter(0)}</p>
-
                     {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
                   </div>
                 </div>
                 <div className="flex justify-between font-bold text-gray-500 p-3">
                   <div className="w-1/2 ">
-                    <p className="font-bold text-black">Grand Total : </p>
+                    <p className="font-bold text-black">Thanh toán : </p>
                   </div>
                   <div className="w-1/3  text-black text-right">
-                    <p className="font-extrabold">{numFormatter(deliverFee+totalPrice)}</p>
+                    <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
                 </div>
               </div>
@@ -305,6 +147,11 @@ function MyCart() {
           </div>
         </div>
       </div>
+      <AlertPopup 
+        open={openAlertPopup}
+        setOpen={setOpenAlertPopup}
+        idDelete={idDelete}
+      />
     </>
   );
 }
