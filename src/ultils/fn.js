@@ -8,3 +8,10 @@ export const generatePath = (value) => {
         .join("-")
         .replace('đ', 'd')
 }
+
+export function numFormatter(num) {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(num); // if value < 1000, nothing to do
+  }

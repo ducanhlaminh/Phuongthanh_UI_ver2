@@ -14,7 +14,6 @@ const cartReducer = (state = initState, action) => {
       for (const product of action?.data) {
         products.push({ ...product, quanity: 1 });
       }
-      console.log(products);
       return {
         ...state,
 

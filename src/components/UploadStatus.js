@@ -25,9 +25,9 @@ export const NotiStatus = ({content,active,setActive}) => {
             contentDefault='Loại hàng này đã tồn tại. Vui lòng chọn số lượng tại giỏ hàng.'
             break;
         case 'error':
-            borderColor='border-[#ffb818]'
-            icon = <IoIosWarning size={26} color='#ffb818'/>
-            contentDefault='Vui lòng kiểm tra đường truyền mạng.'
+            borderColor='border-[#d72828]'
+            icon = <MdError size='26' color='#d72828'/>
+            contentDefault='Vui lòng đăng nhập để mua hàng.'
             break;
         default:
             borderColor='border-[#d72828]'
