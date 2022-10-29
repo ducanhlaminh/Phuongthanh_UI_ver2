@@ -36,7 +36,7 @@ function MyCart() {
     <>
       {/* Mobile */}
       <div className="md:hidden h-screen">
-        <AppBar title="My Cart" />
+        <AppBar title="Giỏ hàng" />
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
           {/* product */}
           {productsCart?.map((product) => (
@@ -49,6 +49,7 @@ function MyCart() {
               quanityList={quanityList}
               setOpenAlertPopup={setOpenAlertPopup}
               setIdDelete={setIdDelete}
+              isMobile={true}
             />
           ))}
         </div>
@@ -59,14 +60,11 @@ function MyCart() {
 
           <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
             <div className="w-1/2 ">
-              <p>Sub total : </p>
-              <p>Delivery Fee : </p>
+              <p>Tổng hóa đơn : </p>
               {/* <p className="font-bold text-black">Grand Total : </p> */}
             </div>
             <div className="w-1/3  text-black text-center">
-              <p>{numFormatter(100000)}</p>
-              <p>{numFormatter(100000)}</p>
-
+              <p>{numFormatter(totalPrice)}</p>
               {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
             </div>
           </div>
@@ -75,17 +73,17 @@ function MyCart() {
               <p className="font-bold text-black">Grand Total : </p>
             </div>
             <div className="w-1/3  text-black text-center">
-              <p className="font-extrabold">{numFormatter(100000)}</p>
+              <p className="font-extrabold">{numFormatter(totalPrice)}</p>
             </div>
           </div>
         </div>
         <div className="max-[80px] bg-[#eeeeeefc] flex items-center p-3 justify-between ">
           <div className="flex flex-col items-center">
-            <p className="font-bold">Total Bag Amount : </p>
-            <p>{numFormatter(100000)}</p>
+            <p className="font-bold">Thanh toán : </p>
+            <p>{numFormatter(totalPrice)}</p>
           </div>
           <div className="w-1/2">
-            <Button2 text="Place Order" />
+            <Button2 text="Tiến hành thanh toán" />
           </div>
         </div>
       </div>
@@ -115,6 +113,7 @@ function MyCart() {
                       quanityList={quanityList}
                       setOpenAlertPopup={setOpenAlertPopup}
                       setIdDelete={setIdDelete}
+                      isMobile={false}
                     />
                   ))}
                 </div>
