@@ -1,199 +1,64 @@
 import AppBar from "../../components/AppBar";
 import { Button2 } from "../../components";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CartItem from "../../components/CartItem";
+import CartItemMobile from "../../components/CartItemMobile";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
-
-function numFormatter(num) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(num); // if value < 1000, nothing to do
-}
+import { TotalPriceCaculator } from "../../ultils/caculator";
+import AlertPopup from "../../triggercompoents/AlertPopup";
+import { numFormatter } from "../../ultils/fn";
+import Voucher from "../../components/Voucher";
+import { NotiStatus } from "../../components/UploadStatus";
 
 function MyCart() {
   const [totalPrice, setTotalPrice] = useState(0)
+  const [checkedList, setCheckedList] = useState([])
+  const [quanityList, setQuanityList] = useState([])
+  const [openAlertPopup, setOpenAlertPopup] = useState(false)
+  const [idDelete, setIdDelete] = useState(null)
+  const [reload, setReload] = useState(false)
+  const [activeNotify, setActiveNotify] = useState(false)
+
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
     dispatch(actions.addToCart());
-  }, []);
+  }, [reload]);
+
+
+  useEffect(() => {
+    if(checkedList.length !== 0 && quanityList.length !== 0 && productsCart){
+     let tmpPrice =  TotalPriceCaculator(productsCart,checkedList,quanityList)
+     setTotalPrice(tmpPrice)
+    }else{
+      setTotalPrice(0)
+    }
+  },[checkedList,quanityList])
+
 
   return (
     <>
       {/* Mobile */}
       <div className="md:hidden h-screen">
-        <AppBar title="My Cart" />
+        <AppBar title="Giỏ hàng" />
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm vào yêu thích</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm vào yêu thích</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-              <img
-                src="https://centimet.vn/wp-content/uploads/1-7.jpg"
-                alt=""
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">Dior Bag</b>
-                <p>Chiisrtan Dior</p>
-                <div className="flex bg-slate-300 p-1 rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select name="" id="" className="bg-slate-300 font-bold">
-                    <option value="">1</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
-                    <option value="">6</option>
-                    <option value="">7</option>
-                    <option value="">8</option>
-                    <option value="">9</option>
-                    <option value="">10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">120.000đ</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Thêm vào yêu thích</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>
+          {/* product */}
+          {productsCart?.map((product) => (
+            <CartItemMobile
+              product={product?.productData}
+              cartID={product?.id}
+              variants={product?.variant}
+              checkedList={checkedList}
+              setCheckedList={setCheckedList}
+              setQuanityList={setQuanityList}
+              quanityList={quanityList}
+              setOpenAlertPopup={setOpenAlertPopup}
+              setIdDelete={setIdDelete}
+              isMobile={true}
+            />
+          ))}
         </div>
         <div className="min-h-[200px] ">
           <p className="text-base font-bold p-2 border-b-2">
@@ -202,14 +67,11 @@ function MyCart() {
 
           <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
             <div className="w-1/2 ">
-              <p>Sub total : </p>
-              <p>Delivery Fee : </p>
+              <p>Tổng hóa đơn : </p>
               {/* <p className="font-bold text-black">Grand Total : </p> */}
             </div>
             <div className="w-1/3  text-black text-center">
-              <p>{numFormatter(100000)}</p>
-              <p>{numFormatter(100000)}</p>
-
+              <p>{numFormatter(totalPrice)}</p>
               {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
             </div>
           </div>
@@ -218,22 +80,26 @@ function MyCart() {
               <p className="font-bold text-black">Grand Total : </p>
             </div>
             <div className="w-1/3  text-black text-center">
-              <p className="font-extrabold">{numFormatter(100000)}</p>
+              <p className="font-extrabold">{numFormatter(totalPrice)}</p>
             </div>
           </div>
         </div>
         <div className="max-[80px] bg-[#eeeeeefc] flex items-center p-3 justify-between ">
           <div className="flex flex-col items-center">
-            <p className="font-bold">Total Bag Amount : </p>
-            <p>{numFormatter(100000)}</p>
+            <p className="font-bold">Thanh toán : </p>
+            <p>{numFormatter(totalPrice)}</p>
           </div>
           <div className="w-1/2">
-            <Button2 text="Place Order" />
+            <Button2 text="Tiến hành thanh toán" />
           </div>
         </div>
       </div>
       {/* Desktop */}
       <div className="md:block hidden w-full ">
+        {<NotiStatus 
+        content={activeNotify === 'success'? 'Sản phẩm được xóa thành công': 'Xóa sản phẩm không thành công'}
+        active={activeNotify}
+        setActive={setActiveNotify}/>}
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           {/* <SliderImage /> */}
           <div className=" w-full md:block px-6 ">
@@ -248,12 +114,22 @@ function MyCart() {
                 </div>
                 <div className=" overflow-auto h-[560px] scroll-smooth">
                   {/* product */}
+                  {productsCart&&productsCart.length === 0 && <div className="text-center mt-[24px]">
+                   <div className="text-darkGrey">Hiện chưa có sản phẩm nào được thêm vào giỏ hàng</div>
+                   <Link className="text-primary" to='/'>Đi tới mua sắm </Link>
+                  </div>}
                   {productsCart?.map((product) => (
                     <CartItem
                       product={product?.productData}
+                      cartID={product?.id}
                       variants={product?.variant}
-                      quanity={product?.quanity}
-                      setTotalPrice={setTotalPrice}
+                      checkedList={checkedList}
+                      setCheckedList={setCheckedList}
+                      setQuanityList={setQuanityList}
+                      quanityList={quanityList}
+                      setOpenAlertPopup={setOpenAlertPopup}
+                      setIdDelete={setIdDelete}
+                      isMobile={false}
                     />
                   ))}
                 </div>
@@ -265,30 +141,38 @@ function MyCart() {
 
                 <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
                   <div className="w-1/2 ">
-                    <p>Sub total : </p>
-                    <p>Delivery Fee : </p>
+                    <p>Tổng hóa đơn : </p>
                     {/* <p className="font-bold text-black">Grand Total : </p> */}
                   </div>
-                  <div className="w-1/3  text-black text-center">
-                    <p>{numFormatter(100000)}</p>
-                    <p>{numFormatter(100000)}</p>
-
+                  <div className="w-1/3  text-black text-right">
+                    <p>{numFormatter(totalPrice)}</p>
                     {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
                   </div>
                 </div>
-                <div className="flex justify-between font-bold text-gray-500 p-3">
+                <div className="flex justify-between font-bold mb-[24px] text-gray-500 p-3">
                   <div className="w-1/2 ">
-                    <p className="font-bold text-black">Grand Total : </p>
+                    <p className="font-bold text-black">Thanh toán : </p>
                   </div>
-                  <div className="w-1/3  text-black text-center">
-                    <p className="font-extrabold">{numFormatter(100000)}</p>
+                  <div className="w-1/3  text-black text-right">
+                    <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
+                </div>
+                <Button2 text={'Tiến hành thanh toán'}/>
+                <div className="mt-[24px] w-full">
+                  <Voucher isFreeShip={totalPrice < 500000 ? false : true}/>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <AlertPopup 
+        open={openAlertPopup}
+        setOpen={setOpenAlertPopup}
+        idDelete={idDelete}
+        setReload={setReload}
+        setActiveNotify={setActiveNotify}
+      />
     </>
   );
 }
