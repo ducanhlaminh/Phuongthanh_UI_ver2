@@ -116,11 +116,13 @@ const DetailProduct = () => {
         setShowPopupCart(false);
         setAddToCartSuccess(true);
         dispatch(actions.fetchCartQuantity('success'));
+
       } else if (res.status === 1) {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
         setAddToCartSuccess(true);
         dispatch(actions.fetchCartQuantity('warning'));
+        
       }
     } catch (error) {
       setActiveNotiStatus("error");

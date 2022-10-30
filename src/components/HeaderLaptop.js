@@ -12,7 +12,7 @@ import * as actions from "../store/actions";
 const { RiUser6Line, AiOutlineShoppingCart, BsDot } = icons;
 
 const HeaderLaptop = () => {
-  const { fetchCartQuantity,productsCart } = useSelector((state) => {return state.cart});
+  const { fetchCartQuantity,productsCart } = useSelector((state) => {console.log(state);return state.cart});
   const [cartQuantity, setCartQuantity] = useState(productsCart.length);
   const dispatch = useDispatch();
   useEffect(() => {

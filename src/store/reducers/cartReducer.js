@@ -6,6 +6,7 @@ const initState = {
   count: 0,
   TotalPrice: 0,
   fetchCartQuantity:false,
+  animateStatus: false,
 };
 
 const cartReducer = (state = initState, action) => {
