@@ -4,6 +4,9 @@ import ButtonFooterContainer from "./ButtonFooterContainer";
 import LongButton from "./LongButton";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import PagePagination from "./PagePagination";
+import { useEffect, useRef } from "react";
+
 export const ReviewAndRatingMobile = ({
   commentData,
   name,
@@ -13,9 +16,19 @@ export const ReviewAndRatingMobile = ({
   showPopupReview,
   setShowPopupComment,
   setShowHeader,
+  currentPage,
+  setCurrentPage,
 }) => {
+  const topRef = useRef();
+  useEffect(() => {
+    topRef?.current.scrollIntoView({behavior:'smooth'});
+  }, [currentPage]);
   return (
-    <div className={`fixed z-20 h-screen w-screen top-0 left-0 bg-lightGrey flex flex-col md:hidden ${ !showPopupReview?'translate-x-[100%]':'translate-x-[0]'} transition-all`}>
+    <div
+      className={`fixed z-20 h-screen w-screen top-0 left-0 bg-lightGrey flex flex-col md:hidden ${
+        !showPopupReview ? "translate-x-[100%]" : "translate-x-[0]"
+      } transition-all`}
+    >
       <header className="bg-white h-[56px] pl-[16px] flex-none flex items-center ">
         <MdOutlineArrowBackIosNew
           size="24"
@@ -42,9 +55,10 @@ export const ReviewAndRatingMobile = ({
       </section>
 
       <section className="bg-white pl-[16px] flex-auto overflow-y-auto mt-[8px]">
-        {commentData?.length > 0 ? (
+        <div ref={topRef}></div>
+        {commentData?.rows?.length > 0 ? (
           <div className="pt-[24px]">
-            {commentData?.map((comment, i) => {
+            {commentData?.rows?.map((comment, i) => {
               return (
                 <div key={i} className="mb-[24px]">
                   <div className="flex items-center mb-[12px]">
@@ -71,6 +85,13 @@ export const ReviewAndRatingMobile = ({
                 </div>
               );
             })}
+            <PagePagination
+              dataCount={commentData?.count}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              itemPerPage="3"
+            />
+
             <div className="h-[66px]"></div>
           </div>
         ) : (
@@ -80,6 +101,14 @@ export const ReviewAndRatingMobile = ({
         )}
       </section>
 
+      <section>
+        <PagePagination
+          dataCount={commentData?.count}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          itemPerPage="10"
+        />
+      </section>
       <div
         onClick={() => {
           setShowPopupComment(true);

@@ -41,6 +41,8 @@ const DetailProduct = () => {
   const [canAtc, setCanAtc] = useState(false);
   const [activeNotiStatus, setActiveNotiStatus] = useState(false);
   const [addToCartSuccess, setAddToCartSuccess] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -50,12 +52,16 @@ const DetailProduct = () => {
     };
 
     const fetchComments = async () => {
-      const res = await ApiComment.getComment({ productId: id });
+      const res = await ApiComment.getComment({
+        productId: id,
+        limitComment: 3,
+        page: currentPage,
+      });
       setComments(res.commentData);
     };
     fetchComments();
     fetchProduct();
-  }, [id]);
+  }, [id, currentPage]);
 
   const handleRenderStar = (starValue) => {
     let stars = [];
@@ -108,7 +114,6 @@ const DetailProduct = () => {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
         setAddToCartSuccess(true);
-
       }
     } catch (error) {
       setActiveNotiStatus("error");
@@ -135,7 +140,15 @@ const DetailProduct = () => {
               <Header>
                 <div className="flex justify-between w-[93%]">
                   <MdOutlineArrowBackIosNew size="24" />
-                  <span className={`relative ${addToCartSuccess? 'animate-bounce2':''}`} onAnimationEnd={()=>{setAddToCartSuccess(false)}} style={{'animation-iteration-count':'5',}}>
+                  <span
+                    className={`relative ${
+                      addToCartSuccess ? "animate-bounce2" : ""
+                    }`}
+                    onAnimationEnd={() => {
+                      setAddToCartSuccess(false);
+                    }}
+                    style={{ "animation-iteration-count": "5" }}
+                  >
                     <AiOutlineShoppingCart size={26} />
                     <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
                   </span>
@@ -145,7 +158,7 @@ const DetailProduct = () => {
           )}
 
           <ReviewAndRatingMobile
-            commentData={comments?.rows}
+            commentData={comments}
             name={product.name}
             shortDescription={product?.shortDescription}
             score={product?.scores}
@@ -153,6 +166,8 @@ const DetailProduct = () => {
             showPopupReview={showPopupReview}
             setShowPopupComment={setShowPopupComment}
             setShowHeader={setShowHeader}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
 
           <CreateComponentPopup
@@ -238,8 +253,9 @@ const DetailProduct = () => {
                           {variant?.name}
                         </p>
                         <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-                          {variant?.value.map((value) => (
+                          {variant?.value.map((value, i) => (
                             <div
+                
                               onClick={() =>
                                 hanlePickVariants(
                                   variant?.name,
