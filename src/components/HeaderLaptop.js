@@ -12,7 +12,9 @@ import * as actions from "../store/actions";
 const { RiUser6Line, AiOutlineShoppingCart, BsDot } = icons;
 
 const HeaderLaptop = () => {
-  const { fetchCartQuantity,productsCart } = useSelector((state) => {console.log(state);return state.cart});
+  const { fetchCartQuantity, productsCart } = useSelector((state) => {
+    return state.cart;
+  });
   const [cartQuantity, setCartQuantity] = useState(productsCart.length);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -21,7 +23,7 @@ const HeaderLaptop = () => {
       setCartQuantity(res.yourCart.length);
     };
     fetchCartQuantity();
-  }, [fetchCartQuantity]);
+  }, [fetchCartQuantity, cartQuantity, productsCart]);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
   return (
@@ -59,27 +61,29 @@ const HeaderLaptop = () => {
             )}
           </Link>
           <span className="relative">
-            <AiOutlineShoppingCart
-              size={26}
-              className={`${
-                fetchCartQuantity === "success" ||
-                fetchCartQuantity === "warning"
-                  ? "animate-bounce2"
-                  : ""
-              }`}
-              style={{ "animation-iteration-count": "5" }}
-            />
-            <span
-              className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
-                fetchCartQuantity === "success" ||
-                fetchCartQuantity === "warning"
-                  ? "animate-bounce2"
-                  : ""
-              }`}
-              style={{ "animation-iteration-count": "5" }}
-            >
-              {isLoggedIn? cartQuantity:'0'}
-            </span>
+            <Link to='/cart'>
+              <AiOutlineShoppingCart
+                size={26}
+                className={`${
+                  fetchCartQuantity === "success" ||
+                  fetchCartQuantity === "warning"
+                    ? "animate-bounce2"
+                    : ""
+                }`}
+                style={{ "animation-iteration-count": "5" }}
+              />
+              <span
+                className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
+                  fetchCartQuantity === "success" ||
+                  fetchCartQuantity === "warning"
+                    ? "animate-bounce2"
+                    : ""
+                }`}
+                style={{ "animation-iteration-count": "5" }}
+              >
+                {isLoggedIn ? cartQuantity : "0"}
+              </span>
+            </Link>
           </span>
         </div>
       </div>
