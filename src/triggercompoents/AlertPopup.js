@@ -7,15 +7,18 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import ApiCart from '../apis/cart'
 
-export default function AlertPopup({open, setOpen,idDelete}) {
+export default function AlertPopup({open,setOpen,idDelete,setReload,setActiveNotify}) {
 
   const handleDelete = async() => {
     try {
-        let array = [idDelete]
-        console.log(array)
+        let array = [idDelete,1]
         let params = {cids : array}
         let res = await ApiCart.delete(params)
-        console.log(res)
+        if(res.status === 0) {
+          setOpen(false)
+          setReload(prev => !prev)
+          setActiveNotify('success')
+        }
     } catch (error) {
         console.log(error)
     }
@@ -34,7 +37,7 @@ export default function AlertPopup({open, setOpen,idDelete}) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Hành động không thể truy hồi."}
+          {"Hành động không thể hoàn tác."}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

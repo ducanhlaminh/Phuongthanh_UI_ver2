@@ -1,13 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { PriceCaculator } from "../ultils/caculator";
+import {numFormatter} from '../ultils/fn'
 
-function numFormatter(num) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(num); // if value < 1000, nothing to do
-}
 const CartItem = ({
   product,variants,
   setQuanityList,
@@ -16,9 +12,10 @@ const CartItem = ({
   setOpenAlertPopup,
   setIdDelete,
   isMobile,
+  cartID,
   setCheckedList}
   ) => {
-  const{id,name,mainImage,soldCounter} = product 
+  const{id,name,mainImage,soldCounter} = product || {}
   const [price, setPrice] = useState(0)
   const [quanityProduct, setQuanityProduct] = useState(1)
   const [isChecked, setIsChecked] = useState(false)
@@ -63,7 +60,7 @@ const CartItem = ({
               </div>
 
               <div className="p-2 flex flex-col justify-evenly">
-                <p className=" font-bold">{name}</p>
+                <Link to={`/chi-tiet-san-pham/${id}`} className=" font-bold">{name}</Link>
                 <p className="text-xs">Đã bán: {soldCounter}</p>
                 <div className="flex bg-slate-300 p-1 rounded-sm w-fit">
                   <div className="flex justify-center items-center">
@@ -119,7 +116,7 @@ const CartItem = ({
             <p className="text-primary border-b-4 border-b-primary ml-[24px] pb-5 w-fit mr-2 cursor-pointer">Yêu thích</p>
             <p 
             onClick={() => {
-              setIdDelete(id)
+              setIdDelete(cartID)
               setOpenAlertPopup(true)}}
             className=" text-red-700 border-b-4 ml-[24px] border-b-red-700 pb-5 w-fit cursor-pointer">
               Xóa
@@ -127,65 +124,6 @@ const CartItem = ({
           </div>
         </div>
       </div>}
-      {/*Mobile*/}
-      {isMobile&&<div className="w-full md:hidden bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-            <input id={idUnique} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
-            <label htmlFor={idUnique} className="flex">
-              <img
-                src={product.mainImage}
-                alt="ProductImage"
-                className="object-cover"
-              />
-              <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">{product.name}</b>
-                <p>{
-                  variants.map((variant,i) => {
-                    let variantLength = variants.length
-                    return(
-                      <>
-                      <span>{variant.variant}: {variant.value}</span>
-                      <span>{i<variantLength-1?', ':''}</span>
-                      </>
-                    )
-                  })
-                }</p>
-                <div className="flex bg-slate-300 p-1 w-fit rounded-sm">
-                  <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
-                  </div>
-                  <select 
-                    onChange={(e) => setQuanityProduct(e.target.value)}
-                    className="bg-slate-300 font-bold">
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                    <option value={6}>6</option>
-                    <option value={7}>7</option>
-                    <option value={8}>8</option>
-                    <option value={9}>9</option>
-                    <option value={10}>10</option>
-                  </select>
-                </div>
-                <div className="">
-                  <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">{price*quanityProduct}</span>
-                </div>
-              </div>
-              </label>
-
-            </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
-                <span>Yêu thích</span>
-              </div>
-              <div className="w-1/2 flex justify-center items-center">
-                <span>Xóa</span>
-              </div>
-            </div>
-          </div>}
     </>
   );
 };

@@ -1,12 +1,16 @@
 import AppBar from "../../components/AppBar";
 import { Button2 } from "../../components";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CartItem from "../../components/CartItem";
+import CartItemMobile from "../../components/CartItemMobile";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
 import { TotalPriceCaculator } from "../../ultils/caculator";
 import AlertPopup from "../../triggercompoents/AlertPopup";
 import { numFormatter } from "../../ultils/fn";
+import Voucher from "../../components/Voucher";
+import { NotiStatus } from "../../components/UploadStatus";
 
 function MyCart() {
   const [totalPrice, setTotalPrice] = useState(0)
@@ -14,12 +18,14 @@ function MyCart() {
   const [quanityList, setQuanityList] = useState([])
   const [openAlertPopup, setOpenAlertPopup] = useState(false)
   const [idDelete, setIdDelete] = useState(null)
+  const [reload, setReload] = useState(false)
+  const [activeNotify, setActiveNotify] = useState(false)
 
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
     dispatch(actions.addToCart());
-  }, []);
+  }, [reload]);
 
 
   useEffect(() => {
@@ -40,8 +46,9 @@ function MyCart() {
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
           {/* product */}
           {productsCart?.map((product) => (
-            <CartItem
+            <CartItemMobile
               product={product?.productData}
+              cartID={product?.id}
               variants={product?.variant}
               checkedList={checkedList}
               setCheckedList={setCheckedList}
@@ -89,6 +96,10 @@ function MyCart() {
       </div>
       {/* Desktop */}
       <div className="md:block hidden w-full ">
+        {<NotiStatus 
+        content={activeNotify === 'success'? 'Sản phẩm được xóa thành công': 'Xóa sản phẩm không thành công'}
+        active={activeNotify}
+        setActive={setActiveNotify}/>}
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           {/* <SliderImage /> */}
           <div className=" w-full md:block px-6 ">
@@ -103,9 +114,14 @@ function MyCart() {
                 </div>
                 <div className=" overflow-auto h-[560px] scroll-smooth">
                   {/* product */}
+                  {productsCart&&productsCart.length === 0 && <div className="text-center mt-[24px]">
+                   <div className="text-darkGrey">Hiện chưa có sản phẩm nào được thêm vào giỏ hàng</div>
+                   <Link className="text-primary" to='/'>Đi tới mua sắm </Link>
+                  </div>}
                   {productsCart?.map((product) => (
                     <CartItem
                       product={product?.productData}
+                      cartID={product?.id}
                       variants={product?.variant}
                       checkedList={checkedList}
                       setCheckedList={setCheckedList}
@@ -133,13 +149,17 @@ function MyCart() {
                     {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
                   </div>
                 </div>
-                <div className="flex justify-between font-bold text-gray-500 p-3">
+                <div className="flex justify-between font-bold mb-[24px] text-gray-500 p-3">
                   <div className="w-1/2 ">
                     <p className="font-bold text-black">Thanh toán : </p>
                   </div>
                   <div className="w-1/3  text-black text-right">
                     <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
+                </div>
+                <Button2 text={'Tiến hành thanh toán'}/>
+                <div className="mt-[24px] w-full">
+                  <Voucher isFreeShip={totalPrice < 500000 ? false : true}/>
                 </div>
               </div>
             </div>
@@ -150,6 +170,8 @@ function MyCart() {
         open={openAlertPopup}
         setOpen={setOpenAlertPopup}
         idDelete={idDelete}
+        setReload={setReload}
+        setActiveNotify={setActiveNotify}
       />
     </>
   );
