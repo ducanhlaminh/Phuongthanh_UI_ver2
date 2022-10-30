@@ -11,6 +11,7 @@ import { Slider } from "@mui/material";
 import { ProductItem } from "../../components";
 import { SelectCustomWidth } from "../../components/InputCtWidth";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
+import Pagination from "@mui/material/Pagination";
 const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract } = icons;
 
 function ListProducts({ categoryData }) {
@@ -18,12 +19,24 @@ function ListProducts({ categoryData }) {
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [selectedFilterSider, setSelectedFilterSider] = useState([]);
   const [isShow, setIsShow] = useState(false);
-  const { products, loading } = useSelector((state) => state.app);
+
+  const { loading } = useSelector((state) => {
+    return state.app;
+  });
+  const { products, count } = useSelector((state) => {
+    return state.products;
+  });
   const [isShowFilter, setIsShowFilter] = useState(true);
-  const minDistance = 100000;
-  const {keyword}= useSelector((state) => state.search);
-  const [value2, setValue2] = useState([50000, 2000000000]);
-  const [value, setValue] = useState([50000, 2000000000]);
+  const minDistance = 10000000;
+
+  // luu page hien tai
+  const [page, setPage] = useState(1);
+  // onChange page
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+  const [value2, setValue2] = useState([0, 1000000]);
+  const [value, setValue] = useState([0, 1000000]);
   const handleChange2 = (event, newValue, activeThumb) => {
     setValue2(newValue);
   };
@@ -32,8 +45,9 @@ function ListProducts({ categoryData }) {
       return;
     }
     if (newValue[1] - newValue[0] < minDistance) {
+      console.log(newValue);
       if (activeThumb === 0) {
-        const clamped = Math.min(newValue[0], 1000000 - minDistance);
+        const clamped = Math.min(newValue[0], 100000000 - minDistance);
         setValue([clamped, clamped + minDistance]);
       } else {
         const clamped = Math.max(newValue[1], minDistance);
@@ -50,28 +64,23 @@ function ListProducts({ categoryData }) {
     }).format(num); // if value < 1000, nothing to do
   }
   useEffect(() => {
+    setPage(1);
+  }, [selectedFilter, categoryData, value2, selectedFilterSider]);
+
+  useEffect(() => {
     const filter = Object.values(selectedFilter.sort);
-    (keyword&&!categoryData)?dispatch(
-      actions.getProduct({
-        inStocking: selectedFilterSider.some((item) => item.valueVi) ? 1 : 0,
-        name:keyword,
-        limitProduct:10,
-        price: value2,
-        order: [...filter],
-      })
-    ):dispatch(
-      actions.getProduct({
+    dispatch(
+      actions.getProducts({
         categoryCode: categoryData.code,
         inStocking: selectedFilterSider.some((item) => item.valueVi) ? 1 : 0,
         price: value2,
-        limitProduct:10,
+        limitProduct: 12,
         order: [...filter],
+        page: page,
       })
     );
-  }, [selectedFilter, categoryData, value2, selectedFilterSider]);
-  useEffect(() => {
-    console.log(selectedFilterSider);
-  }, [selectedFilterSider]);
+  }, [selectedFilter, categoryData, value2, selectedFilterSider, page]);
+
   return (
     <>
       {/* Mobile */}
@@ -91,7 +100,16 @@ function ListProducts({ categoryData }) {
               </div>
             ))
           )}
-
+          <div className="flex justify-center w-full">
+            {/* component Pagination ,count là số trang thì lấy tổng chia ra */}
+            <Pagination
+              count={Math.ceil(count / 12)}
+              color="primary"
+              size="large"
+              page={page}
+              onChange={handleChangePage}
+            />
+          </div>
           <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
             <div
               className="flex w-full h-full"
@@ -171,10 +189,10 @@ function ListProducts({ categoryData }) {
                           onChange={handleChange}
                           onChangeCommitted={handleChange2}
                           valueLabelDisplay="on"
-                          step={100000}
+                          step={10000000}
                           marks
                           disableSwap
-                          max={1000000}
+                          max={100000000}
                           valueLabelFormat={(value) => (
                             <div>{numFormatter(value)}</div>
                           )}
@@ -199,23 +217,35 @@ function ListProducts({ categoryData }) {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap flex-auto w-full min-h-[800px] p-5 relative">
-                  {loading === true ? (
-                    <LoadingPageDesktop />
-                  ) : (
-                    products.map((item) => (
-                      <div className="w-1/3 flex justify-center">
-                        <ProductItem
-                          key={item.id}
-                          image={item?.mainImage}
-                          title={item?.name}
-                          description={item?.description}
-                          cost={item?.costPerUnit}
-                          productId={item?.id}
-                        />
-                      </div>
-                    ))
-                  )}
+                <div className=" w-full  p-5 relative">
+                  <div className="flex flex-wrap flex-auto min-h-[500px]">
+                    {loading === true ? (
+                      <LoadingPageDesktop />
+                    ) : (
+                      products.map((item) => (
+                        <div className="w-1/3 flex justify-center ">
+                          <ProductItem
+                            key={item.id}
+                            image={item?.mainImage}
+                            title={item?.name}
+                            description={item?.description}
+                            cost={item?.costPerUnit}
+                            productId={item?.id}
+                          />
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="flex justify-center w-full">
+                    <Pagination
+                      count={Math.ceil(count / 12)}
+                      color="primary"
+                      size="large"
+                      page={page}
+                      onChange={handleChangePage}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

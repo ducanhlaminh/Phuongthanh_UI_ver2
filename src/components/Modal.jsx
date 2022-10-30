@@ -615,7 +615,7 @@ export const FilterProductsMobile = ({
               step={100000}
               marks
               disableSwap
-              max={1000000}
+              max={10000000000}
               valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             />
           </div>

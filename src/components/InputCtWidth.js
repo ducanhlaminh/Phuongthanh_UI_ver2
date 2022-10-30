@@ -22,12 +22,13 @@ const InputCustomWidth = React.memo(
         </label>
 
         <input
-          className={`focus:ring-indigo-500 outline-none
-                focus:border-indigo-500 block bg-gray-200
+          className={` outline-none
+                 block 
                 w-full ${PLarge ? "pl-7 pr-12" : "pl-2 pr-2"} sm:text-sm 
-                border-gray-300 rounded-md ${lable ? "min-h-[42px]" : "h-full"}
+                rounded-md  ${lable ? "min-h-[42px]" : "h-full"}
                  `}
           value={value}
+          required
           placeholder={placeholder}
           onChange={(e) => {
             if (!type) {
@@ -318,15 +319,17 @@ const InputVariant = ({
         />
         <div className="w-[30%] ml-5">
           <div className="h-1/2"></div>
+          {console.log(variantValue.value.length > 0 ? true : false)}
           <Button
             width="100%"
             text="Add Variant"
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
+            disabled={variantValue.value.length > 0 ? false : true}
             onClick={() => {
               console.log(variantValue.value.length);
-              if (variantValue.value) {
+              if (variantValue.value.length > 0) {
                 setVariants((prev) => [...prev, variantValue]);
                 setVariantValue({ name: "", value: [] });
                 setVariantChild({ type: "", price: "" });

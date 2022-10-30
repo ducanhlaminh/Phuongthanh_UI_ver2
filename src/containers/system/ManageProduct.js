@@ -10,10 +10,16 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
 import { PopupDeleteProduct, EditProduct } from "../../components/Modal";
 import { filters } from "../../ultils/constant";
+import Pagination from "@mui/material/Pagination";
 
 const ManageProduct = () => {
   const dispatch = useDispatch();
-  const { categories, products } = useSelector((state) => state.app);
+  const { categories } = useSelector((state) => {
+    return state.app;
+  });
+  const { products, count } = useSelector((state) => {
+    return state.products;
+  });
 
   const [isLoading, setIsLoading] = useState(false);
   const [isShowEdit, setIsShowEdit] = useState(false);
@@ -24,26 +30,27 @@ const ManageProduct = () => {
   const [selectProduct, setSelectProduct] = useState("");
   const [selectValue, setSelectValue] = useState("");
   const [selectFilter, setSelectFilter] = useState(filters[0]);
-
+  const [page, setPage] = useState(1);
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
   // reload products theo category
   useEffect(() => {
     categories.length > 0 && setSelectValue(categories[0].code);
   }, [categories]);
 
-  // console.log(selectFilter);
-
-
   useEffect(() => {
     const filter = Object.values(selectFilter.sort);
     selectValue &&
       dispatch(
-        actions.getProduct({
+        actions.getProducts({
           categoryCode: selectValue,
           order: [...filter],
+          limitProduct: 7,
+          page: page,
         })
       );
-
-  }, [selectValue, isLoading, selectFilter]);
+  }, [selectValue, isLoading, selectFilter, page]);
 
   if (addAll) {
     const checkboxs = [...document.querySelectorAll(".checkbox")];
@@ -69,7 +76,6 @@ const ManageProduct = () => {
           <input
             type="checkbox"
             className="h-[17.5px] w-[17.5px] checkbox"
-
           ></input>
         </div>
         <div className=" w-[10%] flex justify-center h-4/5">
@@ -116,7 +122,7 @@ const ManageProduct = () => {
             height="2"
             onClick={() => {
               setIsDelete(!isDelete);
-              setAddDelete((prev) => ([...prev, product.id]));
+              setAddDelete((prev) => [...prev, product.id]);
             }}
           ></Button>
         </div>
@@ -127,7 +133,7 @@ const ManageProduct = () => {
     <div className="w-full">
       <h1 className="text-3xl">Quản lí sản phẩm</h1>
 
-      <div className="flex items-center bg-[#d9d9d9] rounded p-3 justify-between p-5">
+      <div className="flex items-center bg-[#d9d9d9] rounded p-3 justify-between ">
         <div className="w-[30%] pl-[30px] flex items-center justify-around text-xl ">
           <input
             type="checkbox"
@@ -190,6 +196,15 @@ const ManageProduct = () => {
           </div>
         </div>
         <div className="h-4/5 overflow-auto">{renderProductList}</div>
+        <div className="flex justify-center w-full">
+          <Pagination
+            count={Math.round(count / 7)}
+            color="primary"
+            size="large"
+            page={page}
+            onChange={handleChangePage}
+          />
+        </div>
       </div>
       {isDelete ? (
         <PopupDeleteProduct
@@ -200,7 +215,7 @@ const ManageProduct = () => {
           product={addDelete}
           selectValue={selectValue}
           setAddDelete={setAddDelete}
-        // cate={cateProdcut}
+          // cate={cateProdcut}
         />
       ) : (
         ""

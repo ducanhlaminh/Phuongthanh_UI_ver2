@@ -7,11 +7,13 @@ export const Button = ({
   onClick,
   width,
   height,
+  disabled,
 }) => {
   return (
     <button
       type="button"
-      className={`outline-none rounded-md opacity-80 hover:opacity-100 `}
+      className={`outline-none rounded-md  disabled:opacity-75 `}
+      disabled={disabled}
       onClick={onClick}
       style={{
         backgroundColor: `${bgColor}`,

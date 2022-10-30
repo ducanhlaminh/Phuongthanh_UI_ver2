@@ -90,32 +90,6 @@ export const getProductByIdClient = (params) => async (dispatch) => {
   }
 };
 
-export const getProduct = (params) => async (dispatch) => {
-  try {
-    dispatch({ type: "Loading", status: "true" });
-    const response = await ApiProduct.getAll(params);
-    if (response?.status === 0) {
-      dispatch({
-        type: actionTypes.GET_PRODUCT,
-        data: response.productData.rows,
-        loading: false,
-      });
-    } else {
-      dispatch({
-        type: actionTypes.GET_PRODUCT,
-        data: null,
-        loading: true,
-      });
-    }
-  } catch (error) {
-    dispatch({
-      type: actionTypes.GET_PRODUCT,
-      data: null,
-      loading: true,
-    });
-  }
-};
-
 export const getCodeCategory = (code) => {
   return {
     type: actionTypes.GET_CODE_CATEGORIES,
@@ -125,6 +99,7 @@ export const getCodeCategory = (code) => {
 export const Loading = (status) => {
   return {
     type: "Loading",
+    data: status,
   };
 };
 export const detailOrder = (order) => ({
