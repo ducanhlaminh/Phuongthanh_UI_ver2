@@ -53,8 +53,8 @@ const CartItemMobile = ({
       {/*Mobile*/}
       {isMobile&&<div className="w-full md:hidden bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
             <div className="flex h-[120px]">
-            <input id={idUnique} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
-            <label htmlFor={idUnique} className="flex">
+            <input id={idUnique+'-mobile'} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
+            <label htmlFor={idUnique+'-mobile'} className="flex">
               <img
                 src={product.mainImage}
                 alt="ProductImage"
