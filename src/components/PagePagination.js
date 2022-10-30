@@ -7,22 +7,40 @@ const PagePagination = ({
   itemPerPage,
 }) => {
   const [pages, setPages] = useState();
-  const leftPage=Math.max(currentPage-2,1);
-  const rightPage=Math.min(currentPage+2,pages);
-  const showLeftDots=leftPage >2;
-  const showRightDots=rightPage<pages-2;
+  const leftPage=Math.max(currentPage-1,1);
+  const rightPage=Math.min(currentPage+1,pages);
+  const showLeftDots=leftPage >2  ;
+  const showRightDots=rightPage<pages-1;
   let pageArray = [];
   const range=(start,end)=>{
     for (let i = start; i <= end; i++) {
       pageArray.push(i);
     }
   }
+  console.log(showLeftDots,showRightDots);
   if (pages<=5) {
     range(1,pages);
+    console.log(1);
   }
   if(!showLeftDots&& showRightDots){
     range(1,5);
     pageArray.push("...");
+    console.log(2);
+  }
+  if(showLeftDots&& !showRightDots){
+    pageArray.push(1);
+    pageArray.push("...");
+    range(currentPage-1,pages);
+    console.log(3);
+  }
+  if(showLeftDots&&showRightDots)
+  {
+    pageArray.push(1);
+    pageArray.push("...");
+    range(currentPage-1,currentPage+1);
+    pageArray.push("...");
+    pageArray.push(pages);
+    console.log(4);
   }
   useEffect(() => {
     setPages(Math.ceil(dataCount / +itemPerPage));

@@ -22,3 +22,10 @@ export const addToCart = () => async (dispatch) => {
     });
   }
 };
+
+export const fetchCartQuantity =(status)=>{
+  return {
+    type:actionTypes.FETCH_CART_QUANTITY,
+    status:status,
+  }
+};

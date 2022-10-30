@@ -40,6 +40,7 @@ const actionTypes = {
   // app
   DETAIL_ORDER: "DETAIL_ORDER",
   // cart
+  FETCH_CART_QUANTITY: "FETCH_CART_QUANTITY",
 };
 
 export default actionTypes;

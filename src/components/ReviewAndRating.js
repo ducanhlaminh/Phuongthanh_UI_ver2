@@ -5,7 +5,10 @@ import LongButton from "./LongButton";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import PagePagination from "./PagePagination";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Pagination from "@mui/material/Pagination";
+import ApiComment from "../apis/comment";
+import { NotiStatus } from "./UploadStatus";
 
 export const ReviewAndRatingMobile = ({
   commentData,
@@ -21,8 +24,11 @@ export const ReviewAndRatingMobile = ({
 }) => {
   const topRef = useRef();
   useEffect(() => {
-    topRef?.current.scrollIntoView({behavior:'smooth'});
+    topRef?.current.scrollIntoView({ behavior: "smooth" });
   }, [currentPage]);
+  const handleChangePage = (event, value) => {
+    setCurrentPage(value);
+  };
   return (
     <div
       className={`fixed z-20 h-screen w-screen top-0 left-0 bg-lightGrey flex flex-col md:hidden ${
@@ -85,12 +91,21 @@ export const ReviewAndRatingMobile = ({
                 </div>
               );
             })}
-            <PagePagination
+            {/* <PagePagination
               dataCount={commentData?.count}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               itemPerPage="3"
-            />
+            /> */}
+            <div className="flex justify-center pb-[10px]">
+              <Pagination
+                count={Math.ceil(commentData.count / 5)}
+                color="primary"
+                size="small"
+                page={currentPage}
+                onChange={handleChangePage}
+              />
+            </div>
 
             <div className="h-[66px]"></div>
           </div>
@@ -101,14 +116,6 @@ export const ReviewAndRatingMobile = ({
         )}
       </section>
 
-      <section>
-        <PagePagination
-          dataCount={commentData?.count}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          itemPerPage="10"
-        />
-      </section>
       <div
         onClick={() => {
           setShowPopupComment(true);
@@ -132,36 +139,110 @@ export const ReviewAndRatingMobile = ({
   );
 };
 
-export const ReviewAndRatingDesktop = ({ commentData }) => {
+export const ReviewAndRatingDesktop = ({
+  commentData,
+  currentPage,
+  setCurrentPage,
+  id,
+}) => {
+  const handleChangePage = (event, value) => {
+    setCurrentPage(value);
+  };
+  const commentRef = useRef();
+  const headRef = useRef();
+  const [content, setContent] = useState("");
+  const createComment = async () => {
+    try {
+      const res = await ApiComment.createComment({
+        productId: id,
+        content: commentRef?.current?.innerHTML,
+      });
+      if (res.status === 0) {
+        setActiveNotiStatus("success");
+        setContent("Đăng bình luận thành công");
+      } else {
+        setActiveNotiStatus("error");
+        setContent("Đăng bình luận thất bại");
+      }
+    } catch (e) {
+      setActiveNotiStatus("error");
+      setContent("Đăng bình luận thất bại");
+    }
+  };
+  const [activeNotiStatus, setActiveNotiStatus] = useState(false);
   return (
     <div>
-      {commentData?.map((comment, i) => {
-        return (
-          <div key={i} className="mb-[24px]">
-            <div className="flex items-center mb-[12px]">
-              <div className="mr-[12px]">
-                <img
-                  src={Avatar}
-                  className="rounded-[50px] w-[80px] h-[80px]"
-                ></img>
+      <div ref={headRef} className='pt-[30px]'></div>
+      {
+        <NotiStatus
+          active={activeNotiStatus}
+          setActive={setActiveNotiStatus}
+          content={content}
+        />
+      }
+      {commentData.rows && (
+        <div>
+          {commentData?.rows?.map((comment, i) => {
+            return (
+              <div key={i} className="mb-[24px]">
+                <div className="flex items-center mb-[12px]">
+                  <div className="mr-[12px]">
+                    <img
+                      src={Avatar}
+                      className="rounded-[50px] w-[80px] h-[80px]"
+                    ></img>
+                  </div>
+                  <div>
+                    <p className="text-black font-semibold md:text-[24px]">
+                      {comment?.commentator?.name}
+                    </p>
+                    <p className="text-darkGrey-tint font-medium md:text-[20px]">
+                      {comment?.createdAt.substring(0, 10)}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-darkGrey-tint font-medium md:text-[20px]">
+                    {comment?.content}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-black font-semibold md:text-[24px]">
-                  {comment?.commentator?.name}
-                </p>
-                <p className="text-darkGrey-tint font-medium md:text-[20px]">
-                  {comment?.createdAt.substring(0, 10)}
-                </p>
-              </div>
-            </div>
-            <div>
-              <p className="text-darkGrey-tint font-medium md:text-[20px]">
-                {comment?.content}
-              </p>
-            </div>
+            );
+          })}
+          <div className="flex justify-end">
+            <Pagination
+              count={Math.ceil(commentData.count / 5)}
+              color="primary"
+              size="large"
+              page={currentPage}
+              onChange={handleChangePage}
+            />
           </div>
-        );
-      })}
+        </div>
+      )}
+      <div
+        contentEditable="true"
+        className="min-h-[100px] w-full bg-white border-[1px] border-primary outline-primary p-[8px] rounded-[8px] mt-[16px]"
+        ref={commentRef}
+      ></div>
+
+      <div
+        className="flex justify-end mt-[16px]"
+        onClick={() => {
+          createComment();
+          commentRef.current.innerHTML = "";
+          headRef.current.scrollIntoView({ behavior: "smooth" });
+        }}
+      >
+        <LongButton
+          width="150px"
+          height="44px"
+          backgroundColor="#1B4B66"
+          color="white"
+        >
+          <p>Đăng bình luận</p>
+        </LongButton>
+      </div>
     </div>
   );
 };

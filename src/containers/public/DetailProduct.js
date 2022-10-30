@@ -23,10 +23,15 @@ import icons from "../../ultils/icons";
 import { PriceCaculator } from "../../ultils/caculator";
 import { NotiStatus } from "../../components/UploadStatus";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import * as actions from "../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
 const DetailProduct = () => {
+  const [cartQuantity, setCartQuantity] = useState();
+  const { fetchCartQuantity } = useSelector((state) => state.cart);
+  const dispatch=useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
@@ -54,7 +59,7 @@ const DetailProduct = () => {
     const fetchComments = async () => {
       const res = await ApiComment.getComment({
         productId: id,
-        limitComment: 3,
+        limitComment: 5,
         page: currentPage,
       });
       setComments(res.commentData);
@@ -110,10 +115,12 @@ const DetailProduct = () => {
         setActiveNotiStatus("success");
         setShowPopupCart(false);
         setAddToCartSuccess(true);
+        dispatch(actions.fetchCartQuantity('success'));
       } else if (res.status === 1) {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
         setAddToCartSuccess(true);
+        dispatch(actions.fetchCartQuantity('warning'));
       }
     } catch (error) {
       setActiveNotiStatus("error");
@@ -255,7 +262,6 @@ const DetailProduct = () => {
                         <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
                           {variant?.value.map((value, i) => (
                             <div
-                
                               onClick={() =>
                                 hanlePickVariants(
                                   variant?.name,
@@ -288,7 +294,7 @@ const DetailProduct = () => {
                     size="14px"
                     color="white"
                     disabled={!canAtc}
-                    handleClick={() => handleATC(product?.id, variantTypes)}
+                    handleClick={() => {handleATC(product?.id, variantTypes);dispatch(actions.fetchCartQuantity(true))}}
                   >
                     <RiHandbagLine size="24px"></RiHandbagLine>
                     <p>Thêm vào giỏ</p>
@@ -369,7 +375,12 @@ const DetailProduct = () => {
               <RelatedProduct />
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
-              <ReviewAndRatingDesktop commentData={comments?.rows} />
+              <ReviewAndRatingDesktop
+                commentData={comments}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                id={product.id}
+              />
             </div>
           </section>
 

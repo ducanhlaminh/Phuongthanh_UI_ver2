@@ -104,7 +104,7 @@ const Search = () => {
                 className="text-primary text-center font-bold cursor-pointer"
                 onMouseDown={() => {
                   dispatch(
-                    actions.getProduct({
+                    actions.getProducts({
                       name: searchKeyword,
                       limitProduct: 10,
                     })
