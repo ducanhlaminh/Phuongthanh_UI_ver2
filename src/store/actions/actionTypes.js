@@ -41,6 +41,8 @@ const actionTypes = {
   DETAIL_ORDER: "DETAIL_ORDER",
   // cart
   FETCH_CART_QUANTITY: "FETCH_CART_QUANTITY",
+  DELETE_ALL_CART:"DETETE_ALL_CART",
+  
 };
 
 export default actionTypes;

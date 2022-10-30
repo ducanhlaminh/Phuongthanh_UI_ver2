@@ -29,3 +29,9 @@ export const fetchCartQuantity =(status)=>{
     status:status,
   }
 };
+
+export const deleteAllCart=()=>{
+  return {
+    type:actionTypes.DELETE_ALL_CART,
+  }
+}

@@ -24,6 +24,10 @@ const cartReducer = (state = initState, action) => {
         return {
           ...state,fetchCartQuantity:action.status
         }
+      case actionTypes.DELETE_ALL_CART:
+        return {
+          ...state,productsCart:[]
+        }
     default:
       return state;
   }

@@ -41,6 +41,7 @@ const Profile = () => {
         )}
         <div onClick={() => {
           dispatch(actions.logout())
+          dispatch(actions.fetchCartQuantity('notLogin'));
           navigate('/');
           }}>
           <Button2

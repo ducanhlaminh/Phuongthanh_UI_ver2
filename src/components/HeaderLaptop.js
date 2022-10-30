@@ -12,8 +12,8 @@ import * as actions from "../store/actions";
 const { RiUser6Line, AiOutlineShoppingCart, BsDot } = icons;
 
 const HeaderLaptop = () => {
-  const [cartQuantity, setCartQuantity] = useState();
-  const { fetchCartQuantity } = useSelector((state) => state.cart);
+  const { fetchCartQuantity,productsCart } = useSelector((state) => {return state.cart});
+  const [cartQuantity, setCartQuantity] = useState(productsCart.length);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchCartQuantity = async () => {
@@ -22,7 +22,6 @@ const HeaderLaptop = () => {
     };
     fetchCartQuantity();
   }, [fetchCartQuantity]);
-  console.log(fetchCartQuantity);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
   return (
@@ -79,7 +78,7 @@ const HeaderLaptop = () => {
               }`}
               style={{ "animation-iteration-count": "5" }}
             >
-              {cartQuantity}
+              {isLoggedIn? cartQuantity:'0'}
             </span>
           </span>
         </div>
