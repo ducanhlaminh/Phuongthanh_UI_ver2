@@ -1,13 +1,11 @@
 import actionTypes from "../actions/actionTypes";
 
 const initState = {
-  products: [],
   categories: [],
   code: "",
   pageLength: "",
   productsBestSeller: [],
   productsCurrentUpdate: [],
-  count: 0,
   currentProduct: null,
   loading: false,
   detailOrder: null,
@@ -18,14 +16,7 @@ const appReducer = (state = initState, action) => {
     case "Loading":
       return {
         ...state,
-        loading: true,
-      };
-    case actionTypes.GET_PRODUCT:
-      // const pageLength = action.data[1].pages;
-      return {
-        ...state,
-        products: action.data,
-        loading: false,
+        loading: action.data,
       };
     case actionTypes.GET_PRODUCT_BEST_SELLER:
       return {
