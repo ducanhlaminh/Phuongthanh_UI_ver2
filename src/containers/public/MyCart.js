@@ -11,6 +11,7 @@ import AlertPopup from "../../triggercompoents/AlertPopup";
 import { numFormatter } from "../../ultils/fn";
 import Voucher from "../../components/Voucher";
 import { NotiStatus, NotiStatusMobile } from "../../components/UploadStatus";
+import actionTypes from "../../store/actions/actionTypes";
 
 function MyCart() {
   const [totalPrice, setTotalPrice] = useState(0)
@@ -25,6 +26,7 @@ function MyCart() {
   const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
     dispatch(actions.addToCart());
+    dispatch(actions.placeOrderData('hehe'))
   }, [reload]);
 
 

@@ -29,8 +29,6 @@ import { useSelector, useDispatch } from "react-redux";
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
 const DetailProduct = () => {
-  const [cartQuantity, setCartQuantity] = useState();
-  const { fetchCartQuantity } = useSelector((state) => state.cart);
   const dispatch=useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
