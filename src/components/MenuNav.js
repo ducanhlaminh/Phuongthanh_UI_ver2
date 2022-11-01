@@ -31,7 +31,7 @@ const MenuNav = ({setShowMenuNav,showMenuNav}) => {
         <div className="bg-white py-[12px]">
             <p className="text-darkGrey font-medium text-sm pl-[16px] mb-[5px]">Gian hàng</p>
             {categories?.map((category,i)=>{
-                return <SideNavigateMenu title={category.valueVi}></SideNavigateMenu>
+                return <SideNavigateMenu key={i} title={category.valueVi}></SideNavigateMenu>
             })}
         </div>
 

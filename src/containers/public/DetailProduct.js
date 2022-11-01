@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ApiComment from "../../apis/comment";
 import ApiProduct from "../../apis/product";
 import ApiCart from "../../apis/cart";
@@ -13,17 +13,23 @@ import LongButton from "../../components/LongButton";
 import NameAndDescription from "../../components/NameAndDescription";
 import RelatedProduct from "../../components/RelatedProduct";
 import {
-  ReviewAndRatingDesktop, ReviewAndRatingMobile
+  ReviewAndRatingDesktop,
+  ReviewAndRatingMobile,
 } from "../../components/ReviewAndRating";
 import SideNavigateMenu from "../../components/SideNavigateMenu";
 import Voucher from "../../components/Voucher";
 import SelectvariantPopup from "../../triggercompoents/SelectVariantPopup";
 import icons from "../../ultils/icons";
-import {PriceCaculator} from '../../ultils/caculator'
+import { PriceCaculator } from "../../ultils/caculator";
 import { NotiStatus } from "../../components/UploadStatus";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import * as actions from "../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
 
-const {AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine} =  icons
+const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
+  icons;
 const DetailProduct = () => {
+  const dispatch=useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
@@ -36,22 +42,29 @@ const DetailProduct = () => {
   const [showPopupCart, setShowPopupCart] = useState(false);
   const [variantTypes, setVariantTypes] = useState([]);
   const [canAtc, setCanAtc] = useState(false);
-  const [activeNotiStatus, setActiveNotiStatus] = useState(false)
+  const [activeNotiStatus, setActiveNotiStatus] = useState(false);
+  const [addToCartSuccess, setAddToCartSuccess] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
-      let product = res.productData.rows[0]
+      let product = res.productData.rows[0];
       setProduct(product);
-      setVariantTypes(new Array(product?.variants.length).fill(null))
+      setVariantTypes(new Array(product?.variants.length).fill(null));
     };
 
     const fetchComments = async () => {
-      const res = await ApiComment.getComment({ productId: id });
+      const res = await ApiComment.getComment({
+        productId: id,
+        limitComment: 5,
+        page: currentPage,
+      });
       setComments(res.commentData);
     };
     fetchComments();
     fetchProduct();
-  }, []);
+  }, [id, currentPage]);
 
   const handleRenderStar = (starValue) => {
     let stars = [];
@@ -68,55 +81,57 @@ const DetailProduct = () => {
     return stars;
   };
 
-  const hanlePickVariants = (variant,value,price,index) => {
+  const hanlePickVariants = (variant, value, price, index) => {
     setVariantTypes((prev) => {
       for (let i = 0; i < prev.length; i++) {
         if (i === index) {
           let data = {
             variant: variant,
             value: value,
-            price: price
-          }
+            price: price,
+          };
           prev[i] = data;
         }
       }
       return [...prev];
-    })
-  }
+    });
+  };
   useEffect(() => {
-    !variantTypes.includes(null)?setCanAtc(true):setCanAtc(false)
-  },[variantTypes])
+    !variantTypes.includes(null) ? setCanAtc(true) : setCanAtc(false);
+  }, [variantTypes]);
 
-  const handleATC = async (id,variantTypes) => {
+  const handleATC = async (id, variantTypes) => {
     try {
       let data = {
-        pid : id,
-        variant : variantTypes,
-      }
-      let res = await ApiCart.create(data)
-      if(res.status === 0) {
-        setVariantTypes(new Array(product?.variants.length).fill(null))
-        setCanAtc(false)
-        setActiveNotiStatus('success')
-        setShowPopupCart(false)
-      }else if (res.status === 1){
-        setActiveNotiStatus('warning')
-        setShowPopupCart(false)
+        pid: id,
+        variant: variantTypes,
+      };
+      let res = await ApiCart.create(data);
+      if (res.status === 0) {
+        setVariantTypes(new Array(product?.variants.length).fill(null));
+        setCanAtc(false);
+        setActiveNotiStatus("success");
+        setShowPopupCart(false);
+        setAddToCartSuccess(true);
+        dispatch(actions.fetchCartQuantity('success'));
+
+      } else if (res.status === 1) {
+        setActiveNotiStatus("warning");
+        setShowPopupCart(false);
+        setAddToCartSuccess(true);
+        dispatch(actions.fetchCartQuantity('warning'));
+        
       }
     } catch (error) {
-      setActiveNotiStatus('error')
-      console.log(error)
+      setActiveNotiStatus("error");
     }
-  }
+  };
   return (
     <>
-      {<NotiStatus 
-        active={activeNotiStatus}
-        setActive={setActiveNotiStatus}
-      />}
+      {<NotiStatus active={activeNotiStatus} setActive={setActiveNotiStatus} />}
       {product && (
         <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
-          <SelectvariantPopup 
+          <SelectvariantPopup
             setShowPopupCart={setShowPopupCart}
             showPopupCart={showPopupCart}
             product={product}
@@ -130,13 +145,28 @@ const DetailProduct = () => {
           {showHeader && (
             <div className="md:hidden">
               <Header>
-                <MdOutlineArrowBackIosNew size="24" />
+                <div className="flex justify-between w-[93%]">
+                  <MdOutlineArrowBackIosNew size="24" />
+                  <Link
+                    to='/cart'
+                    className={`relative ${
+                      addToCartSuccess ? "animate-bounce2" : ""
+                    }`}
+                    onAnimationEnd={() => {
+                      setAddToCartSuccess(false);
+                    }}
+                    style={{ "animation-iteration-count": "5" }}
+                  >
+                    <AiOutlineShoppingCart size={26} />
+                    <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
+                  </Link>
+                </div>
               </Header>
             </div>
           )}
 
           <ReviewAndRatingMobile
-            commentData={comments?.rows}
+            commentData={comments}
             name={product.name}
             shortDescription={product?.shortDescription}
             score={product?.scores}
@@ -144,6 +174,8 @@ const DetailProduct = () => {
             showPopupReview={showPopupReview}
             setShowPopupComment={setShowPopupComment}
             setShowHeader={setShowHeader}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
 
           <CreateComponentPopup
@@ -193,8 +225,9 @@ const DetailProduct = () => {
                 <section className="flex items-center">
                   <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
                     <span>đ</span>
-                    {!canAtc&&Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
-                    {canAtc&&PriceCaculator(product,variantTypes)}
+                    {!canAtc &&
+                      Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {canAtc && PriceCaculator(product, variantTypes)}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
@@ -214,19 +247,36 @@ const DetailProduct = () => {
                 </section>
 
                 <div className="hidden md:block mb-[16px]">
-                <div className={`text-[#e21d1d] ${canAtc?'invisible':'visible'}`} >Vui lòng chọn loại hàng để thêm vào giỏ</div>
-                  {product?.variants.map((variant,index) => {
+                  <div
+                    className={`text-[#e21d1d] ${
+                      canAtc ? "invisible" : "visible"
+                    }`}
+                  >
+                    Vui lòng chọn loại hàng để thêm vào giỏ
+                  </div>
+                  {product?.variants.map((variant, index) => {
                     return (
                       <div key={variant.id} className="select-none">
                         <p className="text-[18px] font-semibold text-black">
                           {variant?.name}
                         </p>
                         <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-                          {variant?.value.map((value) => (
+                          {variant?.value.map((value, i) => (
                             <div
-                              onClick={() => hanlePickVariants(variant?.name,value?.type,value?.price,index)}
+                              onClick={() =>
+                                hanlePickVariants(
+                                  variant?.name,
+                                  value?.type,
+                                  value?.price,
+                                  index
+                                )
+                              }
                               key={value.id}
-                              className={`p-[8px] cursor-pointer border-[3px] rounded-[8px] ${variantTypes[index]?.value === value?.type? 'border-[#1b4b66]':''}`}
+                              className={`p-[8px] cursor-pointer border-[3px] rounded-[8px] ${
+                                variantTypes[index]?.value === value?.type
+                                  ? "border-[#1b4b66]"
+                                  : ""
+                              }`}
                             >
                               {value.type}
                             </div>
@@ -245,7 +295,7 @@ const DetailProduct = () => {
                     size="14px"
                     color="white"
                     disabled={!canAtc}
-                    handleClick={() => handleATC(product?.id,variantTypes)}
+                    handleClick={() => {handleATC(product?.id, variantTypes);dispatch(actions.fetchCartQuantity(true))}}
                   >
                     <RiHandbagLine size="24px"></RiHandbagLine>
                     <p>Thêm vào giỏ</p>
@@ -291,8 +341,7 @@ const DetailProduct = () => {
           </div>
 
           <section className="mt-[8px] bg-white md:hidden">
-            <Dropdown title="Mô tả sản phẩm" 
-            opened={true}>
+            <Dropdown title="Mô tả sản phẩm" opened={true}>
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
                 {product.description}
               </p>
@@ -327,7 +376,12 @@ const DetailProduct = () => {
               <RelatedProduct />
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
-              <ReviewAndRatingDesktop commentData={comments?.rows} />
+              <ReviewAndRatingDesktop
+                commentData={comments}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                id={product.id}
+              />
             </div>
           </section>
 

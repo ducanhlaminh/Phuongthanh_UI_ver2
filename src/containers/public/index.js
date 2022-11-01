@@ -7,3 +7,5 @@ export { default as DetailProduct } from "./DetailProduct";
 export { default as Mycart } from "./MyCart";
 export { default as AddAddress } from "./AddAddress";
 export { default as UserMobileNav } from "./UserMobileNav";
+export { default as Search } from "./Search";
+export {default as Personal} from "./Personal";

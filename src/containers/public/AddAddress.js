@@ -1,22 +1,15 @@
-import AppBar from "../../components/AppBar";
-import { Button2 } from "../../components";
-import ApiCart from "../../apis/cart";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../store/actions";
 import { useEffect, useState } from "react";
-import { Slider as SliderImage } from "../../components";
-import CartItem from "../../components/CartItem";
-import { InputCustomWidth, SelectPayment } from "../../components/InputCtWidth";
+import { useDispatch, useSelector } from "react-redux";
 import ApiAddress from "../../apis/ApiAddress";
-import { Upload } from "../../components/UploadStatus";
-import { Slider } from "../../components";
+import { Button2, Slider } from "../../components";
+import AppBar from "../../components/AppBar";
 import DownPopup from "../../components/DownPopup";
-function numFormatter(num) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(num); // if value < 1000, nothing to do
-}
+import { InputCustomWidth, SelectPayment } from "../../components/InputCtWidth";
+import { Upload } from "../../components/UploadStatus";
+import * as actions from "../../store/actions";
+import { numFormatter } from "../../ultils/fn";
+
+
 function AddAddress() {
   const [status, setStatus] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -32,7 +25,8 @@ function AddAddress() {
   const [address, setAddress] = useState();
   const [selectAddress, setSelectAddress] = useState("");
   const dispatch = useDispatch();
-  const { productsCart } = useSelector((state) => state.cart);
+  const { placeOrder } = useSelector((state) => state.cart);
+  console.log(placeOrder)
   useEffect(() => {
     const fetchAddress = async () => {
       const res = await ApiAddress.Get();
@@ -426,13 +420,13 @@ function AddAddress() {
               </div>
               <div className=" overflow-auto h-[300px] scroll-smooth">
                 {/* product */}
-                {productsCart?.map((product) => (
+                {/* {productsCart?.map((product) => (
                   <CartItem
                     product={product?.productData}
                     variants={product?.variant}
                     quanity={product?.quanity}
                   />
-                ))}
+                ))} */}
               </div>
             </div>
             <div className="">
