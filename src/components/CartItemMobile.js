@@ -12,9 +12,10 @@ const CartItemMobile = ({
   setOpenAlertPopup,
   setIdDelete,
   isMobile,
+  cartID,
   setCheckedList}
   ) => {
-  const{id,name,mainImage,soldCounter} = product || {}
+  const{id,name,mainImage} = product || {}
   const [price, setPrice] = useState(0)
   const [quanityProduct, setQuanityProduct] = useState(1)
   const [isChecked, setIsChecked] = useState(false)
@@ -56,12 +57,12 @@ const CartItemMobile = ({
             <input id={idUnique+'-mobile'} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
             <label htmlFor={idUnique+'-mobile'} className="flex">
               <img
-                src={product.mainImage}
+                src={mainImage}
                 alt="ProductImage"
                 className="object-cover"
               />
               <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">{product.name}</b>
+                <b className="text-base">{name}</b>
                 <p>{
                   variants.map((variant,i) => {
                     let variantLength = variants.length
@@ -104,7 +105,12 @@ const CartItemMobile = ({
               <div className="border-r-2 w-1/2 flex justify-center items-center ">
                 <span>Yêu thích</span>
               </div>
-              <div className="w-1/2 flex justify-center items-center">
+              <div
+              onClick={() => {
+                setIdDelete(cartID)
+                setOpenAlertPopup(true)
+              }}
+               className="w-1/2 flex justify-center items-center">
                 <span>Xóa</span>
               </div>
             </div>

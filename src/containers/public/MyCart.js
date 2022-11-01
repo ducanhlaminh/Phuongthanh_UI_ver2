@@ -10,7 +10,7 @@ import { TotalPriceCaculator } from "../../ultils/caculator";
 import AlertPopup from "../../triggercompoents/AlertPopup";
 import { numFormatter } from "../../ultils/fn";
 import Voucher from "../../components/Voucher";
-import { NotiStatus } from "../../components/UploadStatus";
+import { NotiStatus, NotiStatusMobile } from "../../components/UploadStatus";
 
 function MyCart() {
   const [totalPrice, setTotalPrice] = useState(0)
@@ -42,9 +42,17 @@ function MyCart() {
     <>
       {/* Mobile */}
       <div className="md:hidden h-screen">
+        <NotiStatusMobile 
+          active={activeNotify}
+          setActive={setActiveNotify}
+        />
         <AppBar title="Giỏ hàng" />
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
           {/* product */}
+          {productsCart&&productsCart.length === 0 && <div className="text-center mt-[24px]">
+            <div className="text-darkGrey">Hiện chưa có sản phẩm nào được thêm vào giỏ hàng</div>
+            <Link className="text-primary" to='/'>Đi tới mua sắm </Link>
+          </div>}
           {productsCart?.map((product) => (
             <CartItemMobile
               product={product?.productData}

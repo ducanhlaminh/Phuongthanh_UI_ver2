@@ -58,7 +58,7 @@ const HeaderLaptop = () => {
               <p className="text-[14px] font-semibold">Đăng nhập/Đăng kí</p>
             )}
           </Link>
-          <span className="relative">
+          <Link to='/cart' className="relative">
             <AiOutlineShoppingCart
               size={26}
               className={`${
@@ -80,7 +80,7 @@ const HeaderLaptop = () => {
             >
               {isLoggedIn? cartQuantity:'0'}
             </span>
-          </span>
+          </Link>
         </div>
       </div>
     </div>

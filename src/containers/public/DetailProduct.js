@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ApiComment from "../../apis/comment";
 import ApiProduct from "../../apis/product";
 import ApiCart from "../../apis/cart";
@@ -149,7 +149,8 @@ const DetailProduct = () => {
               <Header>
                 <div className="flex justify-between w-[93%]">
                   <MdOutlineArrowBackIosNew size="24" />
-                  <span
+                  <Link
+                    to='/cart'
                     className={`relative ${
                       addToCartSuccess ? "animate-bounce2" : ""
                     }`}
@@ -160,7 +161,7 @@ const DetailProduct = () => {
                   >
                     <AiOutlineShoppingCart size={26} />
                     <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
-                  </span>
+                  </Link>
                 </div>
               </Header>
             </div>
