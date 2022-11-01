@@ -29,13 +29,27 @@ export default function FormCreateProduct({
   setVariantValue,
   handleSubmit,
   setShortDes,
+  shortDes,
 }) {
   const editorRef = useRef(null);
-  const log = () => {
+  const setContentProduct = () => {
     if (editorRef.current) {
       const des = editorRef.current.getContent();
       setShortDes(des);
     }
+  };
+
+  const validateForm = () => {
+    if (
+      productName &&
+      variants.length > 0 &&
+      price &&
+      image.imageMain &&
+      shortDes &&
+      selectValue
+    ) {
+      return true;
+    } else return false;
   };
   return (
     <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 ">
@@ -116,7 +130,7 @@ export default function FormCreateProduct({
               bgColor="#4ed14b"
               textColor="#fff"
               width="100%"
-              onClick={log}
+              onClick={setContentProduct}
             ></Button>
           </div>
         </div>
@@ -199,7 +213,12 @@ export default function FormCreateProduct({
           textColor="#fff"
           width="50%"
           height="2"
-          onClick={handleSubmit}
+          onClick={() => {
+            if (validateForm()) {
+              console.log("ok");
+              return handleSubmit;
+            } else console.log(123);
+          }}
         ></Button>
         <Button
           text="SEE PREVIEW"

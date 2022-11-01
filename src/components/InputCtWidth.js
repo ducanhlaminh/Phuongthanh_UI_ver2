@@ -299,19 +299,13 @@ const InputVariant = ({
   variantValue,
   setVariantValue,
 }) => {
-  useEffect(() => {
-    console.log(variants);
-  }, [variants]);
-  useEffect(() => {
-    console.log(variantValue);
-  }, [variantValue]);
   return (
     <div className={`w-full`}>
       <div className="h-[50%] flex">
         <InputCustomWidth
           widthP="[60%]"
-          lable="Name Option"
-          placeholder="Giá: VND"
+          lable="Tùy chọn sản phẩm"
+          placeholder="vd: size,màu..."
           PLarge={false}
           value={variantValue?.name}
           setValue={setVariantValue}
@@ -319,7 +313,7 @@ const InputVariant = ({
         />
         <div className="w-[30%] ml-5">
           <div className="h-1/2"></div>
-          {console.log(variantValue.value.length > 0 ? true : false)}
+
           <Button
             width="100%"
             text="Add Variant"
@@ -337,7 +331,6 @@ const InputVariant = ({
                 console.log(variantChild.type !== "");
                 console.log(variantChild.price !== "");
                 console.log(variantValue.name !== "");
-                console.log("ể");
               }
             }}
           ></Button>
@@ -346,8 +339,8 @@ const InputVariant = ({
       <div className="flex justify-between ">
         <InputCustomWidth
           widthP="[30%]"
-          lable="Type"
-          placeholder="Giá: VND"
+          lable="Phân loại "
+          placeholder="vd: m,l,xl..."
           PLarge={false}
           value={variantChild?.type}
           setValue={setVariantChild}
@@ -370,6 +363,14 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
+            disabled={
+              Number.isInteger(Number(variantChild.price)) &
+              (variantChild.type !== "") &
+              (variantChild.price !== "") &
+              (variantValue.name !== "")
+                ? false
+                : true
+            }
             onClick={() => {
               if (
                 Number.isInteger(Number(variantChild.price)) &

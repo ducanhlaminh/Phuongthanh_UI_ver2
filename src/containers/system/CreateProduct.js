@@ -4,7 +4,6 @@ import FormData from "form-data";
 import { useSelector } from "react-redux";
 import ApiProduct from "../../apis/product";
 
-
 import FormCreateProduct from "../../components/FormCreateProduct";
 const EditProduct = () => {
   const [productName, setProductName] = useState("");
@@ -13,15 +12,14 @@ const EditProduct = () => {
   const [tags, setTags] = useState([]);
   const [shortDes, setShortDes] = useState("");
   const [image, setImage] = useState({
-    imageMain: '',
-    image1: '',
-    image2: '',
-    image3: '',
+    imageMain: "",
+    image1: "",
+    image2: "",
+    image3: "",
   });
   const [variants, setVariants] = useState([]);
-  const [variantValue, setVariantValue] = useState({ name: '', value: [] });
-  const [variantChild, setVariantChild] = useState({ type: '', price: '' })
-
+  const [variantValue, setVariantValue] = useState({ name: "", value: [] });
+  const [variantChild, setVariantChild] = useState({ type: "", price: "" });
 
   const { categories } = useSelector((state) => state.app);
 
@@ -36,6 +34,7 @@ const EditProduct = () => {
     bodyFormData.append("description", shortDes);
     bodyFormData.append("categoryCode", selectValue);
     bodyFormData.append("variants", JSON.stringify(variants));
+    console.log(shortDes, image, price);
     // ApiProduct.create(bodyFormData);
   };
   useEffect(() => {
@@ -43,32 +42,56 @@ const EditProduct = () => {
   }, [categories]);
   const editorRef = useRef(null);
   const log = () => {
-
     if (editorRef.current) {
-      const des = editorRef.current.getContent()
+      const des = editorRef.current.getContent();
 
-      setShortDes(des)
+      setShortDes(des);
     }
   };
   useEffect(() => {
-    if (typeof image.imageMain !== 'string') image.imageMain.preview = URL.createObjectURL(image.imageMain);
-    if (typeof image.image1 !== 'string') image.image1.preview = URL.createObjectURL(image.image1);
-    if (typeof image.image2 !== 'string') image.image2.preview = URL.createObjectURL(image.image2);
-    if (typeof image.image3 !== 'string') image.image3.preview = URL.createObjectURL(image.image3);
-
+    if (typeof image.imageMain !== "string")
+      image.imageMain.preview = URL.createObjectURL(image.imageMain);
+    if (typeof image.image1 !== "string")
+      image.image1.preview = URL.createObjectURL(image.image1);
+    if (typeof image.image2 !== "string")
+      image.image2.preview = URL.createObjectURL(image.image2);
+    if (typeof image.image3 !== "string")
+      image.image3.preview = URL.createObjectURL(image.image3);
   }, [image.imageMain]);
-
 
   return (
     <>
-
-      <FormCreateProduct productName={productName} setProductName={setProductName} categories={categories} selectValue={selectValue} setSelectValue={setSelectValue} price={price} setPrice={setPrice} tags={tags} setTags={setTags} setVariantChild={setVariantChild} variantChild={variantChild} setVariants={setVariants} variants={variants} image={image} setImage={setImage} variantValue={variantValue} setVariantValue={setVariantValue} handleSubmit={handleSubmit} setShortDes={setShortDes} />
+      <FormCreateProduct
+        productName={productName}
+        setProductName={setProductName}
+        categories={categories}
+        selectValue={selectValue}
+        setSelectValue={setSelectValue}
+        price={price}
+        setPrice={setPrice}
+        tags={tags}
+        setTags={setTags}
+        setVariantChild={setVariantChild}
+        variantChild={variantChild}
+        setVariants={setVariants}
+        variants={variants}
+        image={image}
+        shortDes={shortDes}
+        setImage={setImage}
+        variantValue={variantValue}
+        setVariantValue={setVariantValue}
+        handleSubmit={handleSubmit}
+        setShortDes={setShortDes}
+      />
       <h1 className="text-3xl">Xem trước tại đây</h1>
       <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5">
-
-        <img src={image.imageMain?.preview ? image.imageMain?.preview : ''} width='100%' height='100%' alt="" />
+        <img
+          src={image.imageMain?.preview ? image.imageMain?.preview : ""}
+          width="100%"
+          height="100%"
+          alt=""
+        />
       </div>
-
     </>
   );
 };

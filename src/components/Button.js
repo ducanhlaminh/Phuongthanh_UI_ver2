@@ -12,7 +12,7 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={`outline-none rounded-md  disabled:opacity-75 `}
+      className={`outline-none rounded-md  disabled:opacity-30 disabled:cursor-not-allowed `}
       disabled={disabled}
       onClick={onClick}
       style={{
