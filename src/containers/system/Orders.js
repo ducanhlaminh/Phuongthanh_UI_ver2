@@ -5,7 +5,7 @@ import { OrderItem, DetailOrder } from '../../components'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actions from '../../store/actions'
 const Orders = () => {
-    const [status, setStatus] = useState('in progress')
+    const [status, setStatus] = useState('pending')
     const [bills, setBills] = useState([])
     const dispatch = useDispatch()
     const { detailOrder } = useSelector(state => state.app)

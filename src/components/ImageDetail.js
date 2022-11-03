@@ -55,7 +55,7 @@ const ImageDetail = ({
     );
   } else {
     return (
-      <div className="h-[704px] hidden md:block">
+      <div className="md:h-[400px] lg:h-[704px] hidden md:block">
         <div className="h-[390px] w-[390px] lg:h-[605px] lg:w-[605px]">
           <img
             src={`${selectedImage}`}

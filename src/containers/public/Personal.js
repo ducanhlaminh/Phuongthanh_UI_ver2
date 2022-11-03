@@ -29,14 +29,15 @@ const Personal = () => {
     }
   };
   return (
-    <>
+    <div>
+      {isLoading && <Loading />}
       <div className="md:hidden">
         <Header>
           <MdOutlineArrowBackIosNew size="24" />
         </Header>
       </div>
       <div className="md:pr-[76px]">
-        {isLoading && <Loading />}
+
 
         <div>
           <p className="text-[20px] font-semibold border-b-[1px] border-darkGrey-tint pb-[6px]">
@@ -116,6 +117,7 @@ const Personal = () => {
           onClick={() => {
             handleSubmit(userCurrent?.email, passwordRef?.current.value);
             passwordRef.current.value = "";
+            setIsLoading(true);
           }}
         >
           <LongButton
@@ -128,7 +130,7 @@ const Personal = () => {
           </LongButton>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

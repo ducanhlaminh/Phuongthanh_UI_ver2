@@ -56,18 +56,18 @@ const CartItemMobile = ({
             <input id={idUnique+'-mobile'} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
             <label htmlFor={idUnique+'-mobile'} className="flex">
               <img
-                src={product.mainImage}
+                src={product?.mainImage}
                 alt="ProductImage"
                 className="object-cover"
               />
               <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">{product.name}</b>
+                <b className="text-base">{product?.name}</b>
                 <p>{
                   variants.map((variant,i) => {
-                    let variantLength = variants.length
+                    let variantLength = variants?.length
                     return(
                       <>
-                      <span>{variant.variant}: {variant.value}</span>
+                      <span>{variant?.variant}: {variant?.value}</span>
                       <span>{i<variantLength-1?', ':''}</span>
                       </>
                     )

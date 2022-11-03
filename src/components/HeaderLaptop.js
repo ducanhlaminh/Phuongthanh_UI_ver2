@@ -15,7 +15,7 @@ const HeaderLaptop = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
   });
-  const [cartQuantity, setCartQuantity] = useState(productsCart.length);
+  const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchCartQuantity = async () => {
