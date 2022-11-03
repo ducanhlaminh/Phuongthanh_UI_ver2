@@ -32,9 +32,6 @@ import axios from "axios";
 import queryString from "query-string";
 const axiosClients = axios.create({
   baseURL: process.env.REACT_APP_CLIENT,
-
-  paramsSerializer: (params) =>
-    queryString.stringify(params, { arrayFormat: "index" }),
 });
 
 axiosClients.interceptors.request.use(async (config) => {

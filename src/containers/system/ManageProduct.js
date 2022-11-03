@@ -40,6 +40,7 @@ const ManageProduct = () => {
   }, [categories]);
 
   useEffect(() => {
+    console.log(11);
     const filter = Object.values(selectFilter.sort);
     selectValue &&
       dispatch(

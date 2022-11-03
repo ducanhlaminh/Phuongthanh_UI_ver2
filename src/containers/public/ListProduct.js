@@ -102,13 +102,13 @@ function ListProducts({ categoryData }) {
           )}
           <div className="flex justify-center w-full">
             {/* component Pagination ,count là số trang thì lấy tổng chia ra */}
-            <Pagination
+            {/* <Pagination
               count={Math.ceil(count / 12)}
               color="primary"
               size="large"
               page={page}
               onChange={handleChangePage}
-            />
+            /> */}
           </div>
           <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
             <div

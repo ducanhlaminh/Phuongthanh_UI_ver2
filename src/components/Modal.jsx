@@ -230,11 +230,14 @@ export const PopupDeleteProduct = ({
           width="40%"
           height="2"
           onClick={async () => {
-            await ApiProduct.delete({ id: [...product] });
-            setAddDelete([]);
-            setIsDelete(!isDelete);
-            setIsLoading(!isLoading);
-            cate(selectValue);
+            const res = await ApiProduct.delete({ id: [...product] });
+            console.log(res);
+            if (res.status === 0) {
+              setAddDelete([]);
+              setIsDelete(!isDelete);
+              setIsLoading(!isLoading);
+              cate(selectValue);
+            }
           }}
         ></Button>
       </div>

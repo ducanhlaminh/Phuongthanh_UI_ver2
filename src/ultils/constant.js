@@ -28,10 +28,8 @@ export const path = {
   ORDERS: "hoa-don-cua-toi",
   PERSONAL: "",
   ADD_ADDRESS: "address",
-  SEARCH:'tim-kiem',
-  SEARCH__KEYWORD:'tim-kiem/:id',
-
-  
+  SEARCH: "tim-kiem",
+  SEARCH__KEYWORD: "tim-kiem/:id",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -60,7 +58,7 @@ export const filters = [
 ];
 export const filtersSider = [
   {
-    valueVi: "Stocking",
+    valueVi: "Còn hàng",
     code: 1,
   },
 ];
