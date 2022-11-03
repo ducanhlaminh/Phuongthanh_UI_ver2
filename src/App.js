@@ -14,6 +14,7 @@ import {
   CheckOut,
   Search,
   AddAddress,
+  ChangePassword,
 
 } from "./containers/public";
 
@@ -59,7 +60,7 @@ function App() {
           tokenChangePassword: params[params.length - 1],
         })
       );
-      navigate("/changePassword");
+      navigate("/ho-so/doi-mat-khau");
     }
   }, []);
 
@@ -75,6 +76,7 @@ function App() {
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
+            <Route path={path.CHANGE_PASSWORD} element={<ChangePassword></ChangePassword>}></Route>
             <Route path="*" element={<Personal />} />
           </Route>
           <Route path={path.CART} element={<Mycart />}></Route>

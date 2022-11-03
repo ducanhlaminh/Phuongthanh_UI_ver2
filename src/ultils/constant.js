@@ -25,6 +25,7 @@ export const path = {
   DETAIL: "chi-tiet-san-pham",
   DETAIL__PRODUCTID: "chi-tiet-san-pham/:id",
   PROFILE: "ho-so/",
+  CHANGE_PASSWORD:'doi-mat-khau',
   ORDERS: "hoa-don-cua-toi",
   PERSONAL: "",
   ADD_ADDRESS: "address",

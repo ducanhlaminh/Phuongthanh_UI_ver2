@@ -10,7 +10,7 @@ const avtiveStyle = 'w-[271px] h-[72px] flex justify-between items-center font-b
 const SidebarProfile = () => {
     return (
         <div className='flex flex-col w-full bg-[#F1F1F1] rounded-md'>
-            {menuProfile.map(item => (
+            {menuProfile.map(item => {if(item.keyName!=='changePassword') return (
                 <NavLink
                     key={item.keyName}
                     to={item.path}
@@ -19,7 +19,7 @@ const SidebarProfile = () => {
                     <span>{item.text}</span>
                     <MdNavigateNext size={24} />
                 </NavLink>
-            ))}
+            )})}
         </div>
     )
 }
