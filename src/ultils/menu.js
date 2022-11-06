@@ -10,16 +10,16 @@ export const menuStatus = [
     {
         keyname: 'in_progress',
         value: 'in progress',
-        text: 'Đơn đang thực hiện',
+        text: 'Đang thực hiện',
     },
     {
         keyname: 'completed',
         value: 'completed',
-        text: 'Đơn đã hoàn thành',
+        text: 'Hoàn thành',
     },
     {
         keyname: 'cancel',
         value: 'cancel',
-        text: 'Đơn đã hủy',
+        text: 'Đã hủy',
     },
 ]
