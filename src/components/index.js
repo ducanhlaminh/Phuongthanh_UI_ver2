@@ -11,5 +11,6 @@ export { default as Button2 } from './Button2'
 export { default as SidebarProfile } from './SidebarProfile'
 export { default as OrderItem } from './OrderItem'
 export { default as DetailOrder } from './DetailOrder'
+export { default as Contact } from './Contact'
 
 
