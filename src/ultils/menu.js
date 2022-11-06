@@ -8,9 +8,14 @@ export const menuProfile = [
 ]
 export const menuStatus = [
     {
-        keyname: 'in_progress',
+        keyname: 'pending',
         value: 'in progress',
-        text: 'Đang thực hiện',
+        text: 'Đang gói hàng',
+    },
+    {
+        keyname: 'shipping',
+        value: 'shipping',
+        text: 'Đang vận chuyển',
     },
     {
         keyname: 'completed',

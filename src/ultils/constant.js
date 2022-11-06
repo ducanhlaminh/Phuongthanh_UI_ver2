@@ -27,6 +27,8 @@ export const path = {
   PROFILE: "ho-so/",
   CHANGE_PASSWORD:'doi-mat-khau',
   ORDERS: "hoa-don-cua-toi",
+  ITEM_ORDERS: "don-hang",
+  ITEM_ORDERS_ID: "don-hang/:id",
   PERSONAL: "",
   ADD_ADDRESS: "address",
   SEARCH:'tim-kiem',

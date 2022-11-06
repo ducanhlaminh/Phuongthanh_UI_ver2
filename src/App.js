@@ -15,6 +15,7 @@ import {
   Search,
   AddAddress,
   ChangePassword,
+  ItemOrder,
 
 } from "./containers/public";
 
@@ -73,6 +74,8 @@ function App() {
           <Route path={path.DETAIL__PRODUCTID} element={<DetailProduct />} />
           <Route path={path.CATEGORY} element={<Category/>}></Route>
           <Route path={path.SEARCH} element={<Search/>}></Route>
+          <Route path={path.ITEM_ORDERS} element={<ItemOrder/>}></Route>
+          <Route path={path.ITEM_ORDERS_ID} element={<ItemOrder/>}></Route>
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />

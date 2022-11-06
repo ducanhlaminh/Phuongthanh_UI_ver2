@@ -33,7 +33,6 @@ const OrderItem = ({ oid, createAt, total, status }) => {
         </span>
       </div>
 
-
       <div>
         <div className="w-full cursor-pointer rounded-[8px] relative bg-[#f1f1f1] text-black flex items-center px-6 py-5 md:hidden">
           <div className="flex flex-col items-start gap-[8px]">

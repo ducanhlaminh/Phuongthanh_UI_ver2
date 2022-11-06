@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 const Orders = () => {
   const [status, setStatus] = useState("pending");
@@ -41,7 +41,7 @@ const Orders = () => {
   //   };
   useEffect(() => {
     const fetchBills = async () => {
-      const response = await apiGetBills({ status });
+      const response = await apiGetBills({ status: status });
       if (response.status === 0) {
         setBills(response.billData?.rows);
       }
@@ -54,7 +54,7 @@ const Orders = () => {
   }, [status]);
 
   return (
-    <div className="w-full relative h-screen">
+    <div className="w-full relative ">
       {detailOrder && (
         <div className="absolute top-0 bottom-0 left-0 right-0 bg-white z-50 animate-slide-left">
           <DetailOrder />
@@ -66,10 +66,11 @@ const Orders = () => {
             <div className="flex items-center">
               <MdOutlineArrowBackIosNew size="24" />
               <span className="font-semibold text-[20px] text-primary pl-[20px]">
-                Hóa đơn của tôi
+                Đơn hàng của tôi
               </span>
             </div>
-            <Link to="/cart"
+            <Link
+              to="/cart"
               className={`relative ${
                 addToCartSuccess ? "animate-bounce2" : ""
               }`}
@@ -88,9 +89,11 @@ const Orders = () => {
         {menuStatus.map((item) => (
           <div
             key={item.keyname}
-            onClick={() => setStatus(item.value)}
+            onClick={() => {
+              setStatus(item.keyname);
+            }}
             className={`px-4 py-2 cursor-pointer rounded-md ${
-              item.value === status ? "bg-[#1B4B66]  text-white" : ""
+              item.keyname === status ? "bg-[#1B4B66]  text-white" : ""
             }`}
           >
             {item.text}
@@ -112,12 +115,15 @@ const Orders = () => {
             Trạng thái
           </span>
         </div>
-        <div>
-          <p className="font-semibold text-darkGrey text-[14px] mb-[16px]">{bills.length} đơn hàng</p>
+        <div className="md:hidden">
+          <p className="font-semibold text-darkGrey text-[14px] mb-[16px]">
+            {bills.length} đơn hàng
+          </p>
         </div>
         <div className="flex flex-col md:py-6 gap-[17px]">
           {bills?.map((item) => (
-            <div
+            <Link
+              to={`/don-hang/${item.id}`}
               onClick={() => dispatch(actions.detailOrder(item))}
               className="w-full"
               key={item.id}
@@ -128,11 +134,10 @@ const Orders = () => {
                 total={item.totalCost}
                 status={item.status}
               />
-            </div>
+            </Link>
           ))}
         </div>
       </div>
-      <div className="md:h-[269px]"></div>
     </div>
   );
 };
