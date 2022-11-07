@@ -1,7 +1,7 @@
 import AppBar from "../../components/AppBar";
 import { Button2 } from "../../components";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../../components/CartItem";
 import CartItemMobile from "../../components/CartItemMobile";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import { NotiStatus, NotiStatusMobile } from "../../components/UploadStatus";
 import actionTypes from "../../store/actions/actionTypes";
 
 function MyCart() {
+  const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0)
   const [checkedList, setCheckedList] = useState([])
   const [quanityList, setQuanityList] = useState([])
@@ -28,7 +29,7 @@ function MyCart() {
     dispatch(actions.addToCart());
     dispatch(actions.placeOrderData('hehe'))
   }, [reload]);
-
+  
 
   useEffect(() => {
     if(checkedList.length !== 0 && quanityList.length !== 0 && productsCart){
@@ -38,6 +39,10 @@ function MyCart() {
       setTotalPrice(0)
     }
   },[checkedList,quanityList])
+
+  const handlePlaceOrder =() => {
+    window.location.href = '/address'
+  }
 
 
   return (
@@ -167,7 +172,7 @@ function MyCart() {
                     <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
                 </div>
-                <Button2 text={'Tiến hành thanh toán'}/>
+                <Button2 handleClick={handlePlaceOrder} text={'Tiến hành thanh toán'}/>
                 <div className="mt-[24px] w-full">
                   <Voucher isFreeShip={totalPrice < 500000 ? false : true}/>
                 </div>

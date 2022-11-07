@@ -8,7 +8,50 @@ import { InputCustomWidth, SelectPayment } from "../../components/InputCtWidth";
 import { Upload } from "../../components/UploadStatus";
 import * as actions from "../../store/actions";
 import { numFormatter } from "../../ultils/fn";
+import CartItemCombined from "../../components/CartItemCombined";
 
+const data = [
+  {
+    id:'02843323-0fda-4482-9061-b2e671e5fcca',
+    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
+    name: 'This is demo data1',
+    variant: 'Màu: đen,Chất liệu: thép',
+    price: 280000,
+    quanity: 4,
+  },
+  {
+    id:'02843323-0fda-4482-9061-b2e671e5fccb',
+    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
+    name: 'This is demo data2',
+    variant: 'Màu: đen,Chất liệu: thép',
+    price: 380000,
+    quanity: 1,
+  },
+  {
+    id:'02843323-0fda-4482-9061-b2e671e5fccc',
+    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
+    name: 'This is demo data3',
+    variant: 'Màu: đen,Chất liệu: thép',
+    price: 480000,
+    quanity: 10,
+  },
+  {
+    id:'02843323-0fda-4482-9061-b2e671e5fccd',
+    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
+    name: 'This is demo data4',
+    variant: 'Màu: đen,Chất liệu: thép',
+    price: 580000,
+    quanity: 8,
+  },
+  {
+    id:'02843323-0fda-4482-9061-b2e671e5fcca',
+    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
+    name: 'This is demo data5',
+    variant: 'Màu: đen,Chất liệu: thép',
+    price: 680000,
+    quanity: 7,
+  },
+]
 
 function AddAddress() {
   const [status, setStatus] = useState(false);
@@ -22,15 +65,15 @@ function AddAddress() {
   const [wardCur, setWardCur] = useState("DEFAULT");
   const [selected, setSelected] = useState(true);
   const [showPopupCart, setShowPopupCart] = useState(true);
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState([]);
   const [selectAddress, setSelectAddress] = useState("");
   const dispatch = useDispatch();
-  const { placeOrder } = useSelector((state) => state.cart);
-  console.log(placeOrder)
+
+  //GET ADDRESS
   useEffect(() => {
     const fetchAddress = async () => {
       const res = await ApiAddress.Get();
-      setAddress(res);
+      if(res.status === 0) setAddress(res?.yourAddress);
     };
     fetchAddress();
     dispatch(actions.addToCart());
@@ -150,7 +193,7 @@ function AddAddress() {
         </div>
 
         <hr />
-        <div className="w-full pt-[56px] p-3 h-[40%]">
+        <div className="w-full pt-[24px] p-3 h-[40%]">
           <p>Thông tin liên lạc</p>
           <hr />
           <div className="w-full h-[42px] my-3">
@@ -240,31 +283,31 @@ function AddAddress() {
       {/* Desktop */}
       <div className="md:block hidden w-full ">
         <Slider />
-        <h2 className=" text-3xl font-extrabold">Địa chỉ giao hàng</h2>
-        <div className="flex min-h-[600px]">
-          <div className="w-[60%] min-h-[200px] flex flex-col p-5">
+        <h2 className=" text-3xl m-5 font-extrabold">Địa chỉ giao hàng</h2>
+        <div className="flex min-h-[650px]">
+          <div className="w-[60%] flex flex-col p-5">
             <div className="flex h-fit bg-gray-300 rounded-t-md">
               <div
                 className={`w-1/2 font-bold text-center p-3 m-2 rounded-xl ${
                   selected === true ? "bg-primary text-white" : ""
-                }`}
+                } cursor-pointer`}
                 onClick={() => setSelected(true)}
               >
-                Thêm địa chỉ
+                Chọn địa chỉ
               </div>
               <div
                 className={`w-1/2 font-bold text-center p-3 m-2 rounded-xl ${
                   selected === false ? "bg-primary text-white" : ""
-                }`}
+                } cursor-pointer`}
                 onClick={() => setSelected(false)}
               >
-                Chọn địa chỉ
+                Thêm địa chỉ
               </div>
             </div>
             <div className="border-2 h-full flex-auto p-3">
-              {selected ? (
+              {!selected ? (
                 <>
-                  <div className="w-full pt-[56px] p-3 h-[40%]">
+                  <div className="w-full pt-[24px] p-3 h-[34%]">
                     <p>Thông tin liên lạc</p>
                     <hr />
                     <div className="w-full h-[42px] my-3">
@@ -286,7 +329,7 @@ function AddAddress() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-full p-3 h-[60%] flex flex-col justify-between">
+                  <div className="w-full p-3 h-[66%] flex flex-col justify-between">
                     <div className="">
                       <p>Địa chỉ giao hàng</p>
                       <hr />
@@ -315,6 +358,14 @@ function AddAddress() {
                           selectValue={wardCur}
                         />
                       </div>
+                      <div className="">
+                      <div className="w-full h-[42px] m-[8px]">
+                        <InputCustomWidth
+                          placeholder="Địa chỉ chỉ chi tiết"
+                          type="name"
+                        />
+                      </div>
+                    </div>
                     </div>
                     <div
                       className=""
@@ -355,16 +406,16 @@ function AddAddress() {
                   <div className="">
                     <div className="flex justify-between">
                       <span className="font-bold text-gray-400 pb-2 border-b-2 mb-3">
-                        Vui lòng chọn địa chỉ giao hàng
+                        {address.length > 0 ? 'Vui lòng chọn địa chỉ giao hàng' :  'Chưa có địa chỉ được lưu trước đây' }
                       </span>
                       <span className="font-bold text-primary cursor-pointer">
                         Thêm địa chỉ
                       </span>
                     </div>
 
-                    <div className="h-[250px] overflow-auto">
-                      {address &&
-                        address.yourAddress?.map((addres, index) => {
+                    <div className="h-[350px] overflow-auto">
+                      {address.length > 0 &&
+                        address?.map((addres, index) => {
                           const data = JSON.parse(addres.address);
 
                           return (
@@ -410,26 +461,20 @@ function AddAddress() {
               )}
             </div>
           </div>
-          <div className="w-[40%] flex flex-col justify-evenly">
-            <div className="">
-              <div className="flex font-bold text-gray-500 border-b-2 items-center p-2">
-                <p className="w-[50%]">Tên sản phẩm</p>
-                <p className="w-[20%] text-center">Giá</p>
+          <div className="w-[38%] pt-0 justify-evenly">
+              <div className="flex font-bold text-gray-500 border-b-2 py-[13px] items-center p-2">
+                <p className="w-[50%]">Sản phẩm</p>
+                <p className="w-[15%] text-center">Giá</p>
                 <p className="w-[15%] text-center">Số lượng</p>
-                <p className="w-[15%] text-center">Tổng</p>
+                <p className="w-[20%] text-center">Tổng</p>
               </div>
               <div className=" overflow-auto h-[300px] scroll-smooth">
                 {/* product */}
-                {/* {productsCart?.map((product) => (
-                  <CartItem
-                    product={product?.productData}
-                    variants={product?.variant}
-                    quanity={product?.quanity}
-                  />
-                ))} */}
+                {data.map((product) => (
+                  <CartItemCombined data={product}/>
+                ))}
               </div>
-            </div>
-            <div className="">
+            <div>
               <p className="text-base font-bold p-2 border-b-2">
                 Thông tin hóa đơn
               </p>
