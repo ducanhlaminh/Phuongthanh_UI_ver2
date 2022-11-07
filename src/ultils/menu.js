@@ -9,7 +9,7 @@ export const menuProfile = [
 export const menuStatus = [
     {
         keyname: 'pending',
-        value: 'in progress',
+        value: 'pending',
         text: 'Đang gói hàng',
     },
     {

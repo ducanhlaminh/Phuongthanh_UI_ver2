@@ -22,8 +22,9 @@ const OrderItem = ({ oid, createAt, total, status }) => {
           <span>{Number(total.toFixed(1)).toLocaleString()}</span>
         </span>
         <span className="flex-1 flex justify-center items-center">
-          {status === "in progress"
-            ? "Đang chờ"
+          {status === "pending"
+            ? "Đang gói hàng"
+            :status==="shipping"?"Đang vận chuyển"
             : status === "completed"
             ? "Hoàn thành"
             : "Đã hủy"}

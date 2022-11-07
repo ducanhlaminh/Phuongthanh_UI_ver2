@@ -7,13 +7,19 @@ import * as actions from "../../store/actions";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 const Orders = () => {
   const [status, setStatus] = useState("pending");
   const [bills, setBills] = useState([]);
+  const [allBills, setAllBills] = useState();
   const dispatch = useDispatch();
   const { detailOrder } = useSelector((state) => state.app);
   const [addToCartSuccess, setAddToCartSuccess] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handleChangePage = (event, value) => {
+    setCurrentPage(value);
+  };
 
   //   const handleATC = async (id, variantTypes) => {
   //     try {
@@ -41,7 +47,13 @@ const Orders = () => {
   //   };
   useEffect(() => {
     const fetchBills = async () => {
-      const response = await apiGetBills({ status: status });
+      const res2 = await apiGetBills({ status: status });
+      setAllBills(res2.billData);
+      const response = await apiGetBills({
+        limit: 5,
+        page: currentPage,
+        status: status,
+      });
       if (response.status === 0) {
         setBills(response.billData?.rows);
       }
@@ -51,7 +63,7 @@ const Orders = () => {
     return () => {
       dispatch(actions.detailOrder(null));
     };
-  }, [status]);
+  }, [status, currentPage]);
 
   return (
     <div className="w-full relative ">
@@ -85,18 +97,18 @@ const Orders = () => {
           </div>
         </Header>
       </div>
-      <div className="h-[68px] bg-[#f1f1f1] overflow-x-auto rounded-md flex items-center gap-4 px-4">
+      <div className="lg:h-[68px] h-[36px] bg-[#f1f1f1] overflow-x-auto rounded-[12px] flex items-center gap-3 md:px-4 px-[4px]">
         {menuStatus.map((item) => (
           <div
             key={item.keyname}
             onClick={() => {
               setStatus(item.keyname);
             }}
-            className={`px-4 py-2 cursor-pointer rounded-md ${
+            className={`min-w-[110px] flex justify-center cursor-pointer rounded-[8px] ${
               item.keyname === status ? "bg-[#1B4B66]  text-white" : ""
             }`}
           >
-            {item.text}
+            <p className=" py-[4px] text-[12px] font-medium">{item.text}</p>
           </div>
         ))}
       </div>
@@ -120,7 +132,7 @@ const Orders = () => {
             {bills.length} đơn hàng
           </p>
         </div>
-        <div className="flex flex-col md:py-6 gap-[17px]">
+        <div className="flex flex-col md:py-6 gap-[17px] min-h-[450px]">
           {bills?.map((item) => (
             <Link
               to={`/don-hang/${item.id}`}
@@ -136,6 +148,15 @@ const Orders = () => {
               />
             </Link>
           ))}
+        </div>
+        <div className="flex justify-end mt-[16px] pb-[16px]">
+          <Pagination
+            count={Math.ceil(allBills?.count / 5)}
+            color="primary"
+            size="large"
+            page={currentPage}
+            onChange={handleChangePage}
+          />
         </div>
       </div>
     </div>

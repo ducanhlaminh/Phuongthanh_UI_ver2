@@ -41,8 +41,8 @@ const ItemOrder = () => {
   return (
     <>
       {detailBill && (
-        <div className="w-screen h-screen">
-          <div className="text-primary">
+        <div className="w-screen h-screen md:hidden">
+          <div className="text-primary ">
             <Header>
               <div className="flex justify-between w-[100%]">
                 <div className="flex items-center">
@@ -55,8 +55,8 @@ const ItemOrder = () => {
             </Header>
           </div>
 
-          <div className="px-[16px] bg-white pb-[16px]">
-            <div className="bg-lightGrey p-[16px] rounded-[8px] flex flex-col gap-[18px]">
+          <div className="px-[16px] bg-white pb-[16px] ">
+            <div className="bg-lightGrey p-[16px] rounded-[8px] flex flex-col gap-[18px] ">
               <p className="text-black font-medium text-[16px]">
                 Đơn hàng{" "}
                 <span>{`#${detailBill?.id
@@ -94,7 +94,7 @@ const ItemOrder = () => {
               </div>
             </div>
           </div>
-          <div className="px-[16px] bg-white mt-[8px] py-[24px]">
+          <div className="px-[16px] bg-white mt-[8px] py-[24px] ">
             <p className="text-[14px] text-darkGrey font-semibold mb-[10px]">
               Chi tiết đơn hàng
             </p>
@@ -133,14 +133,14 @@ const ItemOrder = () => {
               </div>
             </div>
           </div>
-          <div className="px-[16px] bg-white mt-[8px] py-[24px]">
+          <div className="px-[16px] bg-white mt-[8px] py-[24px] ">
             <p className="text-[14px] text-darkGrey font-semibold mb-[10px]">
               Địa chỉ
             </p>
             <div className="flex flex-col gap-[8px]">
               <div>
                 <p className="text-black font-semibold text-[14px]">
-                  {detailBill?.addressData?.name} 
+                  {detailBill?.addressData?.name}
                 </p>
               </div>
               <div>
@@ -157,6 +157,10 @@ const ItemOrder = () => {
           </div>
         </div>
       )}
+
+      {detailBill && <div className="hidden md:block">
+        
+        </div>}
     </>
   );
 };

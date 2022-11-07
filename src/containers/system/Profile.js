@@ -52,7 +52,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex gap-[22px]">
-        <div className="w-[286px] flex-none hidden md:block">
+        <div className="lg:w-[286px] md:w-[220px] flex-none hidden md:block">
           <SidebarProfile />
         </div>
         <div className="w-full md:flex-auto">
