@@ -29,6 +29,7 @@ import {
   AiOutlineHeart,
   AiFillStar,
   AiOutlinePlus,
+  AiFillCheckCircle,
 } from "react-icons/ai";
 import {
   MdOutlinePhonelink,
@@ -72,6 +73,7 @@ const icons = {
   AiOutlineInstagram,
   TiLocationOutline,
   AiOutlineArrowRight,
+  AiFillCheckCircle,
   GrLinkNext,
   AiTwotoneStar,
   AiOutlineShoppingCart,

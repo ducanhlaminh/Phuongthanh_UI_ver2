@@ -204,7 +204,6 @@ export const PopupDeleteProduct = ({
   isLoading,
   isDelete,
   product,
-  cate,
   selectValue,
   setAddDelete,
 }) => {
@@ -235,8 +234,9 @@ export const PopupDeleteProduct = ({
             if (res.status === 0) {
               setAddDelete([]);
               setIsDelete(!isDelete);
-              setIsLoading(!isLoading);
-              cate(selectValue);
+              setTimeout(() => {
+                setIsLoading(!isLoading);
+              }, 1000);
             }
           }}
         ></Button>
@@ -567,6 +567,9 @@ export const FilterProductsMobile = ({
   value,
   numFormatter,
   handleChange,
+  setSelectedFilterSider,
+  filtersSider,
+  selectedFilterSider,
 }) => {
   return (
     <>
@@ -609,16 +612,40 @@ export const FilterProductsMobile = ({
                 </div>
               );
             })}
+            {filtersSider.map((filter) => (
+              <div className="flex">
+                <input
+                  type="checkbox"
+                  checked={
+                    selectedFilterSider.some((item) => item.valueVi) ? 1 : 0
+                  }
+                  value={JSON.stringify(filter)}
+                  className=""
+                  onClick={() => {
+                    setSelectedFilterSider((prev) => {
+                      return prev.some(
+                        (item) => item.valueVi === filter.valueVi
+                      )
+                        ? prev.filter((item) => item.valueVi !== filter.valueVi)
+                        : [...prev, filter];
+                    });
+                  }}
+                />
+                <label htmlFor="" className="ml-5">
+                  {filter.valueVi}
+                </label>
+              </div>
+            ))}
             <Slider
               getAriaLabel={() => "Minimum distance shift"}
               value={value}
               onChange={handleChange}
               onChangeCommitted={handleChange2}
               valueLabelDisplay="on"
-              step={100000}
+              step={10000000}
               marks
               disableSwap
-              max={10000000000}
+              max={100000000}
               valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             />
           </div>

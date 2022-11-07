@@ -9,7 +9,33 @@ import Button from "./Button";
 */
 
 const InputCustomWidth = React.memo(
-  ({ lable, widthP, placeholder, PLarge, value, setValue, type }) => {
+  ({
+    lable,
+    widthP,
+    placeholder,
+    PLarge,
+    value,
+    setValue,
+    type,
+    required,
+    setValidatesForm,
+    validateType,
+  }) => {
+    const [checkRequired, setCheckRequired] = useState(
+      required === true ? true : ""
+    );
+    useEffect(() => {
+      setValidatesForm &&
+        setValidatesForm((prev) => {
+          let array = [...prev];
+          array.map((item) => {
+            if (item.name === validateType) {
+              item.status = !checkRequired;
+            }
+          });
+          return [...prev];
+        });
+    }, [checkRequired]);
     return (
       <div className={`w-${widthP}  h-full`}>
         <label
@@ -22,13 +48,12 @@ const InputCustomWidth = React.memo(
         </label>
 
         <input
-          className={` outline-none
-                 block 
-                w-full ${PLarge ? "pl-7 pr-12" : "pl-2 pr-2"} sm:text-sm 
+          className={` outline-none block w-full ${
+            checkRequired === true && "border-[1px] border-rose-500"
+          }  ${PLarge ? "pl-7 pr-12" : " px-7"} sm:text-sm 
                 rounded-md  ${lable ? "min-h-[42px]" : "h-full"}
                  `}
           value={value}
-          required
           placeholder={placeholder}
           onChange={(e) => {
             if (!type) {
@@ -38,6 +63,15 @@ const InputCustomWidth = React.memo(
                 ...prev,
                 [type]: e.target.value,
               }));
+            }
+          }}
+          onBlur={(e) => {
+            if (checkRequired !== "") {
+              if (e.target.value.length > 0) {
+                return setCheckRequired(false);
+              } else {
+                return setCheckRequired(true);
+              }
             }
           }}
         />

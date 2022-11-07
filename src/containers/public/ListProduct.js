@@ -18,7 +18,7 @@ function ListProducts({ categoryData }) {
   const dispatch = useDispatch();
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [selectedFilterSider, setSelectedFilterSider] = useState([]);
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState(true);
 
   const { loading } = useSelector((state) => {
     return state.app;
@@ -102,13 +102,13 @@ function ListProducts({ categoryData }) {
           )}
           <div className="flex justify-center w-full">
             {/* component Pagination ,count là số trang thì lấy tổng chia ra */}
-            {/* <Pagination
+            <Pagination
               count={Math.ceil(count / 12)}
               color="primary"
               size="large"
               page={page}
               onChange={handleChangePage}
-            /> */}
+            />
           </div>
           <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
             <div
@@ -137,6 +137,9 @@ function ListProducts({ categoryData }) {
             handleChange={handleChange}
             numFormatter={numFormatter}
             value={value}
+            filtersSider={filtersSider}
+            setSelectedFilterSider={setSelectedFilterSider}
+            selectedFilterSider={selectedFilterSider}
           />
         )}
       </div>
@@ -148,13 +151,14 @@ function ListProducts({ categoryData }) {
           <div className=" w-full lg:block px-6">
             <h2 className=" text-3xl font-extrabold">{categoryData.valueVi}</h2>
             <div className="flex ">
+              {/* Navslider */}
               <div className="w-[20%]  p-5 hidden lg:block">
                 <div>
                   <div
                     className="border-b-2 py-3 justify-between flex "
                     onClick={() => setIsShowFilter(!isShowFilter)}
                   >
-                    <span>Choose</span>
+                    <span>Lọc sản phẩm</span>
                     {!isShowFilter ? <AiOutlinePlus /> : <GrSubtract />}
                   </div>
                   {isShowFilter && (
@@ -163,6 +167,11 @@ function ListProducts({ categoryData }) {
                         <div className="flex justify-center items-center min-h-[50px]">
                           <input
                             type="checkbox"
+                            checked={
+                              selectedFilterSider.some((item) => item.valueVi)
+                                ? 1
+                                : 0
+                            }
                             value={JSON.stringify(filter)}
                             className="w-1/5"
                             onClick={() => {
@@ -216,7 +225,7 @@ function ListProducts({ categoryData }) {
                     />
                   </div>
                 </div>
-
+                {/* Layout list sản phẩm */}
                 <div className=" w-full  p-5 relative">
                   <div className="flex flex-wrap flex-auto min-h-[500px]">
                     {loading === true ? (
