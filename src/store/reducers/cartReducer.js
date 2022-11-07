@@ -31,7 +31,6 @@ const cartReducer = (state = initState, action) => {
           ...state,productsCart:[]
         }
     case actionTypes.PLACE_ORDER_CART:
-        console.log(action.data)
         return {
           placeOrder: [...action.data] || null
         }
