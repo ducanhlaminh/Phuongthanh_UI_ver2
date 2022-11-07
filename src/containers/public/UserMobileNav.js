@@ -40,7 +40,7 @@ const UserMobileNav = () => {
           </Link>
         </div>
         <div className="h-[60px] flex items-center">
-          <Link to="/" className="w-full">
+          <Link to="/ho-so/hoa-don-cua-toi" className="w-full">
             <SideNavigateMenu title="Đơn hàng của tôi"></SideNavigateMenu>
           </Link>
         </div>

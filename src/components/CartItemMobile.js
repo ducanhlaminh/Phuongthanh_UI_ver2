@@ -12,10 +12,9 @@ const CartItemMobile = ({
   setOpenAlertPopup,
   setIdDelete,
   isMobile,
-  cartID,
   setCheckedList}
   ) => {
-  const{id,name,mainImage} = product || {}
+  const{id,name,mainImage,soldCounter} = product || {}
   const [price, setPrice] = useState(0)
   const [quanityProduct, setQuanityProduct] = useState(1)
   const [isChecked, setIsChecked] = useState(false)
@@ -57,18 +56,18 @@ const CartItemMobile = ({
             <input id={idUnique+'-mobile'} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
             <label htmlFor={idUnique+'-mobile'} className="flex">
               <img
-                src={mainImage}
+                src={product?.mainImage}
                 alt="ProductImage"
                 className="object-cover"
               />
               <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">{name}</b>
+                <b className="text-base">{product?.name}</b>
                 <p>{
                   variants.map((variant,i) => {
-                    let variantLength = variants.length
+                    let variantLength = variants?.length
                     return(
                       <>
-                      <span>{variant.variant}: {variant.value}</span>
+                      <span>{variant?.variant}: {variant?.value}</span>
                       <span>{i<variantLength-1?', ':''}</span>
                       </>
                     )
@@ -105,12 +104,7 @@ const CartItemMobile = ({
               <div className="border-r-2 w-1/2 flex justify-center items-center ">
                 <span>Yêu thích</span>
               </div>
-              <div
-              onClick={() => {
-                setIdDelete(cartID)
-                setOpenAlertPopup(true)
-              }}
-               className="w-1/2 flex justify-center items-center">
+              <div className="w-1/2 flex justify-center items-center">
                 <span>Xóa</span>
               </div>
             </div>

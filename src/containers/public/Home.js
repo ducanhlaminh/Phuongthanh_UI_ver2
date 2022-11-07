@@ -42,8 +42,8 @@ const Home = () => {
       ></MenuNav>
       <div className="md:hidden">
         <div className="w-full h-6 bg-white"></div>
-        <div className="h-[56px] flex items-center justify-between w-full py-[15px] px-4">
-          <span className="flex items-center gap-5">
+        <div className="h-[56px] flex items-center justify-between w-full py-[15px] px-4" onClick={()=>{setShowMenuNav(true)}}>
+          <span className="flex items-center gap-5" >
             <BiMenuAltLeft size={26} />
             <span className="font-bold text-base">Home</span>
           </span>

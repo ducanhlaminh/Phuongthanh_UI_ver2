@@ -29,20 +29,22 @@ const Personal = () => {
     }
   };
   return (
-    <>
-      <div className="md:hidden">
+    <div className="h-screen relative">
+      <div className="translate-x-[-16px] z-70 absolute">{isLoading && <Loading />}</div>
+      <div className="md:hidden text-primary translate-x-[-20px]">
         <Header>
           <MdOutlineArrowBackIosNew size="24" />
+          <p className="text-[20px] text-primary font-semibold pl-[20px]">
+            Thông tin tài khoản
+          </p>
         </Header>
       </div>
       <div className="md:pr-[76px]">
-        {isLoading && <Loading />}
-
         <div>
-          <p className="text-[20px] font-semibold border-b-[1px] border-darkGrey-tint pb-[6px]">
+          <p className="text-[20px] font-semibold border-b-[1px] border-darkGrey-tint pb-[6px] hidden md:block">
             Thông tin cá nhân
           </p>
-          <div className="flex items-end gap-[16px] mt-[37px]">
+          <div className="flex items-end gap-[16px] md:mt-[37px]">
             <img src={image} className="w-[80px] h-[80px] rounded-[50px]"></img>
             <LongButton
               width="136px"
@@ -53,7 +55,7 @@ const Personal = () => {
             >
               <p className="font-medium text-[14px]">Tải lên</p>
             </LongButton>
-            <div className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px]">
+            {/* <div className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px]">
               <LongButton
                 width="136px"
                 height="38px"
@@ -64,7 +66,7 @@ const Personal = () => {
                 <RiDeleteBinLine />
                 <p>Xóa tài khoản</p>
               </LongButton>
-            </div>
+            </div> */}
           </div>
           <div className="mt-[24px]">
             <label className="block font-medium text-[16px] text-black">
@@ -75,7 +77,7 @@ const Personal = () => {
               placeholder={userCurrent?.name}
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block font-medium text-[16px] text-black mt-[8px]">
               {userCurrent?.email ? "Email" : "Số điện thoại"}
             </label>
@@ -85,7 +87,7 @@ const Personal = () => {
                 userCurrent?.email ? userCurrent?.email : userCurrent?.phone
               }
             />
-          </div>
+          </div> */}
           <div className="flex justify-end mt-[24px]">
             <LongButton
               backgroundColor="#1B4B66"
@@ -93,7 +95,7 @@ const Personal = () => {
               height="36px"
               width="136px"
             >
-              <p className="text-[16px] font-medium">Lưu thay đổi</p>
+              <p className="text-[14px] md:text-[16px] font-medium">Lưu thay đổi</p>
             </LongButton>
           </div>
         </div>
@@ -116,6 +118,7 @@ const Personal = () => {
           onClick={() => {
             handleSubmit(userCurrent?.email, passwordRef?.current.value);
             passwordRef.current.value = "";
+            setIsLoading(true);
           }}
         >
           <LongButton
@@ -124,11 +127,11 @@ const Personal = () => {
             height="36px"
             width="136px"
           >
-            <p className="text-[16px] font-medium">Xác nhận</p>
+            <p className="text-[14px] md:text-[16px] font-medium">Xác nhận</p>
           </LongButton>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ApiComment from "../../apis/comment";
 import ApiProduct from "../../apis/product";
 import ApiCart from "../../apis/cart";
@@ -29,7 +29,9 @@ import { useSelector, useDispatch } from "react-redux";
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
 const DetailProduct = () => {
-  const dispatch=useDispatch();
+  const [cartQuantity, setCartQuantity] = useState();
+  const { fetchCartQuantity } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
@@ -46,6 +48,7 @@ const DetailProduct = () => {
   const [addToCartSuccess, setAddToCartSuccess] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
+  console.log(JSON.stringify(product?.id));
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -113,14 +116,12 @@ const DetailProduct = () => {
         setActiveNotiStatus("success");
         setShowPopupCart(false);
         setAddToCartSuccess(true);
-        dispatch(actions.fetchCartQuantity('success'));
-
+        dispatch(actions.fetchCartQuantity("success"));
       } else if (res.status === 1) {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
         setAddToCartSuccess(true);
-        dispatch(actions.fetchCartQuantity('warning'));
-        
+        dispatch(actions.fetchCartQuantity("warning"));
       }
     } catch (error) {
       setActiveNotiStatus("error");
@@ -130,7 +131,7 @@ const DetailProduct = () => {
     <>
       {<NotiStatus active={activeNotiStatus} setActive={setActiveNotiStatus} />}
       {product && (
-        <div className=" bg-lightGrey relative lg:bg-white lg:mt-[64px]">
+        <div className=" bg-lightGrey md:bg-white relative lg:bg-white lg:mt-[64px]">
           <SelectvariantPopup
             setShowPopupCart={setShowPopupCart}
             showPopupCart={showPopupCart}
@@ -147,8 +148,7 @@ const DetailProduct = () => {
               <Header>
                 <div className="flex justify-between w-[93%]">
                   <MdOutlineArrowBackIosNew size="24" />
-                  <Link
-                    to='/cart'
+                  <span
                     className={`relative ${
                       addToCartSuccess ? "animate-bounce2" : ""
                     }`}
@@ -159,7 +159,7 @@ const DetailProduct = () => {
                   >
                     <AiOutlineShoppingCart size={26} />
                     <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
-                  </Link>
+                  </span>
                 </div>
               </Header>
             </div>
@@ -223,14 +223,14 @@ const DetailProduct = () => {
                 </section>
 
                 <section className="flex items-center">
-                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[40px] md:font-semibold">
+                  <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[30px] lg:text-[40px] md:font-semibold">
                     <span>đ</span>
                     {!canAtc &&
                       Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
                     {canAtc && PriceCaculator(product, variantTypes)}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
-                    <span className=" font-medium text-[14px] leading-5 md:text-[34px] md:font-semibold md:text-[#B6B6B6]">
+                    <span className=" font-medium text-[14px] leading-5 lg:text-[34px] md:text-[24px] md:font-semibold md:text-[#B6B6B6]">
                       <span>đ</span>
                       {Number(
                         product.costPerUnit?.toFixed(1)
@@ -238,7 +238,7 @@ const DetailProduct = () => {
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter md:text-[20px] md:font-semibold md:text-[#FF404B]">
+                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] md:text-[16px] md:font-semibold md:text-[#FF404B]">
                     20%OFF
                   </p>
                 </section>
@@ -288,28 +288,33 @@ const DetailProduct = () => {
                 </div>
 
                 <section className="hidden md:flex">
-                  <LongButton
-                    width="328px"
-                    height="44px"
-                    backgroundColor="#1B4B66"
-                    size="14px"
-                    color="white"
-                    disabled={!canAtc}
-                    handleClick={() => {handleATC(product?.id, variantTypes);dispatch(actions.fetchCartQuantity(true))}}
-                  >
-                    <RiHandbagLine size="24px"></RiHandbagLine>
-                    <p>Thêm vào giỏ</p>
-                  </LongButton>
-
-                  <div className="border-[2px] border-primary rounded-[8px] ml-[24px]">
+                  <div className="md:w-[210px] lg:w-[328px] md:text-[12px] lg:text-[14px]">
                     <LongButton
-                      width="240px"
+                      width="100%"
+                      height="44px"
+                      backgroundColor="#1B4B66"
+                      size="14px"
+                      color="white"
+                      disabled={!canAtc}
+                      handleClick={() => {
+                        handleATC(product?.id, variantTypes);
+                        dispatch(actions.fetchCartQuantity(true));
+                      }}
+                    >
+                      <RiHandbagLine size="" className="lg:text-[24px] md:text-[20px]"></RiHandbagLine>
+                      <p>Thêm vào giỏ</p>
+                    </LongButton>
+                  </div>
+
+                  <div className="border-[2px] border-primary rounded-[8px] md:ml-[14px] md:text-[12px] lg:text-[14px] lg:ml-[24px] md:w-[153px] lg:w-[240px]">
+                    <LongButton
+                      width="100%"
                       height="40px"
                       backgroundColor="white"
-                      size="14px"
+                      size="100%"
                       color="#1B4B66"
                     >
-                      <RiHandbagLine size="24px"></RiHandbagLine>
+                      <AiOutlineHeart size="" className="lg:text-[24px] md:text-[20px]"></AiOutlineHeart>
                       <p>Thêm vào yêu thích</p>
                     </LongButton>
                   </div>
@@ -366,7 +371,7 @@ const DetailProduct = () => {
             ratingAndReviewRef={ratingAndReviewRef}
           />
 
-          <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px] min-h-[300px]">
+          <section className="hidden md:block ml-[20px] mr-[20px] mt-[24px] lg:mb-[95px] md:mb-[0px] min-h-[300px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
                 {product.description}

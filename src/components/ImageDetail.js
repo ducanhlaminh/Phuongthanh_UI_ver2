@@ -1,27 +1,33 @@
 import { IoIosArrowForward } from "react-icons/io";
-import React, { useState, useEffect } from "react";
-const ImageDetail = ({ mainImage, image1, image2, image3, type }) => {
+import React,{ useState, useEffect } from "react";
+const ImageDetail = ({
+  mainImage,
+  image1,
+  image2,
+  image3,
+  type,
+}) => {
   const activeImage = "border-[3px] border-primary";
 
   const [selectedImage, setSelectedImage] = useState(mainImage);
   const [imageList, setImageList] = useState(0);
 
   useEffect(() => {
-    if (imageList === 0) {
+    if(imageList === 0){
       setSelectedImage(mainImage);
-    } else {
-      switch (imageList) {
+    }else{
+      switch(imageList){
         case 1:
-          setSelectedImage(image1);
+          setSelectedImage(image1)
           break;
         case 2:
-          setSelectedImage(image2);
+          setSelectedImage(image2)
           break;
         default:
-          setSelectedImage(image3);
+          setSelectedImage(image3)
       }
     }
-  }, [mainImage, imageList]);
+  }, [mainImage,imageList]);
   if (type === "mobile") {
     return (
       <div className="flex overflow-x-auto h-[340px] md:hidden">
@@ -49,8 +55,8 @@ const ImageDetail = ({ mainImage, image1, image2, image3, type }) => {
     );
   } else {
     return (
-      <div className="h-[704px] hidden md:block">
-        <div className="h-[390px] w-[390px]">
+      <div className="md:h-[400px] lg:h-[704px] hidden md:block">
+        <div className="h-[390px] w-[390px] lg:h-[605px] lg:w-[605px]">
           <img
             src={`${selectedImage}`}
             className="w-full h-full object-cover rounded-[16px]"
@@ -113,8 +119,8 @@ const ImageDetail = ({ mainImage, image1, image2, image3, type }) => {
             className="cursor-pointer"
             onClick={() => {
               setImageList((prev) => {
-                if (prev >= 0 && prev < 3) return prev + 1;
-                else if (prev === 3) return 0;
+                if (prev >= 0 && prev <3) return prev + 1
+                else if (prev === 3) return 0
               });
             }}
           ></IoIosArrowForward>
