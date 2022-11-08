@@ -11,6 +11,7 @@ import AlertPopup from "../../triggercompoents/AlertPopup";
 import { numFormatter } from "../../ultils/fn";
 import Voucher from "../../components/Voucher";
 import { NotiStatus, NotiStatusMobile } from "../../components/UploadStatus";
+import ApiCheckout from "../../apis/bill2";
 import actionTypes from "../../store/actions/actionTypes";
 
 function MyCart() {
@@ -22,12 +23,13 @@ function MyCart() {
   const [idDelete, setIdDelete] = useState(null)
   const [reload, setReload] = useState(false)
   const [activeNotify, setActiveNotify] = useState(false)
+  const [dataBill, setDataBill] = useState([])
 
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
+
   useEffect(() => {
     dispatch(actions.addToCart());
-    dispatch(actions.placeOrderData('hehe'))
   }, [reload]);
   
 
@@ -40,8 +42,14 @@ function MyCart() {
     }
   },[checkedList,quanityList])
 
-  const handlePlaceOrder =() => {
-    window.location.href = '/address'
+  const handlePlaceOrder = async () => {
+    try {
+      let res =  await ApiCheckout.create(dataBill)
+      // if(res.status === 0) window.location.href = '/address'
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
 
@@ -72,6 +80,8 @@ function MyCart() {
               setOpenAlertPopup={setOpenAlertPopup}
               setIdDelete={setIdDelete}
               isMobile={true}
+              dataBill={dataBill}
+              setDataBill={setDataBill}
             />
           ))}
         </div>
@@ -145,6 +155,8 @@ function MyCart() {
                       setOpenAlertPopup={setOpenAlertPopup}
                       setIdDelete={setIdDelete}
                       isMobile={false}
+                      dataBill={dataBill}
+                      setDataBill={setDataBill}
                     />
                   ))}
                 </div>
@@ -172,7 +184,7 @@ function MyCart() {
                     <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
                 </div>
-                <Button2 handleClick={handlePlaceOrder} text={'Tiến hành thanh toán'}/>
+                <Button2 handleClick={handlePlaceOrder} text={'Tiến hành thanh toán'} disable={totalPrice > 0 ? false : true} />
                 <div className="mt-[24px] w-full">
                   <Voucher isFreeShip={totalPrice < 500000 ? false : true}/>
                 </div>

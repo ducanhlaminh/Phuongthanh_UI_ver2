@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import introVideo from "../../assets/intro.mp4";
 import { InputField, Button, Loading } from "../../components";
 import * as actions from "../../store/actions";
 import { validateLogin } from "../../ultils/validate";
@@ -66,13 +65,13 @@ const Login = () => {
   return (
     <div className="w-full h-full relative">
       {isLoading && <Loading />}
-      <video
+      {/* <video
         src={introVideo}
         muted
         autoPlay
         loop
         className="w-screen h-screen object-cover"
-      ></video>
+      ></video> */}
       <div className="overlay-layer absolute top-0 left-0 right-0 bottom-0 bg-overlay-80"></div>
       <div className="wrap-login absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-7 justify-center items-center bg-transparent">
         <div className="box-login w-4/5 md:w-[500px]  bg-white rounded-md p-5 ">
