@@ -53,7 +53,8 @@ module.exports = {
         'top-popup2': 'top-popup2 2s ease-in-out both;',
         'show-noti-left': 'show-noti-left 5s ease-out both;',
         'bounce2': 'bounce2 .5s',
-        bounce: 'bounce-mes 1.2s ease-in-out infinite'
+        bounce: 'bounce-mes 1.2s ease-in-out infinite',
+        'bounce-2': 'bounce-mes 1.2s ease-in-out 0.6s infinite'
       },
       keyframes: {
         bounce2: {

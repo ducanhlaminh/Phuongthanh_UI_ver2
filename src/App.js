@@ -30,7 +30,7 @@ import {
   Orders,
   PersonalInformation,
 } from "./containers/system";
-import { Contact } from "./components";
+import { Contact, BoxChat } from "./components";
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
@@ -105,6 +105,9 @@ function App() {
       </Routes>
       <div className="fixed top-1/2 right-[32px] bg-red-500">
         <Contact />
+      </div>
+      <div className="fixed bottom-0 right-[100px] bg-red-500">
+        <BoxChat />
       </div>
     </div>
   );
