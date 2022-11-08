@@ -23,6 +23,7 @@ export const getResponseBot = (payload) => async (dispatch) => {
             message: null
         })
     }
+    dispatch(loadingBot(false))
 }
 
 export const addTextUser = (postcard) => ({
@@ -41,4 +42,9 @@ export const cancelBuy = (data) => ({
 export const updateQuantity = (data) => ({
     type: actionTypes.UPDATE_QUANTITY,
     data
+})
+
+export const loadingBot = (flag) => ({
+    type: actionTypes.BOT_LOADING,
+    flag
 })

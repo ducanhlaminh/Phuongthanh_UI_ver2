@@ -50,7 +50,8 @@ const actionTypes = {
   MESSAGE_BOT: 'MESSAGE_BOT',
   BUY: 'BUY',
   CANCEL_BUY: 'CANCEL_BUY',
-  UPDATE_QUANTITY: 'UPDATE_QUANTITY'
+  UPDATE_QUANTITY: 'UPDATE_QUANTITY',
+  BOT_LOADING: 'BOT_LOADING'
 };
 
 export default actionTypes;

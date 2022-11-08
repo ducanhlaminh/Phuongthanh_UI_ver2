@@ -1,26 +1,28 @@
 import React, { useRef, useEffect } from 'react'
 import Message from './Message'
+import BotLoading from './BotLoading';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useDispatch, useSelector } from 'react-redux'
 import { memo } from 'react';
 import * as actions from '../store/actions'
-// import BotLoading from '../components/BotLoading';
 
 
 const Messages = ({ isStart, setIsStart }) => {
     const dispatch = useDispatch()
     const { messages, isLoadingBot, buyData } = useSelector(state => state.chatbot)
-    console.log(buyData);
+    console.log(isLoadingBot);
     const viewRef = useRef()
     const handleSendMessage = async (i) => {
         setIsStart(true)
         dispatch(actions.addTextUser(i))
-        // dispatch(actions.loadingBot(true))
-        dispatch(actions.getResponseBot({ type: 'postcard', content: i.code }))
+        dispatch(actions.loadingBot(true))
+        setTimeout(() => {
+            dispatch(actions.getResponseBot({ type: 'postcard', content: i.code }))
+        }, 1000)
     }
     useEffect(() => {
         viewRef.current?.scrollIntoView({ behavior: "smooth", block: 'nearest' })
-    }, [messages, isLoadingBot])
+    }, [messages])
     return (
         <div className='p-2 pr-0 w-full h-full flex flex-col gap-2'>
             {!isStart && <div className='w-full h-full flex justify-around items-center flex-col'>
@@ -56,7 +58,7 @@ const Messages = ({ isStart, setIsStart }) => {
                             />
                         )
                     })}
-                    {/* {isLoadingBot && <BotLoading />} */}
+                    {isLoadingBot && <BotLoading />}
                     <div ref={viewRef}></div>
                 </div>
             </Scrollbars>}

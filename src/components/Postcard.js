@@ -6,8 +6,10 @@ const Postcard = ({ isBot, image, title, subtitle, btns, className, id }) => {
     const dispatch = useDispatch()
     const handleSubmit = (i) => {
         dispatch(actions.addTextUser(i))
-        // dispatch(actions.loadingBot(true))
-        dispatch(actions.getResponseBot({ type: 'postcard', content: i.code }))
+        dispatch(actions.loadingBot(true))
+        setTimeout(() => {
+            dispatch(actions.getResponseBot({ type: 'postcard', content: i.code }))
+        }, 1000)
     }
     return (
         <div className={`w-[200px] ${className}`}>

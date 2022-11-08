@@ -3,7 +3,8 @@ import actionTypes from "../actions/actionTypes";
 const initState = {
     messages: [],
     isBuy: false,
-    buyData: []
+    buyData: [],
+    isLoadingBot: false
 }
 
 const chatbotReducer = (state = initState, action) => {
@@ -48,6 +49,11 @@ const chatbotReducer = (state = initState, action) => {
                 ...state,
                 isBuy: action.data.isBuy,
                 buyData: []
+            }
+        case actionTypes.BOT_LOADING:
+            return {
+                ...state,
+                isLoadingBot: action.flag
             }
         case actionTypes.UPDATE_QUANTITY:
             return {

@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import InputMessage from "./InputMessage";
 import Messages from "./Messages";
+import icons from '../ultils/icons'
 
-const BoxChat = () => {
+const { AiOutlineClose } = icons
+
+const BoxChat = ({ setIsStartChatBot }) => {
     const [isStart, setIsStart] = useState(false)
     return (
         <div className="w-[328px] h-[455px] bg-gray-800 text-gray-200">
-            <div className="w-full h-[48px] bg-gray-900 flex items-center px-2 font-medium">
-                Bot v2
+            <div className="w-full h-[48px] bg-gray-900 flex justify-between items-center px-2 font-medium">
+                <span>Bot v2</span>
+                <span onClick={() => setIsStartChatBot(false)} className="cursor-pointer hover:text-orange-600"><AiOutlineClose size={24} /></span>
             </div>
             <div className="flex flex-col h-[407px] ">
                 <div className="content flex-auto w-full h-[300px] relative">
@@ -22,4 +26,4 @@ const BoxChat = () => {
     );
 };
 
-export default BoxChat; 
+export default memo(BoxChat)

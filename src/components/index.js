@@ -13,5 +13,6 @@ export { default as OrderItem } from './OrderItem'
 export { default as DetailOrder } from './DetailOrder'
 export { default as Contact } from './Contact'
 export { default as BoxChat } from './BoxChat'
+export { default as BotLoading } from './BotLoading'
 
 
