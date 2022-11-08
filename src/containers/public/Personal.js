@@ -29,7 +29,7 @@ const Personal = () => {
     }
   };
   return (
-    <div className="h-screen relative">
+    <div className=" relative">
       <div className="translate-x-[-16px] z-70 absolute">{isLoading && <Loading />}</div>
       <div className="md:hidden text-primary translate-x-[-20px]">
         <Header>

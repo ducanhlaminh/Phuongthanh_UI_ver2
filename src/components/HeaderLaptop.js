@@ -51,7 +51,7 @@ const HeaderLaptop = () => {
         <Search />
         <div
           className=" flex items-center justify-end gap-5 flex-none"
-          style={{ width: isLoggedIn ? "120px" : "180px" }}
+          style={{ width: isLoggedIn ? "60px" : "180px" }}
         >
           <Link to={`/${path.PROFILE}`}>
             {isLoggedIn ? (
