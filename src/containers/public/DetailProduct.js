@@ -184,8 +184,10 @@ const DetailProduct = () => {
             id={product.id}
           />
           <div className="bg-[white] pl-[16px] ">
-            <div className="md:flex">
-              <section>
+
+
+            <div className="md:flex w-full">
+              <section className="">
                 <div className="relative">
                   {/* image mobile */}
                   <ImageDetail
@@ -242,7 +244,7 @@ const DetailProduct = () => {
                     20%OFF
                   </p>
                 </section>
-                <section className="pb-[16px] hidden md:block mt-[20px]">
+                <section className="pb-[16px] hidden md:block mt-[20px] w-[full]">
                   <Voucher Vouchers={Vouchers}></Voucher>
                 </section>
 
@@ -287,8 +289,8 @@ const DetailProduct = () => {
                   })}
                 </div>
 
-                <section className="hidden md:flex">
-                  <div className="md:w-[210px] lg:w-[328px] md:text-[12px] lg:text-[14px]">
+                <section className="hidden md:flex w-full">
+                  <div className="w-full md:text-[12px] lg:text-[14px]">
                     <LongButton
                       width="100%"
                       height="44px"
