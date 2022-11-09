@@ -209,7 +209,7 @@ const DetailProduct = () => {
                 </div>
               </section>
 
-              <div className="md:ml-[20px]">
+              <div className="md:ml-[20px] flex-1 pr-[16px]">
                 <NameAndDescription
                   name={product.name}
                   shortDescription={product?.shortDescription}
@@ -289,7 +289,8 @@ const DetailProduct = () => {
                   })}
                 </div>
 
-                <section className="hidden md:flex w-full">
+                <section className="hidden md:flex">
+                {/* md:w-[210px] lg:w-[328px] */}
                   <div className="w-full md:text-[12px] lg:text-[14px]">
                     <LongButton
                       width="100%"
@@ -308,7 +309,8 @@ const DetailProduct = () => {
                     </LongButton>
                   </div>
 
-                  <div className="border-[2px] border-primary rounded-[8px] md:ml-[14px] md:text-[12px] lg:text-[14px] lg:ml-[24px] md:w-[153px] lg:w-[240px]">
+                  {/* md:w-[153px] lg:w-[240px] */}
+                  <div className="border-[2px] border-primary rounded-[8px] md:ml-[14px] md:text-[12px] lg:text-[14px] lg:ml-[24px] w-[80%]">
                     <LongButton
                       width="100%"
                       height="40px"
