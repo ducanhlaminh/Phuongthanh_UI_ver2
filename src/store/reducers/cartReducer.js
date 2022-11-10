@@ -7,6 +7,7 @@ const initState = {
   TotalPrice: 0,
   fetchCartQuantity:false,
   animateStatus: false,
+  placeOrder: null,
 };
 
 const cartReducer = (state = initState, action) => {
@@ -20,13 +21,17 @@ const cartReducer = (state = initState, action) => {
         ...state,
         productsCart: products,
       };
-      case actionTypes.FETCH_CART_QUANTITY:
+    case actionTypes.FETCH_CART_QUANTITY:
         return {
           ...state,fetchCartQuantity:action.status
         }
-      case actionTypes.DELETE_ALL_CART:
+    case actionTypes.DELETE_ALL_CART:
         return {
           ...state,productsCart:[]
+        }
+    case actionTypes.PLACE_ORDER_CART:
+        return {
+          placeOrder: [...action.data] || null
         }
     default:
       return state;

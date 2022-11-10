@@ -20,6 +20,7 @@ export default function AlertPopup({open,setOpen,idDelete,setReload,setActiveNot
           setActiveNotify('success')
         }
     } catch (error) {
+        setActiveNotify('error')
         console.log(error)
     }
   }

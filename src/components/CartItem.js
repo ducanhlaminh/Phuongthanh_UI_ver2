@@ -13,6 +13,8 @@ const CartItem = ({
   setIdDelete,
   isMobile,
   cartID,
+  dataBill,
+  setDataBill,
   setCheckedList}
   ) => {
   const{id,name,mainImage,soldCounter} = product || {}
@@ -31,19 +33,34 @@ const CartItem = ({
 
   useEffect(() => setPrice(PriceCaculator(product,variants)),[])
   useEffect(() => {
+    let varName=''
+    variants.map((variant) => {
+      varName += `${variant.variant}: ${variant.value}. `
+    })
     let index = checkedList.indexOf(idUnique)
+    let billData = {
+      pid: id,
+      qty: quanityProduct,
+      variant: varName,
+      cost: price
+    }
     if(isChecked) {
       if(index !== -1){
         quanityList.splice(index,1,quanityProduct)
         let data = quanityList
         setQuanityList([...data])
+        dataBill.splice(index,1,billData)
+        let tempData = dataBill
+        setDataBill([...tempData])
       }else{
         setQuanityList(prev => [...prev,quanityProduct])
         setCheckedList(prev => [...prev,idUnique])
+        setDataBill(prev => [...prev,billData])
       }
     }else if(!isChecked){
       if(index!==-1){
         quanityList.splice(index,1)
+        dataBill.splice(index,1)
         setCheckedList(prev => prev.filter(id => id !== idUnique))
       }
     }

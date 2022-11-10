@@ -30,7 +30,7 @@ export const path = {
   ITEM_ORDERS: "don-hang",
   ITEM_ORDERS_ID: "don-hang/:id",
   PERSONAL: "",
-  ADD_ADDRESS: "address",
+  ADD_ADDRESS: "check-out",
   SEARCH:'tim-kiem',
   SEARCH__KEYWORD:'tim-kiem/:id',
 

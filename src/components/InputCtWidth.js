@@ -32,7 +32,7 @@ const InputCustomWidth = React.memo(
           placeholder={placeholder}
           onChange={(e) => {
             if (!type) {
-              return setValue(e.target.value);
+              setValue(e.target.value);
             } else {
               setValue((prev) => ({
                 ...prev,
@@ -45,6 +45,7 @@ const InputCustomWidth = React.memo(
     );
   }
 );
+
 
 /* Select field Which can custom width
     WidthP : value of width
@@ -102,8 +103,28 @@ const SelectCustomWidth = React.memo(
   }
 );
 
+/* Select address field Which can custom width
+    WidthP : value of width
+    @ducanh
+*/
 const SelectPayment = React.memo(
   ({ options, lable, widthP, selectValue, setSelectValue, type }) => {
+    let defaultContent = ''
+    switch(type){
+      case 'ProvinceName':
+        defaultContent = 'Chọn tỉnh thành ...'
+        break
+      case 'DistrictName':
+        defaultContent = 'Chọn quận huyện ...'
+        break
+      case 'WardName':
+        defaultContent = 'Chọn xã phường ...'
+        break
+      default:
+        defaultContent='DEFAULT'
+        break
+    }
+    
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -127,7 +148,7 @@ const SelectPayment = React.memo(
             defaultValue={selectValue}
           >
             <option value="DEFAULT" selected={selectValue === "DEFAULT"}>
-              Choose a salutation ...
+              {defaultContent}
             </option>
             {options?.length !== 0 ? (
               options?.map((option, index) => {

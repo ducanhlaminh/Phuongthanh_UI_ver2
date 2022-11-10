@@ -12,41 +12,59 @@ const CartItemMobile = ({
   setOpenAlertPopup,
   setIdDelete,
   isMobile,
+  cartID,
+  dataBill,
+  setDataBill,
   setCheckedList}
   ) => {
-  const{id,name,mainImage,soldCounter} = product || {}
-  const [price, setPrice] = useState(0)
-  const [quanityProduct, setQuanityProduct] = useState(1)
-  const [isChecked, setIsChecked] = useState(false)
-  let idUnique = null
-
-  const getIdUnique = () => {
-    idUnique=id
-    variants.map((variant) => {
-      idUnique += `--${variant.variant}-${variant.value}_${variant.price}`
-    })
-  }
-  getIdUnique()
-
-  useEffect(() => setPrice(PriceCaculator(product,variants)),[])
-  useEffect(() => {
-    let index = checkedList.indexOf(idUnique)
-    if(isChecked) {
-      if(index !== -1){
-        quanityList.splice(index,1,quanityProduct)
-        let data = quanityList
-        setQuanityList([...data])
-      }else{
-        setQuanityList(prev => [...prev,quanityProduct])
-        setCheckedList(prev => [...prev,idUnique])
-      }
-    }else if(!isChecked){
-      if(index!==-1){
-        quanityList.splice(index,1)
-        setCheckedList(prev => prev.filter(id => id !== idUnique))
-      }
+    const{id,name,mainImage} = product || {}
+    const [price, setPrice] = useState(0)
+    const [quanityProduct, setQuanityProduct] = useState(1)
+    const [isChecked, setIsChecked] = useState(false)
+    let idUnique = null
+  
+    const getIdUnique = () => {
+      idUnique=id
+      variants.map((variant) => {
+        idUnique += `--${variant.variant}-${variant.value}_${variant.price}`
+      })
     }
-  },[quanityProduct,isChecked])
+    getIdUnique()
+  
+    useEffect(() => setPrice(PriceCaculator(product,variants)),[])
+    useEffect(() => {
+      let varName=''
+      variants.map((variant) => {
+        varName += `${variant.variant}: ${variant.value}. `
+      })
+      let index = checkedList.indexOf(idUnique)
+      let billData = {
+        pid: id,
+        qty: quanityProduct,
+        variant: varName,
+        cost: price
+      }
+      if(isChecked) {
+        if(index !== -1){
+          quanityList.splice(index,1,quanityProduct)
+          let data = quanityList
+          setQuanityList([...data])
+          dataBill.splice(index,1,billData)
+          let tempData = dataBill
+          setDataBill([...tempData])
+        }else{
+          setQuanityList(prev => [...prev,quanityProduct])
+          setCheckedList(prev => [...prev,idUnique])
+          setDataBill(prev => [...prev,billData])
+        }
+      }else if(!isChecked){
+        if(index!==-1){
+          quanityList.splice(index,1)
+          dataBill.splice(index,1)
+          setCheckedList(prev => prev.filter(id => id !== idUnique))
+        }
+      }
+    },[quanityProduct,isChecked])
 
   return (
     <>
@@ -56,18 +74,18 @@ const CartItemMobile = ({
             <input id={idUnique+'-mobile'} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
             <label htmlFor={idUnique+'-mobile'} className="flex">
               <img
-                src={product?.mainImage}
+                src={mainImage}
                 alt="ProductImage"
                 className="object-cover"
               />
               <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">{product?.name}</b>
+                <b className="text-base">{name}</b>
                 <p>{
                   variants.map((variant,i) => {
-                    let variantLength = variants?.length
+                    let variantLength = variants.length
                     return(
                       <>
-                      <span>{variant?.variant}: {variant?.value}</span>
+                      <span>{variant.variant}: {variant.value}</span>
                       <span>{i<variantLength-1?', ':''}</span>
                       </>
                     )
@@ -104,7 +122,12 @@ const CartItemMobile = ({
               <div className="border-r-2 w-1/2 flex justify-center items-center ">
                 <span>Yêu thích</span>
               </div>
-              <div className="w-1/2 flex justify-center items-center">
+              <div
+              onClick={() => {
+                setIdDelete(cartID)
+                setOpenAlertPopup(true)
+              }}
+               className="w-1/2 flex justify-center items-center">
                 <span>Xóa</span>
               </div>
             </div>

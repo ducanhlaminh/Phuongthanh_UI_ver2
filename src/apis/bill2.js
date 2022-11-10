@@ -24,3 +24,16 @@ export const apiGetProductsOfBill2 = (bid) => new Promise(async (resolve, reject
         reject(error)
     }
 })
+
+const ApiCheckout = {
+  create: (data) => {
+    const url = "/api/v1/bill2";
+    try {
+        return axiosClients.post(url,data);
+    } catch (error) {
+        console.log(error);
+    }
+  },
+};
+
+export default ApiCheckout;

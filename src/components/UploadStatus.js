@@ -60,8 +60,8 @@ export const NotiStatusMobile = ({content,active,setActive}) => {
             contentDefault='Giỏ hàng đã có.'
             break;
         case 'error':
-            borderColor='border-[#ffb818]'
-            icon = <IoIosWarning size={26} color='#ffb818'/>
+            borderColor='border-[#d72828]'
+            icon = <MdError size='26' color='#d72828'/>
             contentDefault='Có lỗi xảy ra.'
             break;
         default:

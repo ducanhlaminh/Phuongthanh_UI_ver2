@@ -35,3 +35,10 @@ export const deleteAllCart=()=>{
     type:actionTypes.DELETE_ALL_CART,
   }
 }
+
+export const placeOrderData = (data) => {
+  return {
+    type:actionTypes.PLACE_ORDER_CART,
+    data: data,
+  }
+}

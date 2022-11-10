@@ -1,7 +1,7 @@
 import AppBar from "../../components/AppBar";
 import { Button2 } from "../../components";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../../components/CartItem";
 import CartItemMobile from "../../components/CartItemMobile";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +10,12 @@ import { TotalPriceCaculator } from "../../ultils/caculator";
 import AlertPopup from "../../triggercompoents/AlertPopup";
 import { numFormatter } from "../../ultils/fn";
 import Voucher from "../../components/Voucher";
-import { NotiStatus } from "../../components/UploadStatus";
+import { NotiStatus, NotiStatusMobile } from "../../components/UploadStatus";
+import ApiCheckout from "../../apis/bill2";
+import actionTypes from "../../store/actions/actionTypes";
 
 function MyCart() {
+  const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0)
   const [checkedList, setCheckedList] = useState([])
   const [quanityList, setQuanityList] = useState([])
@@ -20,13 +23,15 @@ function MyCart() {
   const [idDelete, setIdDelete] = useState(null)
   const [reload, setReload] = useState(false)
   const [activeNotify, setActiveNotify] = useState(false)
+  const [dataBill, setDataBill] = useState([])
 
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
+
   useEffect(() => {
     dispatch(actions.addToCart());
   }, [reload]);
-
+  
 
   useEffect(() => {
     if(checkedList.length !== 0 && quanityList.length !== 0 && productsCart){
@@ -37,14 +42,35 @@ function MyCart() {
     }
   },[checkedList,quanityList])
 
+  const handlePlaceOrder = async () => {
+    try {
+      let data = {
+        products: [...dataBill]
+      }
+      let res =  await ApiCheckout.create(data)
+      // if(res.status === 0) window.location.href = '/address'
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
 
   return (
     <>
       {/* Mobile */}
       <div className="md:hidden h-screen">
+        <NotiStatusMobile 
+          active={activeNotify}
+          setActive={setActiveNotify}
+        />
         <AppBar title="Giỏ hàng" />
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
           {/* product */}
+          {productsCart&&productsCart.length === 0 && <div className="text-center mt-[24px]">
+            <div className="text-darkGrey">Hiện chưa có sản phẩm nào được thêm vào giỏ hàng</div>
+            <Link className="text-primary" to='/'>Đi tới mua sắm </Link>
+          </div>}
           {productsCart?.map((product) => (
             <CartItemMobile
               product={product?.productData}
@@ -57,6 +83,8 @@ function MyCart() {
               setOpenAlertPopup={setOpenAlertPopup}
               setIdDelete={setIdDelete}
               isMobile={true}
+              dataBill={dataBill}
+              setDataBill={setDataBill}
             />
           ))}
         </div>
@@ -90,7 +118,7 @@ function MyCart() {
             <p>{numFormatter(totalPrice)}</p>
           </div>
           <div className="w-1/2">
-            <Button2 text="Tiến hành thanh toán" />
+            <Button2 disable={totalPrice===0} handleClick={handlePlaceOrder} text="Tiến hành thanh toán" />
           </div>
         </div>
       </div>
@@ -130,6 +158,8 @@ function MyCart() {
                       setOpenAlertPopup={setOpenAlertPopup}
                       setIdDelete={setIdDelete}
                       isMobile={false}
+                      dataBill={dataBill}
+                      setDataBill={setDataBill}
                     />
                   ))}
                 </div>
@@ -157,7 +187,7 @@ function MyCart() {
                     <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
                 </div>
-                <Button2 text={'Tiến hành thanh toán'}/>
+                <Button2 handleClick={handlePlaceOrder} text={'Tiến hành thanh toán'} disable={totalPrice > 0 ? false : true} />
                 <div className="mt-[24px] w-full">
                   <Voucher isFreeShip={totalPrice < 500000 ? false : true}/>
                 </div>
