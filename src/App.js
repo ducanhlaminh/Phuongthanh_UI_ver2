@@ -30,11 +30,11 @@ import {
   Orders,
   PersonalInformation,
 } from "./containers/system";
-import { Contact } from "./components";
+import { Contact, BoxChat } from "./components";
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
@@ -42,6 +42,7 @@ import ListProducts from "./containers/public/ListProduct";
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
+  const [isStartChatBot, setIsStartChatBot] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Khi reload page get userdata again
@@ -104,8 +105,11 @@ function App() {
         </Route>
       </Routes>
       <div className="fixed top-1/2 right-[32px] bg-red-500">
-        <Contact />
+        <Contact setIsStartChatBot={setIsStartChatBot} />
       </div>
+      {isStartChatBot && <div className="fixed bottom-0 z-70 right-[100px] bg-red-500">
+        <BoxChat setIsStartChatBot={setIsStartChatBot} />
+      </div>}
     </div>
   );
 }

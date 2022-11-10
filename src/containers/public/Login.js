@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import bgLogin from '../../assets/bg-login.jpg'
 import { InputField, Button, Loading } from "../../components";
 import * as actions from "../../store/actions";
 import { validateLogin } from "../../ultils/validate";
@@ -65,15 +66,9 @@ const Login = () => {
   return (
     <div className="w-full h-full relative">
       {isLoading && <Loading />}
-      {/* <video
-        src={introVideo}
-        muted
-        autoPlay
-        loop
-        className="w-screen h-screen object-cover"
-      ></video> */}
-      <div className="overlay-layer absolute top-0 left-0 right-0 bottom-0 bg-overlay-80"></div>
-      <div className="wrap-login absolute top-0 left-0 right-0 bottom-0 z-10 flex flex-col gap-7 justify-center items-center bg-transparent">
+      <img src={bgLogin} alt="background-login" className="w-full h-full object-cover" />
+      <div className="overlay-layer absolute top-0 left-0 right-0 bottom-0 bg-overlay-70"></div>
+      <div className="wrap-login absolute top-[-7%] left-[10%] right-0 bottom-0 z-10 flex flex-col gap-7 justify-center items-center bg-transparent">
         <div className="box-login w-4/5 md:w-[500px]  bg-white rounded-md p-5 ">
           <h3 className="text-2xl font-semi w-full text-center py-5 pt-3">
             {!isRegister ? "Đăng nhập" : "Đăng ký tài khoản"}
