@@ -26,7 +26,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import ProductItem from "../../components/ProductItem"
+import ProductItem from "../../components/ProductItem";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
@@ -36,14 +36,12 @@ const DetailProduct = () => {
     return state.cart;
   });
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
-  const [relatedProduct,setRepatedProduct]=useState([]);
-  
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
-  console.log(product);
   const [comments, setComments] = useState({});
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
@@ -54,7 +52,7 @@ const DetailProduct = () => {
   const [variantTypes, setVariantTypes] = useState([]);
   const [canAtc, setCanAtc] = useState(false);
   const [activeNotiStatus, setActiveNotiStatus] = useState(false);
-  const [onFetchCartQuantity,setOnFetchCartQuantity] = useState(false);
+  const [onFetchCartQuantity, setOnFetchCartQuantity] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     const fetchCartQuantity = async () => {
@@ -62,7 +60,7 @@ const DetailProduct = () => {
       setCartQuantity(res.yourCart.length);
     };
     fetchCartQuantity();
-  }, [fetchCartQuantity, cartQuantity, productsCart,onFetchCartQuantity]);
+  }, [fetchCartQuantity, cartQuantity, productsCart, onFetchCartQuantity]);
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -78,13 +76,28 @@ const DetailProduct = () => {
       });
       setComments(res.commentData);
     };
-    const fetchRelatedProducts= async ()=>{
-      // const res=await ApiProduct.
-    }
+
     fetchComments();
     fetchProduct();
-    fetchRelatedProducts();
   }, [id, currentPage]);
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      try{
+        if (product?.categoryData) {
+          const res = await ApiProduct.getAll({
+            categoryCode: product?.categoryData.code,
+            limitProduct: 10,
+          });
+          setRelatedProducts(res?.productData.rows);
+        }
+      }
+      catch(e){
+
+      }
+    };
+
+    fetchRelatedProducts();
+  }, [product]);
 
   const handleRenderStar = (starValue) => {
     let stars = [];
@@ -125,27 +138,27 @@ const DetailProduct = () => {
       let data = {
         pid: id,
         variant: variantTypes,
-      };setOnFetchCartQuantity(true);
+      };
+      setOnFetchCartQuantity(true);
       let res = await ApiCart.create(data);
       if (res.status === 0) {
         setVariantTypes(new Array(product?.variants.length).fill(null));
         setCanAtc(false);
         setActiveNotiStatus("success");
         setShowPopupCart(false);
-        
+
         dispatch(actions.fetchCartQuantity("success"));
         setOnFetchCartQuantity(false);
       } else if (res.status === 1) {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
-        
+
         setOnFetchCartQuantity(false);
         dispatch(actions.fetchCartQuantity("warning"));
       }
     } catch (error) {
       setActiveNotiStatus("error");
       setOnFetchCartQuantity(false);
-
     }
   };
   return (
