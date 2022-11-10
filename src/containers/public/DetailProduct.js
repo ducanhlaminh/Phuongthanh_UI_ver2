@@ -26,20 +26,24 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import ProductItem from "../../components/ProductItem"
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
+
 const DetailProduct = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
   });
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
-
+  const [relatedProduct,setRepatedProduct]=useState([]);
+  
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
+  console.log(product);
   const [comments, setComments] = useState({});
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
@@ -74,8 +78,12 @@ const DetailProduct = () => {
       });
       setComments(res.commentData);
     };
+    const fetchRelatedProducts= async ()=>{
+      // const res=await ApiProduct.
+    }
     fetchComments();
     fetchProduct();
+    fetchRelatedProducts();
   }, [id, currentPage]);
 
   const handleRenderStar = (starValue) => {
@@ -415,7 +423,7 @@ const DetailProduct = () => {
             ratingAndReviewRef={ratingAndReviewRef}
           />
 
-          <section className="hidden md:block ml-[20px] mr-[20px] mt-[24px] lg:mb-[95px] md:mb-[0px] min-h-[300px]">
+          <section className="hidden md:block ml-[20px] mr-[20px] mt-[24px] md:mb-[0px] min-h-[300px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
                 {product.description}
