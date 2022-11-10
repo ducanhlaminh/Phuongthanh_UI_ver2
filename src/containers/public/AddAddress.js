@@ -296,7 +296,7 @@ function AddAddress() {
       <div className="md:block hidden w-full "> 
         <Slider />
         <h2 className=" text-3xl m-5 font-extrabold">Địa chỉ giao hàng</h2>
-        <div className="flex min-h-[650px]">
+        <div className="flex min-h-[650px] bg-white">
           <div className="w-[60%] flex flex-col p-5">
             <div className="flex h-fit bg-gray-300 rounded-t-md">
               <div

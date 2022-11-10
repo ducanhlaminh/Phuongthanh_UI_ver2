@@ -142,10 +142,10 @@ function ListProducts({ categoryData }) {
       </div>
       {/* Desktop */}
       <div className="md:block hidden w-full ">
-        <div className="py-6 mb-6 flex flex-col gap-8 ">
+        <div className=" flex flex-col gap-8 ">
           <SliderImage />
 
-          <div className=" w-full lg:block px-6">
+          <div className=" bg-white w-full lg:block px-6">
             <h2 className=" text-3xl font-extrabold">{categoryData.valueVi}</h2>
             <div className="flex ">
               <div className="w-[20%]  p-5 hidden lg:block">
