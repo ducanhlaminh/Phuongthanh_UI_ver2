@@ -11,12 +11,6 @@ const ImageDetail = ({
 
   const [selectedImage, setSelectedImage] = useState(mainImage);
   const [imageList, setImageList] = useState(0);
-  let measure=window.innerWidth;
-  useEffect(()=>{
-    measure=window.innerWidth;
-    console.log(measure);
-  },[window.innerWidth])
-
   useEffect(() => {
     if(imageList === 0){
       setSelectedImage(mainImage);

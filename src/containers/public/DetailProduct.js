@@ -25,12 +25,18 @@ import { NotiStatus } from "../../components/UploadStatus";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
 const DetailProduct = () => {
-  const [cartQuantity, setCartQuantity] = useState();
-  const { fetchCartQuantity } = useSelector((state) => state.cart);
+  const { fetchCartQuantity, productsCart } = useSelector((state) => {
+    return state.cart;
+  });
+  console.log(productsCart)
+  const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
+  console.log(cartQuantity);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
@@ -47,8 +53,13 @@ const DetailProduct = () => {
   const [activeNotiStatus, setActiveNotiStatus] = useState(false);
   const [addToCartSuccess, setAddToCartSuccess] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  console.log(JSON.stringify(product?.id));
+  useEffect(() => {
+    const fetchCartQuantity = async () => {
+      const res = await ApiCart.get();
+      setCartQuantity(res.yourCart.length);
+    };
+    fetchCartQuantity();
+  }, [fetchCartQuantity, cartQuantity, productsCart]);
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -148,7 +159,7 @@ const DetailProduct = () => {
               <Header>
                 <div className="flex justify-between w-[93%]">
                   <MdOutlineArrowBackIosNew size="24" />
-                  <span
+                  {/* <span
                     className={`relative ${
                       addToCartSuccess ? "animate-bounce2" : ""
                     }`}
@@ -159,7 +170,30 @@ const DetailProduct = () => {
                   >
                     <AiOutlineShoppingCart size={26} />
                     <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
-                  </span>
+                  </span> */}
+                  <Link to="/cart" className="relative">
+                    <AiOutlineShoppingCart
+                      size={26}
+                      className={`${
+                        fetchCartQuantity === "success" ||
+                        fetchCartQuantity === "warning"
+                          ? "animate-bounce2"
+                          : ""
+                      }`}
+                      style={{ "animation-iteration-count": "5" }}
+                    />
+                    <span
+                      className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
+                        fetchCartQuantity === "success" ||
+                        fetchCartQuantity === "warning"
+                          ? "animate-bounce2"
+                          : ""
+                      }`}
+                      style={{ "animation-iteration-count": "5" }}
+                    >
+                      {isLoggedIn ? cartQuantity : "0"}
+                    </span>
+                  </Link>
                 </div>
               </Header>
             </div>
@@ -184,8 +218,6 @@ const DetailProduct = () => {
             id={product.id}
           />
           <div className="bg-[white] pl-[16px] ">
-
-
             <div className="md:flex w-full">
               <section className="">
                 <div className="relative">
@@ -290,7 +322,7 @@ const DetailProduct = () => {
                 </div>
 
                 <section className="hidden md:flex">
-                {/* md:w-[210px] lg:w-[328px] */}
+                  {/* md:w-[210px] lg:w-[328px] */}
                   <div className="w-full md:text-[12px] lg:text-[14px]">
                     <LongButton
                       width="100%"
@@ -304,7 +336,10 @@ const DetailProduct = () => {
                         dispatch(actions.fetchCartQuantity(true));
                       }}
                     >
-                      <RiHandbagLine size="" className="lg:text-[24px] md:text-[20px]"></RiHandbagLine>
+                      <RiHandbagLine
+                        size=""
+                        className="lg:text-[24px] md:text-[20px]"
+                      ></RiHandbagLine>
                       <p>Thêm vào giỏ</p>
                     </LongButton>
                   </div>
@@ -318,7 +353,10 @@ const DetailProduct = () => {
                       size="100%"
                       color="#1B4B66"
                     >
-                      <AiOutlineHeart size="" className="lg:text-[24px] md:text-[20px]"></AiOutlineHeart>
+                      <AiOutlineHeart
+                        size=""
+                        className="lg:text-[24px] md:text-[20px]"
+                      ></AiOutlineHeart>
                       <p>Thêm vào yêu thích</p>
                     </LongButton>
                   </div>
