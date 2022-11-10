@@ -80,7 +80,6 @@ const InputCustomWidth = React.memo(
   }
 );
 
-
 /* Select field Which can custom width
     WidthP : value of width
     @Anhtd
@@ -143,22 +142,22 @@ const SelectCustomWidth = React.memo(
 */
 const SelectPayment = React.memo(
   ({ options, lable, widthP, selectValue, setSelectValue, type }) => {
-    let defaultContent = ''
-    switch(type){
-      case 'ProvinceName':
-        defaultContent = 'Chọn tỉnh thành ...'
-        break
-      case 'DistrictName':
-        defaultContent = 'Chọn quận huyện ...'
-        break
-      case 'WardName':
-        defaultContent = 'Chọn xã phường ...'
-        break
+    let defaultContent = "";
+    switch (type) {
+      case "ProvinceName":
+        defaultContent = "Chọn tỉnh thành ...";
+        break;
+      case "DistrictName":
+        defaultContent = "Chọn quận huyện ...";
+        break;
+      case "WardName":
+        defaultContent = "Chọn xã phường ...";
+        break;
       default:
-        defaultContent='DEFAULT'
-        break
+        defaultContent = "DEFAULT";
+        break;
     }
-    
+
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -224,7 +223,7 @@ const HashTagCustomWidth = React.memo(
     }, []);
     const handleAction = () => {
       if (value === "") return;
-      let newHashTag = `#${value.replace(/ /g, "_")}`;
+      let newHashTag = `${value.replace(/ /g, "_")}`;
       setTags([...tags, newHashTag]);
       setValue("");
     };

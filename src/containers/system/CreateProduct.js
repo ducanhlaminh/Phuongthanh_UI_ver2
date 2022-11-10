@@ -34,7 +34,8 @@ const EditProduct = () => {
     bodyFormData.append("description", shortDes);
     bodyFormData.append("categoryCode", selectValue);
     bodyFormData.append("variants", JSON.stringify(variants));
-    console.log(shortDes, image, price);
+    bodyFormData.append("tags", tags);
+    console.log(shortDes, image, tags);
     try {
       const res = await ApiProduct.create(bodyFormData);
       console.log(res);
@@ -90,7 +91,7 @@ const EditProduct = () => {
         setShowUpload={setShowUpload}
         setContentUpload={setContentUpload}
       />
-      <Preview />
+      {/* <Preview /> */}
     </>
   );
 };
