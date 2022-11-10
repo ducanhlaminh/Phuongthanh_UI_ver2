@@ -26,7 +26,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import ProductItem from "../../components/ProductItem";
+
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
@@ -203,7 +203,7 @@ const DetailProduct = () => {
                           ? "animate-bounce2"
                           : ""
                       }`}
-                      style={{ "animation-iteration-count": "5" }}
+                      style={{ "animationIterationCount": "5" }}
                     />
                     <span
                       className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
@@ -212,7 +212,7 @@ const DetailProduct = () => {
                           ? "animate-bounce2"
                           : ""
                       }`}
-                      style={{ "animation-iteration-count": "5" }}
+                      style={{ "animationIterationCount": "5" }}
                     >
                       {isLoggedIn ? cartQuantity : "0"}
                     </span>
@@ -443,7 +443,7 @@ const DetailProduct = () => {
               </p>
             </div>
             <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>
-              <RelatedProduct />
+              <RelatedProduct products={relatedProducts}/>
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
               <ReviewAndRatingDesktop
