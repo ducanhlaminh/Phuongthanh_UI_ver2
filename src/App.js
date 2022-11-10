@@ -32,11 +32,11 @@ import {
   Orders,
   PersonalInformation,
 } from "./containers/system";
-
+import { Contact, BoxChat } from "./components";
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
@@ -44,6 +44,7 @@ import ListProducts from "./containers/public/ListProduct";
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
+  const [isStartChatBot, setIsStartChatBot] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Khi reload page get userdata again
@@ -66,7 +67,7 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-purple-100 m-auto overflow-y-auto h-screen">
+    <div className="bg-purple-100 m-auto overflow-y-auto h-screen relative">
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
@@ -76,6 +77,7 @@ function App() {
           <Route path={path.SEARCH} element={<Search/>}></Route>
           <Route path={path.ITEM_ORDERS} element={<ItemOrder/>}></Route>
           <Route path={path.ITEM_ORDERS_ID} element={<ItemOrder/>}></Route>
+
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
@@ -92,10 +94,10 @@ function App() {
             />
           ))}
 
-          <Route path={path.SEARCH__KEYWORD} element={<ListProducts categoryData=''/>}></Route>
+          <Route path={path.SEARCH__KEYWORD} element={<ListProducts categoryData='' />}></Route>
         </Route>
 
-        
+
 
         <Route path={path.LOGIN} element={<Login />} />
         <Route path={path.SYSTEM} element={<System />}>
@@ -108,6 +110,12 @@ function App() {
           <Route path={path.UPDATE_PROFILE} element={<UpdateProfile />} />
         </Route>
       </Routes>
+      <div className="fixed top-1/2 right-[32px] bg-red-500">
+        <Contact setIsStartChatBot={setIsStartChatBot} />
+      </div>
+      {isStartChatBot && <div className="fixed bottom-0 z-70 right-[100px] bg-red-500">
+        <BoxChat setIsStartChatBot={setIsStartChatBot} />
+      </div>}
     </div>
   );
 }

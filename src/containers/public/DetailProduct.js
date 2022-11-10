@@ -36,12 +36,14 @@ const DetailProduct = () => {
     return state.cart;
   });
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
+  
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
+  console.log(product);
   const [comments, setComments] = useState({});
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
@@ -443,7 +445,7 @@ const DetailProduct = () => {
               </p>
             </div>
             <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>
-              <RelatedProduct products={relatedProducts}/>
+              <RelatedProduct products={relatedProducts} cate={product.categoryData.valueVi}/>
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
               <ReviewAndRatingDesktop
