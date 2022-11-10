@@ -167,7 +167,7 @@ function AddAddress() {
         <AppBar title="Thanh toán" />
         <div className="mt-[60px]">
           <div>
-            <div className="flex font-bold text-gray-500 border-b-2 py-[13px] items-center h-[64px]">
+            <div className="flex font-bold text-gray-500 border-b-2 p-[4px] items-center h-[64px]">
                   <p className="w-[55%]">Sản phẩm</p>
                   <p className="w-[20%] text-center">Số lượng</p>
                   <p className="w-[25%] text-center">Giá</p>
