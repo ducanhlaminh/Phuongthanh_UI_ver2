@@ -177,8 +177,8 @@ const DetailProduct = () => {
                     <AiOutlineShoppingCart
                       size={26}
                       className={`${
-                        fetchCartQuantity === "success" ||
-                        fetchCartQuantity === "warning"
+                        activeNotiStatus === "success" ||
+                        activeNotiStatus === "warning"
                           ? "animate-bounce2"
                           : ""
                       }`}
@@ -186,8 +186,8 @@ const DetailProduct = () => {
                     />
                     <span
                       className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
-                        fetchCartQuantity === "success" ||
-                        fetchCartQuantity === "warning"
+                        activeNotiStatus === "success" ||
+                        activeNotiStatus === "warning"
                           ? "animate-bounce2"
                           : ""
                       }`}
