@@ -41,7 +41,7 @@ const CartItem = ({
     let billData = {
       pid: id,
       qty: quanityProduct,
-      vary: varName,
+      variant: varName,
       cost: price
     }
     if(isChecked) {
@@ -51,7 +51,7 @@ const CartItem = ({
         setQuanityList([...data])
         dataBill.splice(index,1,billData)
         let tempData = dataBill
-        setQuanityList([...tempData])
+        setDataBill([...tempData])
       }else{
         setQuanityList(prev => [...prev,quanityProduct])
         setCheckedList(prev => [...prev,idUnique])

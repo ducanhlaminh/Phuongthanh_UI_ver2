@@ -32,7 +32,7 @@ const InputCustomWidth = React.memo(
           placeholder={placeholder}
           onChange={(e) => {
             if (!type) {
-              return setValue(e.target.value);
+              setValue(e.target.value);
             } else {
               setValue((prev) => ({
                 ...prev,

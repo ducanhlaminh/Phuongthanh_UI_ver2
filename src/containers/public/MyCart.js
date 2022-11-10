@@ -44,7 +44,10 @@ function MyCart() {
 
   const handlePlaceOrder = async () => {
     try {
-      let res =  await ApiCheckout.create(dataBill)
+      let data = {
+        products: [...dataBill]
+      }
+      let res =  await ApiCheckout.create(data)
       // if(res.status === 0) window.location.href = '/address'
     } catch (error) {
       console.log(error)
@@ -115,7 +118,7 @@ function MyCart() {
             <p>{numFormatter(totalPrice)}</p>
           </div>
           <div className="w-1/2">
-            <Button2 text="Tiến hành thanh toán" />
+            <Button2 disable={totalPrice===0} handleClick={handlePlaceOrder} text="Tiến hành thanh toán" />
           </div>
         </div>
       </div>

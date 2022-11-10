@@ -27,7 +27,7 @@ export const path = {
   PROFILE: "ho-so/",
   ORDERS: "hoa-don-cua-toi",
   PERSONAL: "",
-  ADD_ADDRESS: "address",
+  ADD_ADDRESS: "check-out",
   SEARCH:'tim-kiem',
   SEARCH__KEYWORD:'tim-kiem/:id',
 
