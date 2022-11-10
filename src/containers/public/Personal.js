@@ -9,11 +9,14 @@ import ApiChangePassword from "../../apis/changePassword";
 import Loading from "../../components/Loading";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Personal = () => {
   const { userCurrent } = useSelector((state) => state.auth);
   const passwordRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowErrorLog, setIsShowErrorLog] = useState(false);
   const handleSubmit = async (email, password) => {
     try {
       const res = await ApiChangePassword.verifyAccount({
@@ -29,8 +32,10 @@ const Personal = () => {
     }
   };
   return (
-    <div className="h-screen relative">
-      <div className="translate-x-[-16px] z-70 absolute">{isLoading && <Loading />}</div>
+    <div className=" relative">
+      {isLoading&&<div className="translate-x-[-16px] z-70 absolute w-full h-full">
+          <Loading />
+      </div>}
       <div className="md:hidden text-primary translate-x-[-20px]">
         <Header>
           <MdOutlineArrowBackIosNew size="24" />
@@ -95,7 +100,9 @@ const Personal = () => {
               height="36px"
               width="136px"
             >
-              <p className="text-[14px] md:text-[16px] font-medium">Lưu thay đổi</p>
+              <p className="text-[14px] md:text-[16px] font-medium">
+                Lưu thay đổi
+              </p>
             </LongButton>
           </div>
         </div>
@@ -107,18 +114,45 @@ const Personal = () => {
             <label className="block font-medium text-[16px] text-black">
               Mật khẩu hiện tại
             </label>
-            <input
-              className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]"
-              ref={passwordRef}
-            />
+            
+            <div className="flex items-center w-full md:w-[60%] bg-lightGrey rounded-[4px] mt-[6px] ">
+              <input
+                className="h-[56px] bg-lightGrey outline-none p-[10px] w-[93%]"
+                ref={passwordRef}
+                type={`${isShowPassword ? "text" : "password"}`}
+                onChange={()=>{setIsShowErrorLog(false)}}
+              />
+              {isShowPassword ? (
+                <AiOutlineEyeInvisible
+                  size="24"
+                  className=""
+                  onClick={() => {
+                    setIsShowPassword((prev) => !prev);
+                  }}
+                ></AiOutlineEyeInvisible>
+              ) : (
+                <AiOutlineEye
+                  size="24"
+                  className=""
+                  onClick={() => {
+                    setIsShowPassword((prev) => !prev);
+                  }}
+                ></AiOutlineEye>
+              )}
+            </div>
+            <p className="text-red pt-[6px]">{isShowErrorLog ? "Mật khẩu dài hơn 6 kí tự" : ""}</p>
           </div>
         </div>
         <div
           className="flex justify-end mt-[24px]"
           onClick={() => {
-            handleSubmit(userCurrent?.email, passwordRef?.current.value);
+            if (passwordRef?.current?.value?.length < 6) {
+              setIsShowErrorLog(true);
+            } else {
+              handleSubmit(userCurrent?.email, passwordRef?.current?.value);
+              setIsLoading(true);
+            }
             passwordRef.current.value = "";
-            setIsLoading(true);
           }}
         >
           <LongButton

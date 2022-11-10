@@ -25,12 +25,17 @@ import { NotiStatus } from "../../components/UploadStatus";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
 const DetailProduct = () => {
-  const [cartQuantity, setCartQuantity] = useState();
-  const { fetchCartQuantity } = useSelector((state) => state.cart);
+  const { fetchCartQuantity, productsCart } = useSelector((state) => {
+    return state.cart;
+  });
+  const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
@@ -45,10 +50,15 @@ const DetailProduct = () => {
   const [variantTypes, setVariantTypes] = useState([]);
   const [canAtc, setCanAtc] = useState(false);
   const [activeNotiStatus, setActiveNotiStatus] = useState(false);
-  const [addToCartSuccess, setAddToCartSuccess] = useState(false);
+  const [onFetchCartQuantity,setOnFetchCartQuantity] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  console.log(JSON.stringify(product?.id));
+  useEffect(() => {
+    const fetchCartQuantity = async () => {
+      const res = await ApiCart.get();
+      setCartQuantity(res.yourCart.length);
+    };
+    fetchCartQuantity();
+  }, [fetchCartQuantity, cartQuantity, productsCart,onFetchCartQuantity]);
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -56,7 +66,6 @@ const DetailProduct = () => {
       setProduct(product);
       setVariantTypes(new Array(product?.variants.length).fill(null));
     };
-
     const fetchComments = async () => {
       const res = await ApiComment.getComment({
         productId: id,
@@ -108,23 +117,27 @@ const DetailProduct = () => {
       let data = {
         pid: id,
         variant: variantTypes,
-      };
+      };setOnFetchCartQuantity(true);
       let res = await ApiCart.create(data);
       if (res.status === 0) {
         setVariantTypes(new Array(product?.variants.length).fill(null));
         setCanAtc(false);
         setActiveNotiStatus("success");
         setShowPopupCart(false);
-        setAddToCartSuccess(true);
+        
         dispatch(actions.fetchCartQuantity("success"));
+        setOnFetchCartQuantity(false);
       } else if (res.status === 1) {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
-        setAddToCartSuccess(true);
+        
+        setOnFetchCartQuantity(false);
         dispatch(actions.fetchCartQuantity("warning"));
       }
     } catch (error) {
       setActiveNotiStatus("error");
+      setOnFetchCartQuantity(false);
+
     }
   };
   return (
@@ -148,7 +161,7 @@ const DetailProduct = () => {
               <Header>
                 <div className="flex justify-between w-[93%]">
                   <MdOutlineArrowBackIosNew size="24" />
-                  <span
+                  {/* <span
                     className={`relative ${
                       addToCartSuccess ? "animate-bounce2" : ""
                     }`}
@@ -159,7 +172,30 @@ const DetailProduct = () => {
                   >
                     <AiOutlineShoppingCart size={26} />
                     <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
-                  </span>
+                  </span> */}
+                  <Link to="/cart" className="relative">
+                    <AiOutlineShoppingCart
+                      size={26}
+                      className={`${
+                        activeNotiStatus === "success" ||
+                        activeNotiStatus === "warning"
+                          ? "animate-bounce2"
+                          : ""
+                      }`}
+                      style={{ "animation-iteration-count": "5" }}
+                    />
+                    <span
+                      className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
+                        activeNotiStatus === "success" ||
+                        activeNotiStatus === "warning"
+                          ? "animate-bounce2"
+                          : ""
+                      }`}
+                      style={{ "animation-iteration-count": "5" }}
+                    >
+                      {isLoggedIn ? cartQuantity : "0"}
+                    </span>
+                  </Link>
                 </div>
               </Header>
             </div>
@@ -184,8 +220,8 @@ const DetailProduct = () => {
             id={product.id}
           />
           <div className="bg-[white] pl-[16px] ">
-            <div className="md:flex">
-              <section>
+            <div className="md:flex w-full">
+              <section className="">
                 <div className="relative">
                   {/* image mobile */}
                   <ImageDetail
@@ -207,7 +243,7 @@ const DetailProduct = () => {
                 </div>
               </section>
 
-              <div className="md:ml-[20px]">
+              <div className="md:ml-[20px] flex-1 pr-[16px]">
                 <NameAndDescription
                   name={product.name}
                   shortDescription={product?.shortDescription}
@@ -242,7 +278,7 @@ const DetailProduct = () => {
                     20%OFF
                   </p>
                 </section>
-                <section className="pb-[16px] hidden md:block mt-[20px]">
+                <section className="pb-[16px] hidden md:block mt-[20px] w-[full]">
                   <Voucher Vouchers={Vouchers}></Voucher>
                 </section>
 
@@ -288,7 +324,8 @@ const DetailProduct = () => {
                 </div>
 
                 <section className="hidden md:flex">
-                  <div className="md:w-[210px] lg:w-[328px] md:text-[12px] lg:text-[14px]">
+                  {/* md:w-[210px] lg:w-[328px] */}
+                  <div className="w-full md:text-[12px] lg:text-[14px]">
                     <LongButton
                       width="100%"
                       height="44px"
@@ -301,12 +338,16 @@ const DetailProduct = () => {
                         dispatch(actions.fetchCartQuantity(true));
                       }}
                     >
-                      <RiHandbagLine size="" className="lg:text-[24px] md:text-[20px]"></RiHandbagLine>
+                      <RiHandbagLine
+                        size=""
+                        className="lg:text-[24px] md:text-[20px]"
+                      ></RiHandbagLine>
                       <p>Thêm vào giỏ</p>
                     </LongButton>
                   </div>
 
-                  <div className="border-[2px] border-primary rounded-[8px] md:ml-[14px] md:text-[12px] lg:text-[14px] lg:ml-[24px] md:w-[153px] lg:w-[240px]">
+                  {/* md:w-[153px] lg:w-[240px] */}
+                  <div className="border-[2px] border-primary rounded-[8px] md:ml-[14px] md:text-[12px] lg:text-[14px] lg:ml-[24px] w-[80%]">
                     <LongButton
                       width="100%"
                       height="40px"
@@ -314,7 +355,10 @@ const DetailProduct = () => {
                       size="100%"
                       color="#1B4B66"
                     >
-                      <AiOutlineHeart size="" className="lg:text-[24px] md:text-[20px]"></AiOutlineHeart>
+                      <AiOutlineHeart
+                        size=""
+                        className="lg:text-[24px] md:text-[20px]"
+                      ></AiOutlineHeart>
                       <p>Thêm vào yêu thích</p>
                     </LongButton>
                   </div>

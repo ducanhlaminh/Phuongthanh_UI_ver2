@@ -15,7 +15,9 @@ const HeaderLaptop = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
   });
+  
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
+  
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchCartQuantity = async () => {
@@ -51,7 +53,7 @@ const HeaderLaptop = () => {
         <Search />
         <div
           className=" flex items-center justify-end gap-5 flex-none"
-          style={{ width: isLoggedIn ? "120px" : "180px" }}
+          style={{ width: isLoggedIn ? "60px" : "180px" }}
         >
           <Link to={`/${path.PROFILE}`}>
             {isLoggedIn ? (

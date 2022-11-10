@@ -35,7 +35,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       <MenuNav
         setShowMenuNav={setShowMenuNav}
         showMenuNav={showMenuNav}

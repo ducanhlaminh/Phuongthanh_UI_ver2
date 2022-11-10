@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { menuStatus } from "../../ultils/menu";
 import { apiGetBills } from "../../apis/bill2";
 import { OrderItem, DetailOrder } from "../../components";
@@ -9,10 +9,12 @@ import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { MenuItem } from "@mui/material";
 const Orders = () => {
   const [status, setStatus] = useState("pending");
   const [bills, setBills] = useState([]);
   const [allBills, setAllBills] = useState();
+  const tempRef=useRef([]);
   const dispatch = useDispatch();
   const { detailOrder } = useSelector((state) => state.app);
   const [addToCartSuccess, setAddToCartSuccess] = useState(false);
@@ -20,6 +22,10 @@ const Orders = () => {
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
   };
+  useEffect(() => {
+    tempRef.current = tempRef.current.slice(0, menuStatus.length);
+ }, [menuStatus]);
+
 
   //   const handleATC = async (id, variantTypes) => {
   //     try {
@@ -50,6 +56,7 @@ const Orders = () => {
       const res2 = await apiGetBills({ status: status });
       setAllBills(res2.billData);
       const response = await apiGetBills({
+        
         limit: 5,
         page: currentPage,
         status: status,
@@ -66,7 +73,7 @@ const Orders = () => {
   }, [status, currentPage]);
 
   return (
-    <div className="w-full relative ">
+    <div className="w-full relative md:pr-[210px] lg:pr-[0px]">
       {detailOrder && (
         <div className="absolute top-0 bottom-0 left-0 right-0 bg-white z-50 animate-slide-left">
           <DetailOrder />
@@ -97,23 +104,25 @@ const Orders = () => {
           </div>
         </Header>
       </div>
-      <div className="lg:h-[68px] h-[36px] bg-[#f1f1f1] overflow-x-auto rounded-[12px] flex items-center gap-3 md:px-4 px-[4px]">
-        {menuStatus.map((item) => (
+      <div className="lg:h-[68px] md:h-[44px] md:px-2 h-[36px]  bg-[#f1f1f1] overflow-x-auto rounded-[12px] flex items-center gap-3 lg:px-4 px-[4px]">
+        {menuStatus.map((item,i) => (
           <div
             key={item.keyname}
+            ref={el => tempRef.current[i] = el} 
             onClick={() => {
               setStatus(item.keyname);
+              tempRef.current[i].scrollIntoView({behavior:"smooth"});
             }}
-            className={`min-w-[110px] flex justify-center cursor-pointer rounded-[8px] ${
+            className={`min-w-[110px] md:min-w-[140px] lg:min-w-[180px] flex justify-center cursor-pointer rounded-[8px] ${
               item.keyname === status ? "bg-[#1B4B66]  text-white" : ""
             }`}
           >
-            <p className=" py-[4px] text-[12px] font-medium">{item.text}</p>
+              <p className=" py-[4px] lg:text-[16px] md:text-[14px] lg:py-[8px] text-[12px] font-medium">{item.text}</p>
           </div>
         ))}
       </div>
       <div className="w-full mt-8 ">
-        <div className="flex items-center py-2 border-b border-gray-200 px-6 hidden md:flex">
+        <div className="flex items-center py-2 border-b border-gray-200 md:text-[14px] lg:text-[16px] px-6 hidden md:flex">
           <span className="flex-1 flex justify-center items-center">
             ID hóa đơn
           </span>

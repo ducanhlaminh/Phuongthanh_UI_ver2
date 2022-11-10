@@ -11,7 +11,6 @@ const ImageDetail = ({
 
   const [selectedImage, setSelectedImage] = useState(mainImage);
   const [imageList, setImageList] = useState(0);
-
   useEffect(() => {
     if(imageList === 0){
       setSelectedImage(mainImage);
