@@ -33,9 +33,8 @@ const DetailProduct = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
   });
-  console.log(productsCart)
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
-  console.log(cartQuantity);
+
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const id = useParams()["id"];
@@ -51,7 +50,7 @@ const DetailProduct = () => {
   const [variantTypes, setVariantTypes] = useState([]);
   const [canAtc, setCanAtc] = useState(false);
   const [activeNotiStatus, setActiveNotiStatus] = useState(false);
-  const [addToCartSuccess, setAddToCartSuccess] = useState(false);
+  const [onFetchCartQuantity,setOnFetchCartQuantity] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     const fetchCartQuantity = async () => {
@@ -59,7 +58,7 @@ const DetailProduct = () => {
       setCartQuantity(res.yourCart.length);
     };
     fetchCartQuantity();
-  }, [fetchCartQuantity, cartQuantity, productsCart]);
+  }, [fetchCartQuantity, cartQuantity, productsCart,onFetchCartQuantity]);
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -67,7 +66,6 @@ const DetailProduct = () => {
       setProduct(product);
       setVariantTypes(new Array(product?.variants.length).fill(null));
     };
-
     const fetchComments = async () => {
       const res = await ApiComment.getComment({
         productId: id,
@@ -119,23 +117,27 @@ const DetailProduct = () => {
       let data = {
         pid: id,
         variant: variantTypes,
-      };
+      };setOnFetchCartQuantity(true);
       let res = await ApiCart.create(data);
       if (res.status === 0) {
         setVariantTypes(new Array(product?.variants.length).fill(null));
         setCanAtc(false);
         setActiveNotiStatus("success");
         setShowPopupCart(false);
-        setAddToCartSuccess(true);
+        
         dispatch(actions.fetchCartQuantity("success"));
+        setOnFetchCartQuantity(false);
       } else if (res.status === 1) {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
-        setAddToCartSuccess(true);
+        
+        setOnFetchCartQuantity(false);
         dispatch(actions.fetchCartQuantity("warning"));
       }
     } catch (error) {
       setActiveNotiStatus("error");
+      setOnFetchCartQuantity(false);
+
     }
   };
   return (
