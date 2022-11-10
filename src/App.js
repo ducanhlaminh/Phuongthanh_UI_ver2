@@ -113,6 +113,8 @@ function App() {
       <div className="fixed top-1/2 right-[32px] bg-red-500">
         <Contact setIsStartChatBot={setIsStartChatBot} />
       </div>
+
+      
       {isStartChatBot && <div className="fixed bottom-0 z-70 right-[100px] bg-red-500">
         <BoxChat setIsStartChatBot={setIsStartChatBot} />
       </div>}
