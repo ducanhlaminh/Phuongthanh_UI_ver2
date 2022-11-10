@@ -11,7 +11,6 @@ const ImageDetail = ({
 
   const [selectedImage, setSelectedImage] = useState(mainImage);
   const [imageList, setImageList] = useState(0);
-
   useEffect(() => {
     if(imageList === 0){
       setSelectedImage(mainImage);
@@ -55,7 +54,7 @@ const ImageDetail = ({
     );
   } else {
     return (
-      <div className="h-[704px] hidden md:block">
+      <div className="md:h-[400px] lg:h-[704px] hidden md:block">
         <div className="h-[390px] w-[390px] lg:h-[605px] lg:w-[605px]">
           <img
             src={`${selectedImage}`}

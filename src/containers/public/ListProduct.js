@@ -19,7 +19,7 @@ function ListProducts({ categoryData }) {
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [selectedFilterSider, setSelectedFilterSider] = useState([]);
   const [isShow, setIsShow] = useState(false);
-
+  console.log(1);
   const { loading } = useSelector((state) => {
     return state.app;
   });

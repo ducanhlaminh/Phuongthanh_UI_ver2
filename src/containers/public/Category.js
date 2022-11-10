@@ -12,7 +12,7 @@ const Category = () => {
       <Header>
         <p className="text-primary font-semibold text-[20px]">Gian hàng</p>
       </Header>
-      {categories.map((category, i) => {
+      {categories?.map((category, i) => {
         return (
           <div className="mb-[16px] mx-[16px]">
             <Link

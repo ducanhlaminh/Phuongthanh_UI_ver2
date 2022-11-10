@@ -189,14 +189,14 @@ export const ReviewAndRatingDesktop = ({
                   <div className="mr-[12px]">
                     <img
                       src={Avatar}
-                      className="rounded-[50px] w-[80px] h-[80px]"
+                      className={`rounded-[50px] lg:w-[80px] lg:h-[80px] md:w-[53px] md:h-[53px]`}
                     ></img>
                   </div>
                   <div>
-                    <p className="text-black font-semibold md:text-[24px]">
+                    <p className="text-black font-semibold lg:text-[24px] md:text-[20px]">
                       {comment?.commentator?.name}
                     </p>
-                    <p className="text-darkGrey-tint font-medium md:text-[20px]">
+                    <p className="text-darkGrey-tint font-medium lg:text-[20px] md:text-[16px]">
                       {comment?.createdAt.substring(0, 10)}
                     </p>
                   </div>
