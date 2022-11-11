@@ -6,7 +6,7 @@ function AppBar({ title }) {
 
   return (
     <>
-      <div className="fixed top-0 w-full bg-white min-h-[56px] flex items-center">
+      <div className="top-0 w-full bg-white min-h-[56px] flex items-center">
         <div className="min-h-[26px] w-[90%] flex text-2xl">
           <div
             className=" flex items-center justify-center w-[15%] text-center "
@@ -14,7 +14,7 @@ function AppBar({ title }) {
               navigate(-1);
             }}
           >
-            <MdArrowBackIos />
+            <MdArrowBackIos  className="text-primary"/>
           </div>
           <div className=" h-full text-primary font-semibold">{title}</div>
         </div>

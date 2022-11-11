@@ -143,7 +143,7 @@ function ListProducts({ categoryData, otherData }) {
       <div className="md:block hidden w-full ">
         <div className=" flex flex-col gap-8 ">
           <SliderImage />
-          <div className="ml-[16px]">
+          <div className="ml-[16px] hidden md:block">
             <BreadCrumb
               parent={[{ name: "Trang chủ", link: "/" }]}
               current={`${

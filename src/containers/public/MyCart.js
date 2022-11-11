@@ -14,6 +14,9 @@ import { NotiStatus, NotiStatusMobile } from "../../components/UploadStatus";
 import ApiCheckout from "../../apis/bill2";
 import actionTypes from "../../store/actions/actionTypes";
 import BreadCrumb from "../../components/BreadCrumb";
+import emptyCart from "../../assets/emptyCart.png";
+import ButtonFooterContainer from "../../components/ButtonFooterContainer";
+import LongButton from "../../components/LongButton";
 
 function MyCart() {
   const navigate = useNavigate();
@@ -25,6 +28,7 @@ function MyCart() {
   const [reload, setReload] = useState(false);
   const [activeNotify, setActiveNotify] = useState(false);
   const [dataBill, setDataBill] = useState([]);
+  const decorAraay = new Array(20).fill("");
 
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
@@ -64,73 +68,96 @@ function MyCart() {
       <div className="md:hidden h-screen">
         <NotiStatusMobile active={activeNotify} setActive={setActiveNotify} />
         <AppBar title="Giỏ hàng" />
-        <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
-          {/* product */}
-          {productsCart && productsCart.length === 0 && (
-            <div className="text-center mt-[24px]">
-              <div className="text-darkGrey">
-                Hiện chưa có sản phẩm nào được thêm vào giỏ hàng
-              </div>
-              <Link className="text-primary" to="/">
-                Đi tới mua sắm{" "}
+        {productsCart && productsCart.length === 0 ? (
+          <div className="flex flex-col items-center gap-[16px] mt-[81px]">
+            <img src={emptyCart}></img>
+            <p className="text-black font-bold text-[28px] mt-[14px]">
+              Uh Oh...!
+            </p>
+            <div className="text-black font-medium text-[14px]">
+              Hiện tại bạn chưa thêm gì vào giỏ của mình.
+            </div>
+            <ButtonFooterContainer>
+              <Link to='/' className="w-[95%]">
+                <LongButton
+                  backgroundColor="#1B4B66"
+                  color="white"
+                  width="100%"
+                  height="44px"
+                >
+                  <p>Tiếp tục mua sắm</p>
+                </LongButton>
               </Link>
+            </ButtonFooterContainer>
+          </div>
+        ) : (
+          <div>
+            <div className="w-full flex flex-col px-[16px] pt-[10px] pb-[24px] bg-[#eeeeeefc] h-[70%] overflow-auto relative">
+              {/* product */}
+              {productsCart?.map((product) => (
+                <CartItemMobile
+                  product={product?.productData}
+                  cartID={product?.id}
+                  variants={product?.variant}
+                  checkedList={checkedList}
+                  setCheckedList={setCheckedList}
+                  setQuanityList={setQuanityList}
+                  quanityList={quanityList}
+                  setOpenAlertPopup={setOpenAlertPopup}
+                  setIdDelete={setIdDelete}
+                  isMobile={true}
+                  dataBill={dataBill}
+                  setDataBill={setDataBill}
+                />
+              ))}
             </div>
-          )}
-          {productsCart?.map((product) => (
-            <CartItemMobile
-              product={product?.productData}
-              cartID={product?.id}
-              variants={product?.variant}
-              checkedList={checkedList}
-              setCheckedList={setCheckedList}
-              setQuanityList={setQuanityList}
-              quanityList={quanityList}
-              setOpenAlertPopup={setOpenAlertPopup}
-              setIdDelete={setIdDelete}
-              isMobile={true}
-              dataBill={dataBill}
-              setDataBill={setDataBill}
-            />
-          ))}
-        </div>
-        <div className="min-h-[200px] ">
-          <p className="lg:text-[14px] md:text-[12px] font-semibold text-black border-[#0000001F] border-b-[1px]">
-            Thông tin hóa đơn
-          </p>
+            <div className="pb-[59px] px-[16px] bg-white">
+              <p className="text-[14px] font-semibold text-black mb-[10px] mt-[20px]">
+                Thông tin hóa đơn
+              </p>
 
-          <div className="flex justify-between font-medium text-darkGrey border-[#0000001F] lg:text-[16px] md:text-[14px] border-b-[1px]">
-            <div className="w-1/2 ">
-              <p>Hóa đơn tạm tính : </p>
-              {/* <p className="font-bold text-black">Grand Total : </p> */}
+              <div className="flex flex-col gap-[8px]">
+                <div className="flex justify-between font-medium text-darkGrey text-[14px]">
+                  <div className="w-1/2 ">
+                    <p>Hóa đơn tạm tính : </p>
+                    {/* <p className="font-bold text-black">Grand Total : </p> */}
+                  </div>
+                  <div className="w-1/3  text-black text-center">
+                    <p>{numFormatter(totalPrice)}</p>
+                    {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
+                  </div>
+                </div>
+                <div className="flex justify-between font-bold text-gray-500 ">
+                  <div className="w-1/2 ">
+                    <p className="font-bold text-black">Grand Total : </p>
+                  </div>
+                  <div className="w-1/3  text-black text-center">
+                    <p className="font-extrabold">{numFormatter(totalPrice)}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="w-1/3  text-black text-center">
-              <p>{numFormatter(totalPrice)}</p>
-              {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
+            <div className="max-[80px] h-[66px] bg-white px-[16px] flex items-center">
+              <div className="flex flex-col items-start w-[42%]">
+                <p className="font-medium text-[12px] text-darkGrey">
+                  Thanh toán :{" "}
+                </p>
+                <p className="text-black text-[16px] font-medium">
+                  {numFormatter(totalPrice)}
+                </p>
+              </div>
+              <div className="w-1/2 w-[58%]">
+                <Button2
+                  disable={totalPrice === 0}
+                  handleClick={handlePlaceOrder}
+                  text="Tiến hành thanh toán"
+                />
+              </div>
             </div>
           </div>
-          <div className="flex justify-between font-bold text-gray-500 ">
-            <div className="w-1/2 ">
-              <p className="font-bold text-black">Grand Total : </p>
-            </div>
-            <div className="w-1/3  text-black text-center">
-              <p className="font-extrabold">{numFormatter(totalPrice)}</p>
-            </div>
-          </div>
-        </div>
-        <div className="max-[80px] bg-[#eeeeeefc] flex items-center justify-between ">
-          <div className="flex flex-col items-center">
-            <p className="font-semibold lg:text-[16px] md:text-[14px] text-black">Thanh toán : </p>
-            <p>{numFormatter(totalPrice)}</p>
-          </div>
-          <div className="w-1/2">
-            <Button2
-              disable={totalPrice === 0}
-              handleClick={handlePlaceOrder}
-              text="Tiến hành thanh toán"
-            />
-          </div>
-        </div>
+        )}
       </div>
+
       {/* Desktop */}
       <div className="md:block hidden w-full ">
         {
@@ -146,7 +173,7 @@ function MyCart() {
         }
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           {/* <SliderImage /> */}
-          <div className="lg:ml-[16px] md:ml-[24px]">
+          <div className="lg:ml-[16px] md:ml-[24px] hidden md:block">
             <BreadCrumb
               parent={[{ name: "Trang chủ", link: "/" }]}
               current="Giỏ hàng của tôi"
@@ -209,6 +236,7 @@ function MyCart() {
                     {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
                   </div>
                 </div>
+
                 <div className="flex justify-between font-semibold lg:text-[16px] md:text-[14px] mb-[24px] text-darkGrey py-3">
                   <div className="w-1/2 ">
                     <p className="font-bold text-black">Hóa đơn tạm tính : </p>

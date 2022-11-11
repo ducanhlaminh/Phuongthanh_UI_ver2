@@ -242,7 +242,7 @@ const DetailProduct = () => {
           />
 
           <div className="bg-[white] pl-[16px] ">
-            <div className="mb-[16px]">
+            <div className="mb-[16px] hidden md:block">
               <BreadCrumb
                 parent={[
                   { name: "Trang chủ", link: "/" },

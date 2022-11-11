@@ -70,34 +70,34 @@ const CartItemMobile = ({
     <>
       {/*Mobile*/}
       {isMobile&&<div className="w-full md:hidden bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px]">
-            <input id={idUnique+'-mobile'} className="cursor-pointer" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
+            <div className="flex h-[120px] items-center">
+            <input id={idUnique+'-mobile'} className="cursor-pointer mr-[8px]" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
             <label htmlFor={idUnique+'-mobile'} className="flex">
               <img
                 src={mainImage}
                 alt="ProductImage"
-                className="object-cover"
+                className="object-cover w-[96px] h-[96px] rounded-[8px]"
               />
               <div className="p-2 flex flex-col justify-around">
-                <b className="text-base">{name}</b>
+                <b className="text-[12px] font-semibold text-black">{name}</b>
                 <p>{
                   variants.map((variant,i) => {
                     let variantLength = variants.length
                     return(
-                      <>
+                      <div className="text-[12px] font-medium text-darkGrey">
                       <span>{variant.variant}: {variant.value}</span>
                       <span>{i<variantLength-1?', ':''}</span>
-                      </>
+                      </div>
                     )
                   })
                 }</p>
-                <div className="flex bg-slate-300 p-1 w-fit rounded-sm">
+                <div className="flex bg-lightGrey p-1 w-fit rounded-sm">
                   <div className="flex justify-center items-center">
                     <span className="text-xs">Số lượng :</span>
                   </div>
                   <select 
                     onChange={(e) => setQuanityProduct(e.target.value)}
-                    className="bg-slate-300 font-bold">
+                    className="bg-lightGrey font-bold rounded-[4px]">
                     <option value={1}>1</option>
                     <option value={2}>2</option>
                     <option value={3}>3</option>
@@ -110,7 +110,7 @@ const CartItemMobile = ({
                     <option value={10}>10</option>
                   </select>
                 </div>
-                <div className="">
+                <div className="text-black font-semibold text-[14px]">
                   <label htmlFor="">{`Giá : `}</label>
                   <span className="font-bold">{numFormatter(price*quanityProduct)}</span>
                 </div>
@@ -118,8 +118,8 @@ const CartItemMobile = ({
               </label>
 
             </div>
-            <div className="flex h-[40px] border-t-2 font-bold text-primary">
-              <div className="border-r-2 w-1/2 flex justify-center items-center ">
+            <div className="flex h-[40px] border-t-[1px] font-semibold text-[14px] text-primary">
+              <div className="border-r-[1px] w-1/2 flex justify-center items-center my-[6px]">
                 <span>Yêu thích</span>
               </div>
               <div
@@ -127,7 +127,7 @@ const CartItemMobile = ({
                 setIdDelete(cartID)
                 setOpenAlertPopup(true)
               }}
-               className="w-1/2 flex justify-center items-center">
+               className="w-1/2 flex justify-center items-center ">
                 <span>Xóa</span>
               </div>
             </div>

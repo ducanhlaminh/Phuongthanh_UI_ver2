@@ -311,7 +311,7 @@ function AddAddress() {
       <div className="md:block hidden w-full ">
         {/* <Slider /> */}
 
-        <div className="md:ml-[24px] lg:ml-[16px]">
+        <div className="md:ml-[24px] lg:ml-[16px] hidden md:block">
           <BreadCrumb parent={[{name:'Trang chủ',link:"/"}]} current='Thanh toán'></BreadCrumb>
         </div>
         <h2 className=" md:text-[28px] lg:text-[34px] m-5 font-semibold text-primary">
