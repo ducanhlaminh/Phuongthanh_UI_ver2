@@ -77,6 +77,9 @@ function App() {
           <Route path={path.SEARCH} element={<Search/>}></Route>
           <Route path={path.ITEM_ORDERS} element={<ItemOrder/>}></Route>
           <Route path={path.ITEM_ORDERS_ID} element={<ItemOrder/>}></Route>
+          <Route path={path.BEST_SELLER} element={<ListProducts categoryData='' otherData='Sản phẩm bán chạy'/>}></Route>
+          <Route path={path.TOP_FAVOURITE} element={<ListProducts categoryData='' otherData='Sản phẩm yêu thích'/>}></Route>
+          <Route path={path.NEW_PRODUCTS} element={<ListProducts categoryData='' otherData='Sản phẩm mới nhất'/>}></Route>
 
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
@@ -90,11 +93,11 @@ function App() {
             <Route
               key={item.id}
               path={generatePath(item.valueVi)}
-              element={<ListProducts categoryData={item} />}
+              element={<ListProducts categoryData={item} otherData=''/>}
             />
           ))}
 
-          <Route path={path.SEARCH__KEYWORD} element={<ListProducts categoryData='' />}></Route>
+          <Route path={path.SEARCH__KEYWORD} element={<ListProducts categoryData='' otherData='Tìm kiếm'/>}></Route>
         </Route>
 
 
@@ -114,7 +117,7 @@ function App() {
         <Contact setIsStartChatBot={setIsStartChatBot} />
       </div>
 
-      
+
       {isStartChatBot && <div className="fixed bottom-0 z-70 right-[100px] bg-red-500">
         <BoxChat setIsStartChatBot={setIsStartChatBot} />
       </div>}

@@ -12,14 +12,14 @@ import { ProductItem } from "../../components";
 import { SelectCustomWidth } from "../../components/InputCtWidth";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import Pagination from "@mui/material/Pagination";
+import BreadCrumb from "../../components/BreadCrumb";
 const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract } = icons;
 
-function ListProducts({ categoryData }) {
+function ListProducts({ categoryData, otherData }) {
   const dispatch = useDispatch();
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [selectedFilterSider, setSelectedFilterSider] = useState([]);
   const [isShow, setIsShow] = useState(false);
-  console.log(1);
   const { loading } = useSelector((state) => {
     return state.app;
   });
@@ -45,7 +45,6 @@ function ListProducts({ categoryData }) {
       return;
     }
     if (newValue[1] - newValue[0] < minDistance) {
-      console.log(newValue);
       if (activeThumb === 0) {
         const clamped = Math.min(newValue[0], 100000000 - minDistance);
         setValue([clamped, clamped + minDistance]);
@@ -144,7 +143,14 @@ function ListProducts({ categoryData }) {
       <div className="md:block hidden w-full ">
         <div className=" flex flex-col gap-8 ">
           <SliderImage />
-
+          <div className="ml-[16px]">
+            <BreadCrumb
+              parent={[{ name: "Trang chủ", link: "/" }]}
+              current={`${
+                categoryData !== "" ? categoryData.valueVi : otherData
+              }`}
+            ></BreadCrumb>
+          </div>
           <div className=" bg-white w-full lg:block px-6">
             <h2 className=" text-3xl font-extrabold">{categoryData.valueVi}</h2>
             <div className="flex ">

@@ -78,15 +78,20 @@ const Home = () => {
         <HomeItem
           products={lastestProducts && lastestProducts}
           title="Sản phẩm mới về"
+          navigate='/san-pham-moi-nhat'
+          order='updatedAt'
         />
         <HomeItem
           products={topProducts && topProducts}
           v2={true}
           title="#topbanchay"
+          navigate='/san-pham-ban-chay'
+          order='soldCounter'
         />
         <HomeItem
           products={favoriteProducts && favoriteProducts}
           title="Sản phẩm được yêu thích nhất"
+          navigate='/san-pham-yeu-thich'
         />
         {categories && (
           <div className="flex flex-col md:gap-10 gap-4 px-5">

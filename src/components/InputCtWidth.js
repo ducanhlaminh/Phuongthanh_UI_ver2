@@ -22,7 +22,7 @@ const InputCustomWidth = React.memo(
         </label>
 
         <input
-          className={` outline-none
+          className={` outline-primary
                  block 
                 w-full ${PLarge ? "pl-7 pr-12" : "pl-2 pr-2"} sm:text-sm 
                 rounded-md  ${lable ? "min-h-[42px]" : "h-full"}
@@ -141,7 +141,7 @@ const SelectPayment = React.memo(
           <select
             className="mr-3  focus:ring-indigo-500 
                 focus:border-indigo-500 block w-full pl-2 pr-2 sm:text-sm 
-                border-gray-300 rounded-md min-h-[42px]"
+                border-gray-300 rounded-md min-h-[42px] outline-primary"
             onChange={(e) => {
               setSelectValue(JSON.parse(e.target.value));
             }}

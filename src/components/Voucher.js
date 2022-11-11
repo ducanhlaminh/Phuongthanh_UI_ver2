@@ -16,7 +16,7 @@ const Voucher = ({ Vouchers, isFreeShip }) => {
   } else {
     return (
       <div className={`w-full h-[75px] border-[1px] rounded-[8px] ${isFreeShip?activeStyle:'border-primary text-black'} flex items-center justify-center`}>
-        <p className="text-[14px] font-medium">Miễn phí ship tổng hóa đơn trên 500.000đ</p>
+        <p className="lg:text-[14px] md:text-[12px] font-medium">Miễn phí ship tổng hóa đơn trên 500.000đ</p>
       </div>
     );
   }

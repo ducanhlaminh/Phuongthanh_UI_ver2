@@ -26,7 +26,8 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-
+import BreadCrumb from "../../components/BreadCrumb";
+import { generatePath } from "../../ultils/fn";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
@@ -36,7 +37,7 @@ const DetailProduct = () => {
     return state.cart;
   });
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
-  
+
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -84,7 +85,7 @@ const DetailProduct = () => {
   }, [id, currentPage]);
   useEffect(() => {
     const fetchRelatedProducts = async () => {
-      try{
+      try {
         if (product?.categoryData) {
           const res = await ApiProduct.getAll({
             categoryCode: product?.categoryData.code,
@@ -92,10 +93,7 @@ const DetailProduct = () => {
           });
           setRelatedProducts(res?.productData.rows);
         }
-      }
-      catch(e){
-
-      }
+      } catch (e) {}
     };
 
     fetchRelatedProducts();
@@ -205,7 +203,7 @@ const DetailProduct = () => {
                           ? "animate-bounce2"
                           : ""
                       }`}
-                      style={{ "animationIterationCount": "5" }}
+                      style={{ animationIterationCount: "5" }}
                     />
                     <span
                       className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
@@ -214,7 +212,7 @@ const DetailProduct = () => {
                           ? "animate-bounce2"
                           : ""
                       }`}
-                      style={{ "animationIterationCount": "5" }}
+                      style={{ animationIterationCount: "5" }}
                     >
                       {isLoggedIn ? cartQuantity : "0"}
                     </span>
@@ -242,7 +240,20 @@ const DetailProduct = () => {
             showPopupComment={showPopupComment}
             id={product.id}
           />
+
           <div className="bg-[white] pl-[16px] ">
+            <div className="mb-[16px]">
+              <BreadCrumb
+                parent={[
+                  { name: "Trang chủ", link: "/" },
+                  {
+                    name: product?.categoryData?.valueVi,
+                    link: `/${generatePath(product?.categoryData?.valueVi)}`,
+                  },
+                ]}
+                current={product?.name}
+              ></BreadCrumb>
+            </div>
             <div className="md:flex w-full">
               <section className="">
                 <div className="relative">
@@ -430,8 +441,6 @@ const DetailProduct = () => {
             <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
           </section>
 
-          <div className="h-[66px] md:hidden"></div>
-
           <DetailNavDesktop
             activeTab={activeTab}
             setActiveTab={setActiveTab}
@@ -445,7 +454,10 @@ const DetailProduct = () => {
               </p>
             </div>
             <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>
-              <RelatedProduct products={relatedProducts} cate={product.categoryData.valueVi}/>
+              <RelatedProduct
+                products={relatedProducts}
+                cate={product.categoryData.valueVi}
+              />
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
               <ReviewAndRatingDesktop
@@ -456,6 +468,15 @@ const DetailProduct = () => {
               />
             </div>
           </section>
+
+          <section className="md:hidden bg-white mt-[8px] px-[16px] pt-[8px]">
+            <RelatedProduct
+              products={relatedProducts}
+              cate={product.categoryData.valueVi}
+            />
+          </section>
+
+          <div className="h-[66px] md:hidden"></div>
 
           <div className="md:hidden">
             <ButtonFooterContainer>
