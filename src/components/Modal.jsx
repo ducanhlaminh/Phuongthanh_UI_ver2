@@ -637,7 +637,7 @@ export const FilterProductsMobile = ({
                 </div>
               );
             })}
-            {filtersSider.map((filter) => (
+            {filtersSider?.map((filter) => (
               <div className="flex">
                 <input
                   type="checkbox"
