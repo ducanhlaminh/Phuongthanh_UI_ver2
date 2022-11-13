@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import avatar from "../assets/avatar-anon.png";
 import { filters } from "../ultils/constant";
 import { Slider } from "@mui/material";
+import { apiGetProductsOfBill2 } from "../apis/bill2";
 
 export const ModalEditCate = ({ setIsShowEdit, selectCate }) => {
   const [newCategory, setNewCategory] = useState(`${selectCate.valueVi}`);
@@ -204,9 +205,9 @@ export const PopupDeleteProduct = ({
   isLoading,
   isDelete,
   product,
-  cate,
   selectValue,
   setAddDelete,
+  addDelete,
 }) => {
   return (
     <div
@@ -230,11 +231,14 @@ export const PopupDeleteProduct = ({
           width="40%"
           height="2"
           onClick={async () => {
-            await ApiProduct.delete({ id: [...product] });
-            setAddDelete([]);
-            setIsDelete(!isDelete);
-            setIsLoading(!isLoading);
-            cate(selectValue);
+            const res = await ApiProduct.delete({ id: [...product] });
+            console.log(res);
+            if (res.status === 0) {
+              setAddDelete([]);
+              setIsDelete(!isDelete);
+              setIsLoading(!isLoading);
+            }
+            console.log(addDelete);
           }}
         ></Button>
       </div>
@@ -461,7 +465,16 @@ export const EditProduct = ({
     </>
   );
 };
-export const Profile = ({ userCurrent, setIsShow }) => {
+export const Profile = ({ billCurrent, setIsShow }) => {
+  const [productsBill, setProductBill] = useState([]);
+  const address = JSON.parse(billCurrent?.addressData?.address);
+  useEffect(() => {
+    const fetchProductsBill = async () => {
+      const res = await apiGetProductsOfBill2(billCurrent.id);
+      setProductBill(res.billData);
+    };
+    fetchProductsBill();
+  }, []);
   return (
     <>
       <div
@@ -484,26 +497,33 @@ export const Profile = ({ userCurrent, setIsShow }) => {
               </h1>
               <div className=" rounded-full mb-5 h-1/2 flex items-center">
                 <img src={avatar} alt="" className="h-full rounded-full" />
-                <div className="w-4/5 px-10">
+                <div className="w-fit px-5`">
                   {/* <div className="">
                     <b className="">Tên người dùng : </b>
-                    {userCurrent?.name ? userCurrent?.name : ""}
+                    {billCurrent?.name ? billCurrent?.name : ""}
                   </div> */}
                   <div className="flex">
                     <p className="">
-                      <b>Email : </b>
-                      {userCurrent.customer_email
-                        ? userCurrent.customer_email
+                      <b>Tên người mua : </b>
+                      {billCurrent?.addressData?.name
+                        ? billCurrent?.addressData?.name
                         : ""}
                     </p>
                   </div>
-                  <div className="">
+                  <div className="flex">
                     <p className="">
                       <b>Số điện thoại : </b>
                     </p>
-                    <b className="">Số điện thoại</b>
-                    {userCurrent.customer_phone
-                      ? userCurrent.customer_phone
+                    {billCurrent?.addressData?.phone
+                      ? billCurrent?.addressData?.phone
+                      : ""}
+                  </div>
+                  <div className="flex">
+                    <p className="">
+                      <b>Địa chỉ : </b>
+                    </p>
+                    {billCurrent?.addressData?.address
+                      ? `${address.province} - ${address.district} - ${address.ward} `
                       : ""}
                   </div>
                 </div>
@@ -518,29 +538,37 @@ export const Profile = ({ userCurrent, setIsShow }) => {
               <hr />
 
               <div className="h-[85%] overflow-auto ">
-                {userCurrent.products.map((product) => {
+                {productsBill?.map((product) => {
                   return (
                     <div className="h-[25%] flex m-3 border-b-2">
                       <div className="w-[80%] flex h-full ">
-                        <img
-                          src={product.product_mainImage}
-                          alt=""
-                          className="h-full "
-                        />
-                        <div className="flex flex-col justify-between">
-                          <b className="text-sm">{product.product_name}</b>
+                        <div className="w-1/4 ">
+                          <img
+                            src={product.products.mainImage}
+                            alt=""
+                            className="object-cover h-full w-full rounded-xl"
+                          />
+                        </div>
+
+                        <div className="flex flex-auto flex-col justify-between pl-5">
+                          <b className="text-sm">{product?.products?.name}</b>
                           <p className="text-xs">Ngày đặt: 12/08/2022</p>
                         </div>
                       </div>
                       <div className="w-[20%] flex flex-col justify-between">
                         <div className="flex justify-end">
                           <div className="border rounded h-[85%] w-[35%] text-center text">
-                            {product.product_quantity}
+                            {product?.qty}
                           </div>
                         </div>
 
                         <div className="text-sm">
-                          <b>{product.product_totalCost}</b>
+                          <b>
+                            {new Intl.NumberFormat("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(product.cost)}
+                          </b>
                         </div>
                       </div>
                     </div>
@@ -564,6 +592,9 @@ export const FilterProductsMobile = ({
   value,
   numFormatter,
   handleChange,
+  setSelectedFilterSider,
+  filtersSider,
+  selectedFilterSider,
 }) => {
   return (
     <>
@@ -606,16 +637,40 @@ export const FilterProductsMobile = ({
                 </div>
               );
             })}
+            {filtersSider.map((filter) => (
+              <div className="flex">
+                <input
+                  type="checkbox"
+                  checked={
+                    selectedFilterSider.some((item) => item.valueVi) ? 1 : 0
+                  }
+                  value={JSON.stringify(filter)}
+                  className=""
+                  onClick={() => {
+                    setSelectedFilterSider((prev) => {
+                      return prev.some(
+                        (item) => item.valueVi === filter.valueVi
+                      )
+                        ? prev.filter((item) => item.valueVi !== filter.valueVi)
+                        : [...prev, filter];
+                    });
+                  }}
+                />
+                <label htmlFor="" className="ml-5">
+                  {filter.valueVi}
+                </label>
+              </div>
+            ))}
             <Slider
               getAriaLabel={() => "Minimum distance shift"}
               value={value}
               onChange={handleChange}
               onChangeCommitted={handleChange2}
               valueLabelDisplay="on"
-              step={100000}
+              step={10000000}
               marks
               disableSwap
-              max={10000000000}
+              max={100000000}
               valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             />
           </div>

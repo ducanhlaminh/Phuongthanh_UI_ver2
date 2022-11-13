@@ -67,8 +67,8 @@ const ManageCategory = () => {
   return (
     <>
       <h1 className="text-2xl mb-2">ManageCategory</h1>
-      <div className="bg-gray-300 rounded p-5 h-[525px]">
-        <div className="h-[10%]">
+      <div className="bg-gray-300 rounded p-5 ">
+        <div className="">
           <div className="flex">
             <Button
               text="Them gian hàng"
@@ -81,10 +81,12 @@ const ManageCategory = () => {
               }}
             ></Button>
           </div>
-          <h2>{`Tổng số gian hàng hiện có : ${categories.length}`}</h2>
+          <h2 className="p-3 font-bold">{`Tổng số gian hàng hiện có : ${categories.length}`}</h2>
         </div>
 
-        <div className="overflow-auto bg-white h-[90%]">{renderCateList}</div>
+        <div className="overflow-auto bg-white min-h-[400px]">
+          {renderCateList}
+        </div>
       </div>
       {isShowEdit ? (
         <ModalEditCate setIsShowEdit={setIsShowEdit} selectCate={selectCate} />

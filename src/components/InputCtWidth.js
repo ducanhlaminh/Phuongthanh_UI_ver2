@@ -9,7 +9,33 @@ import Button from "./Button";
 */
 
 const InputCustomWidth = React.memo(
-  ({ lable, widthP, placeholder, PLarge, value, setValue, type }) => {
+  ({
+    lable,
+    widthP,
+    placeholder,
+    PLarge,
+    value,
+    setValue,
+    type,
+    required,
+    setValidatesForm,
+    validateType,
+  }) => {
+    const [checkRequired, setCheckRequired] = useState(
+      required === true ? true : ""
+    );
+    useEffect(() => {
+      setValidatesForm &&
+        setValidatesForm((prev) => {
+          let array = [...prev];
+          array.map((item) => {
+            if (item.name === validateType) {
+              item.status = !checkRequired;
+            }
+          });
+          return [...prev];
+        });
+    }, [checkRequired]);
     return (
       <div className={`w-${widthP}  h-full`}>
         <label
@@ -22,17 +48,16 @@ const InputCustomWidth = React.memo(
         </label>
 
         <input
-          className={` outline-primary
-                 block 
-                w-full ${PLarge ? "pl-7 pr-12" : "pl-2 pr-2"} sm:text-sm 
+          className={` outline-none block w-full ${
+            checkRequired === true && "border-[1px] border-rose-500"
+          }  ${PLarge ? "pl-7 pr-12" : " px-7"} sm:text-sm 
                 rounded-md  ${lable ? "min-h-[42px]" : "h-full"}
                  `}
           value={value}
-          required
           placeholder={placeholder}
           onChange={(e) => {
             if (!type) {
-              setValue(e.target.value);
+              return setValue(e.target.value);
             } else {
               setValue((prev) => ({
                 ...prev,
@@ -40,12 +65,20 @@ const InputCustomWidth = React.memo(
               }));
             }
           }}
+          onBlur={(e) => {
+            if (checkRequired !== "") {
+              if (e.target.value.length > 0) {
+                return setCheckRequired(false);
+              } else {
+                return setCheckRequired(true);
+              }
+            }
+          }}
         />
       </div>
     );
   }
 );
-
 
 /* Select field Which can custom width
     WidthP : value of width
@@ -109,22 +142,22 @@ const SelectCustomWidth = React.memo(
 */
 const SelectPayment = React.memo(
   ({ options, lable, widthP, selectValue, setSelectValue, type }) => {
-    let defaultContent = ''
-    switch(type){
-      case 'ProvinceName':
-        defaultContent = 'Chọn tỉnh thành ...'
-        break
-      case 'DistrictName':
-        defaultContent = 'Chọn quận huyện ...'
-        break
-      case 'WardName':
-        defaultContent = 'Chọn xã phường ...'
-        break
+    let defaultContent = "";
+    switch (type) {
+      case "ProvinceName":
+        defaultContent = "Chọn tỉnh thành ...";
+        break;
+      case "DistrictName":
+        defaultContent = "Chọn quận huyện ...";
+        break;
+      case "WardName":
+        defaultContent = "Chọn xã phường ...";
+        break;
       default:
-        defaultContent='DEFAULT'
-        break
+        defaultContent = "DEFAULT";
+        break;
     }
-    
+
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -141,7 +174,7 @@ const SelectPayment = React.memo(
           <select
             className="mr-3  focus:ring-indigo-500 
                 focus:border-indigo-500 block w-full pl-2 pr-2 sm:text-sm 
-                border-gray-300 rounded-md min-h-[42px] outline-primary"
+                border-gray-300 rounded-md min-h-[42px]"
             onChange={(e) => {
               setSelectValue(JSON.parse(e.target.value));
             }}
@@ -190,7 +223,7 @@ const HashTagCustomWidth = React.memo(
     }, []);
     const handleAction = () => {
       if (value === "") return;
-      let newHashTag = `#${value.replace(/ /g, "_")}`;
+      let newHashTag = `${value.replace(/ /g, "_")}`;
       setTags([...tags, newHashTag]);
       setValue("");
     };
@@ -320,19 +353,13 @@ const InputVariant = ({
   variantValue,
   setVariantValue,
 }) => {
-  useEffect(() => {
-    console.log(variants);
-  }, [variants]);
-  useEffect(() => {
-    console.log(variantValue);
-  }, [variantValue]);
   return (
     <div className={`w-full`}>
       <div className="h-[50%] flex">
         <InputCustomWidth
           widthP="[60%]"
-          lable="Name Option"
-          placeholder="Giá: VND"
+          lable="Tùy chọn sản phẩm"
+          placeholder="vd: size,màu..."
           PLarge={false}
           value={variantValue?.name}
           setValue={setVariantValue}
@@ -340,7 +367,7 @@ const InputVariant = ({
         />
         <div className="w-[30%] ml-5">
           <div className="h-1/2"></div>
-          {console.log(variantValue.value.length > 0 ? true : false)}
+
           <Button
             width="100%"
             text="Add Variant"
@@ -358,7 +385,6 @@ const InputVariant = ({
                 console.log(variantChild.type !== "");
                 console.log(variantChild.price !== "");
                 console.log(variantValue.name !== "");
-                console.log("ể");
               }
             }}
           ></Button>
@@ -367,8 +393,8 @@ const InputVariant = ({
       <div className="flex justify-between ">
         <InputCustomWidth
           widthP="[30%]"
-          lable="Type"
-          placeholder="Giá: VND"
+          lable="Phân loại "
+          placeholder="vd: m,l,xl..."
           PLarge={false}
           value={variantChild?.type}
           setValue={setVariantChild}
@@ -391,6 +417,14 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
+            disabled={
+              Number.isInteger(Number(variantChild.price)) &
+              (variantChild.type !== "") &
+              (variantChild.price !== "") &
+              (variantValue.name !== "")
+                ? false
+                : true
+            }
             onClick={() => {
               if (
                 Number.isInteger(Number(variantChild.price)) &

@@ -1,6 +1,4 @@
 import React from "react";
-import { Button } from "../../components/Button";
-import image from "../../assets/temp.png";
 import { FiSearch } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import ApiBill from "../../apis/bill";
@@ -9,19 +7,16 @@ import {
   SelectCustomWidth,
 } from "../../components/InputCtWidth";
 import { BillComponnets } from "../../components/BillComponent";
-import { Profile } from "../../components/Modal"
 
 const Bill = () => {
   const [addAll, setAddAll] = useState(false);
   const [bills, setBills] = useState([]);
   const [selectValue, setSelectValue] = useState("");
   const [options, setOptions] = useState([]);
-  const [isShow, setIsShow] = useState(false);
-
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await ApiBill.getAll();
-      const bills = res.data.bills;
+      const bills = res.billData.rows;
 
       setBills(bills);
     };
@@ -40,9 +35,7 @@ const Bill = () => {
   }
 
   const renderBillsList = bills?.map((bill, i) => {
-    return (
-      <BillComponnets bill={bill} i={i} setIsShow={setIsShow} isShow={isShow} />
-    );
+    return <BillComponnets bill={bill} i={i} />;
   });
   return (
     <>
@@ -59,7 +52,6 @@ const Bill = () => {
           <div className="w-[40%] ">
             <SelectCustomWidth
               widthP="full"
-
               selectValue={selectValue}
               setSelectValue={setSelectValue}
             />
@@ -89,12 +81,9 @@ const Bill = () => {
           </div>
         </div>
         {renderBillsList}
-
       </div>
     </>
   );
 };
 
 export default Bill;
-
-

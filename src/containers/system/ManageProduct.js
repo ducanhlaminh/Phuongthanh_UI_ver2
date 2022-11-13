@@ -34,6 +34,8 @@ const ManageProduct = () => {
   const handleChangePage = (event, value) => {
     setPage(value);
   };
+
+  const checkSelected = () => {};
   // reload products theo category
   useEffect(() => {
     categories.length > 0 && setSelectValue(categories[0].code);
@@ -52,18 +54,9 @@ const ManageProduct = () => {
       );
   }, [selectValue, isLoading, selectFilter, page]);
 
-  if (addAll) {
-    const checkboxs = [...document.querySelectorAll(".checkbox")];
-    checkboxs.map((checkbox) => {
-      checkbox.checked = "checked";
-    });
-  } else {
-    const checkboxs = [...document.querySelectorAll(".checkbox")];
-    checkboxs.map((checkbox) => {
-      checkbox.checked = false;
-    });
-  }
-
+  useEffect(() => {
+    console.log(addDelete);
+  }, [addDelete]);
   // Compontent products
 
   const renderProductList = products?.map((product, i) => {
@@ -75,7 +68,15 @@ const ManageProduct = () => {
         <div className="w-[10%] flex justify-center">
           <input
             type="checkbox"
-            className="h-[17.5px] w-[17.5px] checkbox"
+            className="h-[17.5px] w-[17.5px]"
+            value={product.name}
+            onClick={(e) => {
+              setAddDelete((prev) =>
+                ![...prev].some((item) => item === e.target.value)
+                  ? [...prev, e.target.value]
+                  : [...prev].filter((item) => item !== e.target.value)
+              );
+            }}
           ></input>
         </div>
         <div className=" w-[10%] flex justify-center h-4/5">
@@ -215,6 +216,7 @@ const ManageProduct = () => {
           product={addDelete}
           selectValue={selectValue}
           setAddDelete={setAddDelete}
+          addDelete={addDelete}
           // cate={cateProdcut}
         />
       ) : (

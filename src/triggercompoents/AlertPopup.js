@@ -1,29 +1,34 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import ApiCart from '../apis/cart'
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import ApiCart from "../apis/cart";
 
-export default function AlertPopup({open,setOpen,idDelete,setReload,setActiveNotify}) {
-
-  const handleDelete = async() => {
+export default function AlertPopup({
+  open,
+  setOpen,
+  idDelete,
+  setReload,
+  setActiveNotify,
+}) {
+  const handleDelete = async () => {
     try {
-        let array = [idDelete,1]
-        let params = {cids : array}
-        let res = await ApiCart.delete(params)
-        if(res.status === 0) {
-          setOpen(false)
-          setReload(prev => !prev)
-          setActiveNotify('success')
-        }
+      let params = { cids: [idDelete] };
+      console.log(params);
+      let res = await ApiCart.delete(params);
+      if (res.status === 0) {
+        setOpen(false);
+        setReload((prev) => !prev);
+        setActiveNotify("success");
+      }
     } catch (error) {
-        setActiveNotify('error')
-        console.log(error)
+      setActiveNotify("error");
+      console.log(error);
     }
-  }
+  };
 
   const handleClose = () => {
     setOpen(false);

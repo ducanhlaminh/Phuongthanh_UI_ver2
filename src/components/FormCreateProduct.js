@@ -7,9 +7,11 @@ import {
 } from "../components/InputCtWidth";
 import Button from "./Button";
 import { Editor } from "@tinymce/tinymce-react";
-import { useRef } from "react";
-
-export default function FormCreateProduct({
+import { useEffect, useRef, useState } from "react";
+import icons from "../ultils/icons";
+import { NotiStatus } from "../components/UploadStatus";
+const { AiFillCheckCircle } = icons;
+const FormCreateProduct = ({
   productName,
   setProductName,
   categories,
@@ -29,25 +31,59 @@ export default function FormCreateProduct({
   setVariantValue,
   handleSubmit,
   setShortDes,
-}) {
-  const editorRef = useRef(null);
-  const log = () => {
+  shortDes,
+  showUpload,
+  contentUpload,
+  setShowUpload,
+  setContentUpload,
+}) => {
+  const editorRef = useRef();
+  const [validatesForm, setValidatesForm] = useState([
+    { name: "name", status: false },
+    { name: "price", status: false },
+    { name: "variant", status: false },
+    { name: "image", status: false },
+  ]);
+  const setContentProduct = () => {
     if (editorRef.current) {
       const des = editorRef.current.getContent();
       setShortDes(des);
     }
   };
+
+  const validateForm = () => {
+    if (productName && price && image.imageMain && shortDes && selectValue) {
+      return true;
+    } else return false;
+  };
+  useEffect(() => {
+    console.log(validatesForm);
+  }, [validatesForm]);
   return (
-    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 ">
+    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
+      {showUpload && (
+        <NotiStatus
+          active={contentUpload.status === 0 ? "success" : "error"}
+          setActive={setShowUpload}
+          content={
+            contentUpload.status === 0
+              ? "Đã đăng ký sản phẩm thành công"
+              : "Có lỗi xảy ra trong quá trình đăng ký"
+          }
+        />
+      )}
       <h1 className="text-3xl text-center">Nhập thông tin tại đây</h1>
       <div className="h-[15%]">
         <InputCustomWidth
+          required={true}
           widthP={"full"}
           lable="Tên sản phẩm "
           placeholder="Tên sản phẩm..."
           PLarge={true}
           value={productName}
           setValue={setProductName}
+          setValidatesForm={setValidatesForm}
+          validateType={"name"}
         />
       </div>
 
@@ -61,12 +97,14 @@ export default function FormCreateProduct({
             setSelectValue={setSelectValue}
           />
           <InputCustomWidth
-            widthP="[30%]"
             lable="Giá"
+            required={true}
             placeholder="Giá: VND"
             PLarge={false}
             value={price}
             setValue={setPrice}
+            setValidatesForm={setValidatesForm}
+            validateType={"price"}
           />
         </div>
 
@@ -116,8 +154,17 @@ export default function FormCreateProduct({
               bgColor="#4ed14b"
               textColor="#fff"
               width="100%"
-              onClick={log}
+              height={"2"}
+              onClick={setContentProduct}
             ></Button>
+            {shortDes && (
+              <div className="border-primary border-2 mt-2 h-10 rounded-md bg-slate-50 flex justify-center items-center">
+                <span className="">Đã thêm nội dung sản phẩm</span>
+                <span className="text-[#4ed14b] ml-3">
+                  <AiFillCheckCircle />
+                </span>
+              </div>
+            )}
           </div>
         </div>
         <div className="w-1/2 pl-3">
@@ -130,47 +177,68 @@ export default function FormCreateProduct({
             setVariantValue={setVariantValue}
           />
           <div className=" w-[50%] mt-3">
-            <input
-              type="file"
-              name="imageMain"
-              accept="image/*"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  imageMain: e.target.files[0],
-                }));
-              }}
-            />
-            <input
-              type="file"
-              name="image1"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  image1: e.target.files[0],
-                }));
-              }}
-            />
-            <input
-              type="file"
-              name="image2"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  image2: e.target.files[0],
-                }));
-              }}
-            />
-            <input
-              type="file"
-              name="image3"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  image3: e.target.files[0],
-                }));
-              }}
-            />
+            <div className="">
+              <label htmlFor="" className="font-bold">
+                Ảnh chính
+              </label>
+              <input
+                type="file"
+                name="imageMain"
+                accept="image/*"
+                onChange={(e) => {
+                  setImage((prev) => ({
+                    ...prev,
+                    imageMain: e.target.files[0],
+                  }));
+                }}
+              />
+            </div>
+            <div className="">
+              <label htmlFor="" className="font-bold">
+                Ảnh 1
+              </label>
+              <input
+                type="file"
+                name="image1"
+                onChange={(e) => {
+                  setImage((prev) => ({
+                    ...prev,
+                    image1: e.target.files[0],
+                  }));
+                }}
+              />
+            </div>
+            <div className="">
+              <label htmlFor="" className="font-bold">
+                Ảnh 2
+              </label>
+              <input
+                type="file"
+                name="image2"
+                onChange={(e) => {
+                  setImage((prev) => ({
+                    ...prev,
+                    image2: e.target.files[0],
+                  }));
+                }}
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="" className="font-bold">
+                Ảnh 3
+              </label>
+              <input
+                type="file"
+                name="image3"
+                onChange={(e) => {
+                  setImage((prev) => ({
+                    ...prev,
+                    image3: e.target.files[0],
+                  }));
+                }}
+              />
+            </div>
+
             {/* <InputFileCustomWidth
                   lable="Ảnh 1"
                   widthP="[100%]"
@@ -199,7 +267,15 @@ export default function FormCreateProduct({
           textColor="#fff"
           width="50%"
           height="2"
-          onClick={handleSubmit}
+          onClick={() => {
+            if (validateForm()) {
+              console.log(validatesForm);
+              return handleSubmit();
+            } else {
+              setShowUpload(true);
+              setContentUpload({ status: 1 });
+            }
+          }}
         ></Button>
         <Button
           text="SEE PREVIEW"
@@ -211,4 +287,5 @@ export default function FormCreateProduct({
       </div>
     </div>
   );
-}
+};
+export default FormCreateProduct;
