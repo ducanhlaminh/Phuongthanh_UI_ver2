@@ -36,7 +36,7 @@ export const NotiStatus = ({content,active,setActive}) => {
     }
     return (<div 
         onAnimationEnd={() => setActive(false)}
-        className={`absolute invisible md:visible z-70 opacity-0 left-[50%] px-[24px] border-solid border-2 ${borderColor} h-[50px]
+        className={`absolute  invisible md:visible z-70 opacity-0 left-[50%] px-[24px] border-solid border-2 ${borderColor} h-[50px]
     shadow-md gap-[8px] transition-all bg-white rounded-[8px] flex items-center justify-center 
     ${active?'animate-show-noti-left':''}`}>
                 <p>{content||contentDefault}</p>
@@ -71,7 +71,7 @@ export const NotiStatusMobile = ({content,active,setActive}) => {
     }
     return (<div 
         onAnimationEnd={() => setActive(false)}
-        className={`absolute z-70 md:hidden w-[60%] translate-y-[-70px] translate-x-[35%] h-[50px] border-solid border-2 ${borderColor}
+        className={`absolute  z-70 md:hidden w-[60%] translate-y-[-70px] translate-x-[35%] h-[50px] border-solid border-2 ${borderColor}
     shadow-md gap-[8px] transition-all bg-white rounded-[8px] flex items-center justify-center 
     ${active?'animate-top-popup2':''}`}>
                 <p>{content||contentDefault}</p>
