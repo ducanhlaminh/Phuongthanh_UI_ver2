@@ -151,8 +151,8 @@ function ListProducts({ categoryData, otherData }) {
               }`}
             ></BreadCrumb>
           </div>
-          <div className=" bg-white w-full lg:block px-6">
-            <h2 className=" text-3xl font-extrabold">{categoryData.valueVi}</h2>
+          <div className=" bg-white w-full lg:block lg:px-[16px] md:px-[24px]">
+            <h2 className=" lg:text-[34px] text-primary font-semibold md:text-[28px]">{categoryData.valueVi}</h2>
             <div className="flex ">
               <div className="w-[20%]  p-5 hidden lg:block">
                 <div>
