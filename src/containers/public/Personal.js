@@ -139,6 +139,7 @@ const Personal = () => {
           <div className="flex justify-end mt-[24px]" onClick={()=>{
             const updateProfile=async()=>{
               const res=await apiUSer.update({name:userNameRef.current.value,avatar:infor.avatar})
+              
             }
             updateProfile();
           }}>

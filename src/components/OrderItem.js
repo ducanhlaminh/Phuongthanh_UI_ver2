@@ -11,7 +11,7 @@ const OrderItem = ({ oid, createAt, total, status }) => {
     <div>
       <div className="w-full cursor-pointer rounded-md relative bg-[#f1f1f1] md:text-[14px] lg:text-[16px]  text-black items-center px-6 py-5 hidden md:flex">
         <span className="flex gap-2 flex-1 items-center justify-center">
-          <input type="checkbox" className="lg:w-6 lg:h-6 md:w-4 md:h-4" />
+          {/* <input type="checkbox" className="lg:w-6 lg:h-6 md:w-4 md:h-4" /> */}
           <span className="">{`#${oid?.replace(/\D/g, "")?.slice(0, 9)}`}</span>
         </span>
         <span className="flex-1 flex justify-center md:text-[14px] lg:text-[16px] items-center">

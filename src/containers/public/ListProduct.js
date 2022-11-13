@@ -160,7 +160,7 @@ function ListProducts({ categoryData, otherData }) {
                     className="border-b-2 py-3 justify-between flex "
                     onClick={() => setIsShowFilter(!isShowFilter)}
                   >
-                    <span>Choose</span>
+                    <span>Khoảng giá</span>
                     {!isShowFilter ? <AiOutlinePlus /> : <GrSubtract />}
                   </div>
                   {isShowFilter && (

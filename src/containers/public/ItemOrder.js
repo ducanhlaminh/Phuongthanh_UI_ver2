@@ -6,6 +6,8 @@ import { apiGetProductsOfBill2, apiGetBills } from "../../apis/bill2";
 import moment from "moment";
 import "moment/locale/vi";
 import BillItem from "../../components/BillItem";
+import ButtonFooterContainer from "../../components/ButtonFooterContainer";
+import LongButton from "../../components/LongButton";
 
 const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
@@ -155,6 +157,18 @@ const ItemOrder = () => {
               </div>
             </div>
           </div>
+
+          {detailBill?.status==='pending'&&
+            <>
+              <div className="h-[66px]"></div>
+
+              <ButtonFooterContainer>
+                <LongButton backgroundColor="#1B4B66" width="95%" color="white">
+                  <p>Đánh giá</p>
+                </LongButton>
+              </ButtonFooterContainer>
+            </>
+          }
         </div>
       )}
 
@@ -224,7 +238,9 @@ const ItemOrder = () => {
           <div className="flex pl-[24px] mb-[24px]">
             <div className="flex flex-1 flex-col gap-[12px]">
               <div>
-                <p className="md:text-[14px] lg:text-[16px] font-medium text-darkGrey">Chi tiết đơn hàng</p>
+                <p className="md:text-[14px] lg:text-[16px] font-medium text-darkGrey">
+                  Chi tiết đơn hàng
+                </p>
               </div>
               <div className="flex justify-between items-center ">
                 <p className="text-black font-medium text-[14px]">
@@ -243,9 +259,7 @@ const ItemOrder = () => {
                 </p>
               </div>
               <div className="flex justify-between items-center">
-                <p className="text-black font-medium text-[14px]">
-                  Giảm giá
-                </p>
+                <p className="text-black font-medium text-[14px]">Giảm giá</p>
                 <p className="text-medium text-[14px] text-black">đ0</p>
               </div>
 

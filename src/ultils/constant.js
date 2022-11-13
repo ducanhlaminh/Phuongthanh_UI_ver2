@@ -66,7 +66,7 @@ export const filters = [
 ];
 export const filtersSider = [
   {
-    valueVi: "Stocking",
+    valueVi: "Còn hàng",
     code: 1,
   },
 ];
