@@ -129,6 +129,7 @@ function AddAddress() {
   const handleAddAdress = () => {
     const data = {
       address: JSON.stringify({
+        detail: detailAddress,
         province: provinceCur.ProvinceName,
         provinceId: provinceCur.ProvinceID,
         district: districtCur.DistrictName,
@@ -138,7 +139,6 @@ function AddAddress() {
       }),
       name: infoUser.name,
       phone: infoUser.phone,
-      detail: detailAddress,
     };
     const add = async (data) => {
       try {

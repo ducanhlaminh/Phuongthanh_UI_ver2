@@ -28,6 +28,7 @@ export const register = (payload) => async (dispatch) => {
   }
 };
 export const login = (payload) => async (dispatch) => {
+  let mess =""
   try {
     const response = await apiLogin.post(payload);
    
@@ -38,17 +39,20 @@ export const login = (payload) => async (dispatch) => {
         token: response.token,
         userCurrent: response.dataCurrent,
       });
-    } else
+    } else{
+      mess=response.data.message
       dispatch({
         type: actionTypes.LOGIN_FAIL,
         message: response.data.message,
       });
+    }
   } catch (error) {
     dispatch({
       type: actionTypes.LOGIN_FAIL,
       message: "Có lỗi trong quá trình đăng nhap, Hãy thử lại sau.",
     });
   }
+  return mess;
 };
 
 export const logout = () => ({

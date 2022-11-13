@@ -520,6 +520,30 @@ const InputSearch = React.memo(
   }
 );
 
+const InputFieldWithValidate = React.memo(
+  ({ lable, value, setValue, type, message }) => {
+    return (
+      <div className={`w-full  h-full mb-[24px]`}>
+        <label
+          htmlFor="field"
+          className={`font-bold text-l flex items-center text-primary`}
+        >
+          {lable}
+        </label>
+
+        <input
+          type={type}
+          className={`bg-[#F1F1F1] rounded-[8px] w-full h-[42px] px-[8px]`}
+          value={value}
+          required
+          onChange={(e) => setValue(e.target.value)}
+        />
+        {message && <div className="text-sm text-highlight">{message}</div>}
+      </div>
+    );
+  }
+);
+
 export {
   InputCustomWidth,
   SelectCustomWidth,
@@ -528,6 +552,7 @@ export {
   InputFileCustomWidth,
   InputSearch,
   InputVariant,
+  InputFieldWithValidate,
   SelectPayment,
 };
 // setVariantValue((prev)=>({
