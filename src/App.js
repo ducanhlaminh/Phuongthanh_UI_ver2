@@ -15,6 +15,7 @@ import {
   Search,
   AddAddress,
   ChangePassword,
+  WishList,
   ItemOrder,
 
 } from "./containers/public";
@@ -84,6 +85,7 @@ function App() {
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
+            <Route path={path.WISH_LISH} element={<WishList></WishList>}></Route>
             <Route path={path.CHANGE_PASSWORD} element={<ChangePassword></ChangePassword>}></Route>
             <Route path="*" element={<Personal />} />
           </Route>
