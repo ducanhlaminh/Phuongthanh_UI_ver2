@@ -14,8 +14,17 @@ import avatar from "../assets/avatar-anon.png";
 import { filters } from "../ultils/constant";
 import { Slider } from "@mui/material";
 import { apiGetProductsOfBill2 } from "../apis/bill2";
-
-export const ModalEditCate = ({ setIsShowEdit, selectCate }) => {
+import StatusBill from "./StatusBill";
+import StepperBill from "./StepperBill";
+import { NotiStatus } from "./UploadStatus";
+import React from "react";
+export const ModalEditCate = ({
+  setIsShowEdit,
+  selectCate,
+  setShowUpload,
+  showUpload,
+  setContentUpload,
+}) => {
   const [newCategory, setNewCategory] = useState(`${selectCate.valueVi}`);
   const [newColor, setNewColor] = useState(`${selectCate.color}`);
   const [image, setImage] = useState({});
@@ -27,9 +36,22 @@ export const ModalEditCate = ({ setIsShowEdit, selectCate }) => {
     bodyFormData.append("id", selectCate.id);
     bodyFormData.append("color", newColor);
     bodyFormData.append("image", image);
-    await ApiCategory.update(bodyFormData);
-    dispatch(actions.getCategory());
-    setIsShowEdit(false);
+    try {
+      const res = await ApiCategory.update(bodyFormData);
+      if (res.status === 0) {
+        setIsShowEdit(false);
+        setShowUpload(!showUpload);
+        setContentUpload(res);
+        dispatch(actions.getCategory());
+      } else {
+        setIsShowEdit(false);
+        setShowUpload(!showUpload);
+        setContentUpload(res);
+      }
+    } catch (error) {
+      setIsShowEdit(false);
+      setShowUpload(!showUpload);
+    }
   };
 
   return (
@@ -75,18 +97,23 @@ export const ModalEditCate = ({ setIsShowEdit, selectCate }) => {
           />
         </div>
         <Button
-          text="Sửa"
+          text="SỬA GIAN HÀNG"
           bgColor="#4ed14b"
           textColor="#fff"
-          width="40%"
-          height="2"
+          width="100%"
+          height="3"
           onClick={Submit}
         ></Button>
       </div>
     </div>
   );
 };
-export const ModalCreateCate = ({ setIsShowCreate }) => {
+export const ModalCreateCate = ({
+  setIsShowCreate,
+  setShowUpload,
+  showUpload,
+  setContentUpload,
+}) => {
   const [newCategory, setNewCategory] = useState("");
   const [color, setColor] = useState("");
   const [image, setImage] = useState({});
@@ -96,8 +123,23 @@ export const ModalCreateCate = ({ setIsShowCreate }) => {
     bodyFormData.append("valueVi", newCategory);
     bodyFormData.append("color", color);
     bodyFormData.append("image", image);
-    await ApiCategory.create(bodyFormData);
-    dispatch(actions.getCategory());
+
+    try {
+      const res = await ApiCategory.create(bodyFormData);
+      if (res.status === 0) {
+        setIsShowCreate(false);
+        setShowUpload(!showUpload);
+        setContentUpload(res);
+        dispatch(actions.getCategory());
+      } else {
+        setIsShowCreate(false);
+        setShowUpload(!showUpload);
+        setContentUpload(res);
+      }
+    } catch (error) {
+      setIsShowCreate(false);
+      setShowUpload(!showUpload);
+    }
   };
   return (
     <div
@@ -140,10 +182,11 @@ export const ModalCreateCate = ({ setIsShowCreate }) => {
           />
 
           <Button
-            text="Them"
+            text="THÊM GIAN HÀNG"
             bgColor="#4ed14b"
             textColor="#fff"
-            width="20%"
+            width="full"
+            height="3"
             onClick={() => {
               onSubmit();
               setIsShowCreate(false);
@@ -165,7 +208,13 @@ export const ModalCreateCate = ({ setIsShowCreate }) => {
   );
 };
 
-export const PopupDeleteCate = ({ setIsDelete, selectCate }) => {
+export const PopupDeleteCate = ({
+  setIsDelete,
+  selectCate,
+  setShowUpload,
+  showUpload,
+  setContentUpload,
+}) => {
   const dispatch = useDispatch();
   return (
     <div
@@ -183,15 +232,28 @@ export const PopupDeleteCate = ({ setIsDelete, selectCate }) => {
       >
         <b>BẠN CHẮC MUỐN XÓA GIAN HÀNG NÀY CHỨ </b>
         <Button
-          text="Sửa"
+          text="XÓA GIAN HÀNG"
           bgColor="#4ed14b"
           textColor="#fff"
-          width="40%"
-          height="2"
+          width="100%"
+          height="3"
           onClick={async () => {
-            await ApiCategory.delete({ id: [selectCate.id] });
-            setIsDelete(false);
-            dispatch(actions.getCategory());
+            try {
+              const res = await ApiCategory.delete({ id: [selectCate.id] });
+              if (res.status === 0) {
+                setIsDelete(false);
+                setShowUpload(!showUpload);
+                setContentUpload(res);
+                dispatch(actions.getCategory());
+              } else {
+                setIsDelete(false);
+                setShowUpload(!showUpload);
+                setContentUpload(res);
+              }
+            } catch (error) {
+              setIsDelete(false);
+              setShowUpload(!showUpload);
+            }
           }}
         ></Button>
       </div>
@@ -204,10 +266,14 @@ export const PopupDeleteProduct = ({
   setIsLoading,
   isLoading,
   isDelete,
+  products,
+  setAddDeletes,
   product,
-  selectValue,
-  setAddDelete,
-  addDelete,
+  setProduct,
+  contentUpload,
+  showUpload,
+  setShowUpload,
+  setContentUpload,
 }) => {
   return (
     <div
@@ -231,14 +297,37 @@ export const PopupDeleteProduct = ({
           width="40%"
           height="2"
           onClick={async () => {
-            const res = await ApiProduct.delete({ id: [...product] });
-            console.log(res);
-            if (res.status === 0) {
-              setAddDelete([]);
+            try {
+              if (product) {
+                const res = await ApiProduct.delete({ id: [product] });
+                if (res.status === 0) {
+                  setProduct();
+                  setAddDeletes((prev) =>
+                    ![...prev].some((item) => item === product)
+                      ? [...prev]
+                      : [...prev].filter((item) => item !== product)
+                  );
+                  setIsDelete(!isDelete);
+                  setShowUpload(true);
+                  setContentUpload(res);
+                  setIsLoading(!isLoading);
+                }
+              } else {
+                const res = await ApiProduct.delete({ id: [...products] });
+                if (res.status === 0) {
+                  setAddDeletes([]);
+                  setIsDelete(!isDelete);
+                  setShowUpload(true);
+                  setContentUpload(res);
+                  setIsLoading(!isLoading);
+                }
+              }
+            } catch (error) {
+              setAddDeletes([]);
               setIsDelete(!isDelete);
+              setShowUpload(true);
               setIsLoading(!isLoading);
             }
-            console.log(addDelete);
           }}
         ></Button>
       </div>
@@ -465,16 +554,27 @@ export const EditProduct = ({
     </>
   );
 };
-export const Profile = ({ billCurrent, setIsShow }) => {
+export const Profile = ({
+  billCurrent,
+  setIsShow,
+  setShowUpload,
+  showUpload,
+  setContentUpload,
+  contentUpload,
+}) => {
+  const steps = ["pending", "shipping", "completed", "cancel"];
   const [productsBill, setProductBill] = useState([]);
-  const address = JSON.parse(billCurrent?.addressData?.address);
+  const numActive = steps.findIndex((item) => billCurrent.status === item);
+  const [activeStep, setActiveStep] = useState(numActive);
   useEffect(() => {
     const fetchProductsBill = async () => {
       const res = await apiGetProductsOfBill2(billCurrent.id);
       setProductBill(res.billData);
     };
     fetchProductsBill();
-  }, []);
+  }, [contentUpload]);
+  const addressBill = JSON.parse(billCurrent.addressData.address);
+  const address = `${addressBill.province}`;
   return (
     <>
       <div
@@ -490,13 +590,20 @@ export const Profile = ({ billCurrent, setIsShow }) => {
             e.stopPropagation();
           }}
         >
-          <div className="w-1/2 items-center bg-white rounded justify-center flex p-5 h-[500px] ">
+          <div className="w-1/2 items-center bg-white rounded justify-center flex p-5 h-[680px] ">
             <div className="rounded bg-gray-200 w-[90%] h-1/2 p-3">
               <h1 className="text-xl bold text-center mb-5">
-                THÔNG TIN CÁ NHÂN
+                THÔNG TIN ĐƠN HÀNG
               </h1>
-              <div className=" rounded-full mb-5 h-1/2 flex items-center">
-                <img src={avatar} alt="" className="h-full rounded-full" />
+              <div className="mb-5 h-1/2 flex items-center">
+                <div className="h-[100px]">
+                  <img
+                    src={avatar}
+                    alt=""
+                    className="h-full rounded-full pr-3"
+                  />
+                </div>
+
                 <div className="w-fit px-5`">
                   {/* <div className="">
                     <b className="">Tên người dùng : </b>
@@ -513,38 +620,45 @@ export const Profile = ({ billCurrent, setIsShow }) => {
                   <div className="flex">
                     <p className="">
                       <b>Số điện thoại : </b>
+                      {billCurrent?.addressData?.phone
+                        ? billCurrent?.addressData?.phone
+                        : ""}
                     </p>
-                    {billCurrent?.addressData?.phone
-                      ? billCurrent?.addressData?.phone
-                      : ""}
                   </div>
                   <div className="flex">
                     <p className="">
                       <b>Địa chỉ : </b>
+                      {address}
                     </p>
-                    {billCurrent?.addressData?.address
-                      ? `${address.province} - ${address.district} - ${address.ward} `
-                      : ""}
                   </div>
                 </div>
               </div>
+              <StepperBill
+                active={activeStep}
+                setActive={setActiveStep}
+                billCur={billCurrent}
+                showUpload={showUpload}
+                setShowUpload={setShowUpload}
+                setContentUpload={setContentUpload}
+                setIsShow={setIsShow}
+              />
             </div>
           </div>
-          <div className="w-1/2 items-center bg-[#d9d9d9] rounded  flex-col flex p-5 h-[500px] ">
+          <div className="w-1/2 items-center bg-[#d9d9d9] rounded  flex-col flex p-5 h-[680px] ">
             <div className="w-4/5 bg-white h-full rounded">
               <div className="h-[15%] flex items-center justify-center">
                 <b>ĐƠN HÀNG</b>
               </div>
               <hr />
 
-              <div className="h-[85%] overflow-auto ">
+              <div className="h-[85%] overflow-auto relative">
                 {productsBill?.map((product) => {
                   return (
                     <div className="h-[25%] flex m-3 border-b-2">
                       <div className="w-[80%] flex h-full ">
-                        <div className="w-1/4 ">
+                        <div className="w-1/3 ">
                           <img
-                            src={product.products.mainImage}
+                            src={product.products?.mainImage}
                             alt=""
                             className="object-cover h-full w-full rounded-xl"
                           />
@@ -557,7 +671,7 @@ export const Profile = ({ billCurrent, setIsShow }) => {
                       </div>
                       <div className="w-[20%] flex flex-col justify-between">
                         <div className="flex justify-end">
-                          <div className="border rounded h-[85%] w-[35%] text-center text">
+                          <div className="border rounded px-3 py-1 text-center text">
                             {product?.qty}
                           </div>
                         </div>
@@ -574,6 +688,38 @@ export const Profile = ({ billCurrent, setIsShow }) => {
                     </div>
                   );
                 })}
+                <div className="absolute bottom-0 h-[70px] z-200 bg-gray-200 w-full flex  justify-between p-3">
+                  {/* Trang thai don hang */}
+
+                  <StatusBill status={billCurrent.status} />
+                  {/* Gia ship , Total */}
+                  <div className="">
+                    <div className="flex flex-col items-end justify-between">
+                      <div className="border-2 border-b-gray-400 ">
+                        <div className=" text-right">
+                          <span>Giá vận chuyển :</span>
+                          <span>
+                            {new Intl.NumberFormat("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(billCurrent?.shipPrice)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="">
+                        <div className="font-bold">
+                          <span>Tổng hóa đơn : </span>
+                          <span>
+                            {new Intl.NumberFormat("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(billCurrent?.totalCost)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <hr />
