@@ -1,84 +1,85 @@
-import React, { useState, useEffect } from "react";
-import bgLogin from '../../assets/bg-login.jpg'
-import { Button2, Loading } from "../../components";
-import * as actions from "../../store/actions";
-import { validateLogin } from "../../ultils/validate";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import swal from "sweetalert2";
-import {InputFieldWithValidate} from '../../components/InputCtWidth'
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import bgLogin from '../../assets/bg-login.jpg';
+import { Button2 } from "../../components";
+import { InputFieldWithValidate } from '../../components/InputCtWidth';
+import * as actions from "../../store/actions";
 
 const actionTpyeLogin = "Đăng nhập"
 const actionTpyeSigup = "Đăng ký"
 
 const Login = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [actionType, setActionType] = useState(actionTpyeLogin)
   const [email, setEmail] = useState('')
+  const [validEmail, setValidEmail] = useState(null)
   const [password, setPassword] = useState('')
+  const [validPassword, setValidPassword] = useState(null)
   const [name, setName] = useState('')
+  const [validName, setValidName] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [validConfirmPassword, setValidConfirmPassword] = useState('')
   const { isLoggedIn, msg } = useSelector((state) => state.auth);
 
-  // useEffect(() => {
-  //   setIsLoading(false);
-  //   isLoggedIn &&
-  //     setPayload({
-  //       email: "",
-  //       password: "",
-  //       phone: "",
-  //       password2: "",
-  //       name: "",
-  //     });
-  //   isLoggedIn && navigate("/");
-  // }, [isLoggedIn]);
-  // useEffect(() => {
-  //   setIsLoading(false);
-  //   msg && swal.fire("Oops!", msg, "error");
-  // }, [msg]);
-  // const handleSubmit = async () => {
-  //   const isEmail = isPhone
-  //     ? { phone: payload.phone }
-  //     : { email: payload.email };
-  //   const finalPayload = isRegister
-  //     ? {
-  //       ...isEmail,
-  //       password: payload.password,
-  //       password2: payload.password2,
-  //       name: payload.name,
-  //     }
-  //     : {
-  //       ...isEmail,
-  //       password: payload.password,
-  //     };
-  //   let result = validateLogin(finalPayload, setInvalidFields, payload);
-  //   if (result === 0) {
-  //     setIsLoading(true);
-  //     isRegister
-        // ? dispatch(actions.register(finalPayload))
-  //       : dispatch(actions.login(finalPayload));
-  //   }
-  // }
-  const handleButton1 = () => {
+  useEffect(() => {
+    setIsLoading(false);
+    isLoggedIn &&
+      // setPayload({
+      //   email: "",
+      //   password: "",
+      //   phone: "",
+      //   password2: "",
+      //   name: "",
+      // });
+    isLoggedIn && navigate("/");
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if(msg === "Email/Phone chưa đăng ký !" ||
+    msg ==="Email/Phone đã được sử dụng!") {
+      setValidPassword(null)
+      setValidEmail(msg)
+    }else if(msg === "Mật khẩu không đúng !") {
+      setValidPassword(msg)
+      setValidEmail(null)
+    }else if(msg === "Vui lòng kiểm tra đường truyền mạng.") {
+      setValidPassword(msg)
+      setValidEmail(msg)
+    }
+  }, [msg,isLoading]);
+
+  const handleButton1 = async () => {
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    let isEmail = regexEmail.test(email)
+    if(!isEmail) setValidEmail("Email này không hợp lệ.")
+    if(password.length < 6) setValidPassword("Mật khẩu tối thiểu 6 ký tự.")
     if(actionType === actionTpyeLogin){
-      let payload ={
-        email: email,
-        password: password
+      if(isEmail&&password.length >= 6){
+        let payload ={
+          email: email,
+          password: password
+        }
+        dispatch(actions.login(payload))
+        setIsLoading(true)
       }
-      let res=dispatch(actions.login(payload))
-      console.log(res)
     }else if (actionType === actionTpyeSigup){
-      let payload ={
-        email: email,
-        password: password,
-        name: name
-      }
-      dispatch(actions.register(payload))
+      if(name.length < 6) setValidName("Tên tối thiểu 6 ký tự.")
+      if(confirmPassword !== password) setValidConfirmPassword('Mật khẩu không khớp.')
+      if(confirmPassword === password && name.length >= 6 &&
+          isEmail&&password.length >= 6){
+          let payload ={
+          email: email,
+          password: password,
+          name: name
+          }
+          dispatch(actions.register(payload))   
+        }
     }
   }
+
   const handleButton2 = () => {
     if(actionType === actionTpyeLogin){
       setActionType(actionTpyeSigup)
@@ -106,7 +107,8 @@ const Login = () => {
                 value={email}
                 setValue={setEmail}
                 type={"email"}
-                message={null}
+                message={validEmail}
+                setMessage={setValidEmail}
                 />
 
                 {actionType === actionTpyeSigup&&<InputFieldWithValidate 
@@ -115,6 +117,8 @@ const Login = () => {
                 value={name}
                 setValue={setName}
                 type={"text"}
+                message={validName}
+                setMessage={setValidName}
                 />}
 
                 <InputFieldWithValidate 
@@ -123,7 +127,8 @@ const Login = () => {
                 value={password}
                 setValue={setPassword}
                 type={"password"}
-                message={"Sai mật khẩu"}
+                message={validPassword}
+                setMessage={setValidPassword}
                 />
 
                 {actionType === actionTpyeSigup&&<InputFieldWithValidate 
@@ -132,6 +137,8 @@ const Login = () => {
                 value={confirmPassword}
                 setValue={setConfirmPassword}
                 type={"password"}
+                message={validConfirmPassword}
+                setMessage={setValidConfirmPassword}
                 />}
             </div>
             <div className="flex flex-col gap-5 mt-[12px]">
