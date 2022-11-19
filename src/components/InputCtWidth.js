@@ -85,7 +85,7 @@ const InputCustomWidth = React.memo(
     @Anhtd
 */
 const SelectCustomWidth = React.memo(
-  ({ options, lable, widthP, selectValue, setSelectValue }) => {
+  ({ options, lable, widthP, selectValue, setSelectValue, onChange }) => {
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -105,9 +105,11 @@ const SelectCustomWidth = React.memo(
                 border-gray-300 rounded-md min-h-[42px]"
             onChange={(e) => {
               if (options[0]?.sort) {
+                onChange && onChange(null);
                 setSelectValue(JSON.parse(e.target.value));
               } else {
                 setSelectValue(e.target.value);
+                onChange && onChange(null);
               }
             }}
           >
@@ -374,9 +376,8 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
-            disabled={variantValue.value.length > 0 ? false : true}
+            disabled={variantValue?.value.length > 0 ? false : true}
             onClick={() => {
-              console.log(variantValue.value.length);
               if (variantValue.value.length > 0) {
                 setVariants((prev) => [...prev, variantValue]);
                 setVariantValue({ name: "", value: [] });
@@ -418,23 +419,23 @@ const InputVariant = ({
             textColor="#fff"
             height="2"
             disabled={
-              Number.isInteger(Number(variantChild.price)) &
-              (variantChild.type !== "") &
-              (variantChild.price !== "") &
-              (variantValue.name !== "")
+              Number.isInteger(Number(variantChild?.price)) &
+              (variantChild?.type !== "") &
+              (variantChild?.price !== "") &
+              (variantValue?.name !== "")
                 ? false
                 : true
             }
             onClick={() => {
               if (
                 Number.isInteger(Number(variantChild.price)) &
-                (variantChild.type !== "") &
-                (variantChild.price !== "") &
-                (variantValue.name !== "")
+                (variantChild?.type !== "") &
+                (variantChild?.price !== "") &
+                (variantValue?.name !== "")
               ) {
                 setVariantValue((prev) => {
                   const type = "value";
-                  return { ...prev, [type]: [...prev.value, variantChild] };
+                  return { ...prev, [type]: [...prev?.value, variantChild] };
                 });
                 setVariantChild({ type: "", price: "" });
               }
