@@ -42,7 +42,7 @@ const Search = () => {
         </span>
         <input
           type="text"
-          className="w-full px-5 py-[13px] bg-[#F1F1F1] placeholder:text-gray-800 rounded-r-md outline-none"
+          className="w-full px-5 py-[12px] bg-[#F1F1F1] placeholder:text-gray-800 rounded-r-md outline-none"
           placeholder="Tìm sản phẩm....."
           onFocus={() => {
             setIsSearching(true);

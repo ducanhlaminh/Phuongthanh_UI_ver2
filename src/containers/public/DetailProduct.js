@@ -26,20 +26,25 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import BreadCrumb from "../../components/BreadCrumb";
+import { generatePath } from "../../ultils/fn";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
+
 const DetailProduct = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
   });
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
 
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
+  console.log(product);
   const [comments, setComments] = useState({});
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
@@ -50,7 +55,7 @@ const DetailProduct = () => {
   const [variantTypes, setVariantTypes] = useState([]);
   const [canAtc, setCanAtc] = useState(false);
   const [activeNotiStatus, setActiveNotiStatus] = useState(false);
-  const [onFetchCartQuantity,setOnFetchCartQuantity] = useState(false);
+  const [onFetchCartQuantity, setOnFetchCartQuantity] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     const fetchCartQuantity = async () => {
@@ -58,7 +63,7 @@ const DetailProduct = () => {
       setCartQuantity(res.yourCart.length);
     };
     fetchCartQuantity();
-  }, [fetchCartQuantity, cartQuantity, productsCart,onFetchCartQuantity]);
+  }, [fetchCartQuantity, cartQuantity, productsCart, onFetchCartQuantity]);
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -74,9 +79,25 @@ const DetailProduct = () => {
       });
       setComments(res.commentData);
     };
+
     fetchComments();
     fetchProduct();
   }, [id, currentPage]);
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      try {
+        if (product?.categoryData) {
+          const res = await ApiProduct.getAll({
+            categoryCode: product?.categoryData.code,
+            limitProduct: 10,
+          });
+          setRelatedProducts(res?.productData.rows);
+        }
+      } catch (e) {}
+    };
+
+    fetchRelatedProducts();
+  }, [product]);
 
   const handleRenderStar = (starValue) => {
     let stars = [];
@@ -117,27 +138,27 @@ const DetailProduct = () => {
       let data = {
         pid: id,
         variant: variantTypes,
-      };setOnFetchCartQuantity(true);
+      };
+      setOnFetchCartQuantity(true);
       let res = await ApiCart.create(data);
       if (res.status === 0) {
         setVariantTypes(new Array(product?.variants.length).fill(null));
         setCanAtc(false);
         setActiveNotiStatus("success");
         setShowPopupCart(false);
-        
+
         dispatch(actions.fetchCartQuantity("success"));
         setOnFetchCartQuantity(false);
       } else if (res.status === 1) {
         setActiveNotiStatus("warning");
         setShowPopupCart(false);
-        
+
         setOnFetchCartQuantity(false);
         dispatch(actions.fetchCartQuantity("warning"));
       }
     } catch (error) {
       setActiveNotiStatus("error");
       setOnFetchCartQuantity(false);
-
     }
   };
   return (
@@ -182,7 +203,7 @@ const DetailProduct = () => {
                           ? "animate-bounce2"
                           : ""
                       }`}
-                      style={{ "animation-iteration-count": "5" }}
+                      style={{ animationIterationCount: "5" }}
                     />
                     <span
                       className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
@@ -191,7 +212,7 @@ const DetailProduct = () => {
                           ? "animate-bounce2"
                           : ""
                       }`}
-                      style={{ "animation-iteration-count": "5" }}
+                      style={{ animationIterationCount: "5" }}
                     >
                       {isLoggedIn ? cartQuantity : "0"}
                     </span>
@@ -219,7 +240,20 @@ const DetailProduct = () => {
             showPopupComment={showPopupComment}
             id={product.id}
           />
+
           <div className="bg-[white] pl-[16px] ">
+            <div className="mb-[16px] hidden md:block">
+              <BreadCrumb
+                parent={[
+                  { name: "Trang chủ", link: "/" },
+                  {
+                    name: product?.categoryData?.valueVi,
+                    link: `/${generatePath(product?.categoryData?.valueVi)}`,
+                  },
+                ]}
+                current={product?.name}
+              ></BreadCrumb>
+            </div>
             <div className="md:flex w-full">
               <section className="">
                 <div className="relative">
@@ -407,22 +441,23 @@ const DetailProduct = () => {
             <SideNavigateMenu title="Đánh giá và bình luận"></SideNavigateMenu>
           </section>
 
-          <div className="h-[66px] md:hidden"></div>
-
           <DetailNavDesktop
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             ratingAndReviewRef={ratingAndReviewRef}
           />
 
-          <section className="hidden md:block ml-[20px] mr-[20px] mt-[24px] lg:mb-[95px] md:mb-[0px] min-h-[300px]">
+          <section className="hidden md:block ml-[20px] mr-[20px] mt-[24px] md:mb-[0px] min-h-[300px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
                 {product.description}
               </p>
             </div>
             <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>
-              <RelatedProduct />
+              <RelatedProduct
+                products={relatedProducts}
+                cate={product.categoryData.valueVi}
+              />
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
               <ReviewAndRatingDesktop
@@ -433,6 +468,15 @@ const DetailProduct = () => {
               />
             </div>
           </section>
+
+          <section className="md:hidden bg-white mt-[8px] px-[16px] pt-[8px]">
+            <RelatedProduct
+              products={relatedProducts}
+              cate={product.categoryData.valueVi}
+            />
+          </section>
+
+          <div className="h-[66px] md:hidden"></div>
 
           <div className="md:hidden">
             <ButtonFooterContainer>

@@ -9,11 +9,27 @@ import { RiHandbagLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions/";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Public = () => {
-  const [activeNav, setActiveNav] = useState([1, 0, 0, 0]);
+  const [activeNav, setActiveNav] = useState([0, 0, 0, 0]);
   const dispatch = useDispatch();
+  
   const params = useParams();
+  useEffect(()=>{
+    if(params["*"]===''){
+      setActiveNav([1,0,0,0]);
+    }
+    else  if(params["*"]==='gian-hang'){
+      setActiveNav([0,1,0,0]);
+    }
+    else  if(params["*"]==='tai-khoan'){
+      setActiveNav([0,0,1,0]);
+    }
+    else  if(params["*"]==='cart'){
+      setActiveNav([0,0,0,1]);
+    }
+  },[params])
   return (
     <div className="flex h-full flex-col w-full max-w-[1280px] m-auto text-sm md:text-base bg-white text-black">
       <div className="hidden md:block w-full h-[80px]">

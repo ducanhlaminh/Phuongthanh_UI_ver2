@@ -8,7 +8,7 @@ const ProductItem = ({ image, title, description, cost, v2, productId }) => {
     return (
         <Link
             to={`/${path.DETAIL}/${productId}`}
-            className={`md:w-[286px] w-[45%] flex flex-col gap-2 ${v2 ? 'rounded-xl' : 'pb-[41px] rounded-md'} relative bg-white`}
+            className={`md:w-[286px] w-[150px] flex flex-col gap-2 ${v2 ? 'rounded-xl' : 'pb-[41px] rounded-md'} relative bg-white`}
         >
             <img className={`w-full md:h-[286px] h-[138px] object-cover ${v2 ? 'rounded-xl' : 'rounded-md border border-gray-200'}`} src={image} alt="product" />
             {v2 && <div className='bg-gradient-to-t from-[rgba(255,255,255,0.5)] rounded-xl to-transparent absolute top-0 w-full md:h-[286px] h-[138px] z-40'></div>}

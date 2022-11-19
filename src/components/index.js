@@ -12,5 +12,8 @@ export { default as SidebarProfile } from './SidebarProfile'
 export { default as OrderItem } from './OrderItem'
 export { default as DetailOrder } from './DetailOrder'
 export { default as Contact } from './Contact'
+export {default as LongButton} from './LongButton'
+export { default as BoxChat } from './BoxChat'
+export { default as BotLoading } from './BotLoading'
 
 

@@ -7,6 +7,7 @@ export const path = {
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
+  WISH_LISH:'san-pham-da-thich',
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
@@ -29,10 +30,15 @@ export const path = {
   ORDERS: "hoa-don-cua-toi",
   ITEM_ORDERS: "don-hang",
   ITEM_ORDERS_ID: "don-hang/:id",
+  NEW_PRODUCTS:'san-pham-moi-nhat',
+  BEST_SELLER:'san-pham-ban-chay',
+  TOP_FAVOURITE:'san-pham-yeu-thich',
   PERSONAL: "",
-  ADD_ADDRESS: "address",
-  SEARCH: "tim-kiem",
-  SEARCH__KEYWORD: "tim-kiem/:id",
+  ADD_ADDRESS: "check-out",
+  SEARCH:'tim-kiem',
+  SEARCH__KEYWORD:'tim-kiem/:id',
+
+  
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",

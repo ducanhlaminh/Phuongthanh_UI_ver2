@@ -12,14 +12,14 @@ import { ProductItem } from "../../components";
 import { SelectCustomWidth } from "../../components/InputCtWidth";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import Pagination from "@mui/material/Pagination";
+import BreadCrumb from "../../components/BreadCrumb";
 const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract } = icons;
 
-function ListProducts({ categoryData }) {
+function ListProducts({ categoryData, otherData }) {
   const dispatch = useDispatch();
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
   const [selectedFilterSider, setSelectedFilterSider] = useState([]);
-  const [isShow, setIsShow] = useState(true);
-
+  const [isShow, setIsShow] = useState(false);
   const { loading } = useSelector((state) => {
     return state.app;
   });
@@ -45,7 +45,6 @@ function ListProducts({ categoryData }) {
       return;
     }
     if (newValue[1] - newValue[0] < minDistance) {
-      console.log(newValue);
       if (activeThumb === 0) {
         const clamped = Math.min(newValue[0], 100000000 - minDistance);
         setValue([clamped, clamped + minDistance]);
@@ -137,28 +136,31 @@ function ListProducts({ categoryData }) {
             handleChange={handleChange}
             numFormatter={numFormatter}
             value={value}
-            filtersSider={filtersSider}
-            setSelectedFilterSider={setSelectedFilterSider}
-            selectedFilterSider={selectedFilterSider}
           />
         )}
       </div>
       {/* Desktop */}
       <div className="md:block hidden w-full ">
-        <div className="py-6 mb-6 flex flex-col gap-8 ">
+        <div className=" flex flex-col gap-8 ">
           <SliderImage />
-
-          <div className=" w-full lg:block px-6">
-            <h2 className=" text-3xl font-extrabold">{categoryData.valueVi}</h2>
+          <div className="ml-[16px] hidden md:block">
+            <BreadCrumb
+              parent={[{ name: "Trang chủ", link: "/" }]}
+              current={`${
+                categoryData !== "" ? categoryData.valueVi : otherData
+              }`}
+            ></BreadCrumb>
+          </div>
+          <div className=" bg-white w-full lg:block lg:px-[16px] md:px-[24px]">
+            <h2 className=" lg:text-[34px] text-primary font-semibold md:text-[28px]">{categoryData.valueVi}</h2>
             <div className="flex ">
-              {/* Navslider */}
               <div className="w-[20%]  p-5 hidden lg:block">
                 <div>
                   <div
                     className="border-b-2 py-3 justify-between flex "
                     onClick={() => setIsShowFilter(!isShowFilter)}
                   >
-                    <span>Lọc sản phẩm</span>
+                    <span>Khoảng giá</span>
                     {!isShowFilter ? <AiOutlinePlus /> : <GrSubtract />}
                   </div>
                   {isShowFilter && (
@@ -167,11 +169,6 @@ function ListProducts({ categoryData }) {
                         <div className="flex justify-center items-center min-h-[50px]">
                           <input
                             type="checkbox"
-                            checked={
-                              selectedFilterSider.some((item) => item.valueVi)
-                                ? 1
-                                : 0
-                            }
                             value={JSON.stringify(filter)}
                             className="w-1/5"
                             onClick={() => {
@@ -225,7 +222,7 @@ function ListProducts({ categoryData }) {
                     />
                   </div>
                 </div>
-                {/* Layout list sản phẩm */}
+
                 <div className=" w-full  p-5 relative">
                   <div className="flex flex-wrap flex-auto min-h-[500px]">
                     {loading === true ? (

@@ -16,21 +16,21 @@ export const register = (payload) => async (dispatch) => {
       
       dispatch({
         type: actionTypes.REGISTER_FAIL,
-        message: response.data.message,
+        message: response.message,
       });
     }
   } catch (error) {
     
     dispatch({
       type: actionTypes.REGISTER_FAIL,
-      message: "Có lỗi trong quá trình đăng ký, Hãy thử lại sau.",
+      message: "Vui lòng kiểm tra đường truyền mạng.",
     });
   }
 };
 export const login = (payload) => async (dispatch) => {
   try {
     const response = await apiLogin.post(payload);
-   
+
     if (response?.status === 0) {
      
       dispatch({
@@ -41,12 +41,12 @@ export const login = (payload) => async (dispatch) => {
     } else
       dispatch({
         type: actionTypes.LOGIN_FAIL,
-        message: response.data.message,
+        message: response.message,
       });
   } catch (error) {
     dispatch({
       type: actionTypes.LOGIN_FAIL,
-      message: "Có lỗi trong quá trình đăng nhap, Hãy thử lại sau.",
+      message: "Vui lòng kiểm tra đường truyền mạng.",
     });
   }
 };

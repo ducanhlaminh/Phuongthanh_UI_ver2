@@ -25,9 +25,24 @@ export const apiGetProductsOfBill2 = (bid) =>
     } catch (error) {
       reject(error);
     }
-  });
+})
+
+const ApiCheckout = {
+  create: (data) => {
+    const url = "/api/v1/bill2";
+    try {
+        return axiosClients.post(url,data);
+    } catch (error) {
+        console.log(error);
+    }
+  },
+};
+
+export default ApiCheckout;
 
 export const apiCreateBill2 = (payload) => {
   const url = "/api/v1/bill2";
   return axiosClients.post(url, payload);
 };
+
+

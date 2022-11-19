@@ -10,13 +10,33 @@ import Loading from "../../components/Loading";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { toBase64, bufferToBase64 } from "../../ultils/common";
+import apiUSer from "../../apis/user";
+import { info } from "autoprefixer";
 
 const Personal = () => {
   const { userCurrent } = useSelector((state) => state.auth);
   const passwordRef = useRef();
+  const inputFileRef = useRef();
+  const userNameRef=useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [infor, setInfo] = useState({
+    avatar: "",
+    name: "",
+  });
+  console.log()
   const [isShowErrorLog, setIsShowErrorLog] = useState(false);
+  const handleImage = async (e) => {
+    e.stopPropagation();
+    const { type } = e.target.files[0];
+    if (type === "image/jpeg" || type === "image/jpg" || type === "image/png") {
+      let imageBase64 = await toBase64(e?.target?.files[0]);
+      setInfo((prev) => ({ ...prev, avatar: imageBase64 }));
+    } else {
+      console.log("Type image is not supported.");
+    }
+  };
   const handleSubmit = async (email, password) => {
     try {
       const res = await ApiChangePassword.verifyAccount({
@@ -33,9 +53,11 @@ const Personal = () => {
   };
   return (
     <div className=" relative">
-      {isLoading&&<div className="translate-x-[-16px] z-70 absolute w-full h-full">
+      {isLoading && (
+        <div className="translate-x-[-16px] z-70 absolute w-full h-full">
           <Loading />
-      </div>}
+        </div>
+      )}
       <div className="md:hidden text-primary translate-x-[-20px]">
         <Header>
           <MdOutlineArrowBackIosNew size="24" />
@@ -50,16 +72,36 @@ const Personal = () => {
             Thông tin cá nhân
           </p>
           <div className="flex items-end gap-[16px] md:mt-[37px]">
-            <img src={image} className="w-[80px] h-[80px] rounded-[50px]"></img>
-            <LongButton
-              width="136px"
-              height="38px"
-              backgroundColor="#1B4B66"
-              color="white"
-              size="14px"
+            <img
+              src={bufferToBase64(userCurrent?.avatar) ||
+                userCurrent?.avatarUrl ||
+                image}
+              className="w-[80px] h-[80px] rounded-[50px]"
+            ></img>
+            <div
+              className="w-[136px]"
+              onClick={() => {
+                inputFileRef.current.click();
+              }}
             >
-              <p className="font-medium text-[14px]">Tải lên</p>
-            </LongButton>
+              <LongButton
+                width="100%"
+                height="38px"
+                backgroundColor="#1B4B66"
+                color="white"
+                size="14px"
+              >
+                <p className="font-medium text-[14px]">Tải lên</p>
+              </LongButton>
+            </div>
+            <input
+              type="file"
+              id="avatar"
+              file={infor.avatar}
+              className='hidden'
+              onChange={handleImage}
+              ref={inputFileRef}
+            />
             {/* <div className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px]">
               <LongButton
                 width="136px"
@@ -80,6 +122,7 @@ const Personal = () => {
             <input
               className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]"
               placeholder={userCurrent?.name}
+              ref={userNameRef}
             />
           </div>
           {/* <div>
@@ -93,7 +136,13 @@ const Personal = () => {
               }
             />
           </div> */}
-          <div className="flex justify-end mt-[24px]">
+          <div className="flex justify-end mt-[24px]" onClick={()=>{
+            const updateProfile=async()=>{
+              const res=await apiUSer.update({name:userNameRef.current.value,avatar:infor.avatar})
+              
+            }
+            updateProfile();
+          }}>
             <LongButton
               backgroundColor="#1B4B66"
               color="white"
@@ -114,13 +163,15 @@ const Personal = () => {
             <label className="block font-medium text-[16px] text-black">
               Mật khẩu hiện tại
             </label>
-            
+
             <div className="flex items-center w-full md:w-[60%] bg-lightGrey rounded-[4px] mt-[6px] ">
               <input
                 className="h-[56px] bg-lightGrey outline-none p-[10px] w-[93%]"
                 ref={passwordRef}
                 type={`${isShowPassword ? "text" : "password"}`}
-                onChange={()=>{setIsShowErrorLog(false)}}
+                onChange={() => {
+                  setIsShowErrorLog(false);
+                }}
               />
               {isShowPassword ? (
                 <AiOutlineEyeInvisible
@@ -140,7 +191,9 @@ const Personal = () => {
                 ></AiOutlineEye>
               )}
             </div>
-            <p className="text-red pt-[6px]">{isShowErrorLog ? "Mật khẩu dài hơn 6 kí tự" : ""}</p>
+            <p className="text-red pt-[6px]">
+              {isShowErrorLog ? "Mật khẩu dài hơn 6 kí tự" : ""}
+            </p>
           </div>
         </div>
         <div
