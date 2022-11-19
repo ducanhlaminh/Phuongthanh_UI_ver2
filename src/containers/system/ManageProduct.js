@@ -12,10 +12,11 @@ import { PopupDeleteProduct, EditProduct } from "../../components/Modal";
 import { filters } from "../../ultils/constant";
 import Pagination from "@mui/material/Pagination";
 import { NotiStatus } from "../../components/UploadStatus";
+import { LoadingPageDesktop } from "../../components/LoadingPage";
 
 const ManageProduct = () => {
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => {
+  const { categories, loading } = useSelector((state) => {
     return state.app;
   });
   const { products, count } = useSelector((state) => {
@@ -203,10 +204,12 @@ const ManageProduct = () => {
             Giá
           </div>
         </div>
-        <div className="h-4/5 overflow-auto">{renderProductList}</div>
+        <div className="h-4/5 overflow-auto relative">
+          {loading ? <LoadingPageDesktop /> : renderProductList}
+        </div>
         <div className="flex justify-center w-full">
           <Pagination
-            count={Math.round(count / 7)}
+            count={Math.ceil(count / 7)}
             color="primary"
             size="large"
             page={page}
