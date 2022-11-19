@@ -124,7 +124,7 @@ const FormCreateProduct = ({
               onInit={(evt, editor) => {
                 return (editorRef.current = editor);
               }}
-              initialValue={shortDes}
+              initialValue="<p>This is the initial content of the editor.</p>"
               init={{
                 max_height: 300,
                 width: "full",
