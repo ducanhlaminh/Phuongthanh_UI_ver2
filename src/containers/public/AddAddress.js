@@ -1,58 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ApiAddress from "../../apis/ApiAddress";
-import { Button2, Slider,LongButton } from "../../components";
+import { Button2, LongButton } from "../../components";
 import AppBar from "../../components/AppBar";
-import DownPopup from "../../components/DownPopup";
-import { InputCustomWidth, SelectPayment } from "../../components/InputCtWidth";
-import { Upload } from "../../components/UploadStatus";
-import * as actions from "../../store/actions";
-import { numFormatter } from "../../ultils/fn";
+import BreadCrumb from "../../components/BreadCrumb";
 import CartItemCombined from "../../components/CartItemCombined";
+import { InputCustomWidth, SelectPayment } from "../../components/InputCtWidth";
+import * as actions from "../../store/actions";
 import AddAddressPopup from "../../triggercompoents/AddAddressPopup";
+import { numFormatter } from "../../ultils/fn";
+import ApiCheckout from "../../apis/bill2";
 
-const data = [
-  {
-    id:'02843323-0fda-4482-9061-b2e671e5fcca',
-    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
-    name: 'This is demo data1',
-    variant: 'Màu: đen,Chất liệu: thép',
-    price: 280000,
-    quanity: 4,
-  },
-  {
-    id:'02843323-0fda-4482-9061-b2e671e5fccb',
-    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
-    name: 'This is demo data2',
-    variant: 'Màu: đen,Chất liệu: thép',
-    price: 380000,
-    quanity: 1,
-  },
-  {
-    id:'02843323-0fda-4482-9061-b2e671e5fccc',
-    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
-    name: 'This is demo data3',
-    variant: 'Màu: đen,Chất liệu: thép',
-    price: 480000,
-    quanity: 10,
-  },
-  {
-    id:'02843323-0fda-4482-9061-b2e671e5fccd',
-    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
-    name: 'This is demo data4',
-    variant: 'Màu: đen,Chất liệu: thép',
-    price: 580000,
-    quanity: 8,
-  },
-  {
-    id:'02843323-0fda-4482-9061-b2e671e5fcca',
-    mainImage: 'https://cdn.nguyenkimmall.com/images/detailed/757/10050188-laptop-hp-240-g8-i5-1135g7-518w3pa.jpg',
-    name: 'This is demo data5',
-    variant: 'Màu: đen,Chất liệu: thép',
-    price: 680000,
-    quanity: 7,
-  },
-]
 
 function AddAddress() {
   const [status, setStatus] = useState(false);
@@ -64,23 +22,46 @@ function AddAddress() {
   const [districtCur, setDistrictCur] = useState("DEFAULT");
   const [ward, setWard] = useState([]);
   const [wardCur, setWardCur] = useState("DEFAULT");
-  const [detailAddress, setDetailAddress] = useState('')
+  const [detailAddress, setDetailAddress] = useState("");
   const [selected, setSelected] = useState(true);
   const [showPopupAddress, setShowPopupAddress] = useState(false);
   const [address, setAddress] = useState([]);
-  const [selectAddress, setSelectAddress] = useState("");
-  const [totalPrice, setTotalPrice] = useState(0)
-  const [totalPriceProducts, setTotalPriceProducts] = useState(0)
-  const [shipFee, setShipFee] = useState(0)
-  const [discountPrice, setDiscountPrice] = useState(0)
-  const [canCheckOut, setCanCheckOut] = useState(false)
+  const [selectAddress, setSelectAddress] = useState({id:"",code:{}});
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPriceProducts, setTotalPriceProducts] = useState(0);
+  const [shipFee, setShipFee] = useState(0);
+  const [discountPrice, setDiscountPrice] = useState(0);
+  const [canCheckOut, setCanCheckOut] = useState(false);
+  const [dataBill, setDataBill] = useState([])
   const dispatch = useDispatch();
+
+  //GET BILL
+  useEffect(() => {
+    const getBillInfo =  async () => {
+      const res = await ApiCheckout.get();
+      if(res.status === 0){
+        const billsDetail =  res?.products || []
+        billsDetail.map((billDetail) => {
+          let data = {
+            id: billDetail?.pid,
+            mainImage: billDetail?.product?.mainImage,
+            name: billDetail?.product?.name,
+            variant: billDetail?.variant,
+            price: billDetail?.cost,
+            quanity: billDetail?.qty,
+          }
+          setDataBill(prve => [...prve,data])
+        })
+      }
+    }
+    getBillInfo();
+  },[])
 
   //GET ADDRESS
   useEffect(() => {
     const fetchAddress = async () => {
       const res = await ApiAddress.Get();
-      if(res.status === 0) setAddress(res?.yourAddress);
+      if (res.status === 0) setAddress(res?.yourAddress);
     };
     fetchAddress();
     dispatch(actions.addToCart());
@@ -120,16 +101,22 @@ function AddAddress() {
   }, [districtCur]);
 
   //Add new address
-  const handleAddAdress =  () => {
+  const handleAddAdress = () => {
+    if(!detailAddress||!provinceCur.ProvinceName||!districtCur.DistrictName||
+      !wardCur.WardName||!infoUser.name||!infoUser.phone){
+        return;
+      }
     const data = {
       address: JSON.stringify({
         detail: detailAddress,
         province: provinceCur.ProvinceName,
-        provinceId: provinceCur.ProvinceID,
         district: districtCur.DistrictName,
-        districtId: districtCur.DistrictID,
         ward: wardCur.WardName,
-        wardId: wardCur.WardCode,
+        code: {
+          "to_province_id": provinceCur.ProvinceID,
+          "to_district_id":districtCur.DistrictID,
+          "to_ward_code":wardCur.WardCode,
+        }
       }),
       name: infoUser.name,
       phone: infoUser.phone,
@@ -140,21 +127,49 @@ function AddAddress() {
         if (res.status === 0) {
           setStatus(true);
           setShowPopup(true);
-          setSelected(true)
-          setShowPopupAddress(false)
+          setSelected(true);
+          setShowPopupAddress(false);
         }
       } catch (err) {
-        setShowPopupAddress(false)
+        setShowPopupAddress(false);
         setStatus(false);
         setShowPopup(true);
       }
     };
     add(data);
+  };
+
+  //GET FEE SHIP
+  const handleGetFeeShip = async () => {
+    if(selectAddress.id === "") return
+    const res = await ApiCheckout.getFeeShip(selectAddress.code)
+    if( res.status === 200 ) setShipFee(res?.data?.data?.total)
   }
 
+  //GET Free ship 
   useEffect(() => {
-    data?.map(product => setTotalPriceProducts(prev => prev+product?.price*product.quanity))
-  },[])
+    if(shipFee === 0) return
+    if(totalPriceProducts > 500000) {
+      setDiscountPrice(shipFee)
+      setTotalPrice(totalPriceProducts)
+    }
+    else {
+      setDiscountPrice(0)
+      setTotalPrice(totalPriceProducts + shipFee)
+    }
+  },[shipFee])
+
+  //GET total products price
+  useEffect(() => {
+    dataBill?.map((product) =>
+      setTotalPriceProducts((prev) => prev + product?.price * product.quanity)
+    );
+  }, [dataBill]);
+
+  //Checkout Bill
+  const handleCheckoutBill = async () => {
+
+  }
 
   return (
     <>
@@ -168,24 +183,28 @@ function AddAddress() {
         <div className="mt-[60px]">
           <div>
             <div className="flex font-bold text-gray-500 border-b-2 p-[4px] items-center h-[64px]">
-                  <p className="w-[55%]">Sản phẩm</p>
-                  <p className="w-[20%] text-center">Số lượng</p>
-                  <p className="w-[25%] text-center">Giá</p>
-                </div>
+              <p className="w-[55%]">Sản phẩm</p>
+              <p className="w-[20%] text-center">Số lượng</p>
+              <p className="w-[25%] text-center">Giá</p>
+            </div>
             <div className="px-[8px] overflow-auto h-[270px] scroll-smooth border-b-2">
-                  {/* product */}
-                  {data.map((product) => {
-                    return <CartItemCombined data={product}/>
-                  }
-                  )}
+              {/* product */}
+              {dataBill.map((product) => {
+                return <CartItemCombined data={product} />;
+              })}
             </div>
           </div>
           <div>
-            <div className="flex justify-between mx-[12px] mt-[24px]">
-              <span className="font-bold text-gray-400 pb-2 border-b-2 mb-3">
-              {address.length > 0 ? 'Vui lòng chọn địa chỉ giao hàng' :  'Chưa có địa chỉ được lưu trước đây' }
+            <div className="flex justify-center mx-[12px] mt-[24px]">
+              <span className="font-semibold text-darkGrey pb-2 lg:text-[16px] md:text-[14px] mb-3">
+                {address.length > 0
+                  ? "Vui lòng chọn địa chỉ giao hàng"
+                  : "Chưa có địa chỉ được lưu trước đây"}
               </span>
-              <span onClick={() => setShowPopupAddress(true)} className="font-bold text-primary cursor-pointer">
+              <span
+                onClick={() => setShowPopupAddress(true)}
+                className="font-bold text-primary cursor-pointer"
+              >
                 Thêm địa chỉ mới
               </span>
             </div>
@@ -200,16 +219,15 @@ function AddAddress() {
                         className="mr-4"
                         value={addres.id}
                         checked={
-                          selectAddress
-                            ? selectAddress === addres.id
+                          selectAddress.id
+                            ? selectAddress.id === addres.id
                             : index === 0
                         }
-                        onClick={() => setSelectAddress(addres.id)}
-                        onChange={() => console.log(selectAddress)}
+                        onClick={() => setSelectAddress({id:addres.id,code:data.code})}
                       />
                       <div
                         className=""
-                        onClick={() => setSelectAddress(addres.id)}
+                        onClick={() => setSelectAddress({id:addres.id,code:data.code})}
                       >
                         <div className="flex">
                           <span>Địa chỉ :</span>
@@ -242,37 +260,40 @@ function AddAddress() {
             </div>
           </div>
           <div className="mt-[38px]">
-              <p className="text-base font-bold p-2 border-b-2">
-                Thông tin hóa đơn
-              </p>
-              <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
-                <div className="w-1/2 ">
-                  <p>Tổng đơn hàng : </p>
-                  <p>Phí vận chuyển : </p>
-                  <p>Giảm giá : </p>
-                  {/* <p className="font-bold text-black">Grand Total : </p> */}
-                </div>
-                <div className="w-1/3  text-black text-right">
-                  <p>{numFormatter(totalPriceProducts)}</p>
-                  <p>{numFormatter(shipFee)}</p>
-                  <p>{numFormatter(discountPrice)}</p>
-                  {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
-                </div>
+            <p className="text-base font-bold p-2 border-b-2">
+              Thông tin hóa đơn
+            </p>
+            <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
+              <div className="w-1/2 ">
+                <p>Tổng đơn hàng : </p>
+                <p>Phí vận chuyển : </p>
+                <p>Giảm giá : </p>
+                {/* <p className="font-bold text-black">Grand Total : </p> */}
               </div>
-              <div className="flex justify-between font-bold text-gray-500 p-3 mb-[16px]">
-                <div className="w-1/2 ">
-                  <p className="font-bold text-black">Tổng hóa đơn : </p>
-                </div>
-                <div className="w-1/3  text-black text-center">
-                  <p className="font-extrabold">{numFormatter(100000)}</p>
-                </div>
+              <div className="w-1/3  text-black text-right">
+                <p>{numFormatter(totalPriceProducts)}</p>
+                <p>{numFormatter(shipFee)}</p>
+                <p>{numFormatter(discountPrice)}</p>
+                {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
               </div>
+            </div>
+            <div className="flex justify-between font-bold text-gray-500 p-3 mb-[16px]">
+              <div className="w-1/2 ">
+                <p className="font-bold text-black">Tổng hóa đơn : </p>
+              </div>
+              <div className="w-1/3  text-black text-center">
+                <p className="font-extrabold">{numFormatter(totalPrice)}</p>
+              </div>
+            </div>
           </div>
           <div className="mx-[12px] pb-[24px]">
-            <Button2 disable={canCheckOut? false : true} text={"xác nhận đặt đơn"} />
+            <Button2
+              disable={canCheckOut ? false : true}
+              text={"xác nhận đặt đơn"}
+            />
           </div>
         </div>
-        <AddAddressPopup 
+        <AddAddressPopup
           infoUser={infoUser}
           setInfoUser={setInfoUser}
           province={province}
@@ -289,13 +310,17 @@ function AddAddress() {
           setShowPopupAddress={setShowPopupAddress}
           showPopupAddress={showPopupAddress}
           handleAddAdress={handleAddAdress}
-          />
+        />
       </div>
 
       {/* Desktop */}
-      <div className="md:block hidden w-full "> 
-        <Slider />
-        <h2 className=" text-3xl m-5 font-extrabold">Địa chỉ giao hàng</h2>
+      <div className="md:block hidden w-full ">
+        <div className="md:ml-[24px] lg:ml-[16px] hidden md:block">
+          <BreadCrumb parent={[{name:'Trang chủ',link:"/"}]} current='Thanh toán'></BreadCrumb>
+        </div>
+        <h2 className=" md:text-[28px] lg:text-[34px] m-5 font-semibold text-primary">
+          Địa chỉ giao hàng
+        </h2>
         <div className="flex min-h-[650px] bg-white">
           <div className="w-[60%] flex flex-col p-5">
             <div className="flex h-fit bg-gray-300 rounded-t-md">
@@ -320,7 +345,9 @@ function AddAddress() {
               {!selected ? (
                 <>
                   <div className="w-full pt-[24px] p-3 h-[34%]">
-                    <p>Thông tin liên lạc</p>
+                    <p className="md:text-[14px] lg:text-[16px] font-medium text-black">
+                      Thông tin liên lạc
+                    </p>
                     <hr />
                     <div className="w-full h-[42px] my-3">
                       <InputCustomWidth
@@ -343,7 +370,9 @@ function AddAddress() {
                   </div>
                   <div className="w-full p-3 h-[66%] flex flex-col justify-between">
                     <div className="">
-                      <p>Địa chỉ giao hàng</p>
+                      <p className="md:text-[14px] lg:text-[16px] font-medium text-black">
+                        Địa chỉ giao hàng
+                      </p>
                       <hr />
                       <div className="w-full h-[42px] my-3">
                         <SelectPayment
@@ -371,19 +400,16 @@ function AddAddress() {
                         />
                       </div>
                       <div className="">
-                      <div className="w-full h-[42px] m-[8px]">
-                        <InputCustomWidth
-                          value={detailAddress}
-                          setValue={setDetailAddress}
-                          placeholder="Địa chỉ chỉ chi tiết... vd: số 15 ngõ 118 đường Tôn Đức Thắng"
-                        />
+                        <div className="w-full h-[42px] m-[8px]">
+                          <InputCustomWidth
+                            value={detailAddress}
+                            setValue={setDetailAddress}
+                            placeholder="Địa chỉ chỉ chi tiết... vd: số 15 ngõ 118 đường Tôn Đức Thắng"
+                          />
+                        </div>
                       </div>
                     </div>
-                    </div>
-                    <div
-                      className=""
-                      onClick={() => handleAddAdress()}
-                    >
+                    <div className="" onClick={() => handleAddAdress()}>
                       <Button2 text="Xác nhận thêm đại chỉ" />
                     </div>
                   </div>
@@ -391,46 +417,51 @@ function AddAddress() {
               ) : (
                 <>
                   <div className="">
-                    <div className="flex justify-between">
-                      <span className="font-bold text-gray-400 pb-2 border-b-2 mb-3">
-                        {address.length > 0 ? 'Vui lòng chọn địa chỉ giao hàng' :  'Chưa có địa chỉ được lưu trước đây' }
+                    <div className="flex justify-center">
+                      <span className="font-semibold text-darkGrey pb-2 lg:text-[16px] md:text-[14px] mb-3">
+                        {address.length > 0
+                          ? "Vui lòng chọn địa chỉ giao hàng"
+                          : "Chưa có địa chỉ được lưu trước đây"}
                       </span>
                     </div>
 
-                    <div className="h-[408px] overflow-auto">
+                    <div className="h-[410px] overflow-auto">
                       {address.length > 0 &&
                         address?.map((addres, index) => {
                           const data = JSON.parse(addres.address);
 
                           return (
-                            <div className="flex pb-3 cursor-pointer" key={addres.id}>
+                            <div
+                              className="flex pb-3 cursor-pointer w-full"
+                              key={addres.id}
+                            >
                               <input
                                 type="radio"
                                 className="mr-4"
                                 value={addres.id}
                                 checked={
-                                  selectAddress
-                                    ? selectAddress === addres.id
+                                  selectAddress.id
+                                    ? selectAddress.id === addres.id
                                     : index === 0
                                 }
-                                onClick={() => setSelectAddress(addres.id)}
+                                onClick={() => setSelectAddress({id:addres.id,code:data.code})}
                                 onChange={() => console.log(selectAddress)}
                               />
                               <div
-                                className=""
-                                onClick={() => setSelectAddress(addres.id)}
+                                className="w-full"
+                                onClick={() => setSelectAddress({id:addres.id,code:data.code})}
                               >
-                                <div className="flex">
-                                  <span>Địa chỉ :</span>
-                                  <p className="font-bold">{` ${data.ward} - ${data.district} - ${data.province}`}</p>
-                                </div>
-                                <div className="flex">
+                                <div className="flex w-full">
                                   <span>Tên người nhận : </span>
                                   <p>{addres.name}</p>
                                 </div>
-                                <div className="flex">
+                                <div className="flex w-full">
                                   <span>Số điện thoại : </span>
                                   <p>{addres.phone}</p>
+                                </div>
+                                <div className="flex w-full">
+                                  <span className="w-[12%]">Địa chỉ :</span>
+                                  <p className="font-bold w-[85%]">{`${data.detail}-${data.ward} - ${data.district} - ${data.province}`}</p>
                                 </div>
                               </div>
                             </div>
@@ -438,7 +469,9 @@ function AddAddress() {
                         })}
                     </div>
                     <div className="p-3">
-                      <Button2 text="Xác nhận địa chỉ nhận hàng" />
+                      <Button2 
+                        handleClick={() => handleGetFeeShip()}
+                        text="Xác nhận địa chỉ nhận hàng" />
                     </div>
                   </div>
                 </>
@@ -446,18 +479,17 @@ function AddAddress() {
             </div>
           </div>
           <div className="w-[38%] pt-0 justify-evenly">
-              <div className="flex font-bold text-gray-500 border-b-2 py-[13px] items-center h-[64px] mt-[20px]">
-                <p className="w-[55%]">Sản phẩm</p>
-                <p className="w-[20%] text-center">Số lượng</p>
-                <p className="w-[25%] text-center">Giá</p>
-              </div>
-              <div className=" overflow-auto h-[275px] scroll-smooth">
-                {/* product */}
-                {data.map((product) => {
-                  return <CartItemCombined data={product}/>
-                }
-                )}
-              </div>
+            <div className="flex font-bold text-gray-500 border-b-2 py-[13px] items-center h-[64px] mt-[20px]">
+              <p className="w-[55%]">Sản phẩm</p>
+              <p className="w-[20%] text-center">Số lượng</p>
+              <p className="w-[25%] text-center">Giá</p>
+            </div>
+            <div className=" overflow-auto h-[275px] scroll-smooth">
+              {/* product */}
+              {dataBill.map((product) => {
+                return <CartItemCombined data={product} />;
+              })}
+            </div>
             <div>
               <p className="text-base font-bold p-2 border-b-2">
                 Thông tin hóa đơn
@@ -482,10 +514,14 @@ function AddAddress() {
                   <p className="font-bold text-black">Tổng hóa đơn : </p>
                 </div>
                 <div className="w-1/3  text-black text-center">
-                  <p className="font-extrabold">{numFormatter(100000)}</p>
+                  <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                 </div>
               </div>
-              <Button2 disable={canCheckOut? false : true} text={"xác nhận đặt đơn"} />
+              <Button2
+                handleClick={() => handleCheckoutBill()}
+                disable={canCheckOut ? false||totalPrice === 0 : true}
+                text={"xác nhận đặt đơn"}
+              />
             </div>
           </div>
         </div>
