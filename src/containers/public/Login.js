@@ -8,6 +8,7 @@ import * as actions from "../../store/actions";
 
 const actionTpyeLogin = "Đăng nhập"
 const actionTpyeSigup = "Đăng ký"
+const actionTypeForgotPassword = "Quên mật khẩu ?"
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,15 +26,7 @@ const Login = () => {
   const { isLoggedIn, msg } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    setIsLoading(false);
-    isLoggedIn &&
-      // setPayload({
-      //   email: "",
-      //   password: "",
-      //   phone: "",
-      //   password2: "",
-      //   name: "",
-      // });
+    setIsLoading(false)
     isLoggedIn && navigate("/");
   }, [isLoggedIn]);
 
@@ -55,8 +48,8 @@ const Login = () => {
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     let isEmail = regexEmail.test(email)
     if(!isEmail) setValidEmail("Email này không hợp lệ.")
-    if(password.length < 6) setValidPassword("Mật khẩu tối thiểu 6 ký tự.")
     if(actionType === actionTpyeLogin){
+      if(password.length < 6) setValidPassword("Mật khẩu tối thiểu 6 ký tự.")
       if(isEmail&&password.length >= 6){
         let payload ={
           email: email,
@@ -66,6 +59,7 @@ const Login = () => {
         setIsLoading(true)
       }
     }else if (actionType === actionTpyeSigup){
+      if(password.length < 6) setValidPassword("Mật khẩu tối thiểu 6 ký tự.")
       if(name.length < 6) setValidName("Tên tối thiểu 6 ký tự.")
       if(confirmPassword !== password) setValidConfirmPassword('Mật khẩu không khớp.')
       if(confirmPassword === password && name.length >= 6 &&
@@ -77,6 +71,8 @@ const Login = () => {
           }
           dispatch(actions.register(payload))   
         }
+    }else if (actionType === actionTypeForgotPassword){
+      
     }
   }
 
@@ -86,6 +82,12 @@ const Login = () => {
     }else if (actionType === actionTpyeSigup){
       setActionType(actionTpyeLogin)
     }
+  }
+
+  const handleButton3 = () => {
+    if(actionType === actionTypeForgotPassword){
+      setActionType(actionTpyeLogin)
+    }else setActionType(actionTypeForgotPassword)
   }
 
   return (
@@ -121,7 +123,7 @@ const Login = () => {
                 setMessage={setValidName}
                 />}
 
-                <InputFieldWithValidate 
+                {actionType !== actionTypeForgotPassword&&<InputFieldWithValidate 
                 lable={"Mật khẩu"}
                 PLarge={true}
                 value={password}
@@ -129,7 +131,7 @@ const Login = () => {
                 type={"password"}
                 message={validPassword}
                 setMessage={setValidPassword}
-                />
+                />}
 
                 {actionType === actionTpyeSigup&&<InputFieldWithValidate 
                 lable={"Nhập lại mật khẩu"}
@@ -143,11 +145,14 @@ const Login = () => {
             </div>
             <div className="flex flex-col gap-5 mt-[12px]">
               <Button2 handleClick={() => handleButton1()} 
-              text={actionType === actionTpyeLogin?actionTpyeLogin:actionTpyeSigup}/>
-              <Button2 handleClick={() => handleButton2()} 
-              text={actionType === actionTpyeLogin?actionTpyeSigup:actionTpyeLogin}/>
-              <div className="text-[16px] text-primary cursor-pointer">
-              Quên mật khẩu ?
+              text={actionType === actionTpyeLogin?actionTpyeLogin:
+                actionType ===actionTpyeSigup ? actionTpyeSigup:"Xác nhận email"}/>
+              {actionType !== actionTypeForgotPassword&&<Button2 handleClick={() => handleButton2()} 
+              text={actionType === actionTpyeLogin?actionTpyeSigup:actionTpyeLogin}/>}
+              <div 
+              onClick={() => handleButton3()}
+              className="text-[16px] text-primary cursor-pointer">
+              {actionType !== actionTypeForgotPassword ? actionTypeForgotPassword : "Đăng nhập."}
             </div>
             </div>
           </div>
