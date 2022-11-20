@@ -10,13 +10,15 @@ import {
   PopupDeleteCate,
   ModalCreateCate,
 } from "../../components/Modal";
+import { NotiStatus } from "../../components/UploadStatus";
 
 const ManageCategory = () => {
   const [selectCate, setSelectCate] = useState({});
   const [isShowEdit, setIsShowEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isShowCreate, setIsShowCreate] = useState(false);
-  const dispatch = useDispatch();
+  const [showUpload, setShowUpload] = useState(false);
+  const [contentUpload, setContentUpload] = useState();
   const categories = useSelector((state) => {
     return state.app.categories;
   });
@@ -67,15 +69,31 @@ const ManageCategory = () => {
   return (
     <>
       <h1 className="text-2xl mb-2">ManageCategory</h1>
+<<<<<<< Updated upstream
       <div className="bg-gray-300 rounded p-5 h-[525px]">
         <div className="h-[10%]">
+=======
+      <div className="bg-gray-300 rounded p-5 ">
+        {showUpload && (
+          <NotiStatus
+            active={contentUpload?.status === 0 ? "success" : "error"}
+            setActive={setShowUpload}
+            content={
+              contentUpload?.status === 0
+                ? "Thao tác xử lí thành công"
+                : "Có lỗi xảy ra trong quá trình xử lí"
+            }
+          />
+        )}
+        <div className="">
+>>>>>>> Stashed changes
           <div className="flex">
             <Button
-              text="Them gian hàng"
+              text="THÊM GIAN HÀNG"
               bgColor="#4ed14b"
               textColor="#fff"
               width="40%"
-              height="1"
+              height="3"
               onClick={() => {
                 setIsShowCreate(!isDelete);
               }}
@@ -87,7 +105,13 @@ const ManageCategory = () => {
         <div className="overflow-auto bg-white h-[90%]">{renderCateList}</div>
       </div>
       {isShowEdit ? (
-        <ModalEditCate setIsShowEdit={setIsShowEdit} selectCate={selectCate} />
+        <ModalEditCate
+          setIsShowEdit={setIsShowEdit}
+          selectCate={selectCate}
+          setShowUpload={setShowUpload}
+          setContentUpload={setContentUpload}
+          showUpload={showUpload}
+        />
       ) : (
         ""
       )}
@@ -96,12 +120,20 @@ const ManageCategory = () => {
           setIsDelete={setIsDelete}
           selectCate={selectCate}
           isDelete={isDelete}
+          setShowUpload={setShowUpload}
+          showUpload={showUpload}
+          setContentUpload={setContentUpload}
         />
       ) : (
         ""
       )}
       {isShowCreate ? (
-        <ModalCreateCate setIsShowCreate={setIsShowCreate} />
+        <ModalCreateCate
+          setIsShowCreate={setIsShowCreate}
+          setShowUpload={setShowUpload}
+          showUpload={showUpload}
+          setContentUpload={setContentUpload}
+        />
       ) : (
         ""
       )}

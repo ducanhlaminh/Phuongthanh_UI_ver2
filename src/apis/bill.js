@@ -12,7 +12,15 @@ const ApiBill = {
   create: (data) => {
     const url = "/api/v1/bill/create";
     return axiosClients.post(url, data);
+<<<<<<< Updated upstream
   }
+=======
+  },
+  update: (data) => {
+    const url = "/api/v1/bill/update";
+    return axiosClients.put(url, data);
+  },
+>>>>>>> Stashed changes
 };
 
 export default ApiBill;

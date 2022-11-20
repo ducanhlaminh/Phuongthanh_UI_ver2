@@ -37,6 +37,26 @@ const actionTypes = {
   // app
   DETAIL_ORDER: "DETAIL_ORDER",
   // cart
+<<<<<<< Updated upstream
+=======
+  FETCH_CART_QUANTITY: "FETCH_CART_QUANTITY",
+  DELETE_ALL_CART: "DETETE_ALL_CART",
+  PLACE_ORDER_CART: "PLACE_ORDER_CART",
+
+
+  // chatbot
+  MESSAGE_USER: 'MESSAGE_USER',
+  MESSAGE_BOT: 'MESSAGE_BOT',
+  BUY: 'BUY',
+  CANCEL_BUY: 'CANCEL_BUY',
+  UPDATE_QUANTITY: 'UPDATE_QUANTITY',
+  BOT_LOADING: 'BOT_LOADING',
+
+  //wishlist
+  ADD_TO_WISHLIST: 'ADD_TO_WISHLIST',
+  DELELTE_FROM_WISHLIST: 'DELETE_FROM_WISHLIST',
+  GET_ALL_WISHLIST: 'GET_ALL_WISHLIST',
+>>>>>>> Stashed changes
 };
 
 export default actionTypes;

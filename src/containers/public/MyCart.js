@@ -6,24 +6,67 @@ import CartItem from "../../components/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
 
+<<<<<<< Updated upstream
 function numFormatter(num) {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
   }).format(num); // if value < 1000, nothing to do
 }
+=======
+function MyCart() {
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [checkedList, setCheckedList] = useState([]);
+  const [quanityList, setQuanityList] = useState([]);
+  const [openAlertPopup, setOpenAlertPopup] = useState(false);
+  const [idDelete, setIdDelete] = useState(null);
+  const [reload, setReload] = useState(false);
+  const [activeNotify, setActiveNotify] = useState(false);
+  const [dataBill, setDataBill] = useState([]);
+  const decorAraay = new Array(20).fill("");
+>>>>>>> Stashed changes
 
 function MyCart() {
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
   useEffect(() => {
     dispatch(actions.addToCart());
+<<<<<<< Updated upstream
   }, []);
+=======
+  }, [reload]);
+
+  useEffect(() => {
+    if (checkedList.length !== 0 && quanityList.length !== 0 && productsCart) {
+      let tmpPrice = TotalPriceCaculator(
+        productsCart,
+        checkedList,
+        quanityList
+      );
+      setTotalPrice(tmpPrice);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [checkedList, quanityList]);
+
+  const handlePlaceOrder = async () => {
+    try {
+      let data = {
+        products: [...dataBill],
+      };
+      let res = await ApiCheckout.create(data);
+      if(res.status === 0) window.location.href = '/check-out'
+    } catch (error) {
+      console.log(error);
+    }
+  };
+>>>>>>> Stashed changes
 
   return (
     <>
       {/* Mobile */}
       <div className="md:hidden h-screen">
+<<<<<<< Updated upstream
         <AppBar title="My Cart" />
         <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
           <div className="w-full bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
@@ -58,6 +101,18 @@ function MyCart() {
                   <span className="font-bold">120.000đ</span>
                 </div>
               </div>
+=======
+        <NotiStatusMobile active={activeNotify} setActive={setActiveNotify} />
+        <AppBar title="Giỏ hàng" />
+        {productsCart && productsCart.length === 0 ? (
+          <div className="flex flex-col items-center gap-[16px] mt-[81px]">
+            <img src={emptyCart} alt="cart"/>
+            <p className="text-black font-bold text-[28px] mt-[14px]">
+              Uh Oh...!
+            </p>
+            <div className="text-black font-medium text-[14px]">
+              Hiện tại bạn chưa thêm gì vào giỏ của mình.
+>>>>>>> Stashed changes
             </div>
             <div className="flex h-[40px] border-t-2 font-bold text-primary">
               <div className="border-r-2 w-1/2 flex justify-center items-center ">

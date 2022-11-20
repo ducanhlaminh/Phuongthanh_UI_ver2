@@ -174,6 +174,7 @@ function ListProducts({ categoryData }) {
                   </div>
                 </div>
 
+<<<<<<< Updated upstream
                 <div className="flex flex-wrap flex-auto w-full min-h-[800px] p-5 relative">
                   {loading === true ? (
                     <LoadingPageDesktop />
@@ -191,6 +192,39 @@ function ListProducts({ categoryData }) {
                       </div>
                     ))
                   )}
+=======
+                <div className=" w-full  p-5 relative">
+                  <div className="flex flex-wrap flex-auto min-h-[500px]">
+                    {loading === true ? (
+                      <LoadingPageDesktop />
+                    ) : (
+                      products.map((item) => (
+                        <div className="w-1/3 flex justify-center ">
+                          <ProductItem
+                            key={item.id}
+                            image={item?.mainImage}
+                            title={item?.name}
+                            description={item?.description}
+                            cost={item?.costPerUnit}
+                            productId={item?.id}
+                            soldCounter={item?.soldCounter}
+                            votedCounter={item?.votedCounter}
+                          />
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="flex justify-center w-full">
+                    <Pagination
+                      count={Math.ceil(count / 12)}
+                      color="primary"
+                      size="large"
+                      page={page}
+                      onChange={handleChangePage}
+                    />
+                  </div>
+>>>>>>> Stashed changes
                 </div>
               </div>
             </div>

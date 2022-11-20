@@ -10,20 +10,43 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
 import { PopupDeleteProduct, EditProduct } from "../../components/Modal";
 import { filters } from "../../ultils/constant";
+<<<<<<< Updated upstream
 
 const ManageProduct = () => {
   const dispatch = useDispatch();
   const { categories, products } = useSelector((state) => state.app);
+=======
+import Pagination from "@mui/material/Pagination";
+import { NotiStatus } from "../../components/UploadStatus";
+import { LoadingPageDesktop } from "../../components/LoadingPage";
+
+const ManageProduct = () => {
+  const dispatch = useDispatch();
+  const { categories, loading } = useSelector((state) => {
+    return state.app;
+  });
+  const { products, count } = useSelector((state) => {
+    return state.products;
+  });
+>>>>>>> Stashed changes
 
   const [isLoading, setIsLoading] = useState(false);
   const [isShowEdit, setIsShowEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const [addAll, setAddAll] = useState(false);
-  const [addDelete, setAddDelete] = useState([]);
-
+  const [addDeletes, setAddDeletes] = useState([]);
+  const [selectedDelete, setSelectedDelete] = useState();
   const [selectProduct, setSelectProduct] = useState("");
   const [selectValue, setSelectValue] = useState("");
   const [selectFilter, setSelectFilter] = useState(filters[0]);
+<<<<<<< Updated upstream
+=======
+  const [page, setPage] = useState(1);
+  const [showUpload, setShowUpload] = useState(false);
+  const [contentUpload, setContentUpload] = useState();
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+>>>>>>> Stashed changes
 
   // reload products theo category
   useEffect(() => {
@@ -43,6 +66,7 @@ const ManageProduct = () => {
         })
       );
 
+<<<<<<< Updated upstream
   }, [selectValue, isLoading, selectFilter]);
 
   if (addAll) {
@@ -57,6 +81,8 @@ const ManageProduct = () => {
     });
   }
 
+=======
+>>>>>>> Stashed changes
   // Compontent products
 
   const renderProductList = products?.map((product, i) => {
@@ -68,8 +94,20 @@ const ManageProduct = () => {
         <div className="w-[10%] flex justify-center">
           <input
             type="checkbox"
+<<<<<<< Updated upstream
             className="h-[17.5px] w-[17.5px] checkbox"
 
+=======
+            className="h-[17.5px] w-[17.5px]"
+            value={product.id}
+            onClick={(e) => {
+              setAddDeletes((prev) =>
+                ![...prev].some((item) => item === e.target.value)
+                  ? [...prev, e.target.value]
+                  : [...prev].filter((item) => item !== e.target.value)
+              );
+            }}
+>>>>>>> Stashed changes
           ></input>
         </div>
         <div className=" w-[10%] flex justify-center h-4/5">
@@ -116,7 +154,11 @@ const ManageProduct = () => {
             height="2"
             onClick={() => {
               setIsDelete(!isDelete);
+<<<<<<< Updated upstream
               setAddDelete((prev) => ([...prev, product.id]));
+=======
+              setSelectedDelete(product.id);
+>>>>>>> Stashed changes
             }}
           ></Button>
         </div>
@@ -127,24 +169,36 @@ const ManageProduct = () => {
     <div className="w-full">
       <h1 className="text-3xl">Quản lí sản phẩm</h1>
 
+<<<<<<< Updated upstream
       <div className="flex items-center bg-[#d9d9d9] rounded p-3 justify-between p-5">
+=======
+      <div className="flex items-center bg-[#d9d9d9] rounded p-3 justify-between ">
+        {showUpload && (
+          <NotiStatus
+            active={contentUpload?.status === 0 ? "success" : "error"}
+            setActive={setShowUpload}
+            content={
+              contentUpload?.status === 0
+                ? "Xóa sản phẩm thành công"
+                : "Có lỗi xảy ra trong quá trình xử lí"
+            }
+          />
+        )}
+>>>>>>> Stashed changes
         <div className="w-[30%] pl-[30px] flex items-center justify-around text-xl ">
-          <input
-            type="checkbox"
-            className="h-[17.5px] w-[17.5px]"
-            onClick={() => {
-              setAddAll(!addAll);
-            }}
-          ></input>
+          <input type="checkbox" className="h-[17.5px] w-[17.5px]"></input>
           <div className="font-bold ">
-            <p> Đã chọn: {addDelete.length}</p>
+            <p> Đã chọn: {addDeletes.length}</p>
           </div>
           <Button
-            text="Xóa"
+            text="Xóa nhiều sản phẩm"
             bgColor="#cf2b2b"
             textColor="#fff"
-            width="40%"
+            width="60%"
             height="2"
+            onClick={() => {
+              setIsDelete(!isDelete);
+            }}
           ></Button>
         </div>
         <div className="flex justify-between w-[50%] h-[40px]">
@@ -189,7 +243,22 @@ const ManageProduct = () => {
             Giá
           </div>
         </div>
+<<<<<<< Updated upstream
         <div className="h-4/5 overflow-auto">{renderProductList}</div>
+=======
+        <div className="h-4/5 overflow-auto relative">
+          {loading ? <LoadingPageDesktop /> : renderProductList}
+        </div>
+        <div className="flex justify-center w-full">
+          <Pagination
+            count={Math.ceil(count / 7)}
+            color="primary"
+            size="large"
+            page={page}
+            onChange={handleChangePage}
+          />
+        </div>
+>>>>>>> Stashed changes
       </div>
       {isDelete ? (
         <PopupDeleteProduct
@@ -197,10 +266,20 @@ const ManageProduct = () => {
           isDelete={isDelete}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
-          product={addDelete}
+          products={addDeletes}
           selectValue={selectValue}
+<<<<<<< Updated upstream
           setAddDelete={setAddDelete}
         // cate={cateProdcut}
+=======
+          setAddDeletes={setAddDeletes}
+          product={selectedDelete}
+          setProduct={setSelectedDelete}
+          contentUpload={contentUpload}
+          showUpload={showUpload}
+          setShowUpload={setShowUpload}
+          setContentUpload={setContentUpload}
+>>>>>>> Stashed changes
         />
       ) : (
         ""
@@ -213,6 +292,7 @@ const ManageProduct = () => {
           categories={categories}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
+          category={selectValue}
         />
       ) : (
         ""

@@ -25,6 +25,10 @@ export const path = {
   DETAIL: "chi-tiet-san-pham",
   DETAIL__PRODUCTID: "chi-tiet-san-pham/:id",
   PROFILE: "ho-so/",
+<<<<<<< Updated upstream
+=======
+  CHANGE_PASSWORD: "doi-mat-khau",
+>>>>>>> Stashed changes
   ORDERS: "hoa-don-cua-toi",
   PERSONAL: "",
   CHECKOUT: "checkout",
@@ -53,6 +57,25 @@ export const filters = [
   { valueVi: "Z-A", sort: { type: "name", code: "ASC" } },
   { valueVi: "Giá cao -> thấp", sort: { type: "costPerUnit", code: "DESC" } },
   { valueVi: "Giá thấp -> cao", sort: { type: "costPerUnit", code: "ASC" } },
+];
+export const statusFilter = [
+  { valueVi: "Vui lòng chọn trạng thái", code: "" },
+  { valueVi: "Đang chờ", code: "pending" },
+  { valueVi: "Đang giao", code: "shipping" },
+  { valueVi: "Thành công", code: "completed" },
+  { valueVi: "Đã hủy", code: "cancel" },
+];
+export const filtersBill = [
+  { valueVi: "Mới nhất", sort: { type: "updatedAt", code: "DESC" } },
+  { valueVi: "Cũ nhất", sort: { type: "updatedAt", code: "ASC" } },
+  {
+    valueVi: "Giá trị đơn tăng dần",
+    sort: { type: "totalCost", code: "ASC" },
+  },
+  {
+    valueVi: "Giá trị đơn giảm dần",
+    sort: { type: "totalCost", code: "DESC" },
+  },
 ];
 export const filtersSider = [
   {

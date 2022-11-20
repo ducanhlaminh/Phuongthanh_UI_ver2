@@ -19,7 +19,14 @@ import Voucher from "../../components/Voucher";
 import SelectvariantPopup from "../../triggercompoents/SelectVariantPopup";
 import icons from "../../ultils/icons";
 
+<<<<<<< Updated upstream
 const {AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine} =  icons
+=======
+function createMarkup(des) {
+  return { __html: des };
+}
+
+>>>>>>> Stashed changes
 const DetailProduct = () => {
   const id = useParams()["id"];
   const productDetailRef = useRef();
@@ -178,7 +185,18 @@ const DetailProduct = () => {
                 </section>
 
                 <div className="hidden md:block mb-[16px]">
+<<<<<<< Updated upstream
                   {product&&JSON.parse(product?.variants).map((variant) => {
+=======
+                  <div
+                    className={`text-[#e21d1d] ${
+                      canAtc ? "invisible" : "visible"
+                    }`}
+                  >
+                    Vui lòng chọn loại hàng để thêm vào giỏ
+                  </div>
+                  {product?.variants?.map((variant, index) => {
+>>>>>>> Stashed changes
                     return (
                       <div key={variant.id}>
                         <p className="text-[18px] font-semibold text-black">
@@ -253,7 +271,9 @@ const DetailProduct = () => {
           <section className="mt-[8px] bg-white md:hidden">
             <Dropdown title="Mô tả sản phẩm">
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
-                {product.description}
+                <div
+                  dangerouslySetInnerHTML={createMarkup(product.description)}
+                ></div>
               </p>
             </Dropdown>
           </section>
@@ -283,7 +303,10 @@ const DetailProduct = () => {
           <section className="hidden md:block ml-[20px] mt-[24px] mb-[95px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
-                {product.description}
+                {/* {product.description} */}
+                <div
+                  dangerouslySetInnerHTML={createMarkup(product.description)}
+                ></div>
               </p>
             </div>
             <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>

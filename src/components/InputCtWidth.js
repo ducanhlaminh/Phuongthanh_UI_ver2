@@ -50,7 +50,7 @@ const InputCustomWidth = React.memo(
     @Anhtd
 */
 const SelectCustomWidth = React.memo(
-  ({ options, lable, widthP, selectValue, setSelectValue }) => {
+  ({ options, lable, widthP, selectValue, setSelectValue, onChange }) => {
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -70,9 +70,11 @@ const SelectCustomWidth = React.memo(
                 border-gray-300 rounded-md min-h-[42px]"
             onChange={(e) => {
               if (options[0]?.sort) {
+                onChange && onChange(null);
                 setSelectValue(JSON.parse(e.target.value));
               } else {
                 setSelectValue(e.target.value);
+                onChange && onChange(null);
               }
             }}
           >
@@ -83,7 +85,8 @@ const SelectCustomWidth = React.memo(
                     key={option?.code ? option?.code : option?.valueVi}
                     value={option?.code ? option?.code : JSON.stringify(option)}
                     selected={
-                      JSON.stringify(option) === JSON.stringify(selectValue)
+                      JSON.stringify(option) === JSON.stringify(selectValue) ||
+                      selectValue === option.code
                     }
                   >
                     {option?.valueVi}
@@ -143,7 +146,6 @@ const SelectPayment = React.memo(
               <option value="null">Chưa có lựa chọn</option>
             )}
           </select>
-          <BiSortAlt2 className="text-2xl" />
         </div>
       </div>
     );
@@ -321,8 +323,14 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
+<<<<<<< Updated upstream
             onClick={() => {
               if (variantValue.value) {
+=======
+            disabled={variantValue?.value.length > 0 ? false : true}
+            onClick={() => {
+              if (variantValue.value.length > 0) {
+>>>>>>> Stashed changes
                 setVariants((prev) => [...prev, variantValue]);
                 setVariantValue({ name: "", value: [] });
                 setVariantChild({ type: "", price: "" });
@@ -363,27 +371,71 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
+<<<<<<< Updated upstream
+=======
+            disabled={
+              Number.isInteger(Number(variantChild?.price)) &
+              (variantChild?.type !== "") &
+              (variantChild?.price !== "") &
+              (variantValue?.name !== "")
+                ? false
+                : true
+            }
+>>>>>>> Stashed changes
             onClick={() => {
               if (
                 Number.isInteger(Number(variantChild.price)) &
-                (variantChild.type !== "") &
-                (variantChild.price !== "") &
-                (variantValue.name !== "")
+                (variantChild?.type !== "") &
+                (variantChild?.price !== "") &
+                (variantValue?.name !== "")
               ) {
                 console.log(12);
                 setVariantValue((prev) => {
                   const type = "value";
+<<<<<<< Updated upstream
                   return { ...prev, [type]: variantChild };
+=======
+                  return { ...prev, [type]: [...prev?.value, variantChild] };
+>>>>>>> Stashed changes
                 });
               }
             }}
           ></Button>
         </div>
       </div>
+<<<<<<< Updated upstream
       {/* <div className="flex flex-wrap">
                 {variants?.map((variant, index) =>
                 (<div className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px]" key={index}>
                     <b className=" ">{`${variant?.name} : `}</b>
+=======
+      <div className="flex flex-wrap">
+        {variants?.map((variant, index) => (
+          <div
+            className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px] relative"
+            key={index}
+          >
+            <div
+              className="font-bold absolute top-0 left-[94%] cursor-pointer"
+              onClick={() =>
+                setVariants((prev) =>
+                  [...prev].filter((item, i) => i !== index)
+                )
+              }
+            >
+              X
+            </div>
+            <b className=" ">{`${variant?.name} : `}</b>
+            <div className="">
+              {variant?.value?.map((type, index) => {
+                const cost = Intl.NumberFormat("it-IT", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(type.price);
+
+                return (
+                  <>
+>>>>>>> Stashed changes
                     <div className="">
                         {variant?.value?.map((type, index) => {
 
@@ -455,6 +507,42 @@ const InputSearch = React.memo(
   }
 );
 
+<<<<<<< Updated upstream
+=======
+const InputFieldWithValidate = React.memo(
+  ({ lable, value, setValue, type, message, setMessage }) => {
+    return (
+      <div className={`w-full  h-full mb-[24px]`}>
+        <label
+          htmlFor="field"
+          className={`font-bold text-l flex items-center text-primary`}
+        >
+          {lable}
+        </label>
+
+        <input
+          type={type}
+          className={`bg-[#F1F1F1] rounded-[8px] w-full h-[42px] px-[8px]`}
+          value={value}
+          required
+          onChange={(e) => {
+            setMessage(null);
+            setValue(e.target.value);
+          }}
+        />
+        <div
+          className={`${
+            message ? "visible" : "invisible"
+          }text-sm text-highlight`}
+        >
+          {message}
+        </div>
+      </div>
+    );
+  }
+);
+
+>>>>>>> Stashed changes
 export {
   InputCustomWidth,
   SelectCustomWidth,

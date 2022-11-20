@@ -3,6 +3,7 @@ import cartReducer from "./cartReducer";
 import popupReducer from "./popupReducer";
 import appReducer from "./appReducer";
 import homenavReducer from "./homenavReducer";
+import wishlistReducer from "./wishlishReducer";
 import productReducer from "./productReducer";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -29,6 +30,12 @@ const rootReducer = combineReducers({
   changePassword: changePasswordReducer,
   products: productReducer,
   homenav: homenavReducer,
+<<<<<<< Updated upstream
+=======
+  search: searchReducer,
+  chatbot: chatbotReducer,
+  wishlist:wishlistReducer,
+>>>>>>> Stashed changes
 });
 
 export default rootReducer;
