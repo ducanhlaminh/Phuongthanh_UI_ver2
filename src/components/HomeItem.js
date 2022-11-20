@@ -44,6 +44,8 @@ const HomeItem = ({ products, v2, title, navigate, order }) => {
       <div className="flex flex-wrap md:gap-10 gap-4 md:justify-start md:flex-nowrap justify-evenly">
         {products?.map((item) => (
           <ProductItem
+            votedCounter={item.votedCounter}
+            soldCounter={item.soldCounter}
             key={item.id}
             productId={item.id}
             image={item?.mainImage}
