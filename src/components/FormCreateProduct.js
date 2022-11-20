@@ -237,7 +237,7 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh chính
               </label>
-              <div className="h-[200px] w-[200px]">
+              <div className="h-[100px] w-[100px]">
                 <img
                   src={
                     imageUrl.imageMainUrl
@@ -263,7 +263,7 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh 1
               </label>
-              <div className="h-[200px] w-[200px]">
+              <div className="h-[100px] w-[100px]">
                 <img
                   src={
                     imageUrl.image1Url
@@ -287,7 +287,7 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh 2
               </label>
-              <div className="h-[200px] w-[200px]">
+              <div className="h-[100px] w-[100px]">
                 <img
                   src={
                     imageUrl.image2Url
@@ -311,7 +311,7 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh 3
               </label>
-              <div className="h-[200px] w-[200px]">
+              <div className="h-[100px] w-[100px]">
                 <img
                   src={
                     imageUrl.image3Url

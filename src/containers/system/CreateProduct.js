@@ -40,14 +40,11 @@ const EditProduct = () => {
     bodyFormData.append("description", shortDes);
     bodyFormData.append("categoryCode", selectValue);
     bodyFormData.append("variants", JSON.stringify(variants));
-    bodyFormData.append("tags", tags);
+    bodyFormData.append("tags", JSON.stringify(tags));
     bodyFormData.append("inStocking", 1);
-    console.log(shortDes, image, tags);
     try {
       const res = await ApiProduct.create(bodyFormData);
-      console.log(res);
       if (res.status === 0) {
-        console.log(1);
         setShowUpload(true);
         setContentUpload(res);
       }

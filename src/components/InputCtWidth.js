@@ -447,12 +447,19 @@ const InputVariant = ({
       <div className="flex flex-wrap">
         {variants?.map((variant, index) => (
           <div
-            className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px]"
+            className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px] relative"
             key={index}
-            onClick={() =>
-              setVariants((prev) => [...prev].filter((item, i) => i !== index))
-            }
           >
+            <div
+              className="font-bold absolute top-0 left-[94%] cursor-pointer"
+              onClick={() =>
+                setVariants((prev) =>
+                  [...prev].filter((item, i) => i !== index)
+                )
+              }
+            >
+              X
+            </div>
             <b className=" ">{`${variant?.name} : `}</b>
             <div className="">
               {variant?.value?.map((type, index) => {

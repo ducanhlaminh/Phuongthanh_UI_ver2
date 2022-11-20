@@ -411,14 +411,14 @@ export const EditProduct = ({
   return (
     <>
       <div
-        className="fixed h-full w-full top-0 right-0 flex justify-center items-center bg-gray-500/[.09] drop-shadow-lg"
+        className="fixed h-full w-full top-0 right-0 flex justify-center items-center bg-gray-500/[.09] drop-shadow-lg "
         onClick={(e) => {
           setIsShowEdit(false);
           e.stopPropagation();
         }}
       >
         <div
-          className=" w-[1000px]  rounded  flex flex-col  items-center z-10"
+          className=" w-[1000px]  rounded  flex flex-col  items-center z-10 overflow-auto"
           onClick={(e) => {
             e.stopPropagation();
           }}
