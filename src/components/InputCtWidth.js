@@ -120,7 +120,8 @@ const SelectCustomWidth = React.memo(
                     key={option?.code ? option?.code : option?.valueVi}
                     value={option?.code ? option?.code : JSON.stringify(option)}
                     selected={
-                      JSON.stringify(option) === JSON.stringify(selectValue)
+                      JSON.stringify(option) === JSON.stringify(selectValue) ||
+                      selectValue === option.code
                     }
                   >
                     {option?.valueVi}
@@ -537,11 +538,18 @@ const InputFieldWithValidate = React.memo(
           className={`bg-[#F1F1F1] rounded-[8px] w-full h-[42px] px-[8px]`}
           value={value}
           required
-          onChange={(e) =>  {
-            setMessage(null)
-            setValue(e.target.value)}}
+          onChange={(e) => {
+            setMessage(null);
+            setValue(e.target.value);
+          }}
         />
-        <div className={`${message?'visible':'invisible'}text-sm text-highlight`}>{message}</div>
+        <div
+          className={`${
+            message ? "visible" : "invisible"
+          }text-sm text-highlight`}
+        >
+          {message}
+        </div>
       </div>
     );
   }

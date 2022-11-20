@@ -10,6 +10,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useEffect, useRef, useState } from "react";
 import icons from "../ultils/icons";
 import { NotiStatus } from "../components/UploadStatus";
+import ApiProduct from "../apis/product";
 const { AiFillCheckCircle } = icons;
 const FormCreateProduct = ({
   productName,
@@ -36,7 +37,14 @@ const FormCreateProduct = ({
   contentUpload,
   setShowUpload,
   setContentUpload,
+  imageUrl,
+  type,
+  id,
 }) => {
+  const imageMainRef = useRef();
+  const image1Ref = useRef();
+  const image2Ref = useRef();
+  const image3Ref = useRef();
   const editorRef = useRef();
   const [validatesForm, setValidatesForm] = useState([
     { name: "name", status: false },
@@ -56,9 +64,57 @@ const FormCreateProduct = ({
       return true;
     } else return false;
   };
-  useEffect(() => {
-    console.log(validatesForm);
-  }, [validatesForm]);
+  const handleImageMain = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      imageMain: e.target.files[0],
+    }));
+  };
+  const handleImage1 = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      image1: e.target.files[0],
+    }));
+  };
+  const handleImage2 = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      image2: e.target.files[0],
+    }));
+  };
+  const handleImage3 = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      image3: e.target.files[0],
+    }));
+  };
+  const handleEdit = async () => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("mainImage", image.imageMain);
+    bodyFormData.append("image1", image.image1);
+    bodyFormData.append("image2", image.image2);
+    bodyFormData.append("image3", image.image3);
+    bodyFormData.append("name", productName);
+    bodyFormData.append("costPerUnit", price);
+    bodyFormData.append("description", shortDes);
+    bodyFormData.append("categoryCode", selectValue);
+    bodyFormData.append("variants", JSON.stringify(variants));
+    bodyFormData.append("tags", tags);
+    bodyFormData.append("id", id);
+
+    console.log(shortDes, image, tags);
+    try {
+      const res = await ApiProduct.update(bodyFormData);
+      console.log(res);
+      if (res.status === 0) {
+        console.log(1);
+        // setShowUpload(true);
+        // setContentUpload(res);
+      }
+    } catch (error) {
+      console.log(selectValue);
+    }
+  };
   return (
     <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
       {showUpload && (
@@ -159,7 +215,7 @@ const FormCreateProduct = ({
             ></Button>
             {shortDes && (
               <div className="border-primary border-2 mt-2 h-10 rounded-md bg-slate-50 flex justify-center items-center">
-                <span className="">Đã thêm nội dung sản phẩm</span>
+                <span className="">Đã cập nhật nội dung sản phẩm</span>
                 <span className="text-[#4ed14b] ml-3">
                   <AiFillCheckCircle />
                 </span>
@@ -176,66 +232,103 @@ const FormCreateProduct = ({
             variantValue={variantValue}
             setVariantValue={setVariantValue}
           />
-          <div className=" w-[50%] mt-3">
-            <div className="">
+          <div className="w-full flex flex-wrap">
+            <div className="w-1/2 p-6">
               <label htmlFor="" className="font-bold">
                 Ảnh chính
               </label>
+              <div className="h-[200px] w-[200px]">
+                <img
+                  src={
+                    imageUrl.imageMainUrl
+                      ? imageUrl.imageMainUrl
+                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
+                  }
+                  alt=""
+                  className="object-cover h-full w-full"
+                  onClick={() => imageMainRef.current.click()}
+                />
+              </div>
+
               <input
+                className="hidden"
                 type="file"
                 name="imageMain"
                 accept="image/*"
-                onChange={(e) => {
-                  setImage((prev) => ({
-                    ...prev,
-                    imageMain: e.target.files[0],
-                  }));
-                }}
+                ref={imageMainRef}
+                onChange={handleImageMain}
               />
             </div>
-            <div className="">
+            <div className="w-1/2 p-6">
               <label htmlFor="" className="font-bold">
                 Ảnh 1
               </label>
+              <div className="h-[200px] w-[200px]">
+                <img
+                  src={
+                    imageUrl.image1Url
+                      ? imageUrl.image1Url
+                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
+                  }
+                  alt=""
+                  className="object-cover h-full w-full"
+                  onClick={() => image1Ref.current.click()}
+                />
+              </div>
               <input
+                className="hidden"
                 type="file"
+                ref={image1Ref}
                 name="image1"
-                onChange={(e) => {
-                  setImage((prev) => ({
-                    ...prev,
-                    image1: e.target.files[0],
-                  }));
-                }}
+                onChange={handleImage1}
               />
             </div>
-            <div className="">
+            <div className="w-1/2 p-6">
               <label htmlFor="" className="font-bold">
                 Ảnh 2
               </label>
+              <div className="h-[200px] w-[200px]">
+                <img
+                  src={
+                    imageUrl.image2Url
+                      ? imageUrl.image2Url
+                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
+                  }
+                  alt=""
+                  className="object-cover h-full w-full"
+                  onClick={() => image2Ref.current.click()}
+                />
+              </div>
               <input
+                className="hidden"
+                ref={image2Ref}
                 type="file"
                 name="image2"
-                onChange={(e) => {
-                  setImage((prev) => ({
-                    ...prev,
-                    image2: e.target.files[0],
-                  }));
-                }}
+                onChange={handleImage2}
               />
             </div>
-            <div className="mb-6">
+            <div className="w-1/2 p-6">
               <label htmlFor="" className="font-bold">
                 Ảnh 3
               </label>
+              <div className="h-[200px] w-[200px]">
+                <img
+                  src={
+                    imageUrl.image3Url
+                      ? imageUrl.image3Url
+                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
+                  }
+                  alt=""
+                  className="object-cover h-full w-full"
+                  onClick={() => image3Ref.current.click()}
+                />
+              </div>
               <input
+                className="hidden"
                 type="file"
+                ref={image3Ref}
                 name="image3"
-                onChange={(e) => {
-                  setImage((prev) => ({
-                    ...prev,
-                    image3: e.target.files[0],
-                  }));
-                }}
+                onChange={handleImage3}
               />
             </div>
 
@@ -269,9 +362,13 @@ const FormCreateProduct = ({
           height="2"
           onClick={() => {
             if (validateForm()) {
-              console.log(validatesForm);
-              return handleSubmit();
+              if (type === "create") {
+                return handleSubmit();
+              } else {
+                return handleEdit();
+              }
             } else {
+              console.log(selectValue);
               setShowUpload(true);
               setContentUpload({ status: 1 });
             }

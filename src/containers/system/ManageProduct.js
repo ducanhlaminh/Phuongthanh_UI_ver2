@@ -244,6 +244,7 @@ const ManageProduct = () => {
           categories={categories}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
+          category={selectValue}
         />
       ) : (
         ""

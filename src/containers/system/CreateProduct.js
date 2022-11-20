@@ -17,6 +17,12 @@ const EditProduct = () => {
     image2: "",
     image3: "",
   });
+  const [imageUrl, setImageUrl] = useState({
+    imageMainUrl: "",
+    image1Url: "",
+    image2Url: "",
+    image3Url: "",
+  });
   const [variants, setVariants] = useState([]);
   const [variantValue, setVariantValue] = useState({ name: "", value: [] });
   const [variantChild, setVariantChild] = useState({ type: "", price: "" });
@@ -35,6 +41,7 @@ const EditProduct = () => {
     bodyFormData.append("categoryCode", selectValue);
     bodyFormData.append("variants", JSON.stringify(variants));
     bodyFormData.append("tags", tags);
+    bodyFormData.append("inStocking", 1);
     console.log(shortDes, image, tags);
     try {
       const res = await ApiProduct.create(bodyFormData);
@@ -54,13 +61,25 @@ const EditProduct = () => {
   }, [categories]);
   useEffect(() => {
     if (typeof image.imageMain !== "string")
-      image.imageMain.preview = URL.createObjectURL(image.imageMain);
+      setImageUrl((prev) => ({
+        ...prev,
+        imageMainUrl: URL.createObjectURL(image.imageMain),
+      }));
     if (typeof image.image1 !== "string")
-      image.image1.preview = URL.createObjectURL(image.image1);
+      setImageUrl((prev) => ({
+        ...prev,
+        image1Url: URL.createObjectURL(image.image1),
+      }));
     if (typeof image.image2 !== "string")
-      image.image2.preview = URL.createObjectURL(image.image2);
+      setImageUrl((prev) => ({
+        ...prev,
+        image2Url: URL.createObjectURL(image.image2),
+      }));
     if (typeof image.image3 !== "string")
-      image.image3.preview = URL.createObjectURL(image.image3);
+      setImageUrl((prev) => ({
+        ...prev,
+        image3Url: URL.createObjectURL(image.image3),
+      }));
   }, [image]);
 
   return (
@@ -90,6 +109,8 @@ const EditProduct = () => {
         showUpload={showUpload}
         setShowUpload={setShowUpload}
         setContentUpload={setContentUpload}
+        imageUrl={imageUrl}
+        type={"create"}
       />
       {/* <Preview /> */}
     </>

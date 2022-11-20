@@ -324,7 +324,7 @@ const DetailProduct = () => {
                   >
                     Vui lòng chọn loại hàng để thêm vào giỏ
                   </div>
-                  {product?.variants.map((variant, index) => {
+                  {product?.variants?.map((variant, index) => {
                     return (
                       <div key={variant.id} className="select-none">
                         <p className="text-[18px] font-semibold text-black">

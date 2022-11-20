@@ -342,9 +342,10 @@ export const EditProduct = ({
   isLoading,
   categories,
   product,
+  category,
 }) => {
   const [productName, setProductName] = useState(product.name);
-  const [selectValue, setSelectValue] = useState("");
+  const [selectValue, setSelectValue] = useState(category);
   const [price, setPrice] = useState(product.costPerUnit);
   const [tags, setTags] = useState([]);
   const [shortDes, setShortDes] = useState(product.description);
@@ -353,6 +354,12 @@ export const EditProduct = ({
     image1: product.image1,
     image2: product.image2,
     image3: product.image3,
+  });
+  const [imageUrl, setImageUrl] = useState({
+    imageMainUrl: product.mainImage,
+    image1Url: product.image1,
+    image2Url: product.image2,
+    image3Url: product.image3,
   });
   const [variants, setVariants] = useState(product.variants);
   const [variantValue, setVariantValue] = useState({ name: "", value: [] });
@@ -379,7 +386,28 @@ export const EditProduct = ({
   // if (image1 !== "") image1.preview = URL.createObjectURL(image1);
   // if (image2 !== "") image2.preview = URL.createObjectURL(image2);
   // if (image3 !== "") image3.preview = URL.createObjectURL(image3);
-  // useEffect(() => {}, [imageMain]);
+  useEffect(() => {
+    if (typeof image.imageMain !== "string")
+      setImageUrl((prev) => ({
+        ...prev,
+        imageMainUrl: URL.createObjectURL(image.imageMain),
+      }));
+    if (typeof image.image1 !== "string")
+      setImageUrl((prev) => ({
+        ...prev,
+        image1Url: URL.createObjectURL(image.image1),
+      }));
+    if (typeof image.image2 !== "string")
+      setImageUrl((prev) => ({
+        ...prev,
+        image2Url: URL.createObjectURL(image.image2),
+      }));
+    if (typeof image.image3 !== "string")
+      setImageUrl((prev) => ({
+        ...prev,
+        image3Url: URL.createObjectURL(image.image3),
+      }));
+  }, [image]);
   return (
     <>
       <div
@@ -395,6 +423,7 @@ export const EditProduct = ({
             e.stopPropagation();
           }}
         >
+          {console.log(selectValue)}
           <FormCreateProduct
             productName={productName}
             setProductName={setProductName}
@@ -412,6 +441,9 @@ export const EditProduct = ({
             image={image}
             shortDes={shortDes}
             setImage={setImage}
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            id={product.id}
           />
         </div>
       </div>
