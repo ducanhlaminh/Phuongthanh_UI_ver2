@@ -61,11 +61,14 @@ function AddAddress() {
   useEffect(() => {
     const fetchAddress = async () => {
       const res = await ApiAddress.Get();
-      if (res.status === 0) setAddress(res?.yourAddress);
+      if (res.status === 0) {
+        let code = JSON.parse(res?.yourAddress[0]?.address).code
+        setAddress(res?.yourAddress)
+        setSelectAddress({id: res?.yourAddress[0]?.id, code: code})
+      }
     };
     fetchAddress();
-    dispatch(actions.addToCart());
-  }, [selected]);
+  }, [selected,showPopupAddress]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -143,7 +146,9 @@ function AddAddress() {
   const handleGetFeeShip = async () => {
     if(selectAddress.id === "") return
     const res = await ApiCheckout.getFeeShip(selectAddress.code)
-    if( res.status === 200 ) setShipFee(res?.data?.data?.total)
+    if( res.status === 200 ) {
+      setCanCheckOut(true)
+      setShipFee(res?.data?.data?.total)}
   }
 
   //GET Free ship 
@@ -168,7 +173,16 @@ function AddAddress() {
 
   //Checkout Bill
   const handleCheckoutBill = async () => {
-
+    try {
+      let data = {
+        shipPrice: shipFee,
+        aid: selectAddress?.id
+      };
+      let res = await ApiCheckout.create(data);
+      if(res.status === 0) window.location.href = '/ho-so/hoa-don-cua-toi'
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -195,15 +209,15 @@ function AddAddress() {
             </div>
           </div>
           <div>
-            <div className="flex justify-center mx-[12px] mt-[24px]">
-              <span className="font-semibold text-darkGrey pb-2 lg:text-[16px] md:text-[14px] mb-3">
+            <div className="flex mx-[12px] mt-[24px]">
+              <span className="font-semibold min-w-[60%] text-darkGrey pb-2 lg:text-[16px] md:text-[14px] mb-3">
                 {address.length > 0
-                  ? "Vui lòng chọn địa chỉ giao hàng"
-                  : "Chưa có địa chỉ được lưu trước đây"}
+                  ? "Chọn địa chỉ giao hàng"
+                  : "Chưa có địa chỉ"}
               </span>
               <span
                 onClick={() => setShowPopupAddress(true)}
-                className="font-bold text-primary cursor-pointer"
+                className="font-bold  text-primary cursor-pointer"
               >
                 Thêm địa chỉ mới
               </span>
@@ -230,16 +244,15 @@ function AddAddress() {
                         onClick={() => setSelectAddress({id:addres.id,code:data.code})}
                       >
                         <div className="flex">
-                          <span>Địa chỉ :</span>
-                          <p className="font-bold">{` ${data.ward} - ${data.district} - ${data.province}`}</p>
-                        </div>
-                        <div className="flex">
                           <span>Tên người nhận : </span>
                           <p>{addres.name}</p>
                         </div>
                         <div className="flex">
                           <span>Số điện thoại : </span>
                           <p>{addres.phone}</p>
+                        </div>
+                        <div>
+                          <p className="font-bold">{`${data.detail}-${data.ward} - ${data.district} - ${data.province}`}</p>
                         </div>
                       </div>
                     </div>
@@ -254,6 +267,7 @@ function AddAddress() {
                 size="14px"
                 color="white"
                 position="absolute  right-2"
+                handleClick={() => handleGetFeeShip()}
               >
                 <p>Xác nhận địa chỉ</p>
               </LongButton>
@@ -288,7 +302,8 @@ function AddAddress() {
           </div>
           <div className="mx-[12px] pb-[24px]">
             <Button2
-              disable={canCheckOut ? false : true}
+              handleClick={() => handleCheckoutBill()}
+              disable={!canCheckOut}
               text={"xác nhận đặt đơn"}
             />
           </div>
@@ -519,7 +534,7 @@ function AddAddress() {
               </div>
               <Button2
                 handleClick={() => handleCheckoutBill()}
-                disable={canCheckOut ? false||totalPrice === 0 : true}
+                disable={canCheckOut ? false : true}
                 text={"xác nhận đặt đơn"}
               />
             </div>

@@ -32,21 +32,6 @@ const AddAddressPopup = ({
         !showPopupAddress ? "translate-x-[100%]" : "translate-x-[0]"
       } transition-all`}
     >
-      {/* <div
-        className={`relative translate-y-[-70px] ${
-          isClick ? " animate-top-popup" : ""
-        }`}
-        onAnimationEnd={() => {
-          setIsClick(false);
-        }}
-      >
-        <Upload
-          status={status}
-          content={
-            status ? "Đăng bình luận thành công" : `Đã có lỗi xảy ra`
-          }
-        />
-      </div> */}
       <header className="bg-white h-[56px] pl-[16px] flex items-center text-primary">
         <div
           onClick={() => {
@@ -126,6 +111,7 @@ const AddAddressPopup = ({
                       <Button2 text="Xác nhận thêm đại chỉ" />
                     </div>
                   </div>
+                  <div className="w-[80%] mx-auto text-center font-bold text-highlight">Vui lòng điền đầy đủ thông tin để thêm địa chỉ mới</div>
                 </div>
     </div>
   );
