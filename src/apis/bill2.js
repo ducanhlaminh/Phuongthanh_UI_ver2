@@ -34,6 +34,14 @@ const ApiCheckout = {
       console.log(error);
     }
   },
+  create: (data) => {
+    const url = "/api/v1/bill2";
+    try {
+      return axiosClients.post(url,data);
+    } catch (error) {
+      console.log(error);
+    }
+  },
   getService: (data) => {
     try {
       return axios({

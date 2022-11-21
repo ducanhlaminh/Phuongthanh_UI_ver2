@@ -45,15 +45,14 @@ function MyCart() {
   const handlePlaceOrder = async () => {
     try {
       let data = {
-        products: [...dataBill]
-      }
-      let res =  await ApiCheckout.create(data)
-      // if(res.status === 0) window.location.href = '/address'
+        products: [...dataBill],
+      };
+      let res = await ApiCheckout.create(data);
+      if(res.status === 0) window.location.href = '/check-out'
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-  }
+  };
 
 
   return (
@@ -118,7 +117,7 @@ function MyCart() {
             <p>{numFormatter(totalPrice)}</p>
           </div>
           <div className="w-1/2">
-            <Button2 disable={totalPrice===0} handleClick={handlePlaceOrder} text="Tiến hành thanh toán" />
+            <Button2 disable={totalPrice===0} handleClick={()=>handlePlaceOrder()} text="Tiến hành thanh toán" />
           </div>
         </div>
       </div>
@@ -187,7 +186,7 @@ function MyCart() {
                     <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
                 </div>
-                <Button2 handleClick={handlePlaceOrder} text={'Tiến hành thanh toán'} disable={totalPrice > 0 ? false : true} />
+                <Button2 handleClick={() => handlePlaceOrder()} text={'Tiến hành thanh toán'} disable={totalPrice > 0 ? false : true} />
                 <div className="mt-[24px] w-full">
                   <Voucher isFreeShip={totalPrice < 500000 ? false : true}/>
                 </div>
