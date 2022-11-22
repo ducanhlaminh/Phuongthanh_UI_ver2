@@ -12,7 +12,7 @@ import { numFormatter } from "../../ultils/fn";
 import Voucher from "../../components/Voucher";
 import { NotiStatus, NotiStatusMobile } from "../../components/UploadStatus";
 import ApiCheckout from "../../apis/bill2";
-import actionTypes from "../../store/actions/actionTypes";
+import BreadCrumb from "../../components/BreadCrumb";
 
 function MyCart() {
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ function MyCart() {
           setActive={setActiveNotify}
         />
         <AppBar title="Giỏ hàng" />
-        <div className="w-full pt-[56px] flex flex-col px-2  bg-[#eeeeeefc] h-[70%] overflow-auto">
+        <div className="w-full flex flex-col px-2  bg-lightGrey h-[70%] overflow-auto">
           {/* product */}
           {productsCart&&productsCart.length === 0 && <div className="text-center mt-[24px]">
             <div className="text-darkGrey">Hiện chưa có sản phẩm nào được thêm vào giỏ hàng</div>
@@ -87,12 +87,12 @@ function MyCart() {
             />
           ))}
         </div>
-        <div className="min-h-[200px] ">
-          <p className="text-base font-bold p-2 border-b-2">
+        <div className="min-h-[200px] bg-white px-[16px] pt-[30px]">
+          <p className="text-[14px] font-semibold">
             Thông tin hóa đơn
           </p>
 
-          <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
+          <div className="flex justify-between font-medium text-darkGrey text-[14px] mt-[10px]">
             <div className="w-1/2 ">
               <p>Tổng hóa đơn : </p>
               {/* <p className="font-bold text-black">Grand Total : </p> */}
@@ -102,7 +102,7 @@ function MyCart() {
               {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
             </div>
           </div>
-          <div className="flex justify-between font-bold text-gray-500 p-3">
+          <div className="flex justify-between font-semibold text-black text-[14px] mt-[8px]">
             <div className="w-1/2 ">
               <p className="font-bold text-black">Grand Total : </p>
             </div>
@@ -111,7 +111,7 @@ function MyCart() {
             </div>
           </div>
         </div>
-        <div className="max-[80px] bg-[#eeeeeefc] flex items-center p-3 justify-between ">
+        <div className="max-[80px] bg-white flex items-center p-3 justify-between ">
           <div className="flex flex-col items-center">
             <p className="font-bold">Thanh toán : </p>
             <p>{numFormatter(totalPrice)}</p>
@@ -123,17 +123,20 @@ function MyCart() {
       </div>
       {/* Desktop */}
       <div className="md:block hidden w-full ">
+        <div className="hidden md:block md:px-[16px] lg:px-[20px]">
+          <BreadCrumb parent={[{name:'Trang chủ',link:'/'},]} current='Giỏ hàng của tôi'></BreadCrumb>
+        </div>
         {<NotiStatus 
         content={activeNotify === 'success'? 'Sản phẩm được xóa thành công': 'Xóa sản phẩm không thành công'}
         active={activeNotify}
         setActive={setActiveNotify}/>}
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           {/* <SliderImage /> */}
-          <div className=" w-full md:block px-6 ">
-            <h2 className=" text-3xl font-extrabold">Giỏ hàng của tôi</h2>
+          <div className=" w-full md:block lg:px-[20px] md:px-[16px] ">
+            <h2 className=" lg:text-[24px] md:text-[20px] font-semibold text-primary lg:mb-[28px] md:mb-[20px]">Giỏ hàng của tôi</h2>
             <div className="flex justify-between">
               <div className="w-[60%] ">
-                <div className="flex font-bold text-gray-500 border-b-2 items-center p-2">
+                <div className="flex font-medium text-darkGrey border-b-2 text-[16px] items-center">
                   <p className="w-[50%]">Tên sản phẩm</p>
                   <p className="w-[20%] text-center">Giá</p>
                   <p className="w-[15%] text-center">Số lượng</p>
@@ -164,11 +167,11 @@ function MyCart() {
                 </div>
               </div>
               <div className="w-1/3">
-                <p className="text-base font-bold p-2 border-b-2">
+                <p className="lg:text-[14px] md:text-[12px] font-semibold border-b-[1px]">
                   Thông tin hóa đơn
                 </p>
 
-                <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
+                <div className="flex justify-between font-medium text-darkGrey mt-[33px] lg:text-[16px] md:text-[14px]">
                   <div className="w-1/2 ">
                     <p>Tổng hóa đơn : </p>
                     {/* <p className="font-bold text-black">Grand Total : </p> */}
@@ -178,7 +181,7 @@ function MyCart() {
                     {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
                   </div>
                 </div>
-                <div className="flex justify-between font-bold mb-[24px] text-gray-500 p-3">
+                <div className="flex justify-between font-semibold lg:text-[16px] md:text-[14px] mb-[24px] text-black mt-[12px]">
                   <div className="w-1/2 ">
                     <p className="font-bold text-black">Thanh toán : </p>
                   </div>

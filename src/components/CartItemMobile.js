@@ -78,7 +78,7 @@ const CartItemMobile = ({
                 alt="ProductImage"
                 className="object-cover w-[96px] h-[96px] rounded-[8px]"
               />
-              <div className="p-2 flex flex-col justify-around">
+              <div className="px-2 flex flex-col justify-around">
                 <b className="text-[12px] font-semibold text-black">{name}</b>
                 <p>{
                   variants.map((variant,i) => {
@@ -91,13 +91,13 @@ const CartItemMobile = ({
                     )
                   })
                 }</p>
-                <div className="flex bg-lightGrey p-1 w-fit rounded-sm">
+                <div className="flex bg-lightGrey p-1 w-fit items-center rounded-sm mt-[7px] mb-[9px]">
                   <div className="flex justify-center items-center">
-                    <span className="text-xs">Số lượng :</span>
+                    <span className="text-[12px]">Số lượng :</span>
                   </div>
                   <select 
                     onChange={(e) => setQuanityProduct(e.target.value)}
-                    className="bg-lightGrey font-bold rounded-[4px]">
+                    className="bg-lightGrey font-bold  text-[12px] rounded-[4px]">
                     <option value={1}>1</option>
                     <option value={2}>2</option>
                     <option value={3}>3</option>

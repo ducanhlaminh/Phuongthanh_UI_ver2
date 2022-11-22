@@ -11,10 +11,16 @@ import LongButton from "../../components/LongButton";
 
 const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
+  const [address,setAddress] = useState('');
   const [detailBill, setDetailBill] = useState();
   const [status, setStatus] = useState("");
-  console.log(productBill);
   const id = useParams().id;
+  useEffect(()=>{
+    if(detailBill){
+      setAddress(JSON.parse(detailBill?.addressData?.address).detail+ " "+JSON.parse(detailBill?.addressData?.address).ward+" "+JSON.parse(detailBill?.addressData?.address).district+ " "+ JSON.parse(detailBill?.addressData?.address).province);
+    }
+  },[detailBill]);
+  console.log(address);
   useEffect(() => {
     const fetchDetailBill = async () => {
       const res = await apiGetBills();
@@ -147,7 +153,7 @@ const ItemOrder = () => {
               </div>
               <div>
                 <p className="text-darkGrey font-medium text-[14px]">
-                  {detailBill?.addressData?.address}
+                  {address}
                 </p>
               </div>
               <div>
@@ -286,7 +292,7 @@ const ItemOrder = () => {
                 </div>
                 <div>
                   <p className="text-black font-medium md:text-[14px] lg:text-[16px]">
-                    {detailBill?.addressData?.address}
+                    {address}
                   </p>
                 </div>
                 <div>

@@ -208,19 +208,25 @@ function AddAddress() {
               })}
             </div>
           </div>
+
+
+
           <div>
             <div className="flex mx-[12px] mt-[24px]">
+
               <span className="font-semibold min-w-[60%] text-darkGrey pb-2 lg:text-[16px] md:text-[14px] mb-3">
                 {address.length > 0
                   ? "Chọn địa chỉ giao hàng"
                   : "Chưa có địa chỉ"}
               </span>
+
               <span
                 onClick={() => setShowPopupAddress(true)}
                 className="font-bold  text-primary cursor-pointer"
               >
                 Thêm địa chỉ mới
               </span>
+
             </div>
             <div className="h-[224px] overflow-auto px-[12px]">
               {address.length > 0 &&
@@ -273,6 +279,10 @@ function AddAddress() {
               </LongButton>
             </div>
           </div>
+
+
+
+
           <div className="mt-[38px]">
             <p className="text-base font-bold p-2 border-b-2">
               Thông tin hóa đơn
@@ -327,6 +337,13 @@ function AddAddress() {
           handleAddAdress={handleAddAdress}
         />
       </div>
+
+
+
+
+
+
+
 
       {/* Desktop */}
       <div className="md:block hidden w-full ">
@@ -494,7 +511,7 @@ function AddAddress() {
             </div>
           </div>
           <div className="w-[38%] pt-0 justify-evenly">
-            <div className="flex font-bold text-gray-500 border-b-2 py-[13px] items-center h-[64px] mt-[20px]">
+            <div className="flex font-medium lg:text-[16px] text-gray-500 border-b-2 h-[39px] mt-[20px]">
               <p className="w-[55%]">Sản phẩm</p>
               <p className="w-[20%] text-center">Số lượng</p>
               <p className="w-[25%] text-center">Giá</p>
@@ -505,37 +522,37 @@ function AddAddress() {
                 return <CartItemCombined data={product} />;
               })}
             </div>
-            <div>
-              <p className="text-base font-bold p-2 border-b-2">
+            <div className="mb-[16px]">
+              <p className="lg:text-[14px] md:text-[12px] font-semibold border-b-[1px] pb-[8px] mt-[40px]">
                 Thông tin hóa đơn
               </p>
 
-              <div className="flex justify-between font-bold text-gray-500 p-3 border-b-2">
-                <div className="w-1/2 ">
+              <div className="flex justify-between font-medium text-darkGrey lg:text-[16px] md:text-[14px] mt-[35px] pr-[23px]">
+                <div className="w-1/2  flex flex-col gap-[12px]">
                   <p>Tổng đơn hàng : </p>
                   <p>Phí vận chuyển : </p>
                   <p>Giảm giá : </p>
                   {/* <p className="font-bold text-black">Grand Total : </p> */}
                 </div>
-                <div className="w-1/3  text-black text-right">
+                <div className="w-1/3  text-black text-right flex flex-col gap-[12px]">
                   <p>{numFormatter(totalPriceProducts)}</p>
                   <p>{numFormatter(shipFee)}</p>
                   <p>{numFormatter(discountPrice)}</p>
                   {/* <p className="font-extrabold">{numFormatter(100000)}</p> */}
                 </div>
               </div>
-              <div className="flex justify-between font-bold text-gray-500 p-3 mb-[16px]">
+              <div className="flex justify-between font-semibold text-darkGrey lg:text-[16px] mt-[12px] mb-[16px] pr-[23px]">
                 <div className="w-1/2 ">
                   <p className="font-bold text-black">Tổng hóa đơn : </p>
                 </div>
-                <div className="w-1/3  text-black text-center">
+                <div className="text-black text-center">
                   <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                 </div>
               </div>
               <Button2
                 handleClick={() => handleCheckoutBill()}
                 disable={canCheckOut ? false : true}
-                text={"xác nhận đặt đơn"}
+                text={"Xác nhận đặt đơn"}
               />
             </div>
           </div>

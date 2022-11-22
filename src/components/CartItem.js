@@ -71,7 +71,7 @@ const CartItem = ({
   return (
     <>
       {!isMobile && (
-        <div key={idUnique} className="my-3 hidden md:block border-b-2 px-3">
+        <div key={idUnique} className="my-3 hidden md:block border-b-2">
           <div className="w-full flex h-[80px]">
             <div className=" w-[50%]">
               <div className="flex h-full ">
@@ -86,7 +86,7 @@ const CartItem = ({
                 <div className="p-2 flex flex-col justify-around gap-[8px]">
                   <Link
                     to={`/chi-tiet-san-pham/${id}`}
-                    className=" font-semibold lg:text-[16px]  md:text-[14px] text-black"
+                    className=" font-medium lg:text-[16px] md:text-[14px] text-black"
                   >
                     {name}
                   </Link>
@@ -95,7 +95,7 @@ const CartItem = ({
                     {variants.map((variant, i) => {
                       let variantLength = variants.length;
                       return (
-                        <div className="text-light text-darkGrey lg:text-[16px] md:text-[12px]">
+                        <div className="text-normal text-darkGrey lg:text-[16px] md:text-[14px]">
                           <span>
                             {variant.variant}: {variant.value}
                           </span>

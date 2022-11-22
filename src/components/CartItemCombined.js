@@ -4,14 +4,14 @@ const CartItemCombined = ({data}) => {
     const {mainImage,name,quanity,price,variant} = data
 
   return (
-    <div className="w-full flex h-[68px]">
+    <div className="w-full flex my-[40px]">
       <div className="h-full flex w-[55%] ">
         <div>
-        <img src={mainImage} alt="mainImage" className="object-cover h-full" />
+        <img src={mainImage} alt="mainImage" className="object-cover h-[80px] w-[75px] rounded-[8px]" />
         </div>
-        <div>
-        <p className=" font-bold">{name}</p>
-        <p className="text-sm font-bold">{variant}</p>
+        <div className='ml-[16px]'>
+        <p className=" font-medium lg:text-[16px] md:text-[14px]">{name}</p>
+        <p className="lg:text-[16px] md:text-[14px] font-normal">{variant}</p>
         </div>
       </div>
       <div className='text-center w-[15%]'>{quanity}</div>
