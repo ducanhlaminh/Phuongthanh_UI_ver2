@@ -48,7 +48,7 @@ const InputCustomWidth = React.memo(
         </label>
 
         <input
-          className={` outline-none block w-full ${
+          className={` outline-none block w-full bg-lightGrey ${
             checkRequired === true && "border-[1px] border-rose-500"
           }  ${PLarge ? "pl-7 pr-12" : " px-7"} sm:text-sm 
                 rounded-md  ${lable ? "min-h-[42px]" : "h-full"}
@@ -201,7 +201,7 @@ const SelectPayment = React.memo(
               <option value="null">Chưa có lựa chọn</option>
             )}
           </select>
-          <BiSortAlt2 className="text-2xl" />
+          {/* <BiSortAlt2 className="text-2xl" /> */}
         </div>
       </div>
     );

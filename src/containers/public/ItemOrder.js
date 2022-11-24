@@ -13,6 +13,7 @@ const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
   const [address,setAddress] = useState('');
   const [detailBill, setDetailBill] = useState();
+  // console.log(productBill);
   const [status, setStatus] = useState("");
   const id = useParams().id;
   useEffect(()=>{
@@ -219,7 +220,7 @@ const ItemOrder = () => {
                       {product?.products?.name}
                     </p>
                     <p className="font-light md:text-[14px] lg:text-[16px] text-black">
-                      {product?.products?.name}
+                      {product?.variant}
                     </p>
                   </div>
                 </span>

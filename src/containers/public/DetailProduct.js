@@ -169,7 +169,7 @@ const DetailProduct = () => {
     <>
       {<NotiStatus active={activeNotiStatus} setActive={setActiveNotiStatus} />}
       {product && (
-        <div className=" bg-lightGrey md:bg-white relative lg:bg-white lg:mt-[64px]">
+        <div className=" bg-lightGrey md:bg-white relative lg:bg-white lg:mt-[24px]">
           <SelectvariantPopup
             setShowPopupCart={setShowPopupCart}
             showPopupCart={showPopupCart}
