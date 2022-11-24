@@ -3,7 +3,7 @@ import icons from "./icons";
 const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
 
 export const path = {
-  LOGIN: "/login",
+  LOGIN: "/auth",
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
