@@ -237,6 +237,8 @@ function ListProducts({ categoryData, otherData }) {
                             description={item?.description}
                             cost={item?.costPerUnit}
                             productId={item?.id}
+                            soldCounter={item?.soldCounter}
+                            votedCounter={item?.votedCounter}
                           />
                         </div>
                       ))

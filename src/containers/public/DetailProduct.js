@@ -32,6 +32,10 @@ import { generatePath } from "../../ultils/fn";
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
 
+function createMarkup(des) {
+  return { __html: des };
+}
+
 const DetailProduct = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
@@ -165,7 +169,7 @@ const DetailProduct = () => {
     <>
       {<NotiStatus active={activeNotiStatus} setActive={setActiveNotiStatus} />}
       {product && (
-        <div className=" bg-lightGrey md:bg-white relative lg:bg-white lg:mt-[64px]">
+        <div className=" bg-lightGrey md:bg-white relative lg:bg-white lg:mt-[24px]">
           <SelectvariantPopup
             setShowPopupCart={setShowPopupCart}
             showPopupCart={showPopupCart}
@@ -426,7 +430,9 @@ const DetailProduct = () => {
           <section className="mt-[8px] bg-white md:hidden">
             <Dropdown title="Mô tả sản phẩm" opened={true}>
               <p className="font-medium text-[14px] leading-5 text-[#626262] px-[16px] w-full pb-[20px]">
-                {product.description}
+                <div
+                  dangerouslySetInnerHTML={createMarkup(product.description)}
+                ></div>
               </p>
             </Dropdown>
           </section>
@@ -450,7 +456,10 @@ const DetailProduct = () => {
           <section className="hidden md:block ml-[20px] mr-[20px] mt-[24px] md:mb-[0px] min-h-[300px]">
             <div className={`${activeTab[0] === 1 ? "block" : "hidden"}`}>
               <p className="text-darkGrey text-[16px] font-medium">
-                {product.description}
+                {/* {product.description} */}
+                <div
+                  dangerouslySetInnerHTML={createMarkup(product.description)}
+                ></div>
               </p>
             </div>
             <div className={`${activeTab[1] === 1 ? "block" : "hidden"}`}>

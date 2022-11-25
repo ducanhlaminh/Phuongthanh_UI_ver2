@@ -5,7 +5,6 @@ import { PriceCaculator } from "../ultils/caculator";
 import { numFormatter } from "../ultils/fn";
 import { BiPlus, BiMinus } from "react-icons/bi";
 
-
 const CartItem = ({
   product,
   variants,
@@ -72,7 +71,7 @@ const CartItem = ({
   return (
     <>
       {!isMobile && (
-        <div key={idUnique} className="my-3 hidden md:block border-b-2 px-3">
+        <div key={idUnique} className="my-3 hidden md:block border-b-2">
           <div className="w-full flex h-[80px]">
             <div className=" w-[50%]">
               <div className="flex h-full ">
@@ -87,7 +86,7 @@ const CartItem = ({
                 <div className="p-2 flex flex-col justify-around gap-[8px]">
                   <Link
                     to={`/chi-tiet-san-pham/${id}`}
-                    className=" font-semibold lg:text-[16px]  md:text-[14px] text-black"
+                    className=" font-medium lg:text-[16px] md:text-[14px] text-black"
                   >
                     {name}
                   </Link>
@@ -96,7 +95,7 @@ const CartItem = ({
                     {variants.map((variant, i) => {
                       let variantLength = variants.length;
                       return (
-                        <div className="text-light text-darkGrey lg:text-[16px] md:text-[12px]">
+                        <div className="text-normal text-darkGrey lg:text-[16px] md:text-[14px]">
                           <span>
                             {variant.variant}: {variant.value}
                           </span>
@@ -105,35 +104,22 @@ const CartItem = ({
                       );
                     })}
                   </div>
-                  {/* <div className="flex bg-slate-300 p-1 rounded-sm w-fit">
-                    <div className="flex justify-center items-center">
-                      <div className="text-xs flex justify-center items-center">
-                        <span>Số lượng :</span>
-                      </div>
-                    </div>
-                    <select
-                    className="bg-slate-300 text-xs h-[20px]"
-                    defaultValue={1}
-                    onChange={(e) => setQuanityProduct(e.target.value)}
-                  >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                    <option value={6}>6</option>
-                    <option value={7}>7</option>
-                    <option value={8}>8</option>
-                    <option value={9}>9</option>
-                    <option value={10}>10</option>
-                  </select>
-                
-                  </div> */}
+
                   <div className="flex justify-around md:w-[73px] border-[1px] border-primary rounded-[8px] items-center lg:text-[14px] font-normal md:text-[12px] text-black">
-                      <BiMinus onClick={()=>{setQuanityProduct(prev=>prev-1)}}></BiMinus>
-                      <p>{quanityProduct}</p>
-                      <BiPlus onClick={()=>{setQuanityProduct(prev=>prev+1)}}></BiPlus>
-                    </div>
+                    <BiMinus
+                      onClick={() => {
+                        if (quanityProduct > 1) {
+                          setQuanityProduct((prev) => prev - 1);
+                        }
+                      }}
+                    ></BiMinus>
+                    <p>{quanityProduct}</p>
+                    <BiPlus
+                      onClick={() => {
+                        setQuanityProduct((prev) => prev + 1);
+                      }}
+                    ></BiPlus>
+                  </div>
                 </div>
               </div>
             </div>

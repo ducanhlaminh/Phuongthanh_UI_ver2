@@ -3,6 +3,7 @@ import cartReducer from "./cartReducer";
 import popupReducer from "./popupReducer";
 import appReducer from "./appReducer";
 import homenavReducer from "./homenavReducer";
+import wishlistReducer from "./wishlishReducer";
 import productReducer from "./productReducer";
 import searchReducer from "./searchReducer";
 import chatbotReducer from "./chatbot";
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   homenav: homenavReducer,
   search: searchReducer,
   chatbot: chatbotReducer,
+  wishlist:wishlistReducer,
 });
 
 export default rootReducer;
