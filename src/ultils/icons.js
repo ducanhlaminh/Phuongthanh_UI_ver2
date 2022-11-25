@@ -1,4 +1,10 @@
-import { BsSpeedometer2, BsDot, BsFacebook, BsYoutube } from "react-icons/bs";
+import {
+  BsSpeedometer2,
+  BsDot,
+  BsFacebook,
+  BsUpload,
+  BsYoutube,
+} from "react-icons/bs";
 import {
   RiProductHuntLine,
   RiSearchLine,
@@ -58,6 +64,7 @@ const icons = {
   IoIosCreate,
   MdOutlineArrowBackIosNew,
   FiMenu,
+  BsUpload,
   IoMdArrowRoundDown,
   BiSearchAlt,
   AiOutlineClose,

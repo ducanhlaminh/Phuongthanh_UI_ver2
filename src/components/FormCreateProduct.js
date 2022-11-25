@@ -99,7 +99,7 @@ const FormCreateProduct = ({
     bodyFormData.append("description", shortDes);
     bodyFormData.append("categoryCode", selectValue);
     bodyFormData.append("variants", JSON.stringify(variants));
-    bodyFormData.append("tags", tags);
+    bodyFormData.append("tags", JSON.stringify(tags));
     bodyFormData.append("id", id);
 
     console.log(shortDes, image, tags);
@@ -116,7 +116,7 @@ const FormCreateProduct = ({
     }
   };
   return (
-    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
+    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative h-[90%] ">
       {showUpload && (
         <NotiStatus
           active={contentUpload.status === 0 ? "success" : "error"}
@@ -131,7 +131,7 @@ const FormCreateProduct = ({
       <h1 className="text-3xl text-center">Nhập thông tin tại đây</h1>
       <div className="h-[15%]">
         <InputCustomWidth
-          required={true}
+          required={!productName ? true : false}
           widthP={"full"}
           lable="Tên sản phẩm "
           placeholder="Tên sản phẩm..."
@@ -154,7 +154,7 @@ const FormCreateProduct = ({
           />
           <InputCustomWidth
             lable="Giá"
-            required={true}
+            required={!price ? true : false}
             placeholder="Giá: VND"
             PLarge={false}
             value={price}
@@ -233,7 +233,7 @@ const FormCreateProduct = ({
             setVariantValue={setVariantValue}
           />
           <div className="w-full flex flex-wrap">
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh chính
               </label>
@@ -259,7 +259,7 @@ const FormCreateProduct = ({
                 onChange={handleImageMain}
               />
             </div>
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh 1
               </label>
@@ -283,7 +283,7 @@ const FormCreateProduct = ({
                 onChange={handleImage1}
               />
             </div>
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh 2
               </label>
@@ -307,7 +307,7 @@ const FormCreateProduct = ({
                 onChange={handleImage2}
               />
             </div>
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh 3
               </label>

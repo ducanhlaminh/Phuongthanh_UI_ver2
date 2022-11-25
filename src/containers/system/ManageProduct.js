@@ -34,17 +34,22 @@ const ManageProduct = () => {
   const [page, setPage] = useState(1);
   const [showUpload, setShowUpload] = useState(false);
   const [contentUpload, setContentUpload] = useState();
+  const [search, setSearch] = useState("");
   const handleChangePage = (event, value) => {
     setPage(value);
   };
 
-  const checkSelected = () => {};
   // reload products theo category
   useEffect(() => {
     categories.length > 0 && setSelectValue(categories[0].code);
   }, [categories]);
 
   useEffect(() => {
+    setAddDeletes([]);
+  }, [selectValue]);
+
+  useEffect(() => {
+    console.log(search);
     const filter = Object.values(selectFilter.sort);
     selectValue &&
       dispatch(
@@ -53,9 +58,10 @@ const ManageProduct = () => {
           order: [...filter],
           limitProduct: 7,
           page: page,
+          name: search,
         })
       );
-  }, [selectValue, isLoading, selectFilter, page]);
+  }, [selectValue, isLoading, selectFilter, page, search]);
 
   // Compontent products
 
@@ -63,7 +69,7 @@ const ManageProduct = () => {
     return (
       <div
         key={product.id}
-        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full rounded-lg h-[102px]  text-xl "
+        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full rounded-lg h-[120px]  text-xl "
       >
         <div className="w-[10%] flex justify-center">
           <input
@@ -77,18 +83,19 @@ const ManageProduct = () => {
                   : [...prev].filter((item) => item !== e.target.value)
               );
             }}
+            checked={addDeletes.some((item) => product.id === item)}
           ></input>
         </div>
-        <div className=" w-[10%] flex justify-center h-4/5">
+        <div className=" w-[20%] flex justify-center h-4/5">
           <img
             src={product.mainImage}
             alt=""
-            className="object-cover w-full"
+            className="object-cover w-[70%]"
           ></img>
         </div>
         <div className="w-[20%] flex justify-center ">
           <div className="w-full">
-            <p className="whitespace-nowrap overflow-hidden text-ellipsis">
+            <p className="whitespace-nowrap overflow-hidden text-ellipsis text-center">
               {product.name}
             </p>
           </div>
@@ -147,7 +154,6 @@ const ManageProduct = () => {
           />
         )}
         <div className="w-[30%] pl-[30px] flex items-center justify-around text-xl ">
-          <input type="checkbox" className="h-[17.5px] w-[17.5px]"></input>
           <div className="font-bold ">
             <p> Đã chọn: {addDeletes.length}</p>
           </div>
@@ -162,12 +168,18 @@ const ManageProduct = () => {
             }}
           ></Button>
         </div>
-        <div className="flex justify-between w-[50%] h-[40px]">
-          <div className="flex items-center w-[50%] ">
-            {/* <InputCustomWidth />
-
-            <FiSearch className="ml-2 cursor-pointer text-2xl hover:text-gray-500" /> */}
-
+        <div className="flex justify-around w-[70%] h-[40px]">
+          <div className=" w-[40%] flex items-center">
+            <InputCustomWidth
+              placeholder="Tìm kiếm...."
+              value={search}
+              setValue={setSearch}
+            />
+            <div className=" h-full flex items-center">
+              <FiSearch className="ml-2 cursor-pointer text-2xl hover:text-gray-500" />
+            </div>
+          </div>
+          <div className="flex items-center w-[30%] ">
             <SelectCustomWidth
               label="Loc"
               widthP="full"
@@ -176,7 +188,7 @@ const ManageProduct = () => {
               setSelectValue={setSelectFilter}
             />
           </div>
-          <div className="flex items-center w-[40%] ">
+          <div className="flex items-center w-[30%] ">
             <SelectCustomWidth
               label="Loại hàng"
               widthP="full"
@@ -188,9 +200,9 @@ const ManageProduct = () => {
         </div>
       </div>
 
-      <div className="bg-[#d9d9d9] p-5 rounded-[10px] mt-5 h-[525px] ">
-        <div className="flex pb-5 h-1/8">
-          <div className="w-[5%] flex justify-center font-bold text-2xl"></div>
+      <div className="bg-[#d9d9d9] pt-[10px] pl-[10px] pr-[10px] mt-[20px] rounded-xl  h-[600px] flex flex-col">
+        <div className="flex h-[50px]">
+          <div className="w-[10%] flex justify-center font-bold text-2xl"></div>
           <div className="w-[20%] flex justify-center font-bold text-xl">
             Hình ảnh
           </div>
@@ -204,10 +216,10 @@ const ManageProduct = () => {
             Giá
           </div>
         </div>
-        <div className="h-4/5 overflow-auto relative">
+        <div className="h-5/6 overflow-auto relative">
           {loading ? <LoadingPageDesktop /> : renderProductList}
         </div>
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center w-full flex-auto items-end p-2">
           <Pagination
             count={Math.ceil(count / 7)}
             color="primary"

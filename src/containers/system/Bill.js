@@ -22,7 +22,6 @@ const Bill = () => {
   const [selectFilter, setSelectFilter] = useState(filtersBill[0]);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState();
-  const [loading, setLoading] = useState(false);
   const [valueInput, setValueInput] = useState("");
   const [selectedStatus, setSelectedStatus] = useState(statusFilter[0].code);
   const handleChangePage = (event, value) => {
@@ -55,12 +54,9 @@ const Bill = () => {
         const bills = res.billData.rows;
         setBills((prev) => bills);
         setCount(res.billData.count);
-        setLoading(false);
       };
       fetchProducts();
-    } catch (error) {
-      setLoading(true);
-    }
+    } catch (error) {}
   }, [showUpload, selectFilter, selectedStatus]);
 
   const renderBillsList = bills?.map((bill, i) => {
@@ -125,22 +121,22 @@ const Bill = () => {
       <div className="flex items-center bg-[#d9d9d9] rounded justify-between p-5 ">
         {showUpload && (
           <NotiStatus
-            active={showUpload}
+            active={contentUpload?.status === 0 ? "success" : "error"}
             setActive={setShowUpload}
             content={
               contentUpload?.status === 0
-                ? "Xóa sản phẩm thành công"
+                ? "Thay đổi trạng thái đơn hàng thành công"
                 : "Có lỗi xảy ra trong quá trình xử lí"
             }
           />
         )}
         <div className="flex justify-between w-full h-[40px]">
-          <div className="flex items-center w-[50%] ">
+          {/* <div className="flex items-center w-[50%] ">
             <InputCustomWidth widthP="full" />
           </div>
           <div className="w-[10%] h-full flex items-center">
             <FiSearch className="ml-2 cursor-pointer text-2xl hover:text-gray-500" />
-          </div>
+          </div> */}
           <div className="w-[30%] ">
             <SelectCustomWidth
               widthP="full"

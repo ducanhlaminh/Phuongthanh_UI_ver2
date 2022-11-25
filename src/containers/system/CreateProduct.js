@@ -30,6 +30,7 @@ const EditProduct = () => {
   const [showUpload, setShowUpload] = useState(false);
   const [contentUpload, setContentUpload] = useState();
   const handleSubmit = async () => {
+    console.log(JSON.stringify(tags), tags);
     const bodyFormData = new FormData();
     bodyFormData.append("mainImage", image.imageMain);
     bodyFormData.append("image1", image.image1);

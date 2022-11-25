@@ -445,41 +445,42 @@ const InputVariant = ({
         </div>
       </div>
       <div className="flex flex-wrap">
-        {variants?.map((variant, index) => (
-          <div
-            className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px] relative"
-            key={index}
-          >
+        {variants &&
+          variants?.map((variant, index) => (
             <div
-              className="font-bold absolute top-0 left-[94%] cursor-pointer"
-              onClick={() =>
-                setVariants((prev) =>
-                  [...prev].filter((item, i) => i !== index)
-                )
-              }
+              className="flex bg-slate-400 my-2 h-full rounded-xl p-2 min-w-[350px]  relative"
+              key={index}
             >
-              X
-            </div>
-            <b className=" ">{`${variant?.name} : `}</b>
-            <div className="">
-              {variant?.value?.map((type, index) => {
-                const cost = Intl.NumberFormat("it-IT", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(type.price);
+              <div
+                className="font-bold absolute top-0 left-[94%] cursor-pointer"
+                onClick={() =>
+                  setVariants((prev) =>
+                    [...prev].filter((item, i) => i !== index)
+                  )
+                }
+              >
+                X
+              </div>
+              <b className=" ">{`${variant?.name} : `}</b>
+              <div className="">
+                {variant?.value?.map((type, index) => {
+                  const cost = Intl.NumberFormat("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(type.price);
 
-                return (
-                  <>
-                    <div className="">
-                      <span className=" p-2">{`Loại : ${type.type}`}</span>
-                      <span className="">{`Giá :  ${cost}`}</span>
-                    </div>
-                  </>
-                );
-              })}
+                  return (
+                    <>
+                      <div className="w-full flex pl-2">
+                        <div className=" min-w-[100px]">{`Loại : ${type.type}`}</div>
+                        <div className="min-w-[100px]">{`Giá :  ${cost}`}</div>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

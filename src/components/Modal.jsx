@@ -5,7 +5,8 @@ import {
   TextCustomWidth,
 } from "./InputCtWidth";
 import Button from "./Button";
-import { useState, useEffect } from "react";
+import icons from "../ultils/icons";
+import { useState, useEffect, useRef } from "react";
 import ApiCategory from "../apis/category";
 import ApiProduct from "../apis/product";
 import * as actions from "../../src/store/actions";
@@ -19,6 +20,10 @@ import StepperBill from "./StepperBill";
 import { NotiStatus } from "./UploadStatus";
 import React from "react";
 import FormCreateProduct from "./FormCreateProduct";
+import { bufferToBase64 } from "../ultils/common";
+import apiUSer from "../apis/user";
+
+const { BsUpload } = icons;
 export const ModalEditCate = ({
   setIsShowEdit,
   selectCate,
@@ -27,15 +32,16 @@ export const ModalEditCate = ({
   setContentUpload,
 }) => {
   const [newCategory, setNewCategory] = useState(`${selectCate.valueVi}`);
-  const [newColor, setNewColor] = useState(`${selectCate.color}`);
-  const [image, setImage] = useState({});
-
+  const [color, setColor] = useState(`${selectCate.color}`);
+  const [image, setImage] = useState(selectCate.image);
+  const [imageUrl, setImageUrl] = useState(selectCate.image);
+  const imageRef = useRef();
   const dispatch = useDispatch();
   const Submit = async () => {
     const bodyFormData = new FormData();
     bodyFormData.append("valueVi", newCategory);
     bodyFormData.append("id", selectCate.id);
-    bodyFormData.append("color", newColor);
+    bodyFormData.append("color", color);
     bodyFormData.append("image", image);
     try {
       const res = await ApiCategory.update(bodyFormData);
@@ -54,7 +60,11 @@ export const ModalEditCate = ({
       setShowUpload(!showUpload);
     }
   };
-
+  useEffect(() => {
+    if (typeof image !== "string") {
+      image && setImageUrl(URL.createObjectURL(image));
+    }
+  }, [image]);
   return (
     <div
       className="fixed h-full w-full top-0 right-0 flex justify-center items-center bg-gray-500/[.09] drop-shadow-lg"
@@ -64,47 +74,76 @@ export const ModalEditCate = ({
       }}
     >
       <div
-        className=" w-[500px] h-[500px] bg-white rounded p-10 flex flex-col  items-center z-10"
+        className=" w-[1000px] h-[500px] bg-slate-100 rounded p-10 z-10 "
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
-        <b>SỬA THÔNG TIN GIAN HÀNG</b>
-        <div className="h-[10%] w-full my-5 border rounded-lg">
-          <InputCustomWidth
-            value={newCategory}
-            setValue={setNewCategory}
-            label="Ten gian hang"
-            widthP="full"
-            placeholder="Ten gian hang..."
-          ></InputCustomWidth>
+        <div className="text-center h-[10%] text-xl">
+          <b>GIAN HÀNG</b>
         </div>
-        <div className="h-[10%] w-full my-5 border rounded-lg">
-          <InputCustomWidth
-            value={newColor}
-            setValue={setNewColor}
-            label="Color"
-            widthP="full"
-            placeholder="Color..."
-          ></InputCustomWidth>
+
+        <div className="h-[70%] flex justify-evenly p-3">
+          <div className="flex flex-col ">
+            <div className=" ">
+              <InputCustomWidth
+                widthP="full"
+                value={newCategory}
+                setValue={setNewCategory}
+                placeholder="vd : Mỹ phẩm ,.."
+                lable="Tên gian hàng mới"
+              ></InputCustomWidth>
+            </div>
+            <div className=" h-[15%]">
+              <InputCustomWidth
+                widthP="full"
+                value={color}
+                setValue={setColor}
+                placeholder="vd : #333333"
+                lable="Mã màu gian hàng mới"
+              ></InputCustomWidth>
+            </div>
+          </div>
+          <div className="text-center h-full">
+            <h1 className="h-[42px] font-bold">ẢNH BÌA CHO GIAN HÀNG</h1>
+            <input
+              className="hidden"
+              type="file"
+              onChange={(e) => {
+                setImage(e.target.files[0]);
+              }}
+              ref={imageRef}
+            />
+            <div
+              className="w-[500px] h-5/6 flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+              onClick={() => imageRef.current.click()}
+            >
+              {imageUrl ? (
+                <img
+                  src={imageUrl || avatar}
+                  alt=""
+                  className="object-cover w-full h-full "
+                />
+              ) : (
+                <span>
+                  <BsUpload fontSize="50px" />
+                </span>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="h-[10%] w-full my-5">
-          <input
-            type="file"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              setImage(file);
+        <div className="h-[10%] justify-center flex ">
+          <Button
+            text="SỬA GIAN HÀNG"
+            bgColor="#4ed14b"
+            textColor="#fff"
+            width="80%"
+            onClick={() => {
+              Submit();
+              setIsShowEdit(false);
             }}
-          />
+          ></Button>
         </div>
-        <Button
-          text="SỬA GIAN HÀNG"
-          bgColor="#4ed14b"
-          textColor="#fff"
-          width="100%"
-          height="3"
-          onClick={Submit}
-        ></Button>
       </div>
     </div>
   );
@@ -117,7 +156,9 @@ export const ModalCreateCate = ({
 }) => {
   const [newCategory, setNewCategory] = useState("");
   const [color, setColor] = useState("");
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState();
+  const [imageUrl, setImageUrl] = useState();
+  const imageRef = useRef();
   const dispatch = useDispatch();
   const onSubmit = async () => {
     const bodyFormData = new FormData();
@@ -142,6 +183,12 @@ export const ModalCreateCate = ({
       setShowUpload(!showUpload);
     }
   };
+  useEffect(() => {
+    if (typeof image !== "string") {
+      image && setImageUrl(URL.createObjectURL(image));
+    }
+  }, [image]);
+
   return (
     <div
       className="fixed h-full w-full top-0 right-0 flex justify-center items-center bg-gray-500/[.09] drop-shadow-lg"
@@ -151,58 +198,75 @@ export const ModalCreateCate = ({
       }}
     >
       <div
-        className=" w-[500px] h-[500px] bg-white rounded p-10 flex flex-col  items-center z-10"
+        className=" w-[1000px] h-[500px] bg-slate-100 rounded p-10 z-10 "
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
-        <b>THÊM GIAN HÀNG</b>
-        <div className="h-full flex flex-col justify-evenly">
-          <div className=" h-[15%] border rounded ">
-            <InputCustomWidth
-              widthP="full"
-              value={newCategory}
-              setValue={setNewCategory}
-              placeholder="New Category"
-            ></InputCustomWidth>
-          </div>
-          <div className=" h-[15%] border rounded">
-            <InputCustomWidth
-              widthP="full"
-              value={color}
-              setValue={setColor}
-              placeholder="Color"
-            ></InputCustomWidth>
-          </div>
-          <h1>Ảnh cho gian hàng mới</h1>
-          <input
-            type="file"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-            }}
-          />
+        <div className="text-center h-[10%] text-xl">
+          <b>THÊM GIAN HÀNG</b>
+        </div>
 
+        <div className="h-[70%] flex justify-evenly p-3">
+          <div className="flex flex-col ">
+            <div className=" ">
+              <InputCustomWidth
+                widthP="full"
+                value={newCategory}
+                setValue={setNewCategory}
+                placeholder="vd : Mỹ phẩm ,.."
+                lable="Tên gian hàng mới"
+              ></InputCustomWidth>
+            </div>
+            <div className=" h-[15%]">
+              <InputCustomWidth
+                widthP="full"
+                value={color}
+                setValue={setColor}
+                placeholder="vd : #333333"
+                lable="Mã màu gian hàng mới"
+              ></InputCustomWidth>
+            </div>
+          </div>
+          <div className="text-center h-full">
+            <h1 className="h-[42px] font-bold">ẢNH BÌA CHO GIAN HÀNG MỚI</h1>
+            <input
+              className="hidden"
+              type="file"
+              onChange={(e) => {
+                setImage(e.target.files[0]);
+              }}
+              ref={imageRef}
+            />
+            <div
+              className="w-[500px] h-5/6 flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+              onClick={() => imageRef.current.click()}
+            >
+              {imageUrl ? (
+                <img
+                  src={imageUrl || avatar}
+                  alt=""
+                  className="object-cover w-full h-full "
+                />
+              ) : (
+                <span>
+                  <BsUpload fontSize="50px" />
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="h-[10%] justify-center flex ">
           <Button
             text="THÊM GIAN HÀNG"
             bgColor="#4ed14b"
             textColor="#fff"
-            width="full"
-            height="3"
+            width="80%"
             onClick={() => {
               onSubmit();
               setIsShowCreate(false);
             }}
           ></Button>
-
-          {/* <button
-              type="button"
-              onClick={() => {
-                onSubmit(value);
-              }}
-              className="h-[50px] w-[50px]"
-            >
-              Submit
-            </button> */}
         </div>
       </div>
     </div>
@@ -246,6 +310,56 @@ export const PopupDeleteCate = ({
                 setShowUpload(!showUpload);
                 setContentUpload(res);
                 dispatch(actions.getCategory());
+              } else {
+                setIsDelete(false);
+                setShowUpload(!showUpload);
+                setContentUpload(res);
+              }
+            } catch (error) {
+              setIsDelete(false);
+              setShowUpload(!showUpload);
+            }
+          }}
+        ></Button>
+      </div>
+    </div>
+  );
+};
+export const PopupDeleteUser = ({
+  user,
+  setIsDelete,
+  setShowUpload,
+  showUpload,
+  setContentUpload,
+}) => {
+  return (
+    <div
+      className="fixed h-full w-full top-0 right-0 flex justify-center items-center bg-gray-500/[.09] drop-shadow-lg"
+      onClick={(e) => {
+        setIsDelete(false);
+        e.stopPropagation();
+      }}
+    >
+      <div
+        className=" w-[500px] bg-white rounded p-10 flex flex-col  items-center z-10"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <b>BẠN CHẮC MUỐN XÓA GIAN HÀNG NÀY CHỨ </b>
+        <Button
+          text="XÓA NGƯỜI DÙNG"
+          bgColor="#4ed14b"
+          textColor="#fff"
+          width="100%"
+          height="3"
+          onClick={async () => {
+            try {
+              const res = await apiUSer.delete({ id: user.id });
+              if (res.status === 0) {
+                setIsDelete(false);
+                setShowUpload(!showUpload);
+                setContentUpload(res);
               } else {
                 setIsDelete(false);
                 setShowUpload(!showUpload);
@@ -344,6 +458,7 @@ export const EditProduct = ({
   product,
   category,
 }) => {
+  console.log(JSON.parse(product.hashtags));
   const [productName, setProductName] = useState(product.name);
   const [selectValue, setSelectValue] = useState(category);
   const [price, setPrice] = useState(product.costPerUnit);
@@ -411,7 +526,7 @@ export const EditProduct = ({
   return (
     <>
       <div
-        className="fixed h-full w-full top-0 right-0 flex justify-center items-center bg-gray-500/[.09] drop-shadow-lg "
+        className="fixed h-full w-full top-0 right-0 flex justify-center items-center bg-gray-500/[.09] drop-shadow-lg overflow-auto"
         onClick={(e) => {
           setIsShowEdit(false);
           e.stopPropagation();
@@ -423,7 +538,7 @@ export const EditProduct = ({
             e.stopPropagation();
           }}
         >
-          {console.log(selectValue)}
+          {console.log(product)}
           <FormCreateProduct
             productName={productName}
             setProductName={setProductName}
@@ -434,6 +549,8 @@ export const EditProduct = ({
             setPrice={setPrice}
             tags={tags}
             setTags={setTags}
+            variantValue={variantValue}
+            setVariantValue={setVariantValue}
             setVariantChild={setVariantChild}
             variantChild={variantChild}
             setVariants={setVariants}
@@ -494,7 +611,11 @@ export const Profile = ({
               <div className="mb-5 h-1/2 flex items-center">
                 <div className="h-[100px]">
                   <img
-                    src={avatar}
+                    src={
+                      bufferToBase64(billCurrent?.avatar) ||
+                      billCurrent?.avatarUrl ||
+                      avatar
+                    }
                     alt=""
                     className="h-full rounded-full pr-3"
                   />
