@@ -10,6 +10,7 @@ import {
   RiSearchLine,
   RiUser6Line,
   RiHandbagLine,
+  RiBillLine,
 } from "react-icons/ri";
 import {
   FaUserEdit,
@@ -22,7 +23,12 @@ import {
   IoIosArrowForward,
 } from "react-icons/io";
 import { FiMenu, FiFilter, FiLogOut } from "react-icons/fi";
-import { BiSearchAlt, BiPurchaseTag, BiMenuAltLeft } from "react-icons/bi";
+import {
+  BiSearchAlt,
+  BiPurchaseTag,
+  BiMenuAltLeft,
+  BiCategoryAlt,
+} from "react-icons/bi";
 
 import {
   AiOutlineClose,
@@ -36,6 +42,7 @@ import {
   AiFillStar,
   AiOutlinePlus,
   AiFillCheckCircle,
+  AiOutlineUserAdd,
 } from "react-icons/ai";
 import {
   MdOutlinePhonelink,
@@ -96,6 +103,9 @@ const icons = {
   AiOutlineCopyrightCircle,
   BiMenuAltLeft,
   VscBell,
+  RiBillLine,
+  BiCategoryAlt,
+  AiOutlineUserAdd,
   AiOutlineHeart,
   MdArrowBackIos,
   FiLogOut,

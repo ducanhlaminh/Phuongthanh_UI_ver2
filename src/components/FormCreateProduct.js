@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import icons from "../ultils/icons";
 import { NotiStatus } from "../components/UploadStatus";
 import ApiProduct from "../apis/product";
-const { AiFillCheckCircle } = icons;
+const { AiFillCheckCircle, BsUpload } = icons;
 const FormCreateProduct = ({
   productName,
   setProductName,
@@ -237,17 +237,19 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh chính
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.imageMainUrl
-                      ? imageUrl.imageMainUrl
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => imageMainRef.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px] flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => imageMainRef.current.click()}
+              >
+                {imageUrl.imageMainUrl ? (
+                  <img
+                    src={imageUrl.imageMainUrl}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
 
               <input
@@ -263,17 +265,19 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh 1
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.image1Url
-                      ? imageUrl.image1Url
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => image1Ref.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => imageMainRef.current.click()}
+              >
+                {imageUrl.image1Url ? (
+                  <img
+                    src={imageUrl.image1Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
               <input
                 className="hidden"
@@ -287,17 +291,19 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh 2
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.image2Url
-                      ? imageUrl.image2Url
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => image2Ref.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => image2Ref.current.click()}
+              >
+                {imageUrl.image2Url ? (
+                  <img
+                    src={imageUrl.image2Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
               <input
                 className="hidden"
@@ -311,17 +317,19 @@ const FormCreateProduct = ({
               <label htmlFor="" className="font-bold">
                 Ảnh 3
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.image3Url
-                      ? imageUrl.image3Url
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => image3Ref.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => image3Ref.current.click()}
+              >
+                {imageUrl.image2Url ? (
+                  <img
+                    src={imageUrl.image2Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
               <input
                 className="hidden"
@@ -334,7 +342,7 @@ const FormCreateProduct = ({
 
             {/* <InputFileCustomWidth
                   lable="Ảnh 1"
-                  widthP="[100%]"
+                  widthP="[200%]"
                   valueImg={image1}
                   setValueImg={setImage1}
                 />

@@ -30,6 +30,7 @@ export const ModalEditCate = ({
   setShowUpload,
   showUpload,
   setContentUpload,
+  setIsLoading,
 }) => {
   const [newCategory, setNewCategory] = useState(`${selectCate.valueVi}`);
   const [color, setColor] = useState(`${selectCate.color}`);
@@ -44,18 +45,20 @@ export const ModalEditCate = ({
     bodyFormData.append("color", color);
     bodyFormData.append("image", image);
     try {
+      setIsShowEdit(false);
+      setIsLoading(true);
       const res = await ApiCategory.update(bodyFormData);
+      setContentUpload(res);
       if (res.status === 0) {
-        setIsShowEdit(false);
-        setShowUpload(!showUpload);
-        setContentUpload(res);
         dispatch(actions.getCategory());
-      } else {
-        setIsShowEdit(false);
+        setIsLoading(false);
         setShowUpload(!showUpload);
-        setContentUpload(res);
+      } else {
+        setIsLoading(false);
+        setShowUpload(!showUpload);
       }
     } catch (error) {
+      console.log(error);
       setIsShowEdit(false);
       setShowUpload(!showUpload);
     }
@@ -153,6 +156,7 @@ export const ModalCreateCate = ({
   setShowUpload,
   showUpload,
   setContentUpload,
+  setIsLoading,
 }) => {
   const [newCategory, setNewCategory] = useState("");
   const [color, setColor] = useState("");
@@ -165,20 +169,21 @@ export const ModalCreateCate = ({
     bodyFormData.append("valueVi", newCategory);
     bodyFormData.append("color", color);
     bodyFormData.append("image", image);
-
     try {
+      setIsShowCreate(false);
+      setIsLoading(true);
       const res = await ApiCategory.create(bodyFormData);
+      setContentUpload(res);
       if (res.status === 0) {
-        setIsShowCreate(false);
-        setShowUpload(!showUpload);
-        setContentUpload(res);
         dispatch(actions.getCategory());
-      } else {
-        setIsShowCreate(false);
+        setIsLoading(false);
         setShowUpload(!showUpload);
-        setContentUpload(res);
+      } else {
+        setIsLoading(false);
+        setShowUpload(!showUpload);
       }
     } catch (error) {
+      console.log(error);
       setIsShowCreate(false);
       setShowUpload(!showUpload);
     }
@@ -279,6 +284,8 @@ export const PopupDeleteCate = ({
   setShowUpload,
   showUpload,
   setContentUpload,
+  isLoading,
+  setIsLoading,
 }) => {
   const dispatch = useDispatch();
   return (
@@ -304,18 +311,20 @@ export const PopupDeleteCate = ({
           height="3"
           onClick={async () => {
             try {
+              setIsDelete(false);
+              setIsLoading(true);
               const res = await ApiCategory.delete({ id: [selectCate.id] });
+              setContentUpload(res);
               if (res.status === 0) {
-                setIsDelete(false);
-                setShowUpload(!showUpload);
-                setContentUpload(res);
                 dispatch(actions.getCategory());
-              } else {
-                setIsDelete(false);
+                setIsLoading(false);
                 setShowUpload(!showUpload);
-                setContentUpload(res);
+              } else {
+                setIsLoading(false);
+                setShowUpload(!showUpload);
               }
             } catch (error) {
+              console.log(error);
               setIsDelete(false);
               setShowUpload(!showUpload);
             }
@@ -462,7 +471,9 @@ export const EditProduct = ({
   const [productName, setProductName] = useState(product.name);
   const [selectValue, setSelectValue] = useState(category);
   const [price, setPrice] = useState(product.costPerUnit);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(
+    product.hashtags !== null ? JSON.parse(product.hashtags) : []
+  );
   const [shortDes, setShortDes] = useState(product.description);
   const [image, setImage] = useState({
     imageMain: product.mainImage,

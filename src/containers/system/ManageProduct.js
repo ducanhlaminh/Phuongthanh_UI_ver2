@@ -1,5 +1,4 @@
 import { Button } from "../../components/Button";
-import image from "../../assets/temp.png";
 import { FiSearch } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import {
@@ -69,7 +68,7 @@ const ManageProduct = () => {
     return (
       <div
         key={product.id}
-        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full rounded-lg h-[120px]  text-xl "
+        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full h-[120px]  text-xl "
       >
         <div className="w-[10%] flex justify-center">
           <input
@@ -94,14 +93,21 @@ const ManageProduct = () => {
           ></img>
         </div>
         <div className="w-[20%] flex justify-center ">
-          <div className="w-full">
-            <p className="whitespace-nowrap overflow-hidden text-ellipsis text-center">
+          <div className="w-full ">
+            <p className="whitespace-nowrap overflow-hidden text-ellipsis p-3">
               {product.name}
             </p>
           </div>
         </div>
-        <div className="w-[20%] flex justify-center">
-          <p>{product?.category?.value}</p>
+        <div className="w-[20%]">
+          {product?.variants.map((item) => (
+            <div
+              key={item.name}
+              className="flex justify-center outline outline-primary outline-1 p-2 rounded-xl [&:not(:last-child)]:mb-[10px]"
+            >
+              <span>{item.name}</span>
+            </div>
+          ))}
         </div>
         <div className="w-[15%] flex justify-center">
           <p>
@@ -111,7 +117,7 @@ const ManageProduct = () => {
             }).format(product?.costPerUnit)}
           </p>
         </div>
-        <div className="flex w-[20%] justify-around ">
+        <div className="flex w-[15%] justify-around ">
           <Button
             text="Sửa"
             bgColor="#4ed14b"
@@ -122,6 +128,7 @@ const ManageProduct = () => {
               setSelectProduct(product);
             }}
           ></Button>
+
           <Button
             text="Xóa"
             bgColor="#cf2b2b"
@@ -139,7 +146,7 @@ const ManageProduct = () => {
   });
   return (
     <div className="w-full">
-      <h1 className="text-3xl">Quản lí sản phẩm</h1>
+      <h1 className="text-3xl">Quản lý sản phẩm</h1>
 
       <div className="flex items-center bg-[#d9d9d9] rounded p-3 justify-between ">
         {showUpload && (
@@ -201,18 +208,18 @@ const ManageProduct = () => {
       </div>
 
       <div className="bg-[#d9d9d9] pt-[10px] pl-[10px] pr-[10px] mt-[20px] rounded-xl  h-[600px] flex flex-col">
-        <div className="flex h-[50px]">
+        <div className="flex h-[50px] ">
           <div className="w-[10%] flex justify-center font-bold text-2xl"></div>
           <div className="w-[20%] flex justify-center font-bold text-xl">
             Hình ảnh
           </div>
-          <div className="w-[15%] flex justify-center font-bold text-xl">
+          <div className="w-[20%] flex justify-center font-bold text-xl">
             Tên sản phẩm
           </div>
-          <div className="w-[30%] flex justify-center font-bold text-xl">
+          <div className="w-[20%] flex justify-center font-bold text-xl">
             Loại hàng
           </div>
-          <div className="w-[5%] flex justify-center font-bold text-xl">
+          <div className="w-[15%] flex justify-center font-bold text-xl">
             Giá
           </div>
         </div>

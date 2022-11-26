@@ -158,8 +158,8 @@ const Bill = () => {
         </div>
       </div>
 
-      <div className="bg-[#d9d9d9] p-5 rounded-[10px] mt-5 h-[525px]">
-        <div className="flex pb-5">
+      <div className="bg-[#d9d9d9] pt-[10px] pl-[10px] pr-[10px] mt-[20px] rounded-xl  h-[600px] flex flex-col">
+        <div className="flex h-[50px] pr-[20px]">
           <div className="w-[5%] flex justify-center font-bold text-2xl">
             ID
           </div>
@@ -182,7 +182,7 @@ const Bill = () => {
         <div className="h-4/5 overflow-auto relative">
           {bills === null ? <LoadingPageDesktop /> : renderBillsList}
         </div>
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center w-full flex-auto items-end p-2">
           <Pagination
             count={Math.ceil(count / 7)}
             color="primary"
