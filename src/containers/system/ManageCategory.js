@@ -11,9 +11,10 @@ import {
   ModalCreateCate,
 } from "../../components/Modal";
 import { NotiStatus } from "../../components/UploadStatus";
-
+import { LoadingPageDesktop } from "../../components/LoadingPage";
 const ManageCategory = () => {
   const [selectCate, setSelectCate] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [isShowEdit, setIsShowEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isShowCreate, setIsShowCreate] = useState(false);
@@ -25,19 +26,15 @@ const ManageCategory = () => {
 
   const renderCateList = categories.map((cate, i) => {
     return (
-      <div key={cate.id} className="">
-        <div className=" flex rounded w-full  bg-white items-center max-h-[90px] [&:not(:first-child)]:mt-2">
+      <div
+        key={cate.id}
+        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full rounded-lg h-[100px]  text-xl "
+      >
+        <div className="flex items-center w-full justify-between">
           <div className="w-[28%] p-10">
             <p className=" text-xl font-bold ">{cate.valueVi}</p>
           </div>
 
-          <div className="w-[28%]">
-            <p className=" text-xl font-bold ">{cate.products}</p>
-          </div>
-
-          <div className="w-[28%]">
-            <p className=" text-xl font-bold ">20/12/2022</p>
-          </div>
           <div className="w-[30%] flex justify-around">
             <Button
               text="Sửa"
@@ -69,14 +66,14 @@ const ManageCategory = () => {
   return (
     <>
       <h1 className="text-2xl mb-2">ManageCategory</h1>
-      <div className="bg-gray-300 rounded p-5 ">
+      <div className="bg-gray-300 rounded p-5 h-[600px] overflow-auto">
         {showUpload && (
           <NotiStatus
             active={contentUpload?.status === 0 ? "success" : "error"}
             setActive={setShowUpload}
             content={
               contentUpload?.status === 0
-                ? "Thao tác xử lí thành công"
+                ? contentUpload.message
                 : "Có lỗi xảy ra trong quá trình xử lí"
             }
           />
@@ -97,8 +94,8 @@ const ManageCategory = () => {
           <h2 className="p-3 font-bold">{`Tổng số gian hàng hiện có : ${categories.length}`}</h2>
         </div>
 
-        <div className="overflow-auto bg-white min-h-[400px]">
-          {renderCateList}
+        <div className="overflow-auto h-[400px] relative">
+          {isLoading ? <LoadingPageDesktop /> : renderCateList}
         </div>
       </div>
       {isShowEdit ? (
@@ -108,6 +105,8 @@ const ManageCategory = () => {
           setShowUpload={setShowUpload}
           setContentUpload={setContentUpload}
           showUpload={showUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       ) : (
         ""
@@ -120,6 +119,8 @@ const ManageCategory = () => {
           setShowUpload={setShowUpload}
           showUpload={showUpload}
           setContentUpload={setContentUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       ) : (
         ""
@@ -130,6 +131,8 @@ const ManageCategory = () => {
           setShowUpload={setShowUpload}
           showUpload={showUpload}
           setContentUpload={setContentUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       ) : (
         ""
