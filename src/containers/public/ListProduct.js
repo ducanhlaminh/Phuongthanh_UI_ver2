@@ -26,7 +26,7 @@ function ListProducts({ categoryData, otherData }) {
   const { products, count } = useSelector((state) => {
     return state.products;
   });
-  const [isShowFilter, setIsShowFilter] = useState(true);
+  const [isShowFilter, setIsShowFilter] = useState(false);
   const minDistance = 10000000;
 
   // luu page hien tai
@@ -121,7 +121,7 @@ function ListProducts({ categoryData, otherData }) {
                   <span className="text-xl mr-1">
                     <FaSortAmountDownAlt />
                   </span>
-                  SORT
+                  Lọc theo điều kiện
                 </b>
               </div>
             </div>

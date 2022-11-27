@@ -661,11 +661,12 @@ export const FilterProductsMobile = ({
           </div>
           <hr />
           <div className="flex flex-col justify-around h-[85%] px-5">
-            {filters.map((filter) => {
+            {filters.map((filter,i) => {
               const value = JSON.stringify(filter);
               return (
                 <div className="" key={filter.valueVi}>
                   <input
+                    id={`option-sort--${i}`}
                     type="radio"
                     value={value}
                     onChange={(e) => {
@@ -673,7 +674,7 @@ export const FilterProductsMobile = ({
                     }}
                     checked={JSON.stringify(selectedFilter) === value}
                   />
-                  <label className="ml-5" htmlFor="">
+                  <label className="ml-5" htmlFor={`option-sort--${i}`}>
                     {filter.valueVi}
                   </label>
                 </div>
@@ -709,7 +710,7 @@ export const FilterProductsMobile = ({
               onChange={handleChange}
               onChangeCommitted={handleChange2}
               valueLabelDisplay="on"
-              step={10000000}
+              step={1000000}
               marks
               disableSwap
               max={100000000}
