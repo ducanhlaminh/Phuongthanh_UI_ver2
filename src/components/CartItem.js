@@ -19,7 +19,7 @@ const CartItem = ({
   setDataBill,
   setCheckedList,
 }) => {
-  const { id, name, mainImage, soldCounter } = product || {};
+  const { id, name, mainImage, soldCounter,cid } = product || {};
   const [price, setPrice] = useState(0);
   const [quanityProduct, setQuanityProduct] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
@@ -43,6 +43,7 @@ const CartItem = ({
     let billData = {
       pid: id,
       qty: quanityProduct,
+      cid:cartID,
       variant: varName,
       cost: price,
       cid: cartID

@@ -13,11 +13,12 @@ const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
   const [address,setAddress] = useState('');
   const [detailBill, setDetailBill] = useState();
+  // console.log(productBill);
   const [status, setStatus] = useState("");
   const id = useParams().id;
   useEffect(()=>{
     if(detailBill){
-      setAddress(JSON.parse(detailBill?.addressData?.address).detail+ " "+JSON.parse(detailBill?.addressData?.address).ward+" "+JSON.parse(detailBill?.addressData?.address).district+ " "+ JSON.parse(detailBill?.addressData?.address).province);
+      setAddress(JSON.parse(detailBill?.addressData?.address)?.detail+ " "+JSON.parse(detailBill?.addressData?.address)?.ward+" "+JSON.parse(detailBill?.addressData?.address)?.district+ " "+ JSON.parse(detailBill?.addressData?.address)?.province);
     }
   },[detailBill]);
   console.log(address);
@@ -219,7 +220,7 @@ const ItemOrder = () => {
                       {product?.products?.name}
                     </p>
                     <p className="font-light md:text-[14px] lg:text-[16px] text-black">
-                      {product?.products?.name}
+                      {product?.variant}
                     </p>
                   </div>
                 </span>

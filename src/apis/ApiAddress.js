@@ -41,6 +41,14 @@ const ApiAddress = {
     const url = "/api/v1/address/";
     return axiosClients.get(url);
   },
+  Update:(data)=>{
+    const url='/api/v1/address/';
+    return axiosClients.put(url,data);
+  },
+  delete:(params)=>{
+    const url='/api/v1/address/';
+    return axiosClients.delete(url,{params});
+  }
 };
 
 export default ApiAddress;
