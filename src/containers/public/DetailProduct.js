@@ -48,7 +48,6 @@ const DetailProduct = () => {
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
-  console.log(product);
   const [comments, setComments] = useState({});
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);

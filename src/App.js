@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate,useNavigation} from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
 
 import {
@@ -42,12 +42,22 @@ import { useEffect, useState } from "react";
 import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
 
+
+
 function App() {
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth); 
   const { categories } = useSelector((state) => state.app);
   const [isStartChatBot, setIsStartChatBot] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    
+  },[window.location.pathname]);
+
+
+
   // Khi reload page get userdata again
   useEffect(() => {
     isLoggedIn && dispatch(actions.getCurrent());
@@ -90,7 +100,7 @@ function App() {
             <Route path="*" element={<Personal />} />
           </Route>
           <Route path={path.CART} element={<Mycart />}></Route>
-          <Route path={path.ADD_ADDRESS} element={<AddAddress />} />
+          <Route path={path.ADD_ADDRESS} element={<AddAddress />}/>
           {categories?.map((item) => (
             <Route
               key={item.id}

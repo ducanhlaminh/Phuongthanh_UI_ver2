@@ -18,7 +18,7 @@ const Profile = () => {
 
   if (!isLoggedIn) return <Navigate to={path.LOGIN} />;
   return (
-    <div className="px-5 md:py-6 md:h-full h-screen">
+    <div className="px-5 md:py-6 md:h-full">
       <div className="pb-6 items-center justify-between pr-[76px] hidden md:flex">
         {!detailOrder && (
           <h3 className="lg:text-[34px] md:text-[24px] font-bold text-[#1B4B66]">

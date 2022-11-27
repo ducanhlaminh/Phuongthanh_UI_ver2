@@ -22,6 +22,9 @@ const AddAddressPopup = ({
   setShowPopupAddress,
   showPopupAddress,
   handleAddAdress,
+  isUpdating,
+  handleUpdateAddress,
+  aid,
 }) => {
   const [status, setStatus] = useState();
   const [isClick, setIsClick] = useState(false);
@@ -108,7 +111,12 @@ const AddAddressPopup = ({
           </div>
 
           <ButtonFooterContainer >
-            <div className="w-full mr-[24px]" onClick={() => handleAddAdress()}>
+            <div className="w-full mr-[24px]" onClick={() =>  { 
+              if(isUpdating){
+                handleUpdateAddress();
+              }
+              else
+              handleAddAdress()}}>
               <Button2 text="Lưu địa chỉ" />
             </div>
           </ButtonFooterContainer>

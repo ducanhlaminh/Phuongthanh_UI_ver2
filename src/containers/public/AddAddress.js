@@ -10,9 +10,13 @@ import * as actions from "../../store/actions";
 import AddAddressPopup from "../../triggercompoents/AddAddressPopup";
 import { numFormatter } from "../../ultils/fn";
 import ApiCheckout from "../../apis/bill2";
+import ApiCart from "../../apis/cart";
 import DownPopup from "../../components/DownPopup";
 import { BsPencil } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
+import Loading from "../../components/Loading";
+import Swal from "sweetalert2"
+import {deleteCache} from "../../apis/bill2";
 
 function AddAddress() {
   const [status, setStatus] = useState(false);
@@ -36,8 +40,20 @@ function AddAddress() {
   const [canCheckOut, setCanCheckOut] = useState(false);
   const [dataBill, setDataBill] = useState([]);
   const [isChoosingAddress, setIsChoosingAddress] = useState(false);
+  const [cidList, setCidList] = useState([]);
+  const [aid, setAid] = useState();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    return ()=>{
+      const deleteCacheHanlder=async()=>{
+        await deleteCache();
+      }
+      deleteCacheHanlder();
+    }
+  },[]);
   //GET BILL
   useEffect(() => {
     const getBillInfo = async () => {
@@ -47,12 +63,14 @@ function AddAddress() {
         billsDetail.map((billDetail) => {
           let data = {
             id: billDetail?.pid,
+            cid: billDetail?.cid,
             mainImage: billDetail?.product?.mainImage,
             name: billDetail?.product?.name,
             variant: billDetail?.variant,
             price: billDetail?.cost,
             quanity: billDetail?.qty,
           };
+          setCidList((prev) => [...prev, billDetail?.cid]);
           setDataBill((prve) => [...prve, data]);
         });
       }
@@ -106,8 +124,12 @@ function AddAddress() {
     districtCur !== "DEFAULT" && fetchWarn();
   }, [districtCur]);
 
+  useEffect(()=>{
+      handleGetFeeShip();
+  },[selectAddress])
   //Add new address
   const handleAddAdress = () => {
+    setIsLoading(true);
     if (
       !detailAddress ||
       !provinceCur.ProvinceName ||
@@ -141,14 +163,48 @@ function AddAddress() {
           setShowPopup(true);
           setSelected(true);
           setShowPopupAddress(false);
+          Swal.fire("Thành công","Đã thêm địa chỉ thành công","success");
         }
       } catch (err) {
         setShowPopupAddress(false);
+        if(err.err===1){
+          Swal.fire("Thất bại","Số điện thoại không hợp lệ","error");
+        }
         setStatus(false);
         setShowPopup(true);
       }
     };
     add(data);
+    setIsLoading(false);
+  };
+
+  const handleUpdateAddress = async () => {
+    setIsLoading(true);
+    const data = {
+      address: JSON.stringify({
+        detail: detailAddress,
+        province: provinceCur.ProvinceName,
+        district: districtCur.DistrictName,
+        ward: wardCur.WardName,
+        code: {
+          to_province_id: provinceCur.ProvinceID,
+          to_district_id: districtCur.DistrictID,
+          to_ward_code: wardCur.WardCode,
+        },
+      }),
+    };
+    const res = await ApiAddress.Update({
+      aid: aid,
+      name: infoUser.name,
+      phone: infoUser.phone,
+      address: data.address,
+    });
+    if(res.status===0){
+      Swal.fire("Thành công","Đã sửa địa chỉ thành công","success");
+    }
+    setIsLoading(false);
+    setShowPopupAddress(false);
+    setIsUpdating(false);
   };
 
   //GET FEE SHIP
@@ -188,6 +244,7 @@ function AddAddress() {
         aid: selectAddress?.id,
       };
       let res = await ApiCheckout.create(data);
+      await ApiCart.delete({ cids: [...cidList] });
       if (res.status === 0) window.location.href = "/ho-so/hoa-don-cua-toi";
     } catch (error) {
       console.log(error);
@@ -197,7 +254,7 @@ function AddAddress() {
   return (
     <>
       {/* Mobile */}
-
+      {isLoading && <Loading></Loading>}
       <div
         className="md:hidden h-full relative"
         onClick={() => setShowPopup(false)}
@@ -215,7 +272,10 @@ function AddAddress() {
               <div>
                 <AiOutlinePlus className="inline text-primary text-[14px] mr-[13px]"></AiOutlinePlus>
                 <span
-                  onClick={() => setShowPopupAddress(true)}
+                  onClick={() => {
+                    setShowPopupAddress(true);
+                    setIsChoosingAddress(false);
+                  }}
                   className="font-bold  text-primary cursor-pointer"
                 >
                   Thêm địa chỉ
@@ -226,9 +286,12 @@ function AddAddress() {
               {address.length > 0 &&
                 address?.map((addres, index) => {
                   const data = JSON.parse(addres.address);
+
                   return (
-                    <div className="flex cursor-pointer [&:not(:first-child)]:mt-[23px]" key={addres.id}>
-                      
+                    <div
+                      className="flex cursor-pointer [&:not(:first-child)]:mt-[23px]"
+                      key={addres.id}
+                    >
                       <input
                         type="radio"
                         className="mr-4"
@@ -250,18 +313,55 @@ function AddAddress() {
                         }
                       >
                         <div className="flex">
-                          <p className="font-semibold text-[14px]">{addres.name}</p>
+                          <p className="font-semibold text-[14px]">
+                            {addres.name}
+                          </p>
                         </div>
                         <div className="flex">
-                          <p className="font-medium text-[14px] mt-[8px] mb-[4px]">{addres.phone}</p>
+                          <p className="font-medium text-[14px] mt-[8px] mb-[4px]">
+                            {addres.phone}
+                          </p>
                         </div>
                         <div>
                           <p className="font-medium text-[14px]">{`${data.detail}-${data.ward} - ${data.district} - ${data.province}`}</p>
                         </div>
                       </div>
 
-                      <div className="font-semibold text-[14px] mr-[15px] text-primary">Sửa</div>
-                      <div className="font-semibold text-[14px] text-red">Xóa</div>
+                      <div
+                        className="font-semibold text-[14px] mr-[15px] text-primary"
+                        onClick={() => {
+                          setShowPopupAddress(true);
+                          setIsChoosingAddress(false);
+                          setIsUpdating(true);
+                          setAid(addres.id);
+                          setInfoUser({
+                            name: addres.name,
+                            phone: addres.phone,
+                          });
+                          setDetailAddress(data.detail);
+                        }}
+                      >
+                        Sửa
+                      </div>
+                      <div
+                        className="font-semibold text-[14px] text-red"
+                        onClick={() => {
+                          setIsLoading(true);
+                          const deleteAddress = async () => {
+                            const res = await ApiAddress.delete({
+                              aids: [addres.id],
+                            });
+                            if(res.status === 0){
+                              Swal.fire("Thành công","Đã xóa địa chỉ thành công","success");
+                            }
+                          };
+                          deleteAddress();
+                          setShowPopupAddress(false);
+                          setIsLoading(false);
+                        }}
+                      >
+                        Xóa
+                      </div>
                     </div>
                   );
                 })}
@@ -327,7 +427,7 @@ function AddAddress() {
             <div className="px-[16px] overflow-auto h-[270px] scroll-smooth">
               {/* product */}
               {dataBill.map((product) => {
-                return <CartItemCombined data={product} />;
+                return <CartItemCombined data={product} key={product.id} />;
               })}
             </div>
           </div>
@@ -386,6 +486,8 @@ function AddAddress() {
           setShowPopupAddress={setShowPopupAddress}
           showPopupAddress={showPopupAddress}
           handleAddAdress={handleAddAdress}
+          isUpdating={isUpdating}
+          handleUpdateAddress={handleUpdateAddress}
         />
       </div>
 
@@ -557,12 +659,12 @@ function AddAddress() {
                           );
                         })}
                     </div>
-                    <div className="p-3">
+                    {/* <div className="p-3">
                       <Button2
                         handleClick={() => handleGetFeeShip()}
                         text="Xác nhận địa chỉ nhận hàng"
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </>
               )}

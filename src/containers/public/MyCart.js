@@ -16,14 +16,14 @@ import BreadCrumb from "../../components/BreadCrumb";
 
 function MyCart() {
   const navigate = useNavigate();
-  const [totalPrice, setTotalPrice] = useState(0)
-  const [checkedList, setCheckedList] = useState([])
-  const [quanityList, setQuanityList] = useState([])
-  const [openAlertPopup, setOpenAlertPopup] = useState(false)
-  const [idDelete, setIdDelete] = useState(null)
-  const [reload, setReload] = useState(false)
-  const [activeNotify, setActiveNotify] = useState(false)
-  const [dataBill, setDataBill] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [checkedList, setCheckedList] = useState([]);
+  const [quanityList, setQuanityList] = useState([]);
+  const [openAlertPopup, setOpenAlertPopup] = useState(false);
+  const [idDelete, setIdDelete] = useState(null);
+  const [reload, setReload] = useState(false);
+  const [activeNotify, setActiveNotify] = useState(false);
+  const [dataBill, setDataBill] = useState([]);
 
   const dispatch = useDispatch();
   const { productsCart } = useSelector((state) => state.cart);
@@ -31,16 +31,19 @@ function MyCart() {
   useEffect(() => {
     dispatch(actions.addToCart());
   }, [reload]);
-  
 
   useEffect(() => {
-    if(checkedList.length !== 0 && quanityList.length !== 0 && productsCart){
-     let tmpPrice =  TotalPriceCaculator(productsCart,checkedList,quanityList)
-     setTotalPrice(tmpPrice)
-    }else{
-      setTotalPrice(0)
+    if (checkedList.length !== 0 && quanityList.length !== 0 && productsCart) {
+      let tmpPrice = TotalPriceCaculator(
+        productsCart,
+        checkedList,
+        quanityList
+      );
+      setTotalPrice(tmpPrice);
+    } else {
+      setTotalPrice(0);
     }
-  },[checkedList,quanityList])
+  }, [checkedList, quanityList]);
 
   const handlePlaceOrder = async () => {
     try {
@@ -48,49 +51,51 @@ function MyCart() {
         products: [...dataBill],
       };
       let res = await ApiCheckout.create(data);
-      if(res.status === 0) window.location.href = '/check-out'
+      if (res.status === 0) window.location.href = "/check-out";
     } catch (error) {
       console.log(error);
     }
   };
 
-
   return (
     <>
       {/* Mobile */}
       <div className="md:hidden h-screen">
-        <NotiStatusMobile 
-          active={activeNotify}
-          setActive={setActiveNotify}
-        />
+        <NotiStatusMobile active={activeNotify} setActive={setActiveNotify} />
         <AppBar title="Giỏ hàng" />
         <div className="w-full flex flex-col px-2  bg-lightGrey h-[70%] overflow-auto">
           {/* product */}
-          {productsCart&&productsCart.length === 0 && <div className="text-center mt-[24px]">
-            <div className="text-darkGrey">Hiện chưa có sản phẩm nào được thêm vào giỏ hàng</div>
-            <Link className="text-primary" to='/'>Đi tới mua sắm </Link>
-          </div>}
-          {productsCart?.map((product) => (
-            <CartItemMobile
-              product={product?.productData}
-              cartID={product?.id}
-              variants={product?.variant}
-              checkedList={checkedList}
-              setCheckedList={setCheckedList}
-              setQuanityList={setQuanityList}
-              quanityList={quanityList}
-              setOpenAlertPopup={setOpenAlertPopup}
-              setIdDelete={setIdDelete}
-              isMobile={true}
-              dataBill={dataBill}
-              setDataBill={setDataBill}
-            />
-          ))}
+          {productsCart && productsCart.length === 0 && (
+            <div className="text-center mt-[24px]">
+              <div className="text-darkGrey">
+                Hiện chưa có sản phẩm nào được thêm vào giỏ hàng
+              </div>
+              <Link className="text-primary" to="/">
+                Đi tới mua sắm{" "}
+              </Link>
+            </div>
+          )}
+          {productsCart?.map((product) => {
+            return (
+              <CartItemMobile
+                product={product?.productData}
+                cartID={product?.id}
+                variants={product?.variant}
+                checkedList={checkedList}
+                setCheckedList={setCheckedList}
+                setQuanityList={setQuanityList}
+                quanityList={quanityList}
+                setOpenAlertPopup={setOpenAlertPopup}
+                setIdDelete={setIdDelete}
+                isMobile={true}
+                dataBill={dataBill}
+                setDataBill={setDataBill}
+              />
+            );
+          })}
         </div>
         <div className="min-h-[200px] bg-white px-[16px] pt-[30px]">
-          <p className="text-[14px] font-semibold">
-            Thông tin hóa đơn
-          </p>
+          <p className="text-[14px] font-semibold">Thông tin hóa đơn</p>
 
           <div className="flex justify-between font-medium text-darkGrey text-[14px] mt-[10px]">
             <div className="w-1/2 ">
@@ -117,23 +122,39 @@ function MyCart() {
             <p>{numFormatter(totalPrice)}</p>
           </div>
           <div className="w-1/2">
-            <Button2 disable={totalPrice===0} handleClick={()=>handlePlaceOrder()} text="Tiến hành thanh toán" />
+            <Button2
+              disable={totalPrice === 0}
+              handleClick={() => handlePlaceOrder()}
+              text="Tiến hành thanh toán"
+            />
           </div>
         </div>
       </div>
       {/* Desktop */}
       <div className="md:block hidden w-full ">
         <div className="hidden md:block md:px-[16px] lg:px-[20px]">
-          <BreadCrumb parent={[{name:'Trang chủ',link:'/'},]} current='Giỏ hàng của tôi'></BreadCrumb>
+          <BreadCrumb
+            parent={[{ name: "Trang chủ", link: "/" }]}
+            current="Giỏ hàng của tôi"
+          ></BreadCrumb>
         </div>
-        {<NotiStatus 
-        content={activeNotify === 'success'? 'Sản phẩm được xóa thành công': 'Xóa sản phẩm không thành công'}
-        active={activeNotify}
-        setActive={setActiveNotify}/>}
+        {
+          <NotiStatus
+            content={
+              activeNotify === "success"
+                ? "Sản phẩm được xóa thành công"
+                : "Xóa sản phẩm không thành công"
+            }
+            active={activeNotify}
+            setActive={setActiveNotify}
+          />
+        }
         <div className="py-6 mb-6 flex flex-col gap-8 ">
           {/* <SliderImage /> */}
           <div className=" w-full md:block lg:px-[20px] md:px-[16px] ">
-            <h2 className=" lg:text-[24px] md:text-[20px] font-semibold text-primary lg:mb-[28px] md:mb-[20px]">Giỏ hàng của tôi</h2>
+            <h2 className=" lg:text-[24px] md:text-[20px] font-semibold text-primary lg:mb-[28px] md:mb-[20px]">
+              Giỏ hàng của tôi
+            </h2>
             <div className="flex justify-between">
               <div className="w-[60%] ">
                 <div className="flex font-medium text-darkGrey border-b-2 text-[16px] items-center">
@@ -144,26 +165,34 @@ function MyCart() {
                 </div>
                 <div className=" overflow-auto h-[560px] scroll-smooth">
                   {/* product */}
-                  {productsCart&&productsCart.length === 0 && <div className="text-center mt-[24px]">
-                   <div className="text-darkGrey">Hiện chưa có sản phẩm nào được thêm vào giỏ hàng</div>
-                   <Link className="text-primary" to='/'>Đi tới mua sắm </Link>
-                  </div>}
-                  {productsCart?.map((product) => (
-                    <CartItem
-                      product={product?.productData}
-                      cartID={product?.id}
-                      variants={product?.variant}
-                      checkedList={checkedList}
-                      setCheckedList={setCheckedList}
-                      setQuanityList={setQuanityList}
-                      quanityList={quanityList}
-                      setOpenAlertPopup={setOpenAlertPopup}
-                      setIdDelete={setIdDelete}
-                      isMobile={false}
-                      dataBill={dataBill}
-                      setDataBill={setDataBill}
-                    />
-                  ))}
+                  {productsCart && productsCart.length === 0 && (
+                    <div className="text-center mt-[24px]">
+                      <div className="text-darkGrey">
+                        Hiện chưa có sản phẩm nào được thêm vào giỏ hàng
+                      </div>
+                      <Link className="text-primary" to="/">
+                        Đi tới mua sắm{" "}
+                      </Link>
+                    </div>
+                  )}
+                  {productsCart?.map((product) => {
+                    return (
+                      <CartItem
+                        product={product?.productData}
+                        cartID={product?.id}
+                        variants={product?.variant}
+                        checkedList={checkedList}
+                        setCheckedList={setCheckedList}
+                        setQuanityList={setQuanityList}
+                        quanityList={quanityList}
+                        setOpenAlertPopup={setOpenAlertPopup}
+                        setIdDelete={setIdDelete}
+                        isMobile={false}
+                        dataBill={dataBill}
+                        setDataBill={setDataBill}
+                      />
+                    );
+                  })}
                 </div>
               </div>
               <div className="w-1/3">
@@ -189,16 +218,20 @@ function MyCart() {
                     <p className="font-extrabold">{numFormatter(totalPrice)}</p>
                   </div>
                 </div>
-                <Button2 handleClick={() => handlePlaceOrder()} text={'Tiến hành thanh toán'} disable={totalPrice > 0 ? false : true} />
+                <Button2
+                  handleClick={() => handlePlaceOrder()}
+                  text={"Tiến hành thanh toán"}
+                  disable={totalPrice > 0 ? false : true}
+                />
                 <div className="mt-[24px] w-full">
-                  <Voucher isFreeShip={totalPrice < 500000 ? false : true}/>
+                  <Voucher isFreeShip={totalPrice < 500000 ? false : true} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <AlertPopup 
+      <AlertPopup
         open={openAlertPopup}
         setOpen={setOpenAlertPopup}
         idDelete={idDelete}
