@@ -10,7 +10,6 @@ import * as actions from '../store/actions'
 const Messages = ({ isStart, setIsStart }) => {
     const dispatch = useDispatch()
     const { messages, isLoadingBot, buyData } = useSelector(state => state.chatbot)
-    console.log(isLoadingBot);
     const viewRef = useRef()
     const handleSendMessage = async (i) => {
         setIsStart(true)

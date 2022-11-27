@@ -126,6 +126,7 @@ const CartItemMobile = ({
               onClick={() => {
                 setIdDelete(cartID)
                 setOpenAlertPopup(true)
+                setIsChecked(false)
               }}
                className="w-1/2 flex justify-center items-center ">
                 <span>Xóa</span>

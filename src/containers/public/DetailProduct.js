@@ -48,7 +48,6 @@ const DetailProduct = () => {
   const id = useParams()["id"];
   const ratingAndReviewRef = useRef();
   const [product, setProduct] = useState(null);
-  console.log(product);
   const [comments, setComments] = useState({});
   const [activeTab, setActiveTab] = useState([1, 0, 0]);
   const [Vouchers, setVouchers] = useState([]);
@@ -198,7 +197,7 @@ const DetailProduct = () => {
                     <AiOutlineShoppingCart size={26} />
                     <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
                   </span> */}
-                  <Link to="/cart" className="relative">
+                  <Link to="/cart" onClick={(e) => e.stopPropagation()} className="relative">
                     <AiOutlineShoppingCart
                       size={26}
                       className={`${
@@ -301,7 +300,7 @@ const DetailProduct = () => {
                     <span>đ</span>
                     {!canAtc &&
                       Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
-                    {canAtc && PriceCaculator(product, variantTypes)}
+                    {canAtc && PriceCaculator(product, variantTypes).toLocaleString()}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 lg:text-[34px] md:text-[24px] md:font-semibold md:text-[#B6B6B6]">

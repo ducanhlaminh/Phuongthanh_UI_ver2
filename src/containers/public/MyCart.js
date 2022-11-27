@@ -87,7 +87,7 @@ function MyCart() {
             />
           ))}
         </div>
-        <div className="min-h-[200px] bg-white px-[16px] pt-[30px]">
+        <div className="min-h-[120px] bg-white px-[16px] pt-[30px]">
           <p className="text-[14px] font-semibold">
             Thông tin hóa đơn
           </p>
