@@ -45,6 +45,7 @@ const CartItem = ({
       qty: quanityProduct,
       variant: varName,
       cost: price,
+      cid: cartID
     };
     if (isChecked) {
       if (index !== -1) {

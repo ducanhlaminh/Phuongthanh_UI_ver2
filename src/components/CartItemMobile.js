@@ -42,7 +42,8 @@ const CartItemMobile = ({
         pid: id,
         qty: quanityProduct,
         variant: varName,
-        cost: price
+        cost: price,
+        cid: cartID
       }
       if(isChecked) {
         if(index !== -1){
