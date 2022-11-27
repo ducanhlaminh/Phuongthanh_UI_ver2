@@ -14,24 +14,24 @@ module.exports = {
         'overlay-80': 'rgba(0,0,0,0.8)',
         'primary': '#1B4B66',
         'primary-tint': '#639599',
-        'darkGrey':'#626262',
+        'darkGrey': '#626262',
         'darkGrey-tint': '#B6B6B6',
-        'lightGrey':'#f1f1f1',
-        'lightGrey2':'#7e7e7e',
-        'yellow':'#FF8C4B',
-        'black':'#171520',
-        'red':'#B00020',
+        'lightGrey': '#f1f1f1',
+        'lightGrey2': '#7e7e7e',
+        'yellow': '#FF8C4B',
+        'black': '#171520',
+        'red': '#B00020',
       },
       colors: {
         'primary': '#1B4B66',
         'highlight': '#E21D1D',
-        'darkGrey':'#626262',
-        "darkGrey-tint":'#B6B6B6',
-        'lightGrey':'#f1f1f1',
-        'lightGrey2':'#7e7e7e',
-        'yellow':'#FF8C4B',
-        'black':'#171520',
-        'red':'#B00020',
+        'darkGrey': '#626262',
+        "darkGrey-tint": '#B6B6B6',
+        'lightGrey': '#f1f1f1',
+        'lightGrey2': '#7e7e7e',
+        'yellow': '#FF8C4B',
+        'black': '#171520',
+        'red': '#B00020',
 
       },
       flex: {
@@ -49,11 +49,29 @@ module.exports = {
         'modalClose': 'modalShow .3s linear ',
         'slide-right': 'slide-right 0.3s ease-out both;',
         'slide-left': 'slide-left 0.3s ease-out both;',
-        'top-popup':'top-popup 2s ease-in-out both;',
-        'top-popup2':'top-popup2 2s ease-in-out both;',
+        'top-popup': 'top-popup 2s ease-in-out both;',
+        'top-popup2': 'top-popup2 2s ease-in-out both;',
         'show-noti-left': 'show-noti-left 5s ease-out both;',
+        'bounce2': 'bounce2 .5s',
+        bounce: 'bounce-mes 1.2s ease-in-out infinite',
+        'bounce-2': 'bounce-mes 1.2s ease-in-out 0.6s infinite'
       },
       keyframes: {
+        bounce2: {
+          '0%': {
+            transform: 'translateY(0%)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            'transform': 'translateY(25%)',
+            'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+          '100%': {
+            transform: 'translateY(0%)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+        }
+        ,
         modalShow: {
           '0%': { transform: 'translateX(-100px)', },
           '100%': { transform: 'translateX(0%)' }
@@ -82,42 +100,42 @@ module.exports = {
             transform: 'translateX(0);'
           }
         },
-        'top-popup':{
-          '0%':{
+        'top-popup': {
+          '0%': {
             'transform': 'translate(0 , -70px)',
           },
-          '30%':{
+          '30%': {
             'transform': 'translate(0 , 15px)',
           },
-          '50%':{
+          '50%': {
             'transform': 'translate(0 , 15px)',
           },
-          '60%':{
+          '60%': {
             'transform': 'translate(0 , 20px)',
           },
-          '100%':{
+          '100%': {
             'transform': 'translateY(0 , -70px)',
           }
-        
+
         },
-        'top-popup2':{
-          '0%':{
+        'top-popup2': {
+          '0%': {
             'transform': 'translate(35% , -70px)',
           },
-          
-          '30%':{
+
+          '30%': {
             'transform': 'translate(35% , 15px)',
           },
-          '50%':{
+          '50%': {
             'transform': 'translate(35% , 15px)',
           },
-          '60%':{
+          '60%': {
             'transform': 'translate(35% , 20px)',
           },
-          '100%':{
+          '100%': {
             'transform': 'translateY(35% , -70px)',
           }
-        
+
         },
         'show-noti-left': {
           '0%': {
@@ -140,7 +158,21 @@ module.exports = {
             'transform': 'translateX(0)',
             'opacity': 0
           }
-        }
+        },
+        'bounce-mes': {
+          '0%': {
+            transform: 'rotate(0) scale(.5);',
+            opacity: .1
+          },
+          '30%': {
+            transform: 'rotate(0) scale(.7);',
+            opacity: .5,
+          },
+          '100%': {
+            transform: 'rotate(0) scale(1);',
+            opacity: .1
+          }
+        },
       },
       fontFamily: {
         'nunito': ['nunito', 'sans-serif'],
@@ -149,8 +181,8 @@ module.exports = {
         'qwitcher': ['Qwitcher Grypen', 'cursive']
       },
       zIndex: {
-        '60':60,
-        '70':70,
+        '60': 60,
+        '70': 70,
       }
     },
   },

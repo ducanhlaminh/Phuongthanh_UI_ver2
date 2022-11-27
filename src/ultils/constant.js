@@ -1,12 +1,21 @@
 import icons from "./icons";
 
-const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
+const {
+  BsSpeedometer2,
+  RiProductHuntLine,
+  FaUserEdit,
+  IoIosCreate,
+  AiOutlineUserAdd,
+  RiBillLine,
+  BiCategoryAlt,
+} = icons;
 
 export const path = {
   LOGIN: "/login",
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
+  WISH_LISH: "san-pham-da-thich",
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
@@ -25,9 +34,17 @@ export const path = {
   DETAIL: "chi-tiet-san-pham",
   DETAIL__PRODUCTID: "chi-tiet-san-pham/:id",
   PROFILE: "ho-so/",
+  CHANGE_PASSWORD: "doi-mat-khau",
   ORDERS: "hoa-don-cua-toi",
+  ITEM_ORDERS: "don-hang",
+  ITEM_ORDERS_ID: "don-hang/:id",
+  NEW_PRODUCTS: "san-pham-moi-nhat",
+  BEST_SELLER: "san-pham-ban-chay",
+  TOP_FAVOURITE: "san-pham-yeu-thich",
   PERSONAL: "",
-  ADD_ADDRESS: "address",
+  ADD_ADDRESS: "check-out",
+  SEARCH: "tim-kiem",
+  SEARCH__KEYWORD: "tim-kiem/:id",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -54,9 +71,28 @@ export const filters = [
   { valueVi: "Giá cao -> thấp", sort: { type: "costPerUnit", code: "DESC" } },
   { valueVi: "Giá thấp -> cao", sort: { type: "costPerUnit", code: "ASC" } },
 ];
+export const statusFilter = [
+  { valueVi: "Vui lòng chọn trạng thái", code: "" },
+  { valueVi: "Đang chờ", code: "pending" },
+  { valueVi: "Đang giao", code: "shipping" },
+  { valueVi: "Thành công", code: "completed" },
+  { valueVi: "Đã hủy", code: "cancel" },
+];
+export const filtersBill = [
+  { valueVi: "Mới nhất", sort: { type: "updatedAt", code: "DESC" } },
+  { valueVi: "Cũ nhất", sort: { type: "updatedAt", code: "ASC" } },
+  {
+    valueVi: "Giá trị đơn tăng dần",
+    sort: { type: "totalCost", code: "ASC" },
+  },
+  {
+    valueVi: "Giá trị đơn giảm dần",
+    sort: { type: "totalCost", code: "DESC" },
+  },
+];
 export const filtersSider = [
   {
-    valueVi: "Stocking",
+    valueVi: "Còn hàng",
     code: 1,
   },
 ];
@@ -74,17 +110,17 @@ export const adminMenu = [
   {
     name: "Người dùng",
     path: "/system/user",
-    icon: <RiProductHuntLine size={24} />,
+    icon: <AiOutlineUserAdd size={24} />,
   },
   {
     name: "Hóa đơn",
     path: "/system/bill",
-    icon: <RiProductHuntLine size={24} />,
+    icon: <RiBillLine size={24} />,
   },
   {
     name: "Quản lý gian hàng",
     path: "/system/manage-category",
-    icon: <RiProductHuntLine size={24} />,
+    icon: <BiCategoryAlt size={24} />,
   },
   {
     name: "Thống kê",
@@ -95,11 +131,6 @@ export const adminMenu = [
   {
     name: "Thêm sản phẩm",
     path: "/system/edit-product",
-    icon: <IoIosCreate size={24} />,
-  },
-  {
-    name: "Thêm gian hàng",
-    path: "/system/update-profile",
     icon: <IoIosCreate size={24} />,
   },
 ];

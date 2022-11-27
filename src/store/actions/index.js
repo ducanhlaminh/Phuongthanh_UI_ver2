@@ -6,4 +6,6 @@ export * from "./userAction";
 export * from "./changePasswordAction";
 export * from "./productAction";
 export * from "./homeAction";
+export * from "./searchAction";
 export * from "./cartAction";
+export * from "./chatbot";

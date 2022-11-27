@@ -1,9 +1,16 @@
-import { BsSpeedometer2, BsDot, BsFacebook, BsYoutube } from "react-icons/bs";
+import {
+  BsSpeedometer2,
+  BsDot,
+  BsFacebook,
+  BsUpload,
+  BsYoutube,
+} from "react-icons/bs";
 import {
   RiProductHuntLine,
   RiSearchLine,
   RiUser6Line,
   RiHandbagLine,
+  RiBillLine,
 } from "react-icons/ri";
 import {
   FaUserEdit,
@@ -16,7 +23,12 @@ import {
   IoIosArrowForward,
 } from "react-icons/io";
 import { FiMenu, FiFilter, FiLogOut } from "react-icons/fi";
-import { BiSearchAlt, BiPurchaseTag, BiMenuAltLeft } from "react-icons/bi";
+import {
+  BiSearchAlt,
+  BiPurchaseTag,
+  BiMenuAltLeft,
+  BiCategoryAlt,
+} from "react-icons/bi";
 
 import {
   AiOutlineClose,
@@ -29,6 +41,8 @@ import {
   AiOutlineHeart,
   AiFillStar,
   AiOutlinePlus,
+  AiFillCheckCircle,
+  AiOutlineUserAdd,
 } from "react-icons/ai";
 import {
   MdOutlinePhonelink,
@@ -57,6 +71,7 @@ const icons = {
   IoIosCreate,
   MdOutlineArrowBackIosNew,
   FiMenu,
+  BsUpload,
   IoMdArrowRoundDown,
   BiSearchAlt,
   AiOutlineClose,
@@ -72,6 +87,7 @@ const icons = {
   AiOutlineInstagram,
   TiLocationOutline,
   AiOutlineArrowRight,
+  AiFillCheckCircle,
   GrLinkNext,
   AiTwotoneStar,
   AiOutlineShoppingCart,
@@ -87,6 +103,9 @@ const icons = {
   AiOutlineCopyrightCircle,
   BiMenuAltLeft,
   VscBell,
+  RiBillLine,
+  BiCategoryAlt,
+  AiOutlineUserAdd,
   AiOutlineHeart,
   MdArrowBackIos,
   FiLogOut,

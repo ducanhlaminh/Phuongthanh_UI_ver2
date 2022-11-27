@@ -10,32 +10,31 @@ import {
   PopupDeleteCate,
   ModalCreateCate,
 } from "../../components/Modal";
-
+import { NotiStatus } from "../../components/UploadStatus";
+import { LoadingPageDesktop } from "../../components/LoadingPage";
 const ManageCategory = () => {
   const [selectCate, setSelectCate] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [isShowEdit, setIsShowEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isShowCreate, setIsShowCreate] = useState(false);
-  const dispatch = useDispatch();
+  const [showUpload, setShowUpload] = useState(false);
+  const [contentUpload, setContentUpload] = useState();
   const categories = useSelector((state) => {
     return state.app.categories;
   });
 
   const renderCateList = categories.map((cate, i) => {
     return (
-      <div key={cate.id} className="">
-        <div className=" flex rounded w-full  bg-white items-center max-h-[90px] [&:not(:first-child)]:mt-2">
+      <div
+        key={cate.id}
+        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full rounded-lg h-[100px]  text-xl "
+      >
+        <div className="flex items-center w-full justify-between">
           <div className="w-[28%] p-10">
             <p className=" text-xl font-bold ">{cate.valueVi}</p>
           </div>
 
-          <div className="w-[28%]">
-            <p className=" text-xl font-bold ">{cate.products}</p>
-          </div>
-
-          <div className="w-[28%]">
-            <p className=" text-xl font-bold ">20/12/2022</p>
-          </div>
           <div className="w-[30%] flex justify-around">
             <Button
               text="Sửa"
@@ -67,27 +66,48 @@ const ManageCategory = () => {
   return (
     <>
       <h1 className="text-2xl mb-2">ManageCategory</h1>
-      <div className="bg-gray-300 rounded p-5 h-[525px]">
-        <div className="h-[10%]">
+      <div className="bg-gray-300 rounded p-5 h-[600px] overflow-auto">
+        {showUpload && (
+          <NotiStatus
+            active={contentUpload?.status === 0 ? "success" : "error"}
+            setActive={setShowUpload}
+            content={
+              contentUpload?.status === 0
+                ? contentUpload.message
+                : "Có lỗi xảy ra trong quá trình xử lí"
+            }
+          />
+        )}
+        <div className="">
           <div className="flex">
             <Button
-              text="Them gian hàng"
+              text="THÊM GIAN HÀNG"
               bgColor="#4ed14b"
               textColor="#fff"
               width="40%"
-              height="1"
+              height="3"
               onClick={() => {
                 setIsShowCreate(!isDelete);
               }}
             ></Button>
           </div>
-          <h2>{`Tổng số gian hàng hiện có : ${categories.length}`}</h2>
+          <h2 className="p-3 font-bold">{`Tổng số gian hàng hiện có : ${categories.length}`}</h2>
         </div>
 
-        <div className="overflow-auto bg-white h-[90%]">{renderCateList}</div>
+        <div className="overflow-auto h-[400px] relative">
+          {isLoading ? <LoadingPageDesktop /> : renderCateList}
+        </div>
       </div>
       {isShowEdit ? (
-        <ModalEditCate setIsShowEdit={setIsShowEdit} selectCate={selectCate} />
+        <ModalEditCate
+          setIsShowEdit={setIsShowEdit}
+          selectCate={selectCate}
+          setShowUpload={setShowUpload}
+          setContentUpload={setContentUpload}
+          showUpload={showUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
       ) : (
         ""
       )}
@@ -96,12 +116,24 @@ const ManageCategory = () => {
           setIsDelete={setIsDelete}
           selectCate={selectCate}
           isDelete={isDelete}
+          setShowUpload={setShowUpload}
+          showUpload={showUpload}
+          setContentUpload={setContentUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       ) : (
         ""
       )}
       {isShowCreate ? (
-        <ModalCreateCate setIsShowCreate={setIsShowCreate} />
+        <ModalCreateCate
+          setIsShowCreate={setIsShowCreate}
+          setShowUpload={setShowUpload}
+          showUpload={showUpload}
+          setContentUpload={setContentUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
       ) : (
         ""
       )}

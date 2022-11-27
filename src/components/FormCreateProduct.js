@@ -7,9 +7,12 @@ import {
 } from "../components/InputCtWidth";
 import Button from "./Button";
 import { Editor } from "@tinymce/tinymce-react";
-import { useRef } from "react";
-
-export default function FormCreateProduct({
+import { useEffect, useRef, useState } from "react";
+import icons from "../ultils/icons";
+import { NotiStatus } from "../components/UploadStatus";
+import ApiProduct from "../apis/product";
+const { AiFillCheckCircle, BsUpload } = icons;
+const FormCreateProduct = ({
   productName,
   setProductName,
   categories,
@@ -29,25 +32,114 @@ export default function FormCreateProduct({
   setVariantValue,
   handleSubmit,
   setShortDes,
-}) {
-  const editorRef = useRef(null);
-  const log = () => {
+  shortDes,
+  showUpload,
+  contentUpload,
+  setShowUpload,
+  setContentUpload,
+  imageUrl,
+  type,
+  id,
+}) => {
+  const imageMainRef = useRef();
+  const image1Ref = useRef();
+  const image2Ref = useRef();
+  const image3Ref = useRef();
+  const editorRef = useRef();
+  const [validatesForm, setValidatesForm] = useState([
+    { name: "name", status: false },
+    { name: "price", status: false },
+    { name: "variant", status: false },
+    { name: "image", status: false },
+  ]);
+  const setContentProduct = () => {
     if (editorRef.current) {
       const des = editorRef.current.getContent();
       setShortDes(des);
     }
   };
+
+  const validateForm = () => {
+    if (productName && price && image.imageMain && shortDes && selectValue) {
+      return true;
+    } else return false;
+  };
+  const handleImageMain = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      imageMain: e.target.files[0],
+    }));
+  };
+  const handleImage1 = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      image1: e.target.files[0],
+    }));
+  };
+  const handleImage2 = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      image2: e.target.files[0],
+    }));
+  };
+  const handleImage3 = (e) => {
+    setImage((prev) => ({
+      ...prev,
+      image3: e.target.files[0],
+    }));
+  };
+  const handleEdit = async () => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("mainImage", image.imageMain);
+    bodyFormData.append("image1", image.image1);
+    bodyFormData.append("image2", image.image2);
+    bodyFormData.append("image3", image.image3);
+    bodyFormData.append("name", productName);
+    bodyFormData.append("costPerUnit", price);
+    bodyFormData.append("description", shortDes);
+    bodyFormData.append("categoryCode", selectValue);
+    bodyFormData.append("variants", JSON.stringify(variants));
+    bodyFormData.append("tags", JSON.stringify(tags));
+    bodyFormData.append("id", id);
+
+    console.log(shortDes, image, tags);
+    try {
+      const res = await ApiProduct.update(bodyFormData);
+      console.log(res);
+      if (res.status === 0) {
+        console.log(1);
+        // setShowUpload(true);
+        // setContentUpload(res);
+      }
+    } catch (error) {
+      console.log(selectValue);
+    }
+  };
   return (
-    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 ">
+    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative h-[90%] ">
+      {showUpload && (
+        <NotiStatus
+          active={contentUpload.status === 0 ? "success" : "error"}
+          setActive={setShowUpload}
+          content={
+            contentUpload.status === 0
+              ? "Đã đăng ký sản phẩm thành công"
+              : "Có lỗi xảy ra trong quá trình đăng ký"
+          }
+        />
+      )}
       <h1 className="text-3xl text-center">Nhập thông tin tại đây</h1>
       <div className="h-[15%]">
         <InputCustomWidth
+          required={!productName ? true : false}
           widthP={"full"}
           lable="Tên sản phẩm "
           placeholder="Tên sản phẩm..."
           PLarge={true}
           value={productName}
           setValue={setProductName}
+          setValidatesForm={setValidatesForm}
+          validateType={"name"}
         />
       </div>
 
@@ -61,12 +153,14 @@ export default function FormCreateProduct({
             setSelectValue={setSelectValue}
           />
           <InputCustomWidth
-            widthP="[30%]"
             lable="Giá"
+            required={!price ? true : false}
             placeholder="Giá: VND"
             PLarge={false}
             value={price}
             setValue={setPrice}
+            setValidatesForm={setValidatesForm}
+            validateType={"price"}
           />
         </div>
 
@@ -86,7 +180,7 @@ export default function FormCreateProduct({
               onInit={(evt, editor) => {
                 return (editorRef.current = editor);
               }}
-              initialValue="<p>This is the initial content of the editor.</p>"
+              initialValue={shortDes}
               init={{
                 max_height: 300,
                 width: "full",
@@ -116,8 +210,17 @@ export default function FormCreateProduct({
               bgColor="#4ed14b"
               textColor="#fff"
               width="100%"
-              onClick={log}
+              height={"2"}
+              onClick={setContentProduct}
             ></Button>
+            {shortDes && (
+              <div className="border-primary border-2 mt-2 h-10 rounded-md bg-slate-50 flex justify-center items-center">
+                <span className="">Đã cập nhật nội dung sản phẩm</span>
+                <span className="text-[#4ed14b] ml-3">
+                  <AiFillCheckCircle />
+                </span>
+              </div>
+            )}
           </div>
         </div>
         <div className="w-1/2 pl-3">
@@ -129,51 +232,117 @@ export default function FormCreateProduct({
             variantValue={variantValue}
             setVariantValue={setVariantValue}
           />
-          <div className=" w-[50%] mt-3">
-            <input
-              type="file"
-              name="imageMain"
-              accept="image/*"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  imageMain: e.target.files[0],
-                }));
-              }}
-            />
-            <input
-              type="file"
-              name="image1"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  image1: e.target.files[0],
-                }));
-              }}
-            />
-            <input
-              type="file"
-              name="image2"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  image2: e.target.files[0],
-                }));
-              }}
-            />
-            <input
-              type="file"
-              name="image3"
-              onChange={(e) => {
-                setImage((prev) => ({
-                  ...prev,
-                  image3: e.target.files[0],
-                }));
-              }}
-            />
+          <div className="w-full flex flex-wrap">
+            <div className="w-1/2">
+              <label htmlFor="" className="font-bold">
+                Ảnh chính
+              </label>
+              <div
+                className="h-[200px] w-[200px] flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => imageMainRef.current.click()}
+              >
+                {imageUrl.imageMainUrl ? (
+                  <img
+                    src={imageUrl.imageMainUrl}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
+              </div>
+
+              <input
+                className="hidden"
+                type="file"
+                name="imageMain"
+                accept="image/*"
+                ref={imageMainRef}
+                onChange={handleImageMain}
+              />
+            </div>
+            <div className="w-1/2">
+              <label htmlFor="" className="font-bold">
+                Ảnh 1
+              </label>
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => imageMainRef.current.click()}
+              >
+                {imageUrl.image1Url ? (
+                  <img
+                    src={imageUrl.image1Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
+              </div>
+              <input
+                className="hidden"
+                type="file"
+                ref={image1Ref}
+                name="image1"
+                onChange={handleImage1}
+              />
+            </div>
+            <div className="w-1/2">
+              <label htmlFor="" className="font-bold">
+                Ảnh 2
+              </label>
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => image2Ref.current.click()}
+              >
+                {imageUrl.image2Url ? (
+                  <img
+                    src={imageUrl.image2Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
+              </div>
+              <input
+                className="hidden"
+                ref={image2Ref}
+                type="file"
+                name="image2"
+                onChange={handleImage2}
+              />
+            </div>
+            <div className="w-1/2">
+              <label htmlFor="" className="font-bold">
+                Ảnh 3
+              </label>
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => image3Ref.current.click()}
+              >
+                {imageUrl.image2Url ? (
+                  <img
+                    src={imageUrl.image2Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
+              </div>
+              <input
+                className="hidden"
+                type="file"
+                ref={image3Ref}
+                name="image3"
+                onChange={handleImage3}
+              />
+            </div>
+
             {/* <InputFileCustomWidth
                   lable="Ảnh 1"
-                  widthP="[100%]"
+                  widthP="[200%]"
                   valueImg={image1}
                   setValueImg={setImage1}
                 />
@@ -199,7 +368,19 @@ export default function FormCreateProduct({
           textColor="#fff"
           width="50%"
           height="2"
-          onClick={handleSubmit}
+          onClick={() => {
+            if (validateForm()) {
+              if (type === "create") {
+                return handleSubmit();
+              } else {
+                return handleEdit();
+              }
+            } else {
+              console.log(selectValue);
+              setShowUpload(true);
+              setContentUpload({ status: 1 });
+            }
+          }}
         ></Button>
         <Button
           text="SEE PREVIEW"
@@ -211,4 +392,5 @@ export default function FormCreateProduct({
       </div>
     </div>
   );
-}
+};
+export default FormCreateProduct;

@@ -10,7 +10,7 @@ const UserMobileNav = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
   return (
-    <div>
+    <div className="h-screen">
       <div className="flex h-[56px] items-center pl-[16px]">
         <p className="text-primary font-semibold text-[20px]">Hồ sơ</p>
       </div>
@@ -40,7 +40,7 @@ const UserMobileNav = () => {
           </Link>
         </div>
         <div className="h-[60px] flex items-center">
-          <Link to="/" className="w-full">
+          <Link to="/ho-so/hoa-don-cua-toi" className="w-full">
             <SideNavigateMenu title="Đơn hàng của tôi"></SideNavigateMenu>
           </Link>
         </div>

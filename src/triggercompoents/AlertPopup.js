@@ -1,25 +1,34 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import ApiCart from '../apis/cart'
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import ApiCart from "../apis/cart";
 
-export default function AlertPopup({open, setOpen,idDelete}) {
-
-  const handleDelete = async() => {
+export default function AlertPopup({
+  open,
+  setOpen,
+  idDelete,
+  setReload,
+  setActiveNotify,
+}) {
+  const handleDelete = async () => {
     try {
-        let array = [idDelete]
-        console.log(array)
-        let params = {cids : array}
-        let res = await ApiCart.delete(params)
-        console.log(res)
+      let params = { cids: [idDelete] };
+      console.log(params);
+      let res = await ApiCart.delete(params);
+      if (res.status === 0) {
+        setOpen(false);
+        setReload((prev) => !prev);
+        setActiveNotify("success");
+      }
     } catch (error) {
-        console.log(error)
+      setActiveNotify("error");
+      console.log(error);
     }
-  }
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -34,7 +43,7 @@ export default function AlertPopup({open, setOpen,idDelete}) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Hành động không thể truy hồi."}
+          {"Hành động không thể hoàn tác."}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

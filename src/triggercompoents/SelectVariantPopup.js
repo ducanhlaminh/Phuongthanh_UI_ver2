@@ -110,13 +110,13 @@ const SelectvariantPopup = ({
     <div>
       {product?.variants.map((variant, index) => {
         return (
-          <div>
+          <div key={index}>
             <p className="text-xm font-semibold text-black">
               {variant?.name}
             </p>
             <div className="flex mt-[10px] gap-[9px] font-bold text-black text-base">
-              {variant?.value.map((value) => (
-                <div
+              {variant?.value.map((value,i) => (
+                <div key={i}
                   onClick={() => hanlePickVariants(variant?.name,value?.type,value?.price,index)}
                   className={`p-[8px] border-[2px] rounded-[8{px] ${variantTypes[index]?.value === value?.type? 'border-[#1b4b66]':''}`}>
                   {value.type}

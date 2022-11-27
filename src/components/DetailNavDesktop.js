@@ -38,7 +38,7 @@ const DetailNavDesktop = (
     }}
   >
     <p
-      className="text-[16px] font-medium"
+      className="lg:text-[16px] md:text-[14px] font-medium"
       style={{ userSelect: "none" }}
     >
       Thông tin chi tiết
@@ -55,7 +55,7 @@ const DetailNavDesktop = (
     }}
   >
     <p
-      className="text-[16px] font-medium"
+      className="lg:text-[16px] md:text-[14px] font-medium"
       style={{ userSelect: "none" }}
     >
       Sản phẩm liên quan
@@ -72,7 +72,7 @@ const DetailNavDesktop = (
     }}
   >
     <p
-      className="text-[16px] font-medium"
+      className="lg:text-[16px] md:text-[14px] font-medium"
       style={{ userSelect: "none" }}
     >
       Đánh giá và bình luận

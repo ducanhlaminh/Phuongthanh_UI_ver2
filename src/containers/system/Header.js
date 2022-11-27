@@ -28,10 +28,13 @@ const Header = ({ setIsShowSidebar }) => {
           }
           alt="avatar"
           className="w-10 h-10 object-cover rounded-full"
-          onClick={() => setIsShow(true)}
         />
       </div>
-      {isShow ? <Profile setIsShow={setIsShow} userCurrent={userCurrent} /> : ""}
+      {isShow ? (
+        <Profile setIsShow={setIsShow} userCurrent={userCurrent} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -1,15 +1,41 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { BiSortAlt2 } from "react-icons/bi";
 import Button from "./Button";
-
+import icons from "../ultils/icons";
 /* Input field Which can custom width
     WidthP : value of width
     PLarge : large or small padding
     @Anhtd
 */
-
+const { AiOutlineClose } = icons;
 const InputCustomWidth = React.memo(
-  ({ lable, widthP, placeholder, PLarge, value, setValue, type }) => {
+  ({
+    lable,
+    widthP,
+    placeholder,
+    PLarge,
+    value,
+    setValue,
+    type,
+    required,
+    setValidatesForm,
+    validateType,
+  }) => {
+    const [checkRequired, setCheckRequired] = useState(
+      required === true ? true : ""
+    );
+    useEffect(() => {
+      setValidatesForm &&
+        setValidatesForm((prev) => {
+          let array = [...prev];
+          array.map((item) => {
+            if (item.name === validateType) {
+              item.status = !checkRequired;
+            }
+          });
+          return [...prev];
+        });
+    }, [checkRequired]);
     return (
       <div className={`w-${widthP}  h-full`}>
         <label
@@ -22,10 +48,10 @@ const InputCustomWidth = React.memo(
         </label>
 
         <input
-          className={`focus:ring-indigo-500 outline-none
-                focus:border-indigo-500 block bg-gray-200
-                w-full ${PLarge ? "pl-7 pr-12" : "pl-2 pr-2"} sm:text-sm 
-                border-gray-300 rounded-md ${lable ? "min-h-[42px]" : "h-full"}
+          className={` outline-none block w-full bg-lightGrey ${
+            checkRequired === true && "border-[1px] border-rose-500"
+          }  ${PLarge ? "pl-7 pr-12" : " px-7"} sm:text-sm 
+                rounded-md  ${lable ? "min-h-[42px]" : "h-full"}
                  `}
           value={value}
           placeholder={placeholder}
@@ -39,6 +65,15 @@ const InputCustomWidth = React.memo(
               }));
             }
           }}
+          onBlur={(e) => {
+            if (checkRequired !== "") {
+              if (e.target.value.length > 0) {
+                return setCheckRequired(false);
+              } else {
+                return setCheckRequired(true);
+              }
+            }
+          }}
         />
       </div>
     );
@@ -50,7 +85,7 @@ const InputCustomWidth = React.memo(
     @Anhtd
 */
 const SelectCustomWidth = React.memo(
-  ({ options, lable, widthP, selectValue, setSelectValue }) => {
+  ({ options, lable, widthP, selectValue, setSelectValue, onChange }) => {
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -70,9 +105,11 @@ const SelectCustomWidth = React.memo(
                 border-gray-300 rounded-md min-h-[42px]"
             onChange={(e) => {
               if (options[0]?.sort) {
+                onChange && onChange(null);
                 setSelectValue(JSON.parse(e.target.value));
               } else {
                 setSelectValue(e.target.value);
+                onChange && onChange(null);
               }
             }}
           >
@@ -83,7 +120,8 @@ const SelectCustomWidth = React.memo(
                     key={option?.code ? option?.code : option?.valueVi}
                     value={option?.code ? option?.code : JSON.stringify(option)}
                     selected={
-                      JSON.stringify(option) === JSON.stringify(selectValue)
+                      JSON.stringify(option) === JSON.stringify(selectValue) ||
+                      selectValue === option.code
                     }
                   >
                     {option?.valueVi}
@@ -101,8 +139,28 @@ const SelectCustomWidth = React.memo(
   }
 );
 
+/* Select address field Which can custom width
+    WidthP : value of width
+    @ducanh
+*/
 const SelectPayment = React.memo(
   ({ options, lable, widthP, selectValue, setSelectValue, type }) => {
+    let defaultContent = "";
+    switch (type) {
+      case "ProvinceName":
+        defaultContent = "Chọn tỉnh thành ...";
+        break;
+      case "DistrictName":
+        defaultContent = "Chọn quận huyện ...";
+        break;
+      case "WardName":
+        defaultContent = "Chọn xã phường ...";
+        break;
+      default:
+        defaultContent = "DEFAULT";
+        break;
+    }
+
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -126,7 +184,7 @@ const SelectPayment = React.memo(
             defaultValue={selectValue}
           >
             <option value="DEFAULT" selected={selectValue === "DEFAULT"}>
-              Choose a salutation ...
+              {defaultContent}
             </option>
             {options?.length !== 0 ? (
               options?.map((option, index) => {
@@ -143,7 +201,7 @@ const SelectPayment = React.memo(
               <option value="null">Chưa có lựa chọn</option>
             )}
           </select>
-          <BiSortAlt2 className="text-2xl" />
+          {/* <BiSortAlt2 className="text-2xl" /> */}
         </div>
       </div>
     );
@@ -155,28 +213,19 @@ const SelectPayment = React.memo(
     @Anhtd
 */
 const HashTagCustomWidth = React.memo(
-  ({
-    lable,
-    widthP,
-    placeholder,
-    tags = ["12312", "23423", "123123", "234234123", "12321"],
-    setTags,
-  }) => {
+  ({ lable, widthP, placeholder, tags, setTags }) => {
     const [value, setValue] = useState("");
     const onAction = useCallback((newValue) => {
       setValue(newValue);
     }, []);
     const handleAction = () => {
       if (value === "") return;
-      let newHashTag = `#${value.replace(/ /g, "_")}`;
+      let newHashTag = `${value.replace(/ /g, "_")}`;
       setTags([...tags, newHashTag]);
       setValue("");
     };
     const handleKeyCode = (e) => {
       if (e.keyCode === 13) handleAction();
-    };
-    const handleClear = () => {
-      setTags([]);
     };
     return (
       <div className={`w-${widthP} h-full`}>
@@ -188,7 +237,7 @@ const HashTagCustomWidth = React.memo(
         >
           {lable}
         </label>
-        <div className="flex h-[30%]">
+        <div className="flex h-[30%] mb-2">
           <input
             className="focus:ring-indigo-500 
                 focus:border-indigo-500 block 
@@ -212,17 +261,20 @@ const HashTagCustomWidth = React.memo(
           {tags?.length !== 0 ? (
             tags?.map((tag, index) => {
               return (
-                <div className="text-sm items-center bg-[#fff] rounded my-2 mr-2">
+                <div className="text-sm flex items-center justify-between outline outline-primary outline-1 bg-white px-2 py-2 rounded-lg min-w-[50px] mr-2">
                   {tag}
+                  <AiOutlineClose
+                    onClick={() =>
+                      setTags((prev) =>
+                        [...prev].filter((item) => item !== tag)
+                      )
+                    }
+                  />
                 </div>
               );
             })
           ) : (
-            <div
-              className="text-sm
-                        items-center bg-[#fff] rounded
-                        my-2 mr-2"
-            >
+            <div className="text-sm items-center outline outline-primary outline-1 bg-white px-2 py-1 rounded-lg">
               #hash_tag_here
             </div>
           )}
@@ -298,19 +350,13 @@ const InputVariant = ({
   variantValue,
   setVariantValue,
 }) => {
-  useEffect(() => {
-    console.log(variants);
-  }, [variants]);
-  useEffect(() => {
-    console.log(variantValue);
-  }, [variantValue]);
   return (
     <div className={`w-full`}>
       <div className="h-[50%] flex">
         <InputCustomWidth
           widthP="[60%]"
-          lable="Name Option"
-          placeholder="Giá: VND"
+          lable="Tùy chọn sản phẩm"
+          placeholder="vd: size,màu..."
           PLarge={false}
           value={variantValue?.name}
           setValue={setVariantValue}
@@ -318,15 +364,16 @@ const InputVariant = ({
         />
         <div className="w-[30%] ml-5">
           <div className="h-1/2"></div>
+
           <Button
             width="100%"
             text="Add Variant"
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
+            disabled={variantValue?.value.length > 0 ? false : true}
             onClick={() => {
-              console.log(variantValue.value.length);
-              if (variantValue.value) {
+              if (variantValue.value.length > 0) {
                 setVariants((prev) => [...prev, variantValue]);
                 setVariantValue({ name: "", value: [] });
                 setVariantChild({ type: "", price: "" });
@@ -334,7 +381,6 @@ const InputVariant = ({
                 console.log(variantChild.type !== "");
                 console.log(variantChild.price !== "");
                 console.log(variantValue.name !== "");
-                console.log("ể");
               }
             }}
           ></Button>
@@ -343,8 +389,8 @@ const InputVariant = ({
       <div className="flex justify-between ">
         <InputCustomWidth
           widthP="[30%]"
-          lable="Type"
-          placeholder="Giá: VND"
+          lable="Phân loại "
+          placeholder="vd: m,l,xl..."
           PLarge={false}
           value={variantChild?.type}
           setValue={setVariantChild}
@@ -367,16 +413,24 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
+            disabled={
+              Number.isInteger(Number(variantChild?.price)) &
+              (variantChild?.type !== "") &
+              (variantChild?.price !== "") &
+              (variantValue?.name !== "")
+                ? false
+                : true
+            }
             onClick={() => {
               if (
                 Number.isInteger(Number(variantChild.price)) &
-                (variantChild.type !== "") &
-                (variantChild.price !== "") &
-                (variantValue.name !== "")
+                (variantChild?.type !== "") &
+                (variantChild?.price !== "") &
+                (variantValue?.name !== "")
               ) {
                 setVariantValue((prev) => {
                   const type = "value";
-                  return { ...prev, [type]: [...prev.value, variantChild] };
+                  return { ...prev, [type]: [...prev?.value, variantChild] };
                 });
                 setVariantChild({ type: "", price: "" });
               }
@@ -385,34 +439,42 @@ const InputVariant = ({
         </div>
       </div>
       <div className="flex flex-wrap">
-        {variants?.map((variant, index) => (
-          <div
-            className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px]"
-            key={index}
-            onClick={() =>
-              setVariants((prev) => [...prev].filter((item, i) => i !== index))
-            }
-          >
-            <b className=" ">{`${variant?.name} : `}</b>
-            <div className="">
-              {variant?.value?.map((type, index) => {
-                const cost = Intl.NumberFormat("it-IT", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(type.price);
+        {variants &&
+          variants?.map((variant, index) => (
+            <div
+              className="flex outline outline-primary outline-1 bg-white px-3 py-3 rounded-lg my-2 h-full min-w-[350px]  relative"
+              key={index}
+            >
+              <div
+                className="font-bold absolute top-0 left-[94%] cursor-pointer"
+                onClick={() =>
+                  setVariants((prev) =>
+                    [...prev].filter((item, i) => i !== index)
+                  )
+                }
+              >
+                <AiOutlineClose />
+              </div>
+              <b className=" ">{`${variant?.name} : `}</b>
+              <div className="">
+                {variant?.value?.map((type, index) => {
+                  const cost = Intl.NumberFormat("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(type.price);
 
-                return (
-                  <>
-                    <div className="">
-                      <span className=" p-2">{`Loại : ${type.type}`}</span>
-                      <span className="">{`Giá :  ${cost}`}</span>
-                    </div>
-                  </>
-                );
-              })}
+                  return (
+                    <>
+                      <div className="w-full flex pl-2">
+                        <div className=" min-w-[100px]">{`Loại : ${type.type}`}</div>
+                        <div className="min-w-[100px]">{`Giá :  ${cost}`}</div>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
@@ -462,6 +524,39 @@ const InputSearch = React.memo(
   }
 );
 
+const InputFieldWithValidate = React.memo(
+  ({ lable, value, setValue, type, message, setMessage }) => {
+    return (
+      <div className={`w-full  h-full mb-[24px]`}>
+        <label
+          htmlFor="field"
+          className={`font-bold text-l flex items-center text-primary`}
+        >
+          {lable}
+        </label>
+
+        <input
+          type={type}
+          className={`bg-[#F1F1F1] rounded-[8px] w-full h-[42px] px-[8px]`}
+          value={value}
+          required
+          onChange={(e) => {
+            setMessage(null);
+            setValue(e.target.value);
+          }}
+        />
+        <div
+          className={`${
+            message ? "visible" : "invisible"
+          }text-sm text-highlight`}
+        >
+          {message}
+        </div>
+      </div>
+    );
+  }
+);
+
 export {
   InputCustomWidth,
   SelectCustomWidth,
@@ -470,6 +565,7 @@ export {
   InputFileCustomWidth,
   InputSearch,
   InputVariant,
+  InputFieldWithValidate,
   SelectPayment,
 };
 // setVariantValue((prev)=>({

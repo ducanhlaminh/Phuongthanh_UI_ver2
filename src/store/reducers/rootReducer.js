@@ -3,7 +3,10 @@ import cartReducer from "./cartReducer";
 import popupReducer from "./popupReducer";
 import appReducer from "./appReducer";
 import homenavReducer from "./homenavReducer";
+import wishlistReducer from "./wishlishReducer";
 import productReducer from "./productReducer";
+import searchReducer from "./searchReducer";
+import chatbotReducer from "./chatbot";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
@@ -29,6 +32,9 @@ const rootReducer = combineReducers({
   changePassword: changePasswordReducer,
   products: productReducer,
   homenav: homenavReducer,
+  search: searchReducer,
+  chatbot: chatbotReducer,
+  wishlist:wishlistReducer,
 });
 
 export default rootReducer;

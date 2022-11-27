@@ -22,3 +22,23 @@ export const addToCart = () => async (dispatch) => {
     });
   }
 };
+
+export const fetchCartQuantity =(status)=>{
+  return {
+    type:actionTypes.FETCH_CART_QUANTITY,
+    status:status,
+  }
+};
+
+export const deleteAllCart=()=>{
+  return {
+    type:actionTypes.DELETE_ALL_CART,
+  }
+}
+
+export const placeOrderData = (data) => {
+  return {
+    type:actionTypes.PLACE_ORDER_CART,
+    data: data,
+  }
+}

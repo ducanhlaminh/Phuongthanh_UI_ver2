@@ -18,10 +18,10 @@ const Profile = () => {
 
   if (!isLoggedIn) return <Navigate to={path.LOGIN} />;
   return (
-    <div className="px-5 py-6 h-full">
+    <div className="px-5 md:py-6 md:h-full h-screen">
       <div className="pb-6 items-center justify-between pr-[76px] hidden md:flex">
         {!detailOrder && (
-          <h3 className="text-[34px] font-bold text-[#1B4B66]">
+          <h3 className="lg:text-[34px] md:text-[24px] font-bold text-[#1B4B66]">
             {menuProfile.find((item) => item.path === location.pathname)?.text}
           </h3>
         )}
@@ -41,6 +41,7 @@ const Profile = () => {
         )}
         <div onClick={() => {
           dispatch(actions.logout())
+          dispatch(actions.fetchCartQuantity('notLogin'));
           navigate('/');
           }}>
           <Button2
@@ -51,7 +52,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex gap-[22px]">
-        <div className="w-[286px] flex-none hidden md:block">
+        <div className="lg:w-[286px] md:w-[190px] flex-none hidden md:block">
           <SidebarProfile />
         </div>
         <div className="w-full md:flex-auto">
