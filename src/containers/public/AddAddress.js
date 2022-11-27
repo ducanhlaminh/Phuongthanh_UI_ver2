@@ -35,6 +35,16 @@ function AddAddress() {
   const [dataBill, setDataBill] = useState([])
   const dispatch = useDispatch();
 
+  //DELETE CACHE
+  useEffect(() => {
+    return ()=>{
+      
+      const deleteCacheHanlder=async()=>{
+        await ApiCheckout.delete();
+      }
+      deleteCacheHanlder();
+    }
+  },[]);
   //GET BILL
   useEffect(() => {
     const getBillInfo =  async () => {
