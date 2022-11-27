@@ -48,9 +48,9 @@ const ManageProduct = () => {
   }, [selectValue]);
 
   useEffect(() => {
-    console.log(search);
     const filter = Object.values(selectFilter.sort);
     selectValue &&
+      !isLoading &&
       dispatch(
         actions.getProducts({
           categoryCode: selectValue,
@@ -68,7 +68,7 @@ const ManageProduct = () => {
     return (
       <div
         key={product.id}
-        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full h-[120px]  text-xl "
+        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full h-[160px]  text-xl "
       >
         <div className="w-[10%] flex justify-center">
           <input
@@ -89,7 +89,7 @@ const ManageProduct = () => {
           <img
             src={product.mainImage}
             alt=""
-            className="object-cover w-[70%]"
+            className="object-contain w-[70%]"
           ></img>
         </div>
         <div className="w-[20%] flex justify-center ">
@@ -165,10 +165,10 @@ const ManageProduct = () => {
             <p> Đã chọn: {addDeletes.length}</p>
           </div>
           <Button
-            text="Xóa nhiều sản phẩm"
+            text="Xóa sản phẩm"
             bgColor="#cf2b2b"
             textColor="#fff"
-            width="60%"
+            width="40%"
             height="2"
             onClick={() => {
               setIsDelete(!isDelete);
@@ -264,6 +264,7 @@ const ManageProduct = () => {
           setIsLoading={setIsLoading}
           isLoading={isLoading}
           category={selectValue}
+          setShowUpload={setShowUpload}
         />
       ) : (
         ""

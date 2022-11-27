@@ -18,6 +18,7 @@ const User = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [contentUpload, setContentUpload] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -25,8 +26,8 @@ const User = () => {
       setCount(res.response.count);
       setUsers(res.response.rows);
     };
-    fetchCategory();
-  }, [showUpload, page]);
+    !isLoading && fetchCategory();
+  }, [isLoading, page]);
   const handleChangePage = (event, value) => {
     setPage(value);
   };
@@ -109,7 +110,7 @@ const User = () => {
           <div className="w-[20%]  font-bold text-center">Email</div>
         </div>
         <div className="h-5/6 overflow-auto relative">
-          {users === null ? <LoadingPageDesktop /> : renderUser}
+          {isLoading ? <LoadingPageDesktop /> : renderUser}
         </div>
         <div className="flex justify-center w-full flex-auto items-end p-2">
           <Pagination
@@ -130,6 +131,8 @@ const User = () => {
           showUpload={showUpload}
           setShowUpload={setShowUpload}
           setContentUpload={setContentUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       ) : (
         ""

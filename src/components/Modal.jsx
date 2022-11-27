@@ -60,6 +60,7 @@ export const ModalEditCate = ({
     } catch (error) {
       console.log(error);
       setIsShowEdit(false);
+      setIsLoading(false);
       setShowUpload(!showUpload);
     }
   };
@@ -184,6 +185,7 @@ export const ModalCreateCate = ({
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       setIsShowCreate(false);
       setShowUpload(!showUpload);
     }
@@ -269,7 +271,6 @@ export const ModalCreateCate = ({
             width="80%"
             onClick={() => {
               onSubmit();
-              setIsShowCreate(false);
             }}
           ></Button>
         </div>
@@ -325,6 +326,7 @@ export const PopupDeleteCate = ({
               }
             } catch (error) {
               console.log(error);
+              setIsLoading(false);
               setIsDelete(false);
               setShowUpload(!showUpload);
             }
@@ -340,6 +342,8 @@ export const PopupDeleteUser = ({
   setShowUpload,
   showUpload,
   setContentUpload,
+  isLoading,
+  setIsLoading,
 }) => {
   return (
     <div
@@ -364,17 +368,20 @@ export const PopupDeleteUser = ({
           height="3"
           onClick={async () => {
             try {
+              setIsDelete(false);
+              setIsLoading(true);
               const res = await apiUSer.delete({ id: user.id });
+              setContentUpload(res);
               if (res.status === 0) {
-                setIsDelete(false);
+                setIsLoading(false);
                 setShowUpload(!showUpload);
-                setContentUpload(res);
               } else {
-                setIsDelete(false);
+                setIsLoading(false);
                 setShowUpload(!showUpload);
-                setContentUpload(res);
               }
             } catch (error) {
+              console.log(error);
+              setIsLoading(false);
               setIsDelete(false);
               setShowUpload(!showUpload);
             }
@@ -422,8 +429,11 @@ export const PopupDeleteProduct = ({
           height="2"
           onClick={async () => {
             try {
+              setIsLoading(true);
+              setIsDelete(false);
               if (product) {
                 const res = await ApiProduct.delete({ id: [product] });
+                setContentUpload(res);
                 if (res.status === 0) {
                   setProduct();
                   setAddDeletes((prev) =>
@@ -431,24 +441,22 @@ export const PopupDeleteProduct = ({
                       ? [...prev]
                       : [...prev].filter((item) => item !== product)
                   );
-                  setIsDelete(!isDelete);
+
                   setShowUpload(true);
-                  setContentUpload(res);
-                  setIsLoading(!isLoading);
+
+                  setIsLoading(false);
                 }
               } else {
                 const res = await ApiProduct.delete({ id: [...products] });
                 if (res.status === 0) {
-                  setAddDeletes([]);
-                  setIsDelete(!isDelete);
                   setShowUpload(true);
-                  setContentUpload(res);
-                  setIsLoading(!isLoading);
+                  setIsLoading(false);
+                  setAddDeletes([]);
                 }
               }
             } catch (error) {
               setAddDeletes([]);
-              setIsDelete(!isDelete);
+              setIsDelete(false);
               setShowUpload(true);
               setIsLoading(!isLoading);
             }
@@ -466,8 +474,10 @@ export const EditProduct = ({
   categories,
   product,
   category,
+  setContentUpload,
+  setShowUpload,
 }) => {
-  console.log(JSON.parse(product.hashtags));
+  const dispatch = useDispatch();
   const [productName, setProductName] = useState(product.name);
   const [selectValue, setSelectValue] = useState(category);
   const [price, setPrice] = useState(product.costPerUnit);
@@ -490,28 +500,6 @@ export const EditProduct = ({
   const [variants, setVariants] = useState(product.variants);
   const [variantValue, setVariantValue] = useState({ name: "", value: [] });
   const [variantChild, setVariantChild] = useState({ type: "", price: "" });
-  const handleSubmit = async () => {
-    const bodyFormData = new FormData();
-    bodyFormData.append("mainImage", image.imageMain);
-    bodyFormData.append("image1", image.image1);
-    bodyFormData.append("image2", image.image2);
-    bodyFormData.append("image3", image.image3);
-    bodyFormData.append("name", productName);
-    bodyFormData.append("costPerUnit", price);
-    bodyFormData.append("id", product.id);
-    bodyFormData.append("description", shortDes);
-    bodyFormData.append("categoryCode", product.categoryData.code);
-    const res = await ApiProduct.update(bodyFormData, product.id);
-    if (res.status === 0) {
-      setIsLoading(!isLoading);
-      setIsShowEdit(false);
-    }
-  };
-
-  // if (imageMain !== "") imageMain?.preview = URL.createObjectURL(imageMain);
-  // if (image1 !== "") image1.preview = URL.createObjectURL(image1);
-  // if (image2 !== "") image2.preview = URL.createObjectURL(image2);
-  // if (image3 !== "") image3.preview = URL.createObjectURL(image3);
   useEffect(() => {
     if (typeof image.imageMain !== "string")
       setImageUrl((prev) => ({
@@ -534,6 +522,36 @@ export const EditProduct = ({
         image3Url: URL.createObjectURL(image.image3),
       }));
   }, [image]);
+
+  const handleEdit = async () => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("mainImage", image.imageMain);
+    bodyFormData.append("image1", image.image1);
+    bodyFormData.append("image2", image.image2);
+    bodyFormData.append("image3", image.image3);
+    bodyFormData.append("name", productName);
+    bodyFormData.append("costPerUnit", price);
+    bodyFormData.append("description", shortDes);
+    bodyFormData.append("categoryCode", selectValue);
+    bodyFormData.append("variants", JSON.stringify(variants));
+    bodyFormData.append("tags", JSON.stringify(tags));
+    bodyFormData.append("id", product.id);
+    try {
+      setIsShowEdit(false);
+      setIsLoading(true);
+      const res = await ApiProduct.update(bodyFormData);
+      if (res.status === 0) {
+        setShowUpload(true);
+      } else {
+        setShowUpload(true);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setIsShowEdit(false);
+      setShowUpload(true);
+    }
+  };
   return (
     <>
       <div
@@ -549,7 +567,6 @@ export const EditProduct = ({
             e.stopPropagation();
           }}
         >
-          {console.log(product)}
           <FormCreateProduct
             productName={productName}
             setProductName={setProductName}
@@ -572,6 +589,7 @@ export const EditProduct = ({
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
             id={product.id}
+            handleEdit={handleEdit}
           />
         </div>
       </div>
