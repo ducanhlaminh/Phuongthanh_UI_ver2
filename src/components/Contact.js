@@ -54,11 +54,11 @@ const Contact = ({ setIsStartChatBot, show }) => {
       <div>
         <div
           onClick={() => {
-            // if (window.innerWidth < 768) {
-            //   setIsStartChatBot((prev) => !prev);
-            // } else {
-            //   setIsStartChatBot((prev) => !prev);
-            // }
+            if (window.innerWidth < 768) {
+              
+            } else {
+              setIsStartChatBot((prev) => !prev);
+            }
           }}
           className="relative flex justify-center items-center transition-all"
         >

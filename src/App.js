@@ -119,7 +119,7 @@ function App() {
         </Route>
       </Routes>
 
-      <div className={`fixed ${!show?"left-[80%]  top-1/2 ":" top-[40px] left-[20px]"} bg-red-500 transition-all ease-in-out`} onClick={()=>{setShow(prev=>!prev)}}>
+      <div className={`fixed md:right-[32px] md:top-1/2 ${!show&& window.innerWidth<768 ?"left-[80%] top-1/2 ":" top-[0] left-[0]  w-screen h-screen"} transition-all ease-in-out`} onClick={()=>{ if(window.innerWidth<768) setShow(prev=>!prev)}}>
         <Contact setIsStartChatBot={setIsStartChatBot} show={show} />
       </div>
 
