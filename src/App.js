@@ -43,24 +43,17 @@ import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
 
 
-
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth); 
   const { categories } = useSelector((state) => state.app);
-  const [isStartChatBot, setIsStartChatBot] = useState(false)
+  const [isStartChatBot, setIsStartChatBot] = useState(false);
+  const [show, setShow] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-
-  useEffect(() => {
-    
-  },[window.location.pathname]);
-
-
 
   // Khi reload page get userdata again
   useEffect(() => {
-    isLoggedIn && dispatch(actions.getCurrent());
+    isLoggedIn && setTimeout(()=>{dispatch(actions.getCurrent())},100);
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -125,8 +118,9 @@ function App() {
           <Route path={path.UPDATE_PROFILE} element={<UpdateProfile />} />
         </Route>
       </Routes>
-      <div className="fixed top-1/2 right-[32px] bg-red-500">
-        <Contact setIsStartChatBot={setIsStartChatBot} />
+
+      <div className={`fixed ${!show?"left-[80%]  top-1/2 ":" top-[40px] left-[20px]"} bg-red-500 transition-all ease-in-out`} onClick={()=>{setShow(prev=>!prev)}}>
+        <Contact setIsStartChatBot={setIsStartChatBot} show={show} />
       </div>
 
 

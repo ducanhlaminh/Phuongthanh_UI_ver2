@@ -130,6 +130,8 @@ function MyCart() {
           </div>
         </div>
       </div>
+
+      
       {/* Desktop */}
       <div className="md:block hidden w-full ">
         <div className="hidden md:block md:px-[16px] lg:px-[20px]">

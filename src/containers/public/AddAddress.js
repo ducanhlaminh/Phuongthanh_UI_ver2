@@ -15,10 +15,13 @@ import DownPopup from "../../components/DownPopup";
 import { BsPencil } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import Loading from "../../components/Loading";
-import Swal from "sweetalert2"
-import {deleteCache} from "../../apis/bill2";
+import Swal from "sweetalert2";
+import { deleteCache } from "../../apis/bill2";
+import {MdArrowBackIos} from "react-icons/md"
+import {useNavigate} from "react-router-dom"
 
 function AddAddress() {
+  const navigate= useNavigate();
   const [status, setStatus] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [infoUser, setInfoUser] = useState({ name: "", phone: "" });
@@ -47,13 +50,13 @@ function AddAddress() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    return ()=>{
-      const deleteCacheHanlder=async()=>{
+    return () => {
+      const deleteCacheHanlder = async () => {
         await deleteCache();
-      }
+      };
       deleteCacheHanlder();
-    }
-  },[]);
+    };
+  }, []);
   //GET BILL
   useEffect(() => {
     const getBillInfo = async () => {
@@ -124,9 +127,9 @@ function AddAddress() {
     districtCur !== "DEFAULT" && fetchWarn();
   }, [districtCur]);
 
-  useEffect(()=>{
-      handleGetFeeShip();
-  },[selectAddress])
+  useEffect(() => {
+    handleGetFeeShip();
+  }, [selectAddress]);
   //Add new address
   const handleAddAdress = () => {
     setIsLoading(true);
@@ -163,12 +166,12 @@ function AddAddress() {
           setShowPopup(true);
           setSelected(true);
           setShowPopupAddress(false);
-          Swal.fire("Thành công","Đã thêm địa chỉ thành công","success");
+          Swal.fire("Thành công", "Đã thêm địa chỉ thành công", "success");
         }
       } catch (err) {
         setShowPopupAddress(false);
-        if(err.err===1){
-          Swal.fire("Thất bại","Số điện thoại không hợp lệ","error");
+        if (err.err === 1) {
+          Swal.fire("Thất bại", "Số điện thoại không hợp lệ", "error");
         }
         setStatus(false);
         setShowPopup(true);
@@ -181,7 +184,7 @@ function AddAddress() {
   const handleUpdateAddress = async () => {
     setIsLoading(true);
     const data = {
-      address: JSON.stringify({
+      address: JSON.stringify( {
         detail: detailAddress,
         province: provinceCur.ProvinceName,
         district: districtCur.DistrictName,
@@ -199,8 +202,8 @@ function AddAddress() {
       phone: infoUser.phone,
       address: data.address,
     });
-    if(res.status===0){
-      Swal.fire("Thành công","Đã sửa địa chỉ thành công","success");
+    if (res.status === 0) {
+      Swal.fire("Thành công", "Đã sửa địa chỉ thành công", "success");
     }
     setIsLoading(false);
     setShowPopupAddress(false);
@@ -351,8 +354,12 @@ function AddAddress() {
                             const res = await ApiAddress.delete({
                               aids: [addres.id],
                             });
-                            if(res.status === 0){
-                              Swal.fire("Thành công","Đã xóa địa chỉ thành công","success");
+                            if (res.status === 0) {
+                              Swal.fire(
+                                "Thành công",
+                                "Đã xóa địa chỉ thành công",
+                                "success"
+                              );
                             }
                           };
                           deleteAddress();
@@ -382,7 +389,28 @@ function AddAddress() {
           </div>
         </DownPopup>
 
-        <AppBar title="Thanh toán" />
+
+
+        <div className="top-0 w-full bg-white min-h-[56px] flex items-center">
+          <div className="min-h-[26px] w-[90%] flex text-2xl">
+            <div
+              className=" flex items-center justify-center w-[15%] text-center "
+              onClick={() => {
+                const deleteCacheHanlder = async () => {
+                  await deleteCache();
+                };
+                deleteCacheHanlder();
+                navigate(-1);
+              }}
+            >
+              <MdArrowBackIos className="text-primary" />
+            </div>
+            <div className=" h-full text-primary font-semibold">Thanh toán</div>
+          </div>
+        </div>
+
+
+
         <div className="bg-white">
           <div className="mx-[16px] mt-[16px]">
             <p className="text-darkGrey font-semibold text-[14px] mb-[8px]">
@@ -522,7 +550,7 @@ function AddAddress() {
                 Thêm địa chỉ
               </div>
             </div>
-            <div className="border-2 h-full flex-auto p-3">
+            <div className=" h-full flex-auto p-3">
               {!selected ? (
                 <>
                   <div className="w-full pt-[24px] p-3 h-[34%]">
@@ -591,7 +619,7 @@ function AddAddress() {
                       </div>
                     </div>
                     <div className="" onClick={() => handleAddAdress()}>
-                      <Button2 text="Xác nhận thêm đại chỉ" />
+                      <Button2 text="Thêm đại chỉ" />
                     </div>
                   </div>
                 </>

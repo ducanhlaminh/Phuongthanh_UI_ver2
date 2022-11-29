@@ -15,16 +15,18 @@ const HeaderLaptop = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
   });
-  
+
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
-  
+
   const dispatch = useDispatch();
   useEffect(() => {
-    const fetchCartQuantity = async () => {
-      const res = await ApiCart.get();
-      setCartQuantity(res.yourCart.length);
-    };
-    fetchCartQuantity();
+    setTimeout(() => {
+      const fetchCartQuantity = async () => {
+        const res = await ApiCart.get();
+        setCartQuantity(res.yourCart.length);
+      };
+      fetchCartQuantity();
+    }, 100);
   }, [fetchCartQuantity, cartQuantity, productsCart]);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
@@ -63,7 +65,7 @@ const HeaderLaptop = () => {
             )}
           </Link>
           <span className="relative">
-            <Link to='/cart'>
+            <Link to="/cart">
               <AiOutlineShoppingCart
                 size={26}
                 className={`${

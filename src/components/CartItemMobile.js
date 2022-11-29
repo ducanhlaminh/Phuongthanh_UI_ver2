@@ -43,7 +43,7 @@ const CartItemMobile = ({
         qty: quanityProduct,
         variant: varName,
         cost: price,
-        cid:cartID
+        cid:cartID,
       }
       if(isChecked) {
         if(index !== -1){

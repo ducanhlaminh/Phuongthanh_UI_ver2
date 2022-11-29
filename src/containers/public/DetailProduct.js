@@ -300,7 +300,7 @@ const DetailProduct = () => {
                     <span>đ</span>
                     {!canAtc &&
                       Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
-                    {canAtc && PriceCaculator(product, variantTypes)}
+                    {canAtc &&  Number( PriceCaculator(product,variantTypes).toFixed(1))?.toLocaleString()}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 lg:text-[34px] md:text-[24px] md:font-semibold md:text-[#B6B6B6]">
@@ -311,9 +311,11 @@ const DetailProduct = () => {
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] md:text-[16px] md:font-semibold md:text-[#FF404B]">
-                    20%OFF
-                  </p>
+                  {/* <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] md:text-[16px] md:font-semibold md:text-[#FF404B]">
+                  {!canAtc &&
+                      ""}
+                    {canAtc &&  Number( PriceCaculator(product,variantTypes).toFixed(1))?.toLocaleString()}
+                  </p> */}
                 </section>
                 <section className="pb-[16px] hidden md:block mt-[20px] w-[full]">
                   <Voucher Vouchers={Vouchers}></Voucher>
