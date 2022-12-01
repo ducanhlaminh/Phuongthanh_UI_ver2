@@ -93,17 +93,18 @@ const ManageProduct = () => {
           ></img>
         </div>
         <div className="w-[20%] flex justify-center ">
-          <div className="w-full ">
+          <div className="w-full text-center">
             <p className="whitespace-nowrap overflow-hidden text-ellipsis p-3">
               {product.name}
             </p>
           </div>
         </div>
-        <div className="w-[20%]">
+        <div className="w-[20%] flex flex-wrap justify-evenly gap-3">
           {product?.variants.map((item) => (
             <div
               key={item.name}
-              className="flex justify-center outline outline-primary outline-1 p-2 rounded-xl [&:not(:last-child)]:mb-[10px]"
+              className="flex justify-center outline-black
+                p-2 rounded-xl  w-[40%] hover:outline-primary outline-2 outline hover:outline-4 "
             >
               <span>{item.name}</span>
             </div>

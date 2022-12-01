@@ -10,6 +10,7 @@ import avatar from "../../assets/avatar-anon.png";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import { PopupDeleteUser } from "../../components/Modal";
 import { NotiStatus } from "../../components/UploadStatus";
+import ApiBill from "../../apis/bill";
 const User = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
@@ -64,6 +65,10 @@ const User = () => {
             bgColor="#4ed14b"
             textColor="#fff"
             width="40%"
+            onClick={async () => {
+              const res = await ApiBill.getUserbyAdmin(user?.id);
+              console.log(res);
+            }}
           ></Button>
           <Button
             text="Xóa"
