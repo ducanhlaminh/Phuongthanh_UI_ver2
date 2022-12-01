@@ -1,13 +1,21 @@
 import icons from "./icons";
 
-const { BsSpeedometer2, RiProductHuntLine, FaUserEdit, IoIosCreate } = icons;
+const {
+  BsSpeedometer2,
+  RiProductHuntLine,
+  FaUserEdit,
+  IoIosCreate,
+  AiOutlineUserAdd,
+  RiBillLine,
+  BiCategoryAlt,
+} = icons;
 
 export const path = {
   LOGIN: "/login",
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
-  WISH_LISH:'san-pham-da-thich',
+  WISH_LISH: "san-pham-da-thich",
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
@@ -30,15 +38,13 @@ export const path = {
   ORDERS: "hoa-don-cua-toi",
   ITEM_ORDERS: "don-hang",
   ITEM_ORDERS_ID: "don-hang/:id",
-  NEW_PRODUCTS:'san-pham-moi-nhat',
-  BEST_SELLER:'san-pham-ban-chay',
-  TOP_FAVOURITE:'san-pham-yeu-thich',
+  NEW_PRODUCTS: "san-pham-moi-nhat",
+  BEST_SELLER: "san-pham-ban-chay",
+  TOP_FAVOURITE: "san-pham-yeu-thich",
   PERSONAL: "",
   ADD_ADDRESS: "check-out",
-  SEARCH:'tim-kiem',
-  SEARCH__KEYWORD:'tim-kiem/:id',
-
-  
+  SEARCH: "tim-kiem",
+  SEARCH__KEYWORD: "tim-kiem/:id",
 };
 export const vi_uf8 = {
   shopname: "PhuongThanh",
@@ -104,17 +110,17 @@ export const adminMenu = [
   {
     name: "Người dùng",
     path: "/system/user",
-    icon: <RiProductHuntLine size={24} />,
+    icon: <AiOutlineUserAdd size={24} />,
   },
   {
     name: "Hóa đơn",
     path: "/system/bill",
-    icon: <RiProductHuntLine size={24} />,
+    icon: <RiBillLine size={24} />,
   },
   {
     name: "Quản lý gian hàng",
     path: "/system/manage-category",
-    icon: <RiProductHuntLine size={24} />,
+    icon: <BiCategoryAlt size={24} />,
   },
   {
     name: "Thống kê",
@@ -125,11 +131,6 @@ export const adminMenu = [
   {
     name: "Thêm sản phẩm",
     path: "/system/edit-product",
-    icon: <IoIosCreate size={24} />,
-  },
-  {
-    name: "Thêm gian hàng",
-    path: "/system/update-profile",
     icon: <IoIosCreate size={24} />,
   },
 ];

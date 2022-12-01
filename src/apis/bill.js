@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosClients from "../axiosClients";
 
 const ApiBill = {
@@ -16,6 +17,14 @@ const ApiBill = {
   update: (data) => {
     const url = "/api/v1/bill/update";
     return axiosClients.put(url, data);
+  },
+  getUserbyAdmin: async (token) => {
+    const url = "http://localhost:8888/api/v1/bill/current_user";
+    return axios({
+      method: "get",
+      url,
+      headers: { Authorization: token },
+    });
   },
 };
 

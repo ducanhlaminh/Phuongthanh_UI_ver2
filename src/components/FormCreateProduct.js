@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import icons from "../ultils/icons";
 import { NotiStatus } from "../components/UploadStatus";
 import ApiProduct from "../apis/product";
-const { AiFillCheckCircle } = icons;
+const { AiFillCheckCircle, BsUpload } = icons;
 const FormCreateProduct = ({
   productName,
   setProductName,
@@ -39,7 +39,7 @@ const FormCreateProduct = ({
   setContentUpload,
   imageUrl,
   type,
-  id,
+  handleEdit,
 }) => {
   const imageMainRef = useRef();
   const image1Ref = useRef();
@@ -88,35 +88,9 @@ const FormCreateProduct = ({
       image3: e.target.files[0],
     }));
   };
-  const handleEdit = async () => {
-    const bodyFormData = new FormData();
-    bodyFormData.append("mainImage", image.imageMain);
-    bodyFormData.append("image1", image.image1);
-    bodyFormData.append("image2", image.image2);
-    bodyFormData.append("image3", image.image3);
-    bodyFormData.append("name", productName);
-    bodyFormData.append("costPerUnit", price);
-    bodyFormData.append("description", shortDes);
-    bodyFormData.append("categoryCode", selectValue);
-    bodyFormData.append("variants", JSON.stringify(variants));
-    bodyFormData.append("tags", tags);
-    bodyFormData.append("id", id);
 
-    console.log(shortDes, image, tags);
-    try {
-      const res = await ApiProduct.update(bodyFormData);
-      console.log(res);
-      if (res.status === 0) {
-        console.log(1);
-        // setShowUpload(true);
-        // setContentUpload(res);
-      }
-    } catch (error) {
-      console.log(selectValue);
-    }
-  };
   return (
-    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
+    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative h-[90%] ">
       {showUpload && (
         <NotiStatus
           active={contentUpload.status === 0 ? "success" : "error"}
@@ -131,7 +105,7 @@ const FormCreateProduct = ({
       <h1 className="text-3xl text-center">Nhập thông tin tại đây</h1>
       <div className="h-[15%]">
         <InputCustomWidth
-          required={true}
+          required={!productName ? true : false}
           widthP={"full"}
           lable="Tên sản phẩm "
           placeholder="Tên sản phẩm..."
@@ -154,7 +128,7 @@ const FormCreateProduct = ({
           />
           <InputCustomWidth
             lable="Giá"
-            required={true}
+            required={!price ? true : false}
             placeholder="Giá: VND"
             PLarge={false}
             value={price}
@@ -233,21 +207,23 @@ const FormCreateProduct = ({
             setVariantValue={setVariantValue}
           />
           <div className="w-full flex flex-wrap">
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh chính
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.imageMainUrl
-                      ? imageUrl.imageMainUrl
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => imageMainRef.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px] flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => imageMainRef.current.click()}
+              >
+                {imageUrl.imageMainUrl ? (
+                  <img
+                    src={imageUrl.imageMainUrl}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
 
               <input
@@ -259,21 +235,23 @@ const FormCreateProduct = ({
                 onChange={handleImageMain}
               />
             </div>
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh 1
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.image1Url
-                      ? imageUrl.image1Url
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => image1Ref.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => imageMainRef.current.click()}
+              >
+                {imageUrl.image1Url ? (
+                  <img
+                    src={imageUrl.image1Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
               <input
                 className="hidden"
@@ -283,21 +261,23 @@ const FormCreateProduct = ({
                 onChange={handleImage1}
               />
             </div>
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh 2
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.image2Url
-                      ? imageUrl.image2Url
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => image2Ref.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => image2Ref.current.click()}
+              >
+                {imageUrl.image2Url ? (
+                  <img
+                    src={imageUrl.image2Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
               <input
                 className="hidden"
@@ -307,21 +287,23 @@ const FormCreateProduct = ({
                 onChange={handleImage2}
               />
             </div>
-            <div className="w-1/2 p-6">
+            <div className="w-1/2">
               <label htmlFor="" className="font-bold">
                 Ảnh 3
               </label>
-              <div className="h-[100px] w-[100px]">
-                <img
-                  src={
-                    imageUrl.image3Url
-                      ? imageUrl.image3Url
-                      : "https://www.pays-sud-charente.com/inc/image/img_actualite/defaut.png"
-                  }
-                  alt=""
-                  className="object-cover h-full w-full"
-                  onClick={() => image3Ref.current.click()}
-                />
+              <div
+                className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
+                onClick={() => image3Ref.current.click()}
+              >
+                {imageUrl.image2Url ? (
+                  <img
+                    src={imageUrl.image2Url}
+                    alt=""
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <BsUpload fontSize="30px" />
+                )}
               </div>
               <input
                 className="hidden"
@@ -334,7 +316,7 @@ const FormCreateProduct = ({
 
             {/* <InputFileCustomWidth
                   lable="Ảnh 1"
-                  widthP="[100%]"
+                  widthP="[200%]"
                   valueImg={image1}
                   setValueImg={setImage1}
                 />

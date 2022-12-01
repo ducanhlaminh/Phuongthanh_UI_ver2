@@ -1,13 +1,13 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { BiSortAlt2 } from "react-icons/bi";
 import Button from "./Button";
-
+import icons from "../ultils/icons";
 /* Input field Which can custom width
     WidthP : value of width
     PLarge : large or small padding
     @Anhtd
 */
-
+const { AiOutlineClose } = icons;
 const InputCustomWidth = React.memo(
   ({
     lable,
@@ -213,13 +213,7 @@ const SelectPayment = React.memo(
     @Anhtd
 */
 const HashTagCustomWidth = React.memo(
-  ({
-    lable,
-    widthP,
-    placeholder,
-    tags = ["12312", "23423", "123123", "234234123", "12321"],
-    setTags,
-  }) => {
+  ({ lable, widthP, placeholder, tags, setTags }) => {
     const [value, setValue] = useState("");
     const onAction = useCallback((newValue) => {
       setValue(newValue);
@@ -233,9 +227,6 @@ const HashTagCustomWidth = React.memo(
     const handleKeyCode = (e) => {
       if (e.keyCode === 13) handleAction();
     };
-    const handleClear = () => {
-      setTags([]);
-    };
     return (
       <div className={`w-${widthP} h-full`}>
         <label
@@ -246,7 +237,7 @@ const HashTagCustomWidth = React.memo(
         >
           {lable}
         </label>
-        <div className="flex h-[30%]">
+        <div className="flex h-[30%] mb-2">
           <input
             className="focus:ring-indigo-500 
                 focus:border-indigo-500 block 
@@ -270,17 +261,20 @@ const HashTagCustomWidth = React.memo(
           {tags?.length !== 0 ? (
             tags?.map((tag, index) => {
               return (
-                <div className="text-sm items-center bg-[#fff] rounded my-2 mr-2">
+                <div className="text-sm flex items-center justify-between outline outline-primary outline-1 bg-white px-2 py-2 rounded-lg min-w-[50px] mr-2">
                   {tag}
+                  <AiOutlineClose
+                    onClick={() =>
+                      setTags((prev) =>
+                        [...prev].filter((item) => item !== tag)
+                      )
+                    }
+                  />
                 </div>
               );
             })
           ) : (
-            <div
-              className="text-sm
-                        items-center bg-[#fff] rounded
-                        my-2 mr-2"
-            >
+            <div className="text-sm items-center outline outline-primary outline-1 bg-white px-2 py-1 rounded-lg">
               #hash_tag_here
             </div>
           )}
@@ -445,41 +439,42 @@ const InputVariant = ({
         </div>
       </div>
       <div className="flex flex-wrap">
-        {variants?.map((variant, index) => (
-          <div
-            className="flex bg-slate-500 my-2 h-full rounded p-2 min-w-[350px] relative"
-            key={index}
-          >
+        {variants &&
+          variants?.map((variant, index) => (
             <div
-              className="font-bold absolute top-0 left-[94%] cursor-pointer"
-              onClick={() =>
-                setVariants((prev) =>
-                  [...prev].filter((item, i) => i !== index)
-                )
-              }
+              className="flex outline outline-primary outline-1 bg-white px-3 py-3 rounded-lg my-2 h-full min-w-[350px]  relative"
+              key={index}
             >
-              X
-            </div>
-            <b className=" ">{`${variant?.name} : `}</b>
-            <div className="">
-              {variant?.value?.map((type, index) => {
-                const cost = Intl.NumberFormat("it-IT", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(type.price);
+              <div
+                className="font-bold absolute top-0 left-[94%] cursor-pointer"
+                onClick={() =>
+                  setVariants((prev) =>
+                    [...prev].filter((item, i) => i !== index)
+                  )
+                }
+              >
+                <AiOutlineClose />
+              </div>
+              <b className=" ">{`${variant?.name} : `}</b>
+              <div className="">
+                {variant?.value?.map((type, index) => {
+                  const cost = Intl.NumberFormat("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(type.price);
 
-                return (
-                  <>
-                    <div className="">
-                      <span className=" p-2">{`Loại : ${type.type}`}</span>
-                      <span className="">{`Giá :  ${cost}`}</span>
-                    </div>
-                  </>
-                );
-              })}
+                  return (
+                    <>
+                      <div className="w-full flex pl-2">
+                        <div className=" min-w-[100px]">{`Loại : ${type.type}`}</div>
+                        <div className="min-w-[100px]">{`Giá :  ${cost}`}</div>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
