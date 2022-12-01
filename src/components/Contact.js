@@ -6,7 +6,7 @@ import chatbot from "../assets/chatbot.png";
 
 const Contact = ({ setIsStartChatBot, show }) => {
   return (
-    <div className="flex flex-col items-end justify-center gap-12 relative md:static">
+    <div className="flex flex-col items-end justify-center gap-12 relative md:static ">
       <div
         className={`absolute ${
           show ? "left-[50px]" : ""
@@ -51,7 +51,7 @@ const Contact = ({ setIsStartChatBot, show }) => {
         </a>
       </div>
 
-      <div>
+      <div className={`${show?'absolute left-[0]':""}`}>
         <div
           onClick={() => {
             if (window.innerWidth < 768) {

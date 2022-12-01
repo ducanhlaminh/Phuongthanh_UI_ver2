@@ -8,7 +8,7 @@ const { AiOutlineClose } = icons
 const BoxChat = ({ setIsStartChatBot }) => {
     const [isStart, setIsStart] = useState(false)
     return (
-        <div className="w-[328px] h-[455px] bg-gray-800 text-gray-200">
+        <div className="w-full h-[80%] md:w-[328px] md:h-[455px] bg-gray-800 text-gray-200">
             <div className="w-full h-[48px] bg-gray-900 flex justify-between items-center px-2 font-medium">
                 <span>Bot v2</span>
                 <span onClick={() => setIsStartChatBot(false)} className="cursor-pointer hover:text-orange-600"><AiOutlineClose size={24} /></span>

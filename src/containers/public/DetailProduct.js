@@ -67,6 +67,25 @@ const DetailProduct = () => {
     };
     fetchCartQuantity();
   }, [fetchCartQuantity, cartQuantity, productsCart, onFetchCartQuantity]);
+
+  const fetchComments = async () => {
+    
+    const res = await ApiComment.getComment({
+      productId: id,
+      limitComment: 5,
+      page: currentPage,
+    });
+    setComments(()=>{return res.commentData});
+  };
+
+
+
+  useEffect(() => {
+    fetchComments();
+  }, [currentPage]);
+
+
+
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -74,18 +93,9 @@ const DetailProduct = () => {
       setProduct(product);
       setVariantTypes(new Array(product?.variants.length).fill(null));
     };
-    const fetchComments = async () => {
-      const res = await ApiComment.getComment({
-        productId: id,
-        limitComment: 5,
-        page: currentPage,
-      });
-      setComments(res.commentData);
-    };
 
-    fetchComments();
     fetchProduct();
-  }, [id, currentPage]);
+  }, [id,]);
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       try {
@@ -242,6 +252,7 @@ const DetailProduct = () => {
             setShowPopupComment={setShowPopupComment}
             showPopupComment={showPopupComment}
             id={product.id}
+            fetchComments={fetchComments}
           />
 
           <div className="bg-[white] pl-[16px] ">
@@ -300,7 +311,10 @@ const DetailProduct = () => {
                     <span>đ</span>
                     {!canAtc &&
                       Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
-                    {canAtc &&  Number( PriceCaculator(product,variantTypes).toFixed(1))?.toLocaleString()}
+                    {canAtc &&
+                      Number(
+                        PriceCaculator(product, variantTypes).toFixed(1)
+                      )?.toLocaleString()}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 lg:text-[34px] md:text-[24px] md:font-semibold md:text-[#B6B6B6]">
@@ -471,6 +485,7 @@ const DetailProduct = () => {
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
               <ReviewAndRatingDesktop
+                fetchComments={fetchComments}
                 commentData={comments}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
