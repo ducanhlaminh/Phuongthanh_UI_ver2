@@ -90,7 +90,7 @@ const FormCreateProduct = ({
   };
 
   return (
-    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative h-[90%] ">
+    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
       {showUpload && (
         <NotiStatus
           active={contentUpload.status === 0 ? "success" : "error"}

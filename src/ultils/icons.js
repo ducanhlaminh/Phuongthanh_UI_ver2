@@ -22,7 +22,7 @@ import {
   IoMdArrowRoundDown,
   IoIosArrowForward,
 } from "react-icons/io";
-import { FiMenu, FiFilter, FiLogOut } from "react-icons/fi";
+import { FiMenu, FiFilter, FiLogOut, FiMoreHorizontal } from "react-icons/fi";
 import {
   BiSearchAlt,
   BiPurchaseTag,
@@ -83,6 +83,7 @@ const icons = {
   FaSortAmountDownAlt,
   FaInstagramSquare,
   ImLocation2,
+  FiMoreHorizontal,
   AiOutlineFacebook,
   AiOutlineInstagram,
   TiLocationOutline,

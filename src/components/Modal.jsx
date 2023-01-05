@@ -15,7 +15,7 @@ import avatar from "../assets/avatar-anon.png";
 import { filters } from "../ultils/constant";
 import { Slider } from "@mui/material";
 import { apiGetProductsOfBill2 } from "../apis/bill2";
-import StatusBill from "./StatusBill";
+import StatusTag from "./StatusTag";
 import StepperBill from "./StepperBill";
 import { NotiStatus } from "./UploadStatus";
 import React from "react";
@@ -477,6 +477,7 @@ export const EditProduct = ({
   setContentUpload,
   setShowUpload,
 }) => {
+  console.log(product);
   const dispatch = useDispatch();
   const [productName, setProductName] = useState(product.name);
   const [selectValue, setSelectValue] = useState(category);
@@ -737,7 +738,7 @@ export const Profile = ({
                 <div className="absolute bottom-0 h-[70px] z-200 bg-gray-200 w-full flex  justify-between p-3">
                   {/* Trang thai don hang */}
 
-                  <StatusBill status={billCurrent.status} />
+                  <StatusTag status={billCurrent.status} />
                   {/* Gia ship , Total */}
                   <div className="">
                     <div className="flex flex-col items-end justify-between">
