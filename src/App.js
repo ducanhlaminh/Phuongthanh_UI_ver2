@@ -36,7 +36,7 @@ import { Contact, BoxChat } from "./components";
 import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
@@ -45,9 +45,14 @@ function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
   const [isStartChatBot, setIsStartChatBot] = useState(false);
+  const [chatBotPosition, setChatBotPosition] = useState({
+    left: "80%",
+    top: "50%",
+  });
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const chatBotRef = useRef();
 
   // Khi reload page get userdata again
   useEffect(() => {
@@ -72,7 +77,7 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-purple-100 m-auto overflow-y-auto h-screen relative">
+    <div className="bg-lightGrey m-auto overflow-y-auto h-screen relative">
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
@@ -101,13 +106,10 @@ function App() {
             }
           ></Route>
 
+          <Route path={path.WISH_LISH} element={<WishList></WishList>}></Route>
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
-            <Route
-              path={path.WISH_LISH}
-              element={<WishList></WishList>}
-            ></Route>
             <Route
               path={path.CHANGE_PASSWORD}
               element={<ChangePassword></ChangePassword>}
@@ -143,26 +145,44 @@ function App() {
       </Routes>
 
       <div
-        className={`fixed z-10 md:right-[32px] md:top-1/2 ${window.innerWidth < 768?(
-          !show
-            ? "left-[80%] top-1/2 "
-            : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)] w-screen h-screen"):''
+        className={`fixed z-10 md:right-[32px] md:top-1/2 transition-all ${
+          window.innerWidth < 768
+            ? !show
+              ? `left-[80%] top-1/2`
+              : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)] w-screen h-screen"
+            : ""
         } `}
         onClick={() => {
           if (window.innerWidth < 768) {
             setShow((prev) => !prev);
-            setIsStartChatBot((prev) => !prev)
+            setIsStartChatBot((prev) => !prev);
           }
         }}
+        // ref={chatBotRef}
+        // onTouchMove={(e) => {
+        //   console.log(window.getComputedStyle(chatBotRef.current).left);
+        //   console.log(e);
+        //   // setChatBotPosition({'left':e.target.offsetLeft,'top':e.target.offsetTop})
+        // }}
       >
         <Contact setIsStartChatBot={setIsStartChatBot} show={show} />
       </div>
 
-      {isStartChatBot && (
-        <div className="fixed top-[12%] md:bottom-0 md:top-auto z-10 md:right-[100px] w-full h-full md:w-auto bg-red-500">
-          <BoxChat setIsStartChatBot={setIsStartChatBot} />
-        </div>
-      )}
+      <div
+        className={`fixed ${
+          isStartChatBot
+            ? `${window.innerWidth < 768 ? "top-[12%]" : "bottom-0"}`
+            : `${window.innerWidth < 768 ? "top-[100%]" : "bottom-[-100%]"}`
+        } transition-all z-10 md:right-[100px] w-full ${
+          window.innerWidth < 768 ? "h-[100%]" : ""
+        }  md:w-auto bg-red-500`}
+      >
+        <BoxChat
+          setIsStartChatBot={setIsStartChatBot}
+          show={show}
+          setShow={setShow}
+        />
+      </div>
     </div>
   );
 }

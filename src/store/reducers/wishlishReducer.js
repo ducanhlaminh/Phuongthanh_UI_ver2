@@ -1,4 +1,4 @@
-import wishlist from "../../apis/wishlish";
+import wishlist from "../../apis/wishlist";
 import actionTypes from "../actions/actionTypes";
 
 const initState = {

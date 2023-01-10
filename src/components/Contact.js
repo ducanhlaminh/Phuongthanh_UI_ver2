@@ -6,6 +6,7 @@ import chatbot from "../assets/chatbot.png";
 
 const Contact = ({ setIsStartChatBot, show }) => {
   return (
+    
     <div className="flex flex-col items-end justify-center gap-12 relative md:static ">
       <div
         className={`absolute ${

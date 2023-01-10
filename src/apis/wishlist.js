@@ -1,5 +1,6 @@
 import axiosClients from "../axiosClients";
 
+
 const wishlist = {
   createWishlish: (data) => {
     const url = "/api/v1/wishlist/";

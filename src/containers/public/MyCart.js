@@ -109,7 +109,7 @@ function MyCart() {
           </div>
           <div className="flex justify-between font-semibold text-black text-[14px] mt-[8px]">
             <div className="w-1/2 ">
-              <p className="font-bold text-black">Grand Total : </p>
+              <p className="font-bold text-black">Thành tiền : </p>
             </div>
             <div className="w-1/3  text-black text-center">
               <p className="font-extrabold">{numFormatter(totalPrice)}</p>

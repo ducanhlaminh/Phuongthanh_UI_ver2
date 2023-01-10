@@ -65,6 +65,7 @@ export const ReviewAndRatingMobile = ({
         {commentData?.rows?.length > 0 ? (
           <div className="pt-[24px]">
             {commentData?.rows?.map((comment, i) => {
+              console.log(comment)
               return (
                 <div key={i} className="mb-[24px]">
                   <div className="flex items-center mb-[12px]">
@@ -224,7 +225,7 @@ export const ReviewAndRatingDesktop = ({
       ></div>
 
       <div
-        className="flex justify-end mt-[16px]"
+        className="flex justify-end mt-[16px] mb-[16px]"
         onClick={() => {
           createComment();
           
