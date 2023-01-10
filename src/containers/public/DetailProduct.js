@@ -67,6 +67,25 @@ const DetailProduct = () => {
     };
     fetchCartQuantity();
   }, [fetchCartQuantity, cartQuantity, productsCart, onFetchCartQuantity]);
+
+  const fetchComments = async () => {
+    
+    const res = await ApiComment.getComment({
+      productId: id,
+      limitComment: 5,
+      page: currentPage,
+    });
+    setComments(()=>{return res.commentData});
+  };
+
+
+
+  useEffect(() => {
+    fetchComments();
+  }, [currentPage]);
+
+
+
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -74,18 +93,9 @@ const DetailProduct = () => {
       setProduct(product);
       setVariantTypes(new Array(product?.variants.length).fill(null));
     };
-    const fetchComments = async () => {
-      const res = await ApiComment.getComment({
-        productId: id,
-        limitComment: 5,
-        page: currentPage,
-      });
-      setComments(res.commentData);
-    };
 
-    fetchComments();
     fetchProduct();
-  }, [id, currentPage]);
+  }, [id,]);
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       try {
@@ -242,6 +252,7 @@ const DetailProduct = () => {
             setShowPopupComment={setShowPopupComment}
             showPopupComment={showPopupComment}
             id={product.id}
+            fetchComments={fetchComments}
           />
 
           <div className="bg-[white] pl-[16px] ">
@@ -310,9 +321,11 @@ const DetailProduct = () => {
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] md:text-[16px] md:font-semibold md:text-[#FF404B]">
-                    20%OFF
-                  </p>
+                  {/* <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] md:text-[16px] md:font-semibold md:text-[#FF404B]">
+                  {!canAtc &&
+                      ""}
+                    {canAtc &&  Number( PriceCaculator(product,variantTypes).toFixed(1))?.toLocaleString()}
+                  </p> */}
                 </section>
                 <section className="pb-[16px] hidden md:block mt-[20px] w-[full]">
                   <Voucher Vouchers={Vouchers}></Voucher>
@@ -468,6 +481,7 @@ const DetailProduct = () => {
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
               <ReviewAndRatingDesktop
+                fetchComments={fetchComments}
                 commentData={comments}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

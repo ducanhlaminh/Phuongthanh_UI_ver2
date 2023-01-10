@@ -10,6 +10,7 @@ import avatar from "../../assets/avatar-anon.png";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import { PopupDeleteUser } from "../../components/Modal";
 import { NotiStatus } from "../../components/UploadStatus";
+import ApiBill from "../../apis/bill";
 const User = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
@@ -18,6 +19,7 @@ const User = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [contentUpload, setContentUpload] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -25,8 +27,8 @@ const User = () => {
       setCount(res.response.count);
       setUsers(res.response.rows);
     };
-    fetchCategory();
-  }, [showUpload, page]);
+    !isLoading && fetchCategory();
+  }, [isLoading, page]);
   const handleChangePage = (event, value) => {
     setPage(value);
   };
@@ -63,6 +65,10 @@ const User = () => {
             bgColor="#4ed14b"
             textColor="#fff"
             width="40%"
+            onClick={async () => {
+              const res = await ApiBill.getUserbyAdmin(user?.id);
+              console.log(res);
+            }}
           ></Button>
           <Button
             text="Xóa"
@@ -109,7 +115,7 @@ const User = () => {
           <div className="w-[20%]  font-bold text-center">Email</div>
         </div>
         <div className="h-5/6 overflow-auto relative">
-          {users === null ? <LoadingPageDesktop /> : renderUser}
+          {isLoading ? <LoadingPageDesktop /> : renderUser}
         </div>
         <div className="flex justify-center w-full flex-auto items-end p-2">
           <Pagination
@@ -130,6 +136,8 @@ const User = () => {
           showUpload={showUpload}
           setShowUpload={setShowUpload}
           setContentUpload={setContentUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       ) : (
         ""

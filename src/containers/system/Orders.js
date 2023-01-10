@@ -145,7 +145,7 @@ const Orders = () => {
           </p>
         </div>
         <div className="flex flex-col md:py-6 gap-[17px] min-h-[450px]">
-          {bills?.map((item) => (
+          {bills?.map((item) => { console.log(item.createdAt);return (
             <Link
               to={`/don-hang/${item.id}`}
               onClick={() => dispatch(actions.detailOrder(item))}
@@ -154,12 +154,12 @@ const Orders = () => {
             >
               <OrderItem
                 oid={item.id}
-                createAt={item.createAt}
+                createAt={item.createdAt}
                 total={item.totalCost}
                 status={item.status}
               />
             </Link>
-          ))}
+          )})}
         </div>
         <div className="flex justify-end mt-[16px] pb-[16px]">
           <Pagination

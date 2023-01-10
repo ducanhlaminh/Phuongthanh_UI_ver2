@@ -31,7 +31,7 @@ const Public = () => {
     }
   },[params])
   return (
-    <div className="flex flex-col w-full max-w-[1280px] m-auto text-sm md:text-base bg-white text-black">
+    <div className="flex flex-col w-full max-w-[1280px] min-h-screen m-auto text-sm md:text-base bg-white text-black">
       <div className="hidden md:block w-full h-[80px]">
         <HeaderLaptop />
       </div>

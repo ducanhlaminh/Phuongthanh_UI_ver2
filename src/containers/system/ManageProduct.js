@@ -48,9 +48,9 @@ const ManageProduct = () => {
   }, [selectValue]);
 
   useEffect(() => {
-    console.log(search);
     const filter = Object.values(selectFilter.sort);
     selectValue &&
+      !isLoading &&
       dispatch(
         actions.getProducts({
           categoryCode: selectValue,
@@ -68,7 +68,7 @@ const ManageProduct = () => {
     return (
       <div
         key={product.id}
-        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full h-[120px]  text-xl "
+        className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full h-[160px]  text-xl "
       >
         <div className="w-[10%] flex justify-center">
           <input
@@ -89,21 +89,22 @@ const ManageProduct = () => {
           <img
             src={product.mainImage}
             alt=""
-            className="object-cover w-[70%]"
+            className="object-contain w-[70%]"
           ></img>
         </div>
         <div className="w-[20%] flex justify-center ">
-          <div className="w-full ">
+          <div className="w-full text-center">
             <p className="whitespace-nowrap overflow-hidden text-ellipsis p-3">
               {product.name}
             </p>
           </div>
         </div>
-        <div className="w-[20%]">
+        <div className="w-[20%] flex flex-wrap justify-evenly gap-3">
           {product?.variants.map((item) => (
             <div
               key={item.name}
-              className="flex justify-center outline outline-primary outline-1 p-2 rounded-xl [&:not(:last-child)]:mb-[10px]"
+              className="flex justify-center outline-black
+                p-2 rounded-xl  w-[40%] hover:outline-primary outline-2 outline hover:outline-4 "
             >
               <span>{item.name}</span>
             </div>
@@ -165,10 +166,10 @@ const ManageProduct = () => {
             <p> Đã chọn: {addDeletes.length}</p>
           </div>
           <Button
-            text="Xóa nhiều sản phẩm"
+            text="Xóa sản phẩm"
             bgColor="#cf2b2b"
             textColor="#fff"
-            width="60%"
+            width="40%"
             height="2"
             onClick={() => {
               setIsDelete(!isDelete);
@@ -264,6 +265,7 @@ const ManageProduct = () => {
           setIsLoading={setIsLoading}
           isLoading={isLoading}
           category={selectValue}
+          setShowUpload={setShowUpload}
         />
       ) : (
         ""

@@ -39,7 +39,7 @@ const FormCreateProduct = ({
   setContentUpload,
   imageUrl,
   type,
-  id,
+  handleEdit,
 }) => {
   const imageMainRef = useRef();
   const image1Ref = useRef();
@@ -88,33 +88,7 @@ const FormCreateProduct = ({
       image3: e.target.files[0],
     }));
   };
-  const handleEdit = async () => {
-    const bodyFormData = new FormData();
-    bodyFormData.append("mainImage", image.imageMain);
-    bodyFormData.append("image1", image.image1);
-    bodyFormData.append("image2", image.image2);
-    bodyFormData.append("image3", image.image3);
-    bodyFormData.append("name", productName);
-    bodyFormData.append("costPerUnit", price);
-    bodyFormData.append("description", shortDes);
-    bodyFormData.append("categoryCode", selectValue);
-    bodyFormData.append("variants", JSON.stringify(variants));
-    bodyFormData.append("tags", JSON.stringify(tags));
-    bodyFormData.append("id", id);
 
-    console.log(shortDes, image, tags);
-    try {
-      const res = await ApiProduct.update(bodyFormData);
-      console.log(res);
-      if (res.status === 0) {
-        console.log(1);
-        // setShowUpload(true);
-        // setContentUpload(res);
-      }
-    } catch (error) {
-      console.log(selectValue);
-    }
-  };
   return (
     <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative h-[90%] ">
       {showUpload && (

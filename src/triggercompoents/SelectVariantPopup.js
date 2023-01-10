@@ -37,10 +37,11 @@ const SelectvariantPopup = ({
   }
 
   const renderPrice = () => {
+    console.log(typeof product.costPerUnit);
     if(!product) return 'Có lỗi xảy ra'
     if(!canAtc) return 'đ ' + Number(product.costPerUnit?.toFixed(1))?.toLocaleString()
     else {
-      return 'đ ' + PriceCaculator(product,variantTypes).toLocaleString()
+      return 'đ ' +  Number( (PriceCaculator(product,variantTypes)).toFixed(1))?.toLocaleString()
     }
   }
 

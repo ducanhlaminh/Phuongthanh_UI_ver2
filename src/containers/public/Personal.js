@@ -3,7 +3,7 @@ import LongButton from "../../components/LongButton";
 import { RiDeleteBinLine } from "react-icons/ri";
 import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import ApiChangePassword from "../../apis/changePassword";
 import Loading from "../../components/Loading";
@@ -21,13 +21,16 @@ const Personal = () => {
   const userNameRef=useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const imageRef=useRef();
   const [infor, setInfo] = useState({
     avatar: "",
     name: "",
   });
   console.log()
   const [isShowErrorLog, setIsShowErrorLog] = useState(false);
+  useEffect(()=>{},[imageRef?.current?.value]);
   const handleImage = async (e) => {
+    
     e.stopPropagation();
     const { type } = e.target.files[0];
     if (type === "image/jpeg" || type === "image/jpg" || type === "image/png") {
@@ -36,6 +39,7 @@ const Personal = () => {
     } else {
       console.log("Type image is not supported.");
     }
+    
   };
   const handleSubmit = async (email, password) => {
     try {
@@ -77,6 +81,7 @@ const Personal = () => {
                 userCurrent?.avatarUrl ||
                 image}
               className="w-[80px] h-[80px] rounded-[50px]"
+              ref={imageRef}
             ></img>
             <div
               className="w-[136px]"
@@ -123,6 +128,7 @@ const Personal = () => {
               className="h-[56px] bg-lightGrey rounded-[4px] mt-[6px] outline-primary p-[10px] w-full md:w-[60%]"
               placeholder={userCurrent?.name}
               ref={userNameRef}
+              type='text'
             />
           </div>
           {/* <div>
