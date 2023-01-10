@@ -18,7 +18,7 @@ const ItemOrder = () => {
   const id = useParams().id;
   useEffect(()=>{
     if(detailBill){
-      setAddress(JSON.parse(detailBill?.addressData?.address).detail+ " "+JSON.parse(detailBill?.addressData?.address).ward+" "+JSON.parse(detailBill?.addressData?.address).district+ " "+ JSON.parse(detailBill?.addressData?.address).province);
+      setAddress(JSON.parse(detailBill?.addressData?.address)?.detail+ " "+JSON.parse(detailBill?.addressData?.address)?.ward+" "+JSON.parse(detailBill?.addressData?.address)?.district+ " "+ JSON.parse(detailBill?.addressData?.address)?.province);
     }
   },[detailBill]);
   console.log(address);

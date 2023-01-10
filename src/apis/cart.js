@@ -3,7 +3,7 @@ import axiosClients from "../axiosClients";
 const ApiCart = {
   delete: (params) => {
     const url = "/api/v1/cart";
-    return axiosClients.delete(url, { params });
+    return axiosClients.delete(url,  {params });
   },
   get: () => {
     const url = "/api/v1/cart";

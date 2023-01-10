@@ -13,6 +13,7 @@ import { MenuItem } from "@mui/material";
 const Orders = () => {
   const [status, setStatus] = useState("pending");
   const [bills, setBills] = useState([]);
+  const [billLength,setBillLength] = useState(0);
   const [allBills, setAllBills] = useState();
   const tempRef=useRef([]);
   const dispatch = useDispatch();
@@ -56,13 +57,15 @@ const Orders = () => {
       const res2 = await apiGetBills({ status: status });
       setAllBills(res2.billData);
       const response = await apiGetBills({
-        
         limit: 5,
         page: currentPage,
         status: status,
       });
+      
+      
       if (response.status === 0) {
         setBills(response.billData?.rows);
+        setBillLength(response.billData.count);
       }
     };
     fetchBills();
@@ -138,7 +141,7 @@ const Orders = () => {
         </div>
         <div className="md:hidden">
           <p className="font-semibold text-darkGrey text-[14px] mb-[16px]">
-            {bills.length} đơn hàng
+            {billLength} đơn hàng
           </p>
         </div>
         <div className="flex flex-col md:py-6 gap-[17px] min-h-[450px]">

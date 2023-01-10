@@ -19,7 +19,7 @@ const CartItem = ({
   setDataBill,
   setCheckedList,
 }) => {
-  const { id, name, mainImage, soldCounter } = product || {};
+  const { id, name, mainImage, soldCounter,cid } = product || {};
   const [price, setPrice] = useState(0);
   const [quanityProduct, setQuanityProduct] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
@@ -43,6 +43,7 @@ const CartItem = ({
     let billData = {
       pid: id,
       qty: quanityProduct,
+      cid:cartID,
       variant: varName,
       cost: price,
     };
@@ -155,6 +156,7 @@ const CartItem = ({
                 onClick={() => {
                   setIdDelete(cartID);
                   setOpenAlertPopup(true);
+                  setIsChecked(false);
                 }}
                 className=" text-red border-b-[1px] ml-[24px] font-semibold lg:text-[14px] md:text-[12px] border-red pb-5 w-fit cursor-pointer"
               >
