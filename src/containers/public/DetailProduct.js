@@ -27,7 +27,7 @@ import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
-import { generatePath } from "../../ultils/fn";
+import { generatePath,numFormatter } from "../../ultils/fn";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
@@ -297,17 +297,16 @@ const DetailProduct = () => {
 
                 <section className="flex items-center">
                   <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[30px] lg:text-[40px] md:font-semibold">
-                    <span>đ</span>
                     {!canAtc &&
-                      Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
-                    {canAtc && PriceCaculator(product, variantTypes).toLocaleString()}
+                      numFormatter(product.costPerUnit)
+                    }
+                    {canAtc && numFormatter(PriceCaculator(product, variantTypes))}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 lg:text-[34px] md:text-[24px] md:font-semibold md:text-[#B6B6B6]">
-                      <span>đ</span>
-                      {Number(
+                      {numFormatter(Number(
                         product.costPerUnit?.toFixed(1)
-                      )?.toLocaleString()}
+                      ))}
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>

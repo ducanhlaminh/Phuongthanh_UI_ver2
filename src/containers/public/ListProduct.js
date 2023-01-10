@@ -13,6 +13,7 @@ import { SelectCustomWidth } from "../../components/InputCtWidth";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import Pagination from "@mui/material/Pagination";
 import BreadCrumb from "../../components/BreadCrumb";
+import { numFormatter } from "../../ultils/fn";
 const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract } = icons;
 
 function ListProducts({ categoryData, otherData }) {
@@ -56,12 +57,6 @@ function ListProducts({ categoryData, otherData }) {
       setValue(newValue);
     }
   };
-  function numFormatter(num) {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(num); // if value < 1000, nothing to do
-  }
   useEffect(() => {
     setPage(1);
   }, [selectedFilter, categoryData, value2, selectedFilterSider]);
