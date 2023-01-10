@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import icons from "../ultils/icons";
 import StatusTag from "./StatusTag";
+
 const { FiMoreHorizontal, AiOutlineClose } = icons;
 
 const ItemProduct = ({
@@ -98,7 +100,8 @@ const ItemProduct = ({
               <div
                 className="h-1/2 w-full flex items-center justify-center cursor-pointer hover:bg-slate-400 hover:text-white"
                 onClick={() => {
-                  setIsShowEdit(true);
+                  <Navigate to= '/system/manage-product/edit-product' product={product}/>
+
                 }}
               >
                 <span>Sửa</span>

@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import ApiProduct from "../../apis/product";
 import Preview from "../../components/Preview";
 import FormCreateProduct from "../../components/FormCreateProduct";
-const EditProduct = () => {
+const EditProduct = ({product}) => {
+  console.log(product);
   const [productName, setProductName] = useState("");
   const [selectValue, setSelectValue] = useState("");
   const [price, setPrice] = useState("");

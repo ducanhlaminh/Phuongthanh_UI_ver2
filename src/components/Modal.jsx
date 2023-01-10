@@ -607,17 +607,17 @@ export const Profile = ({
 }) => {
   const steps = ["pending", "shipping", "completed", "cancel"];
   const [productsBill, setProductBill] = useState([]);
-  const numActive = steps.findIndex((item) => billCurrent.status === item);
+  const numActive = steps.findIndex((item) => billCurrent?.status === item);
   const [activeStep, setActiveStep] = useState(numActive);
   useEffect(() => {
     const fetchProductsBill = async () => {
-      const res = await apiGetProductsOfBill2(billCurrent.id);
+      const res = await apiGetProductsOfBill2(billCurrent?.id);
       setProductBill(res.billData);
     };
     fetchProductsBill();
   }, [contentUpload]);
-  const addressBill = JSON.parse(billCurrent.addressData.address);
-  const address = `${addressBill.province}`;
+  const addressBill = JSON.parse(billCurrent?.addressData.address);
+  const address = `${addressBill?.province}`;
   return (
     <>
       <div
