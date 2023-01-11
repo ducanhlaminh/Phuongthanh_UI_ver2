@@ -812,7 +812,7 @@ export const FilterProductsMobile = ({
           </div>
           <hr />
           <div className="flex flex-col justify-around h-[85%] px-5">
-            {filters.map((filter,i) => {
+            {filters.map((filter, i) => {
               const value = JSON.stringify(filter);
               return (
                 <div className="" key={filter.valueVi}>
@@ -861,10 +861,10 @@ export const FilterProductsMobile = ({
               onChange={handleChange}
               onChangeCommitted={handleChange2}
               valueLabelDisplay="on"
-              step={1000000}
+              step={100000}
               marks
               disableSwap
-              max={100000000}
+              max={1500000}
               valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             />
           </div>

@@ -94,16 +94,19 @@ export const filtersBill = [
 ];
 export const filtersSider = [
   {
-    valueVi: "10-15 triệu",
+    valueVi: "100.000 - 500.000",
     code: 1,
+    price:[100000,500000]
   },
   {
-    valueVi: "15-20 triệu",
+    valueVi: "500.000 - 1.000.000",
     code: 2,
+    price:[500000,1000000]
   },
   {
-    valueVi: "trên 20 triệu",
+    valueVi: "1.000.000 - 1.500.000",
     code: 3,
+    price:[1000000,1500000]
   },
 ];
 export const adminMenu = [

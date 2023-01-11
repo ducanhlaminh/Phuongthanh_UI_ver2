@@ -16,6 +16,7 @@ import {
   FaUserEdit,
   FaInstagramSquare,
   FaSortAmountDownAlt,
+  FaMoneyBillWave,
 } from "react-icons/fa";
 import {
   IoIosCreate,
@@ -50,6 +51,7 @@ import {
   MdNavigateNext,
   MdOutlineLocationOn,
   MdOutlineArrowBackIosNew,
+  MdOutlineAttachMoney,
 } from "react-icons/md";
 
 import { GrFacebook, GrSubtract } from "react-icons/gr";
@@ -65,6 +67,7 @@ const icons = {
   BsSpeedometer2,
   GrSubtract,
   RiHandbagLine,
+  MdOutlineAttachMoney,
   RiProductHuntLine,
   IoIosArrowForward,
   FaUserEdit,
@@ -72,6 +75,7 @@ const icons = {
   MdOutlineArrowBackIosNew,
   FiMenu,
   BsUpload,
+  FaMoneyBillWave,
   IoMdArrowRoundDown,
   BiSearchAlt,
   AiOutlineClose,
