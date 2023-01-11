@@ -118,6 +118,11 @@ function App() {
               path={path.CHANGE_PASSWORD}
               element={<ChangePassword></ChangePassword>}
             ></Route>
+            <Route
+              path={path.WISH_LIST}
+              element={<WishList></WishList>}
+            ></Route>
+
             <Route path="*" element={<Personal />} />
           </Route>
           <Route path={path.CART} element={<Mycart />}></Route>

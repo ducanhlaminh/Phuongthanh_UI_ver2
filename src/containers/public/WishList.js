@@ -29,12 +29,14 @@ const WishList = () => {
       {wishlist && (
         <>
           <div>
-            <Header>
-              <div className="flex text-[14px] text-primary items-center font-[600] gap-[20px]">
-                <MdOutlineArrowBackIosNew size="24" />
-                <div className="text-[20px]">Yêu thích</div>
-              </div>
-            </Header>
+            <div className="md:hidden">
+              <Header>
+                <div className="flex text-[14px] text-primary items-center font-[600] gap-[20px]">
+                  <MdOutlineArrowBackIosNew size="24" />
+                  <div className="text-[20px]">Yêu thích</div>
+                </div>
+              </Header>
+            </div>
 
             {wishlist?.length === 0 && (
               <div className="flex flex-col items-center justify-center px-[35px] mt-[80px]">
@@ -47,18 +49,20 @@ const WishList = () => {
                 </p>
               </div>
             )}
-            <div className="flex flex-wrap gap-[22px] px-[16px] justify-center">
+            <div className="flex flex-wrap gap-[22px] md:gap-[16px] px-[16px] justify-center md:px-0 md:justify-start">
               {wishlist?.map((item) => (
-                <ProductItem
-                  votedCounter={item.productData.votedCounter}
-                  soldCounter={item.productData.soldCounter}
-                  key={item.productData.id}
-                  productId={item.productData.id}
-                  image={item.productData?.mainImage}
-                  title={item.productData?.name}
-                  description={item.productData?.description}
-                  cost={item.productData?.costPerUnit}
-                />
+                <div className="md:w-[31%] lg:w-[32%] md:flex md:justify-start">
+                  <ProductItem
+                    votedCounter={item.productData.votedCounter}
+                    soldCounter={item.productData.soldCounter}
+                    key={item.productData.id}
+                    productId={item.productData.id}
+                    image={item.productData?.mainImage}
+                    title={item.productData?.name}
+                    description={item.productData?.description}
+                    cost={item.productData?.costPerUnit}
+                  />
+                </div>
               ))}
             </div>
             {wishlist?.length === 0 && (
