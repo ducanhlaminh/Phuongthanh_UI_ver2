@@ -1,5 +1,4 @@
 import AppBar from "../../components/AppBar";
-import Card from "../../components/Card";
 import icons from "../../ultils/icons";
 import { FilterProductsMobile } from "../../components/Modal";
 import { filters, filtersSider } from "../../ultils/constant";
@@ -8,11 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
 import { Slider as SliderImage } from "../../components";
 import { Slider } from "@mui/material";
-import { ProductItem } from "../../components";
+import ProductItem from "../../components/ProductItem";
 import { SelectCustomWidth } from "../../components/InputCtWidth";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import Pagination from "@mui/material/Pagination";
 import BreadCrumb from "../../components/BreadCrumb";
+import Header from "../../components/Header";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
 const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract } = icons;
 
 function ListProducts({ categoryData, otherData }) {
@@ -84,17 +85,43 @@ function ListProducts({ categoryData, otherData }) {
     <>
       {/* Mobile */}
       <div className="md:hidden">
-        <AppBar title={categoryData.valueVi} />
-        <div className="w-full flex flex-wrap  my-[56px]">
+        <div className="fixed top-0 left-0 z-10 w-full">
+          <Header>
+            <div className="flex justify-between w-[100%]">
+              <div className="flex items-center">
+                <MdOutlineArrowBackIosNew size="24" className="text-primary" />
+                <span className="font-semibold text-[20px] text-primary pl-[20px]">
+                  {categoryData.valueVi}
+                </span>
+              </div>
+              <p
+                className="text-primary mr-[20px] flex items-center text-[16px]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsShow(true);
+                }}
+              >
+                Lọc
+              </p>
+            </div>
+          </Header>
+        </div>
+        <div className="h-[56px] bg-white"></div>
+        <div className="w-full flex flex-wrap  my-[20px]">
           {loading === true ? (
             <LoadingPageDesktop />
           ) : (
             products?.map((product) => (
               <div className="w-1/2 flex justify-center" key={product.id}>
-                <Card
-                  name={product.name}
-                  image={product.mainImage}
-                  price={product.costPerUnit}
+                <ProductItem
+                  votedCounter={product.votedCounter}
+                  soldCounter={product.soldCounter}
+                  key={product.id}
+                  productId={product.id}
+                  image={product?.mainImage}
+                  title={product?.name}
+                  description={product?.description}
+                  cost={product?.costPerUnit}
                 />
               </div>
             ))
@@ -108,23 +135,6 @@ function ListProducts({ categoryData, otherData }) {
               page={page}
               onChange={handleChangePage}
             />
-          </div>
-          <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
-            <div
-              className="flex w-full h-full"
-              onClick={(e) => {
-                setIsShow(true);
-              }}
-            >
-              <div className="w-full h-full flex justify-center items-center">
-                <b className="flex">
-                  <span className="text-xl mr-1">
-                    <FaSortAmountDownAlt />
-                  </span>
-                  SORT
-                </b>
-              </div>
-            </div>
           </div>
         </div>
         {isShow && (
@@ -152,7 +162,9 @@ function ListProducts({ categoryData, otherData }) {
             ></BreadCrumb>
           </div>
           <div className=" bg-white w-full lg:block lg:px-[16px] md:px-[24px]">
-            <h2 className=" lg:text-[34px] text-primary font-semibold md:text-[28px]">{categoryData.valueVi}</h2>
+            <h2 className=" lg:text-[34px] text-primary font-semibold md:text-[28px]">
+              {categoryData.valueVi}
+            </h2>
             <div className="flex ">
               <div className="w-[20%]  p-5 hidden lg:block">
                 <div>

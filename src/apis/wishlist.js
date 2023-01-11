@@ -2,7 +2,7 @@ import axiosClients from "../axiosClients";
 
 
 const wishlist = {
-  createWishlish: (data) => {
+  createWishlist: (data) => {
     const url = "/api/v1/wishlist/";
     return axiosClients.post(url, data);
   },
@@ -10,9 +10,9 @@ const wishlist = {
     const url ="/api/v1/wishlist/";
     return axiosClients.get(url);
   },
-  delete: (params) => {
+  delete: (data) => {
     const url = "/api/v1/wishlist/";
-    return axiosClients.delete(url, { params });
+    return axiosClients.delete(url, {data});
   }
 };
 export default wishlist;

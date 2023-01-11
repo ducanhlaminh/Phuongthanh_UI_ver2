@@ -5,7 +5,7 @@ const BreadCrumb=({parent,current})=>{
     const navigate =useNavigate();
     return <div className="flex items-center gap-[8px] ">
         {parent?.map((url,i)=>{
-            return <div onClick={()=>{navigate(url.link)}} className='flex items-center gap-[8px]'>
+            return <div key={i} onClick={()=>{navigate(url.link)}} className='flex items-center gap-[8px]'>
                 <p className="font-medium text-[16px] text-primary cursor-pointer" >{url.name}</p>
                 <MdOutlineKeyboardArrowRight className="text-black "></MdOutlineKeyboardArrowRight>
             </div>

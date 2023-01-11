@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { menuStatus } from "../../ultils/menu";
 import { apiGetBills } from "../../apis/bill2";
 import { OrderItem, DetailOrder } from "../../components";
@@ -12,10 +12,17 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MenuItem } from "@mui/material";
 const Orders = () => {
   const [status, setStatus] = useState("pending");
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { fetchCartQuantity, productsCart } = useSelector((state) => {
+    return state.cart;
+  });
+
+  const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
+
   const [bills, setBills] = useState([]);
-  const [billLength,setBillLength] = useState(0);
+  const [billLength, setBillLength] = useState(0);
   const [allBills, setAllBills] = useState();
-  const tempRef=useRef([]);
+  const tempRef = useRef([]);
   const dispatch = useDispatch();
   const { detailOrder } = useSelector((state) => state.app);
   const [addToCartSuccess, setAddToCartSuccess] = useState(false);
@@ -25,8 +32,7 @@ const Orders = () => {
   };
   useEffect(() => {
     tempRef.current = tempRef.current.slice(0, menuStatus.length);
- }, [menuStatus]);
-
+  }, [menuStatus]);
 
   //   const handleATC = async (id, variantTypes) => {
   //     try {
@@ -61,8 +67,7 @@ const Orders = () => {
         page: currentPage,
         status: status,
       });
-      
-      
+
       if (response.status === 0) {
         setBills(response.billData?.rows);
         setBillLength(response.billData.count);
@@ -91,36 +96,33 @@ const Orders = () => {
                 Đơn hàng của tôi
               </span>
             </div>
-            <Link
-              to="/cart"
-              className={`relative ${
-                addToCartSuccess ? "animate-bounce2" : ""
-              }`}
-              onAnimationEnd={() => {
-                setAddToCartSuccess(false);
-              }}
-              style={{ "animation-iteration-count": "5" }}
-            >
+            <Link to="/cart" className="relative" onClick={(e)=>{e.stopPropagation()}}>
               <AiOutlineShoppingCart size={26} />
-              <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
+              <span
+                className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center `}
+              >
+                {isLoggedIn ? cartQuantity : "0"}
+              </span>
             </Link>
           </div>
         </Header>
       </div>
       <div className="lg:h-[68px] md:h-[44px] md:px-2 h-[36px]  bg-[#f1f1f1] overflow-x-auto rounded-[12px] flex items-center gap-3 lg:px-4 px-[4px]">
-        {menuStatus.map((item,i) => (
+        {menuStatus.map((item, i) => (
           <div
             key={item.keyname}
-            ref={el => tempRef.current[i] = el} 
+            ref={(el) => (tempRef.current[i] = el)}
             onClick={() => {
               setStatus(item.keyname);
-              tempRef.current[i].scrollIntoView({behavior:"smooth"});
+              tempRef.current[i].scrollIntoView({ behavior: "smooth" });
             }}
             className={`min-w-[110px] md:min-w-[140px] lg:min-w-[180px] flex justify-center cursor-pointer rounded-[8px] ${
               item.keyname === status ? "bg-[#1B4B66]  text-white" : ""
             }`}
           >
-              <p className=" py-[4px] lg:text-[16px] md:text-[14px] lg:py-[8px] text-[12px] font-medium">{item.text}</p>
+            <p className=" py-[4px] lg:text-[16px] md:text-[14px] lg:py-[8px] text-[12px] font-medium">
+              {item.text}
+            </p>
           </div>
         ))}
       </div>
@@ -145,21 +147,24 @@ const Orders = () => {
           </p>
         </div>
         <div className="flex flex-col md:py-6 gap-[17px] min-h-[450px]">
-          {bills?.map((item) => { console.log(item.createdAt);return (
-            <Link
-              to={`/don-hang/${item.id}`}
-              onClick={() => dispatch(actions.detailOrder(item))}
-              className="w-full"
-              key={item.id}
-            >
-              <OrderItem
-                oid={item.id}
-                createAt={item.createdAt}
-                total={item.totalCost}
-                status={item.status}
-              />
-            </Link>
-          )})}
+          {bills?.map((item) => {
+            console.log(item.createdAt);
+            return (
+              <Link
+                to={`/don-hang/${item.id}`}
+                onClick={() => dispatch(actions.detailOrder(item))}
+                className="w-full"
+                key={item.id}
+              >
+                <OrderItem
+                  oid={item.id}
+                  createAt={item.createdAt}
+                  total={item.totalCost}
+                  status={item.status}
+                />
+              </Link>
+            );
+          })}
         </div>
         <div className="flex justify-end mt-[16px] pb-[16px]">
           <Pagination
