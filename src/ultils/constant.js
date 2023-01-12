@@ -56,7 +56,7 @@ export const vi_uf8 = {
   phone2: "01253322599",
   email: "phuongthanhshophn@gmail.com",
   facebook: "Phuong Thanh's Shop",
-  zalo: "01253322599",
+  zalo: "0813672409",
   instagram: "pthanh@shop102",
 };
 export const constant_page = {
@@ -142,3 +142,9 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
+
+export var contact = {
+  zalo: "0813672409",
+  message: "anh.tuan.020302",
+  email: "https://mail.google.com/mail/u/0/?pli=1#inbox?compose=GTvVlcSMVkvTCgCnSDNwwtjtBsTnqMSjXMpdnrbwzjXkQwRJZMwlcnXtccZRDHtQFZSfDcstwQlKg",
+}

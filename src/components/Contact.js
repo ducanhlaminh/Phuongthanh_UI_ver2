@@ -3,6 +3,7 @@ import { memo, useState } from "react";
 import { BsMessenger } from "react-icons/bs";
 import zalo from "../assets/zalo.png";
 import chatbot from "../assets/chatbot.png";
+import { contact } from "../ultils/constant";
 
 const Contact = ({ setIsStartChatBot, show }) => {
   return (
@@ -14,7 +15,7 @@ const Contact = ({ setIsStartChatBot, show }) => {
         } md:static transition-all`}
       >
         <a
-          href="https://zalo.me/0839819860"
+          href={`https://zalo.me/${contact.zalo}`}
           target="_blank"
           className="relative flex justify-center items-center"
         >
@@ -39,7 +40,7 @@ const Contact = ({ setIsStartChatBot, show }) => {
         } md:static transition-all`}
       >
         <a
-          href="https://m.me/paunchyboy06"
+          href={`https://m.me/${contact.message}`}
           target="_blank"
           className="relative flex justify-center items-center"
         >

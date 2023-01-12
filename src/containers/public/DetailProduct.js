@@ -143,10 +143,8 @@ const DetailProduct = () => {
 
   useEffect(() => {
     handlerFetchWishlist();
-    console.log(isInWishlist);
     if (wishlist !== 1) {
       wishlist?.forEach((productWishlist, i) => {
-        console.log(productWishlist,product);
         if (productWishlist?.productData.id === product?.id) {
           setIsInWishlist({ status: true, wid: productWishlist?.id });
         }
