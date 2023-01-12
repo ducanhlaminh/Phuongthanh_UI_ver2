@@ -37,6 +37,7 @@ import { path } from "./ultils/constant";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect, useState, useRef } from "react";
+import { fetchWishlist } from "./store/actions/wishlistAction";
 
 import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
@@ -53,6 +54,9 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chatBotRef = useRef();
+  useEffect(() => {
+    dispatch(fetchWishlist());
+  }, []);
 
   // Khi reload page get userdata again
   useEffect(() => {
@@ -106,7 +110,7 @@ function App() {
             }
           ></Route>
 
-          <Route path={path.WISH_LISH} element={<WishList></WishList>}></Route>
+          <Route path={path.WISH_LIST} element={<WishList></WishList>}></Route>
           <Route path={path.PROFILE} element={<Profile />}>
             <Route path={path.PERSONAL} element={<Personal />} />
             <Route path={path.ORDERS} element={<Orders />} />
@@ -114,6 +118,11 @@ function App() {
               path={path.CHANGE_PASSWORD}
               element={<ChangePassword></ChangePassword>}
             ></Route>
+            <Route
+              path={path.WISH_LIST}
+              element={<WishList></WishList>}
+            ></Route>
+
             <Route path="*" element={<Personal />} />
           </Route>
           <Route path={path.CART} element={<Mycart />}></Route>

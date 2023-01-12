@@ -15,7 +15,7 @@ export const path = {
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
-  WISH_LISH: "san-pham-da-thich",
+  WISH_LIST: "san-pham-da-thich",
   HOME: "",
   PAYMENT: "/payment",
   FEED: "/feed",
