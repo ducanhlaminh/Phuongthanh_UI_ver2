@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { apiGetProductsOfBill2, apiGetBills } from "../../apis/bill2";
@@ -13,11 +13,9 @@ const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
   const [address, setAddress] = useState("");
   const [detailBill, setDetailBill] = useState();
-  if (detailBill) {
-    console.log(JSON.parse(detailBill.log));
-  }
   const [status, setStatus] = useState("");
   const id = useParams().id;
+  let navigate = useNavigate()
   useEffect(() => {
     if (detailBill) {
       setAddress(
@@ -31,7 +29,6 @@ const ItemOrder = () => {
       );
     }
   }, [detailBill]);
-  console.log(address);
   useEffect(() => {
     const fetchDetailBill = async () => {
       const res = await apiGetBills();
@@ -60,6 +57,7 @@ const ItemOrder = () => {
   return (
     <>
       {detailBill && (
+        //mobile
         <div className="w-screen h-screen md:hidden">
           <div className="text-primary ">
             <Header>
@@ -108,6 +106,7 @@ const ItemOrder = () => {
                     image={product?.products?.mainImage}
                     qty={product?.qty}
                     cost={product?.cost}
+                    id={product?.products.id}
                   ></BillItem>
                 ))}
               </div>
@@ -192,6 +191,7 @@ const ItemOrder = () => {
       )}
 
       {detailBill && (
+        //laptop
         <div className="hidden md:block mt-[36px]">
           <div className="text-[26px] font-semibold text-primary pl-[24px]">
             <p>
@@ -220,12 +220,12 @@ const ItemOrder = () => {
           <div className="">
             {productBill?.map((product, i) => (
               <div className="flex items-center py-2 md:text-[14px] text-darkGrey lg:text-[16px] px-6 hidden md:flex [&:not(:last-child)]:mb-[16px]">
-                <span className="flex-[60%] flex justify-start items-start">
+                <span onClick={() => navigate(`/chi-tiet-san-pham/${product.products.id}`)} className="flex-[60%] cursor-pointer flex justify-start items-start">
                   <div>
                     <img
                       src={product?.products?.mainImage}
                       className="lg:w-[75px] lg:h-[80px] md:w-[60px] md:h-[63px] object-fit rounded-[8px] mr-[16px]"
-                    ></img>
+                      alt={"mainImage"}></img>
                   </div>
                   <div>
                     <p className="font-medium md:text-[14px] lg:text-[16px] text-black leading-4">

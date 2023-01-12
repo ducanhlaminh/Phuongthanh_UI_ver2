@@ -148,7 +148,6 @@ const Orders = () => {
         </div>
         <div className="flex flex-col md:py-6 gap-[17px] min-h-[450px]">
           {bills?.map((item) => {
-            console.log(item.createdAt);
             return (
               <Link
                 to={`/don-hang/${item.id}`}
