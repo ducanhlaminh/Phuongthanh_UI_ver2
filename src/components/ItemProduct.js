@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import icons from "../ultils/icons";
 import StatusTag from "./StatusTag";
 
@@ -16,8 +16,9 @@ const ItemProduct = ({
   setIsDelete,
   setSelectedDelete,
   setIsShowEdit,
-  isDelete,
+  isDelete,setSelectProductEit
 }) => {
+  const navigate=useNavigate();
   return (
     <div
       key={product.id}
@@ -100,8 +101,8 @@ const ItemProduct = ({
               <div
                 className="h-1/2 w-full flex items-center justify-center cursor-pointer hover:bg-slate-400 hover:text-white"
                 onClick={() => {
-                  <Navigate to= '/system/manage-product/edit-product' product={product}/>
-
+                  navigate('/system/manage-product/edit-product');
+                  setSelectProductEit(product);
                 }}
               >
                 <span>Sửa</span>

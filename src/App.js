@@ -50,6 +50,7 @@ function App() {
     top: "50%",
   });
   const [show, setShow] = useState(false);
+  const [selectProductEdit, setSelectProductEit] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chatBotRef = useRef();
@@ -144,8 +145,8 @@ function App() {
         {userCurrent.role?.code === "R1" && (
           <Route path={path.SYSTEM} element={<System />}>
             <Route path={path.GENERAL} element={<General />} />
-            <Route path={path.MANAGE_PRODUCT} element={<ManageProduct />} />
-            <Route path={path.EDIT_PRODUCT} element={<EditProduct />} />
+            <Route path={path.MANAGE_PRODUCT} element={<ManageProduct  setSelectProductEit={setSelectProductEit} />} />
+            <Route path={path.EDIT_PRODUCT} element={<EditProduct selectProductEdit={selectProductEdit}/>} />
             <Route path={path.CREATE_PRODUCT} element={<EditProduct />} />
             <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
             <Route path={path.USER} element={<User />} />

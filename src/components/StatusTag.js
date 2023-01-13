@@ -35,7 +35,7 @@ const StatusTag = ({ status }) => {
   }
   return (
     <div
-      className={`${content.colorBg} ${content.colorBorder} ${content.textColor} w-[150px] h-full rounded-xl flex justify-center items-center px-5 py-3 `}
+      className={`${content.colorBg} ${content.colorBorder} ${content.textColor} w-[150px] h-full rounded-xl flex justify-center items-center px-3 py-2 `}
     >
       <span>{content.text}</span>
     </div>
