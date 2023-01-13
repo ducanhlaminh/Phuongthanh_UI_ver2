@@ -3,7 +3,7 @@ import {
   BsDot,
   BsFacebook,
   BsUpload,
-  BsYoutube,
+  BsYoutube,BsCart3,
 } from "react-icons/bs";
 import {
   RiProductHuntLine,
@@ -16,7 +16,7 @@ import {
   FaUserEdit,
   FaInstagramSquare,
   FaSortAmountDownAlt,
-  FaMoneyBillWave,
+  FaMoneyBillWave,FaUser,
 } from "react-icons/fa";
 import {
   IoIosCreate,
@@ -28,7 +28,7 @@ import {
   BiSearchAlt,
   BiPurchaseTag,
   BiMenuAltLeft,
-  BiCategoryAlt,
+  BiCategoryAlt
 } from "react-icons/bi";
 
 import {
@@ -54,6 +54,7 @@ import {
   MdOutlineAttachMoney,
 } from "react-icons/md";
 
+import { GiMoneyStack } from "react-icons/gi";
 import { GrFacebook, GrSubtract } from "react-icons/gr";
 import { SiZalo } from "react-icons/si";
 import { ImLocation2 } from "react-icons/im";
@@ -73,11 +74,12 @@ const icons = {
   FaUserEdit,
   IoIosCreate,
   MdOutlineArrowBackIosNew,
-  FiMenu,
+  FiMenu,FaUser,
+  GiMoneyStack,
   BsUpload,
   FaMoneyBillWave,
   IoMdArrowRoundDown,
-  BiSearchAlt,
+  BiSearchAlt,BsCart3,
   AiOutlineClose,
   AiOutlinePlus,
   MdOutlinePhonelink,

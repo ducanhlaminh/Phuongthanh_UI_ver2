@@ -92,6 +92,7 @@ const Bill = () => {
               width="80%"
               height="3"
               onClick={() => {
+                
                 setSelectedBill(bill);
                 setIsShow(true);
               }}

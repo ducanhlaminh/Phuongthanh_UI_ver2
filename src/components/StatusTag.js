@@ -1,28 +1,28 @@
 const StatusTag = ({ status }) => {
   let content;
   if (status === "pending") {
-    content = { colorBg: "", text: "ĐANG CHỜ", textColor: "" };
+    content = { colorBg: "bg-[#FB9678]", text: "ĐANG CHỜ", textColor: "text-white" };
   } else if (status === "shipping") {
     content = {
-      colorBorder: "bg-primary",
+      colorBg: "bg-primary",
       text: "VẬN CHUYỂN",
-      textColor: "text-primary",
+      textColor: "text-white",
     };
   } else if (status === "completed") {
     content = {
-      colorBorder: "bg-green-200",
+      colorBg: "bg-[#00C292]",
       text: "THÀNH CÔNG",
-      textColor: "text-green-500",
+      textColor: "text-white",
     };
   } else if (status === true) {
     content = {
-      colorBorder: "bg-green-200",
+      colorBg: "bg-[#00C292]",
       text: "Còn hàng",
-      textColor: "text-green-500",
+      textColor: "text-white",
     };
   } else if (status === false) {
     content = {
-      colorBorder: "bg-rose-200",
+      colorBg: "bg-rose-200",
       text: "Hết hàng",
       textColor: "text-rose-600",
     };
@@ -35,7 +35,7 @@ const StatusTag = ({ status }) => {
   }
   return (
     <div
-      className={` ${content.colorBorder} ${content.textColor} w-fit h-full rounded-xl bg-slate-50 flex justify-center items-center px-5`}
+      className={`${content.colorBg} ${content.colorBorder} ${content.textColor} w-[150px] h-full rounded-xl flex justify-center items-center px-5 py-3 `}
     >
       <span>{content.text}</span>
     </div>

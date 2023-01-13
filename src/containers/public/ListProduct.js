@@ -181,7 +181,7 @@ function ListProducts({ categoryData, otherData }) {
                               value={JSON.stringify(filter)}
                               className="w-1/5"
                               checked={
-                                selectedRadio?.valueVi === filter.valueVi
+                                selectedRadio?.valueVi === filter.valueVi||JSON.stringify(filter.price)===JSON.stringify(value2)
                                   ? 1
                                   : 0
                               }
