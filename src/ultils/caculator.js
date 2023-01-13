@@ -14,7 +14,7 @@ export function TotalPriceCaculator(products,productsList,quanityList){
         let index = productsList.indexOf(productId)
         let data =productId.split('--')
         let id = data.shift()
-        var currentProductPrice = cartData.find((product) =>product.id === id)?.costPerUnit
+        var currentProductPrice = cartData.find((product) =>product?.id === id)?.costPerUnit
         data.map((variant) => {
             var extractVariant = variant.split('_')
             currentProductPrice += Number(extractVariant[1])

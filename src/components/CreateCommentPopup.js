@@ -9,6 +9,7 @@ const CreateComponentPopup = ({
   setShowPopupComment,
   id,
   showPopupComment,
+  fetchComments,
 }) => {
   const [status, setStatus] = useState();
   const [isClick, setIsClick] = useState(false);
@@ -18,11 +19,13 @@ const CreateComponentPopup = ({
         productId: id,
         content: commentRef?.current?.innerHTML,
       });
+      fetchComments();
       if (res.status === 0) {
         setStatus(true);
       }
     } catch (e) {
       setStatus(false);
+
     }
   };
   const commentRef = useRef();
@@ -70,6 +73,7 @@ const CreateComponentPopup = ({
       <div
         onClick={() => {
           createComment();
+
           commentRef.current.innerHTML = "";
           setIsClick(true);
         }}

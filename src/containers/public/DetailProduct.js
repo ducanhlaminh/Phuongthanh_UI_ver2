@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ApiComment from "../../apis/comment";
 import ApiProduct from "../../apis/product";
+import wishlistApi from "../../apis/wishlist";
 import ApiCart from "../../apis/cart";
 import ButtonFooterContainer from "../../components/ButtonFooterContainer";
 import CreateComponentPopup from "../../components/CreateCommentPopup";
@@ -28,6 +29,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import { generatePath,numFormatter } from "../../ultils/fn";
+import { AiFillHeart } from "react-icons/ai";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
   icons;
@@ -40,6 +42,7 @@ const DetailProduct = () => {
   const { fetchCartQuantity, productsCart } = useSelector((state) => {
     return state.cart;
   });
+
   const [cartQuantity, setCartQuantity] = useState(productsCart?.length);
 
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -60,6 +63,21 @@ const DetailProduct = () => {
   const [activeNotiStatus, setActiveNotiStatus] = useState(false);
   const [onFetchCartQuantity, setOnFetchCartQuantity] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [wishlist, setWishlist] = useState(1);
+  const [isInWishlist, setIsInWishlist] = useState({
+    status: false,
+    wid: null,
+  });
+  const handlerFetchWishlist = async () => {
+    try {
+      const res = await wishlistApi.getAllWish();
+      if (res.status === 0) {
+        if (JSON.stringify(wishlist) !== JSON.stringify(res.wishlist)) {
+          setWishlist(res.wishlist);
+        }
+      }
+    } catch (err) {}
+  };
   useEffect(() => {
     const fetchCartQuantity = async () => {
       const res = await ApiCart.get();
@@ -67,6 +85,22 @@ const DetailProduct = () => {
     };
     fetchCartQuantity();
   }, [fetchCartQuantity, cartQuantity, productsCart, onFetchCartQuantity]);
+
+  const fetchComments = async () => {
+    const res = await ApiComment.getComment({
+      productId: id,
+      limitComment: 5,
+      page: currentPage,
+    });
+    setComments(() => {
+      return res.commentData;
+    });
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, [currentPage]);
+
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await ApiProduct.getProductByIdClient({ id: id });
@@ -74,18 +108,8 @@ const DetailProduct = () => {
       setProduct(product);
       setVariantTypes(new Array(product?.variants.length).fill(null));
     };
-    const fetchComments = async () => {
-      const res = await ApiComment.getComment({
-        productId: id,
-        limitComment: 5,
-        page: currentPage,
-      });
-      setComments(res.commentData);
-    };
-
-    fetchComments();
     fetchProduct();
-  }, [id, currentPage]);
+  }, [id]);
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       try {
@@ -116,6 +140,19 @@ const DetailProduct = () => {
     }
     return stars;
   };
+
+  useEffect(() => {
+    handlerFetchWishlist();
+    console.log(isInWishlist);
+    if (wishlist !== 1) {
+      wishlist?.forEach((productWishlist, i) => {
+        console.log(productWishlist,product);
+        if (productWishlist?.productData.id === product?.id) {
+          setIsInWishlist({ status: true, wid: productWishlist?.id });
+        }
+      });
+    }
+  }, [wishlist,product]);
 
   const hanlePickVariants = (variant, value, price, index) => {
     setVariantTypes((prev) => {
@@ -162,6 +199,28 @@ const DetailProduct = () => {
     } catch (error) {
       setActiveNotiStatus("error");
       setOnFetchCartQuantity(false);
+    }
+  };
+  const handleWishlist = async () => {
+    if (!isInWishlist.status) {
+      try {
+        const res = await wishlistApi.createWishlist({ pids: [product.id] });
+        if (res.status === 0) {
+          handlerFetchWishlist();
+          wishlist.forEach((productWishlist, i) => {
+            if (productWishlist.productData.id === product.id) {
+              setIsInWishlist({ status: true, wid: productWishlist.id });
+            }
+          });
+        }
+      } catch (err) {}
+    } else {
+      try {
+        const res = await wishlistApi.delete({ wids: [isInWishlist.wid] });
+        if (res.status === 0) {
+          setIsInWishlist({ status: false, wid: null });
+        }
+      } catch (err) {}
     }
   };
   return (
@@ -242,6 +301,7 @@ const DetailProduct = () => {
             setShowPopupComment={setShowPopupComment}
             showPopupComment={showPopupComment}
             id={product.id}
+            fetchComments={fetchComments}
           />
 
           <div className="bg-[white] pl-[16px] ">
@@ -298,9 +358,11 @@ const DetailProduct = () => {
                 <section className="flex items-center">
                   <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[30px] lg:text-[40px] md:font-semibold">
                     {!canAtc &&
-                      numFormatter(product.costPerUnit)
-                    }
-                    {canAtc && numFormatter(PriceCaculator(product, variantTypes))}
+                      Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
+                    {canAtc &&
+                      Number(
+                        PriceCaculator(product, variantTypes).toFixed(1)
+                      )?.toLocaleString()}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 lg:text-[34px] md:text-[24px] md:font-semibold md:text-[#B6B6B6]">
@@ -310,9 +372,11 @@ const DetailProduct = () => {
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>
-                  <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] md:text-[16px] md:font-semibold md:text-[#FF404B]">
-                    20%OFF
-                  </p>
+                  {/* <p className="text-[#E21D1D] leading-5 text-[14px] font-medium tracking-tighter lg:text-[20px] md:text-[16px] md:font-semibold md:text-[#FF404B]">
+                  {!canAtc &&
+                      ""}
+                    {canAtc &&  Number( PriceCaculator(product,variantTypes).toFixed(1))?.toLocaleString()}
+                  </p> */}
                 </section>
                 <section className="pb-[16px] hidden md:block mt-[20px] w-[full]">
                   <Voucher Vouchers={Vouchers}></Voucher>
@@ -383,7 +447,12 @@ const DetailProduct = () => {
                   </div>
 
                   {/* md:w-[153px] lg:w-[240px] */}
-                  <div className="border-[2px] border-primary rounded-[8px] md:ml-[14px] md:text-[12px] lg:text-[14px] lg:ml-[24px] w-[80%]">
+                  <div
+                    className="border-[2px] border-primary rounded-[8px] md:ml-[14px] md:text-[12px] lg:text-[14px] lg:ml-[24px] w-[80%]"
+                    onClick={() => {
+                      handleWishlist();
+                    }}
+                  >
                     <LongButton
                       width="100%"
                       height="40px"
@@ -391,11 +460,28 @@ const DetailProduct = () => {
                       size="100%"
                       color="#1B4B66"
                     >
-                      <AiOutlineHeart
-                        size=""
-                        className="lg:text-[24px] md:text-[20px]"
-                      ></AiOutlineHeart>
-                      <p>Thêm vào yêu thích</p>
+                      {isInWishlist.status ? (
+                        // &&
+                        // wishlist?.wishlist.some(
+                        //   (productWishlist) =>
+                        //     productWishlist.productData.id === product.id
+                        // )
+                        <>
+                          <AiFillHeart
+                            size="24px"
+                            className="text-primary lg:text-[24px] md:text-[20px]"
+                          ></AiFillHeart>
+                          <p>Sản phẩm yêu thích</p>
+                        </>
+                      ) : (
+                        <>
+                          <AiOutlineHeart
+                            size="24px"
+                            className="text-primary lg:text-[24px] md:text-[20px]"
+                          ></AiOutlineHeart>
+                          <p>Thêm vào yêu thích</p>
+                        </>
+                      )}
                     </LongButton>
                   </div>
                 </section>
@@ -468,6 +554,7 @@ const DetailProduct = () => {
             </div>
             <div className={`${activeTab[2] === 1 ? "block" : "hidden"}`}>
               <ReviewAndRatingDesktop
+                fetchComments={fetchComments}
                 commentData={comments}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
@@ -487,9 +574,25 @@ const DetailProduct = () => {
 
           <div className="md:hidden">
             <ButtonFooterContainer>
-              <button className="w-[44px] h-[44px] bg-[#F4F4F4] rounded-[8px] flex items-center justify-center text-primary">
-                <AiOutlineHeart size="24px"></AiOutlineHeart>
+              <button
+                onClick={() => {
+                  handleWishlist();
+                }}
+                className="w-[44px] h-[44px] bg-[#F4F4F4] rounded-[8px] flex items-center justify-center text-primary"
+              >
+                {isInWishlist.status ? (
+                  <AiFillHeart
+                    size="24px"
+                    className="text-primary"
+                  ></AiFillHeart>
+                ) : (
+                  <AiOutlineHeart
+                    size="24px"
+                    className="text-primary"
+                  ></AiOutlineHeart>
+                )}
               </button>
+
               <div
                 className="h-[44px] w-[272px]"
                 onClick={() => {

@@ -14,24 +14,21 @@ import { useEffect } from "react";
 const Public = () => {
   const [activeNav, setActiveNav] = useState([0, 0, 0, 0]);
   const dispatch = useDispatch();
-  
+
   const params = useParams();
-  useEffect(()=>{
-    if(params["*"]===''){
-      setActiveNav([1,0,0,0]);
+  useEffect(() => {
+    if (params["*"] === "") {
+      setActiveNav([1, 0, 0, 0]);
+    } else if (params["*"] === "gian-hang") {
+      setActiveNav([0, 1, 0, 0]);
+    } else if (params["*"] === "tai-khoan") {
+      setActiveNav([0, 0, 1, 0]);
+    } else if (params["*"] === "cart") {
+      setActiveNav([0, 0, 0, 1]);
     }
-    else  if(params["*"]==='gian-hang'){
-      setActiveNav([0,1,0,0]);
-    }
-    else  if(params["*"]==='tai-khoan'){
-      setActiveNav([0,0,1,0]);
-    }
-    else  if(params["*"]==='cart'){
-      setActiveNav([0,0,0,1]);
-    }
-  },[params])
+  }, [params]);
   return (
-    <div className="flex flex-col w-full max-w-[1280px] m-auto text-sm md:text-base bg-white text-black">
+    <div className="flex flex-col w-full max-w-[1280px] min-h-screen m-auto text-sm md:text-base bg-white text-black">
       <div className="hidden md:block w-full h-[80px]">
         <HeaderLaptop />
       </div>
@@ -48,6 +45,15 @@ const Public = () => {
           <ButtonFooterContainer>
             <Link
               to="/"
+              style={{
+                "-webkit-tap-highlight-color": "transparent",
+                " -webkit-touch-callout": "none",
+                " -webkit-user-select": "none",
+                "-khtml-user-select": "none",
+                "-moz-user-select": "none",
+                "-ms-user-select": "none",
+                "user-select": "none",
+              }}
               className={`flex flex-col justify-center items-center text-primary ${
                 activeNav[0] === 1 ? "text-primary" : "text-darkGrey-tint"
               } transition-all`}
@@ -62,6 +68,15 @@ const Public = () => {
             </Link>
             <Link
               to="/gian-hang"
+              style={{
+                "-webkit-tap-highlight-color": "transparent",
+                " -webkit-touch-callout": "none",
+                " -webkit-user-select": "none",
+                "-khtml-user-select": "none",
+                "-moz-user-select": "none",
+                "-ms-user-select": "none",
+                "user-select": "none",
+              }}
               className={`flex flex-col justify-center items-center text-primary ${
                 activeNav[1] === 1 ? "text-primary" : "text-darkGrey-tint"
               } transition-all`}
@@ -76,6 +91,15 @@ const Public = () => {
             </Link>
             <Link
               to="/tai-khoan"
+              style={{
+                "-webkit-tap-highlight-color": "transparent",
+                " -webkit-touch-callout": "none",
+                " -webkit-user-select": "none",
+                "-khtml-user-select": "none",
+                "-moz-user-select": "none",
+                "-ms-user-select": "none",
+                "user-select": "none",
+              }}
               className={`flex flex-col justify-center items-center text-primary ${
                 activeNav[2] === 1 ? "text-primary" : "text-darkGrey-tint"
               } transition-all`}
@@ -90,6 +114,15 @@ const Public = () => {
             </Link>
             <Link
               to="/cart"
+              style={{
+                "-webkit-tap-highlight-color": "transparent",
+                " -webkit-touch-callout": "none",
+                " -webkit-user-select": "none",
+                "-khtml-user-select": "none",
+                "-moz-user-select": "none",
+                "-ms-user-select": "none",
+                "user-select": "none",
+              }}
               className={`flex flex-col justify-center items-center text-primary ${
                 activeNav[3] === 1 ? "text-primary" : "text-darkGrey-tint"
               } transition-all`}

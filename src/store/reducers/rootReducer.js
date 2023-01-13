@@ -3,7 +3,7 @@ import cartReducer from "./cartReducer";
 import popupReducer from "./popupReducer";
 import appReducer from "./appReducer";
 import homenavReducer from "./homenavReducer";
-import wishlistReducer from "./wishlishReducer";
+import wishlistReducer from "./wishlistReducer";
 import productReducer from "./productReducer";
 import searchReducer from "./searchReducer";
 import chatbotReducer from "./chatbot";

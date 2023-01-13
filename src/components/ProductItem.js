@@ -35,6 +35,7 @@ const ProductItem = ({
       className={`md:w-[286px] w-[150px] flex flex-col gap-2 ${
         v2 ? "rounded-xl" : "pb-[41px] rounded-md"
       } relative bg-white`}
+      key={productId}
     >
       <img
         className={`w-full md:h-[286px] h-[138px] object-cover ${

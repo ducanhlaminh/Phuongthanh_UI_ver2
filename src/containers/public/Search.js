@@ -68,7 +68,7 @@ const Search = () => {
           <RiSearchLine size={24} />
         </div>
       </Header>
-      <div className="w-full flex flex-wrap justify-evenly my-[56px] min-h-[500px]">
+      <div className="w-full flex flex-wrap justify-evenly my-[30px] min-h-[500px]">
         {isLoading && searchKeyword.length !== 0 && <LoadingPageDesktop />}
         {searchNotFound && !isLoading && (
           <div className="h-[245px] w-[242px] flex flex-col gap-[16px]">

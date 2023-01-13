@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 const Category = () => {
   const { categories } = useSelector((state) => state.app);
   return (
-    <>
+    <div className="min-h-screen">
       <Header>
         <p className="text-primary font-semibold text-[20px]">Gian hàng</p>
       </Header>
@@ -40,7 +40,8 @@ const Category = () => {
           </div>
         );
       })}
-    </>
+      <div className="h-[66px] bg-white"></div>
+    </div>
   );
 };
 
