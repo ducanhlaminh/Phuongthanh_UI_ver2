@@ -8,23 +8,23 @@ import FormCreateProduct from "../../components/FormCreateProduct";
 const EditProduct = ({selectProductEdit}) => {
   const product = selectProductEdit
   const [productName, setProductName] = useState(product?.name||"");
-  const [selectValue, setSelectValue] = useState(product?.name||"");
-  const [price, setPrice] = useState(product?.name||"");
+  const [selectValue, setSelectValue] = useState(product?.categoryData?.code||"");
+  const [price, setPrice] = useState(product?.costPerUnit||"");
   const [tags, setTags] = useState([]);
-  const [shortDes, setShortDes] = useState(product?.name||"");
-  const [image, setImage] = useState(product?.name||{
+  const [shortDes, setShortDes] = useState(product?.description||"");
+  const [image, setImage] = useState({
     imageMain: "",
     image1: "",
     image2: "",
     image3: "",
   });
-  const [imageUrl, setImageUrl] = useState(product?.name||{
+  const [imageUrl, setImageUrl] = useState(product?{imageMainUrl:product?.mainImage,image1Url:product?.image1,image2Url:product?.image2,image3Url:product?.image3}:{
     imageMainUrl: "",
     image1Url: "",
     image2Url: "",
     image3Url: "",
   });
-  const [variants, setVariants] = useState(product?.name||[]);
+  const [variants, setVariants] = useState(product?.variants||[]);
   const [variantValue, setVariantValue] = useState(product?.name||{ name: "", value: [] });
   const [variantChild, setVariantChild] = useState(product?.name||{ type: "", price: "" });
   const { categories } = useSelector((state) => state.app);
