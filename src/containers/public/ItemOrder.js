@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Link, useNavigate, Outlet, useParams } from "react-router-dom";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { apiGetProductsOfBill2, apiGetBills } from "../../apis/bill2";
@@ -8,15 +8,17 @@ import "moment/locale/vi";
 import BillItem from "../../components/BillItem";
 import ButtonFooterContainer from "../../components/ButtonFooterContainer";
 import LongButton from "../../components/LongButton";
+import { RiDeleteBinLine } from "react-icons/ri";
+import ApiBill from "../../apis/bill";
+import Swal from "sweetalert2";
 
 const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
   const [address, setAddress] = useState("");
   const [detailBill, setDetailBill] = useState();
-  if (detailBill) {
-    console.log(JSON.parse(detailBill.log));
-  }
   const [status, setStatus] = useState("");
+  const [showPopupCancel, setShowPopupCancel] = useState(false);
+  const navigate=useNavigate();
   const id = useParams().id;
   useEffect(() => {
     if (detailBill) {
@@ -31,7 +33,6 @@ const ItemOrder = () => {
       );
     }
   }, [detailBill]);
-  console.log(address);
   useEffect(() => {
     const fetchDetailBill = async () => {
       const res = await apiGetBills();
@@ -58,7 +59,62 @@ const ItemOrder = () => {
     } else setStatus("Đã hủy");
   }, [detailBill?.status]);
   return (
-    <>
+    <div className="relative">
+      {showPopupCancel && (
+        <div
+          className="fixed w-full top-0 left-0 h-full flex items-center z-20 justify-center bg-[rgba(0,0,0,.25)]"
+          onClick={() => {
+            setShowPopupCancel(false);
+          }}
+        >
+          <div
+            className="w-[95vw] h-[100px] rounded-[8px] bg-white  flex flex-col justify-center gap-[15px]"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <p className="md:text-[16px] text-[14px]  text-primary font-[600] text-center cursor-pointer">
+              Việc hủy đơn sẽ không thể hoàn tác. Xác nhận hủy đơn?
+            </p>
+            <div className="flex justify-around md:text-[14px] text-[12px] font-[600] ">
+              <p
+                className=" cursor-pointer "
+                onClick={() => {
+                  setShowPopupCancel(false);
+                }}
+              >
+                Trở lại
+              </p>
+              <p
+                className="border-[2px] border-[#b00020] text-[#b00020] rounded-[8px] px-[15px] cursor-pointer "
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const cancelBill=async () => {
+                    try{
+                      const res=await ApiBill.update({
+                        id:id,
+                        status:'cancel',
+                        addressId:1
+                      })
+                      if(res.status===0)
+                      {
+                        navigate('/ho-so/hoa-don-cua-toi');
+                      }
+                    }
+                    catch(err){
+                      Swal.fire('Thất bại',err.message,'error');
+                    }
+                  }
+                  cancelBill();
+                  setShowPopupCancel(false);
+                }}
+              >
+                Xác nhận
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       {detailBill && (
         <div className="w-screen h-screen md:hidden">
           <div className="text-primary ">
@@ -175,6 +231,28 @@ const ItemOrder = () => {
                 </p>
               </div>
             </div>
+
+            {detailBill?.status === "pending" && (
+            <div className="justify-end pr-[20px] flex">
+              <div
+                className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px] "
+                onClick={() => {
+                  setShowPopupCancel(true);
+                }}
+              >
+                <LongButton
+                  width="136px"
+                  height="38px"
+                  backgroundColor="white"
+                  color="#B00020"
+                  size="14px"
+                >
+                  <RiDeleteBinLine />
+                  <p>Hủy đơn</p>
+                </LongButton>
+              </div>
+            </div>
+          )}
           </div>
 
           {detailBill?.status === "pending" && (
@@ -191,6 +269,7 @@ const ItemOrder = () => {
         </div>
       )}
 
+      {/* Desktop */}
       {detailBill && (
         <div className="hidden md:block mt-[36px]">
           <div className="text-[26px] font-semibold text-primary pl-[24px]">
@@ -323,9 +402,31 @@ const ItemOrder = () => {
               </div>
             </div>
           </div>
+
+          {detailBill?.status === "pending" && (
+            <div className="justify-end pr-[20px] flex">
+              <div
+                className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px] "
+                onClick={() => {
+                  setShowPopupCancel(true);
+                }}
+              >
+                <LongButton
+                  width="136px"
+                  height="38px"
+                  backgroundColor="white"
+                  color="#B00020"
+                  size="14px"
+                >
+                  <RiDeleteBinLine />
+                  <p>Hủy đơn</p>
+                </LongButton>
+              </div>
+            </div>
+          )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default ItemOrder;

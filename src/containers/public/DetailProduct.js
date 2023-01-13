@@ -266,6 +266,7 @@ const DetailProduct = () => {
                           : ""
                       }`}
                       style={{ animationIterationCount: "5" }}
+                      onClick={(e)=>{e.stopPropagation()}}
                     />
                     <span
                       className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
