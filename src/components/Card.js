@@ -22,11 +22,7 @@ const Card = ({
         <div className="h-[40%] p-1">
           <div className="font-semibold  flex justify-between items-center">
             <span>{name}</span>
-            <span className="text-xl">
-              <AiOutlineHeart style={{ backgroundBlendMode: "red" }} />
-            </span>
           </div>
-          <p className="text-sm">{shortDescription}</p>
           <div className="flex justify-evenly items-center">
             <span className="font-bold mr-1 text-sm">
               {new Intl.NumberFormat("vi-VN", {

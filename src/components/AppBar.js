@@ -1,7 +1,7 @@
 import icons from "../ultils/icons";
 import { useNavigate } from "react-router-dom";
 const { MdArrowBackIos } = icons;
-function AppBar({ title }) {
+function AppBar({ title,setIsShow }) {
   const navigate = useNavigate();
 
   return (

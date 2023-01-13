@@ -46,6 +46,7 @@ module.exports = {
       },
       animation: {
         'modalShow': 'modalShow .3s linear ',
+        'showFilter': 'showFilter .3s linear ',
         'modalClose': 'modalShow .3s linear ',
         'slide-right': 'slide-right 0.3s ease-out both;',
         'slide-left': 'slide-left 0.3s ease-out both;',
@@ -54,7 +55,8 @@ module.exports = {
         'show-noti-left': 'show-noti-left 5s ease-out both;',
         'bounce2': 'bounce2 .5s',
         bounce: 'bounce-mes 1.2s ease-in-out infinite',
-        'bounce-2': 'bounce-mes 1.2s ease-in-out 0.6s infinite'
+        'bounce-2': 'bounce-mes 1.2s ease-in-out 0.6s infinite',
+        'chatbot':'chatbot .3s ease-in-out'
       },
       keyframes: {
         bounce2: {
@@ -73,6 +75,10 @@ module.exports = {
         }
         ,
         modalShow: {
+          '0%': { transform: 'translateX(-100px)', },
+          '100%': { transform: 'translateX(0%)' }
+        },
+        showFilter: {
           '0%': { transform: 'translateX(-100px)', },
           '100%': { transform: 'translateX(0%)' }
         },
@@ -173,6 +179,16 @@ module.exports = {
             opacity: .1
           }
         },
+        'chatbot':{
+          '0%':{
+            left:'80%',
+            top:'50%',
+          },
+          '100%':{
+            top:'0',
+            left:'0',
+          }
+        }
       },
       fontFamily: {
         'nunito': ['nunito', 'sans-serif'],

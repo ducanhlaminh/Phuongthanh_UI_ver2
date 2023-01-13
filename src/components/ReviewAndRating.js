@@ -91,12 +91,7 @@ export const ReviewAndRatingMobile = ({
                 </div>
               );
             })}
-            {/* <PagePagination
-              dataCount={commentData?.count}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              itemPerPage="3"
-            /> */}
+        
             <div className="flex justify-center pb-[10px]">
               <Pagination
                 count={Math.ceil(commentData.count / 5)}
@@ -144,6 +139,7 @@ export const ReviewAndRatingDesktop = ({
   currentPage,
   setCurrentPage,
   id,
+  fetchComments,
 }) => {
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
@@ -157,6 +153,7 @@ export const ReviewAndRatingDesktop = ({
         productId: id,
         content: commentRef?.current?.innerHTML,
       });
+      fetchComments();
       if (res.status === 0) {
         setActiveNotiStatus("success");
         setContent("Đăng bình luận thành công");
@@ -227,9 +224,10 @@ export const ReviewAndRatingDesktop = ({
       ></div>
 
       <div
-        className="flex justify-end mt-[16px]"
+        className="flex justify-end mt-[16px] mb-[16px]"
         onClick={() => {
           createComment();
+          
           commentRef.current.innerHTML = "";
           headRef.current.scrollIntoView({ behavior: "smooth" });
         }}

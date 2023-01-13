@@ -17,7 +17,6 @@ export default function AlertPopup({
   const handleDelete = async () => {
     try {
       let params = { cids: [idDelete] };
-      console.log(params);
       let res = await ApiCart.delete(params);
       if (res.status === 0) {
         setOpen(false);

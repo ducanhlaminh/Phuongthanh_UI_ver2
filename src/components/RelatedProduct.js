@@ -14,7 +14,7 @@ const RelatedProduct = ({ products, cate }) => {
       <div className="flex overflow-x-auto w-full gap-[16px]">
         {products.map((item) => {
           return (
-            <div className="md:w-[286px]">
+            <div className="md:w-[286px]" key={item.id}>
               <ProductItem
                 key={item.id}
                 productId={item.id}

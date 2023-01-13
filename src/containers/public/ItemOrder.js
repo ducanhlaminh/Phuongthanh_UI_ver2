@@ -11,16 +11,26 @@ import LongButton from "../../components/LongButton";
 
 const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
-  const [address,setAddress] = useState('');
+  const [address, setAddress] = useState("");
   const [detailBill, setDetailBill] = useState();
-  // console.log(productBill);
+  if (detailBill) {
+    console.log(JSON.parse(detailBill.log));
+  }
   const [status, setStatus] = useState("");
   const id = useParams().id;
-  useEffect(()=>{
-    if(detailBill){
-      setAddress(JSON.parse(detailBill?.addressData?.address).detail+ " "+JSON.parse(detailBill?.addressData?.address).ward+" "+JSON.parse(detailBill?.addressData?.address).district+ " "+ JSON.parse(detailBill?.addressData?.address).province);
+  useEffect(() => {
+    if (detailBill) {
+      setAddress(
+        JSON.parse(detailBill?.log)?.address?.addressDetail.detail +
+          " " +
+          JSON.parse(detailBill?.log)?.address?.addressDetail.ward +
+          " " +
+          JSON.parse(detailBill?.log)?.address?.addressDetail.district +
+          " " +
+          JSON.parse(detailBill?.log)?.address?.addressDetail.province
+      );
     }
-  },[detailBill]);
+  }, [detailBill]);
   console.log(address);
   useEffect(() => {
     const fetchDetailBill = async () => {
@@ -149,7 +159,8 @@ const ItemOrder = () => {
             <div className="flex flex-col gap-[8px]">
               <div>
                 <p className="text-black font-semibold text-[14px]">
-                  {detailBill?.addressData?.name}
+                  {detailBill?.log &&
+                    JSON.parse(detailBill?.log)?.address?.name}
                 </p>
               </div>
               <div>
@@ -159,13 +170,14 @@ const ItemOrder = () => {
               </div>
               <div>
                 <p className="text-darkGrey font-medium text-[14px]">
-                  {detailBill?.addressData?.phone}
+                  {detailBill?.log &&
+                    JSON.parse(detailBill?.log)?.address?.phone}
                 </p>
               </div>
             </div>
           </div>
 
-          {detailBill?.status==='pending'&&
+          {detailBill?.status === "pending" && (
             <>
               <div className="h-[66px]"></div>
 
@@ -175,7 +187,7 @@ const ItemOrder = () => {
                 </LongButton>
               </ButtonFooterContainer>
             </>
-          }
+          )}
         </div>
       )}
 
@@ -191,16 +203,16 @@ const ItemOrder = () => {
           </div>
 
           <div className="flex items-center py-2 border-b border-gray-200 md:text-[14px] text-darkGrey lg:text-[16px] px-6 hidden md:flex mt-[24px] mb-[16px]">
-            <span className="flex-1 flex justify-start items-center">
+            <span className="flex-[60%] flex justify-start items-center">
               Tên sản phẩm
             </span>
-            <span className="flex-2 flex justify-start ml-[10px] items-center">
+            <span className="flex-[15%] flex justify-center ml-[10px] items-center">
               Giá mỗi sản phẩm
             </span>
-            <span className="flex-3 flex justify-start ml-[10px] items-center">
+            <span className="flex-[10%] flex justify-center ml-[10px] items-center">
               Số lượng
             </span>
-            <span className="flex-2 flex justify-start ml-[10px] items-center">
+            <span className="flex-[15%] flex justify-center ml-[10px] items-center">
               Giá tạm tính
             </span>
           </div>
@@ -208,7 +220,7 @@ const ItemOrder = () => {
           <div className="">
             {productBill?.map((product, i) => (
               <div className="flex items-center py-2 md:text-[14px] text-darkGrey lg:text-[16px] px-6 hidden md:flex [&:not(:last-child)]:mb-[16px]">
-                <span className="flex-1 flex justify-start items-start">
+                <span className="flex-[60%] flex justify-start items-start">
                   <div>
                     <img
                       src={product?.products?.mainImage}
@@ -224,14 +236,17 @@ const ItemOrder = () => {
                     </p>
                   </div>
                 </span>
-                <span className="flex-2 flex justify-start ml-[10px] items-center">
-                  {product?.cost}
+                <span className="flex-[15%] flex justify-center ml-[10px] items-center">
+                  {Number(product?.cost.toFixed(1)).toLocaleString()}đ
                 </span>
-                <span className="flex-3 flex justify-start ml-[10px] items-center">
+                <span className="flex-[10%] flex justify-center ml-[10px] items-center">
                   {product?.qty}
                 </span>
-                <span className="flex-2 flex justify-start ml-[10px] items-center">
-                  {product?.qty * product?.cost}
+                <span className="flex-[15%] flex justify-center ml-[10px] items-center">
+                  {Number(
+                    (product?.cost * product?.qty).toFixed(1)
+                  ).toLocaleString()}
+                  đ
                 </span>
               </div>
             ))}
@@ -288,7 +303,9 @@ const ItemOrder = () => {
               <div className="flex flex-col gap-[8px]">
                 <div>
                   <p className="text-black font-medium md:text-[14px] lg:text-[16px]">
-                    {detailBill?.addressData?.name}
+                    {detailBill.log
+                      ? JSON.parse(detailBill?.log)?.address?.name
+                      : ""}
                   </p>
                 </div>
                 <div>
@@ -298,7 +315,9 @@ const ItemOrder = () => {
                 </div>
                 <div>
                   <p className="text-black font-medium md:text-[14px] lg:text-[16px]">
-                    {detailBill?.addressData?.phone}
+                    {detailBill.log
+                      ? JSON.parse(detailBill?.log)?.address?.phone
+                      : ""}
                   </p>
                 </div>
               </div>

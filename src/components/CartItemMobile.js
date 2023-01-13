@@ -42,7 +42,8 @@ const CartItemMobile = ({
         pid: id,
         qty: quanityProduct,
         variant: varName,
-        cost: price
+        cost: price,
+        cid:cartID,
       }
       if(isChecked) {
         if(index !== -1){
@@ -126,6 +127,7 @@ const CartItemMobile = ({
               onClick={() => {
                 setIdDelete(cartID)
                 setOpenAlertPopup(true)
+                setIsChecked(false)
               }}
                className="w-1/2 flex justify-center items-center ">
                 <span>Xóa</span>

@@ -15,7 +15,7 @@ import avatar from "../assets/avatar-anon.png";
 import { filters } from "../ultils/constant";
 import { Slider } from "@mui/material";
 import { apiGetProductsOfBill2 } from "../apis/bill2";
-import StatusBill from "./StatusBill";
+import StatusTag from "./StatusTag";
 import StepperBill from "./StepperBill";
 import { NotiStatus } from "./UploadStatus";
 import React from "react";
@@ -60,6 +60,7 @@ export const ModalEditCate = ({
     } catch (error) {
       console.log(error);
       setIsShowEdit(false);
+      setIsLoading(false);
       setShowUpload(!showUpload);
     }
   };
@@ -184,6 +185,7 @@ export const ModalCreateCate = ({
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       setIsShowCreate(false);
       setShowUpload(!showUpload);
     }
@@ -269,7 +271,6 @@ export const ModalCreateCate = ({
             width="80%"
             onClick={() => {
               onSubmit();
-              setIsShowCreate(false);
             }}
           ></Button>
         </div>
@@ -325,6 +326,7 @@ export const PopupDeleteCate = ({
               }
             } catch (error) {
               console.log(error);
+              setIsLoading(false);
               setIsDelete(false);
               setShowUpload(!showUpload);
             }
@@ -340,6 +342,8 @@ export const PopupDeleteUser = ({
   setShowUpload,
   showUpload,
   setContentUpload,
+  isLoading,
+  setIsLoading,
 }) => {
   return (
     <div
@@ -364,17 +368,20 @@ export const PopupDeleteUser = ({
           height="3"
           onClick={async () => {
             try {
+              setIsDelete(false);
+              setIsLoading(true);
               const res = await apiUSer.delete({ id: user.id });
+              setContentUpload(res);
               if (res.status === 0) {
-                setIsDelete(false);
+                setIsLoading(false);
                 setShowUpload(!showUpload);
-                setContentUpload(res);
               } else {
-                setIsDelete(false);
+                setIsLoading(false);
                 setShowUpload(!showUpload);
-                setContentUpload(res);
               }
             } catch (error) {
+              console.log(error);
+              setIsLoading(false);
               setIsDelete(false);
               setShowUpload(!showUpload);
             }
@@ -422,8 +429,11 @@ export const PopupDeleteProduct = ({
           height="2"
           onClick={async () => {
             try {
+              setIsLoading(true);
+              setIsDelete(false);
               if (product) {
                 const res = await ApiProduct.delete({ id: [product] });
+                setContentUpload(res);
                 if (res.status === 0) {
                   setProduct();
                   setAddDeletes((prev) =>
@@ -431,24 +441,22 @@ export const PopupDeleteProduct = ({
                       ? [...prev]
                       : [...prev].filter((item) => item !== product)
                   );
-                  setIsDelete(!isDelete);
+
                   setShowUpload(true);
-                  setContentUpload(res);
-                  setIsLoading(!isLoading);
+
+                  setIsLoading(false);
                 }
               } else {
                 const res = await ApiProduct.delete({ id: [...products] });
                 if (res.status === 0) {
-                  setAddDeletes([]);
-                  setIsDelete(!isDelete);
                   setShowUpload(true);
-                  setContentUpload(res);
-                  setIsLoading(!isLoading);
+                  setIsLoading(false);
+                  setAddDeletes([]);
                 }
               }
             } catch (error) {
               setAddDeletes([]);
-              setIsDelete(!isDelete);
+              setIsDelete(false);
               setShowUpload(true);
               setIsLoading(!isLoading);
             }
@@ -466,8 +474,11 @@ export const EditProduct = ({
   categories,
   product,
   category,
+  setContentUpload,
+  setShowUpload,
 }) => {
-  console.log(JSON.parse(product.hashtags));
+  console.log(product);
+  const dispatch = useDispatch();
   const [productName, setProductName] = useState(product.name);
   const [selectValue, setSelectValue] = useState(category);
   const [price, setPrice] = useState(product.costPerUnit);
@@ -490,28 +501,6 @@ export const EditProduct = ({
   const [variants, setVariants] = useState(product.variants);
   const [variantValue, setVariantValue] = useState({ name: "", value: [] });
   const [variantChild, setVariantChild] = useState({ type: "", price: "" });
-  const handleSubmit = async () => {
-    const bodyFormData = new FormData();
-    bodyFormData.append("mainImage", image.imageMain);
-    bodyFormData.append("image1", image.image1);
-    bodyFormData.append("image2", image.image2);
-    bodyFormData.append("image3", image.image3);
-    bodyFormData.append("name", productName);
-    bodyFormData.append("costPerUnit", price);
-    bodyFormData.append("id", product.id);
-    bodyFormData.append("description", shortDes);
-    bodyFormData.append("categoryCode", product.categoryData.code);
-    const res = await ApiProduct.update(bodyFormData, product.id);
-    if (res.status === 0) {
-      setIsLoading(!isLoading);
-      setIsShowEdit(false);
-    }
-  };
-
-  // if (imageMain !== "") imageMain?.preview = URL.createObjectURL(imageMain);
-  // if (image1 !== "") image1.preview = URL.createObjectURL(image1);
-  // if (image2 !== "") image2.preview = URL.createObjectURL(image2);
-  // if (image3 !== "") image3.preview = URL.createObjectURL(image3);
   useEffect(() => {
     if (typeof image.imageMain !== "string")
       setImageUrl((prev) => ({
@@ -534,6 +523,36 @@ export const EditProduct = ({
         image3Url: URL.createObjectURL(image.image3),
       }));
   }, [image]);
+
+  const handleEdit = async () => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("mainImage", image.imageMain);
+    bodyFormData.append("image1", image.image1);
+    bodyFormData.append("image2", image.image2);
+    bodyFormData.append("image3", image.image3);
+    bodyFormData.append("name", productName);
+    bodyFormData.append("costPerUnit", price);
+    bodyFormData.append("description", shortDes);
+    bodyFormData.append("categoryCode", selectValue);
+    bodyFormData.append("variants", JSON.stringify(variants));
+    bodyFormData.append("tags", JSON.stringify(tags));
+    bodyFormData.append("id", product.id);
+    try {
+      setIsShowEdit(false);
+      setIsLoading(true);
+      const res = await ApiProduct.update(bodyFormData);
+      if (res.status === 0) {
+        setShowUpload(true);
+      } else {
+        setShowUpload(true);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setIsShowEdit(false);
+      setShowUpload(true);
+    }
+  };
   return (
     <>
       <div
@@ -549,7 +568,6 @@ export const EditProduct = ({
             e.stopPropagation();
           }}
         >
-          {console.log(product)}
           <FormCreateProduct
             productName={productName}
             setProductName={setProductName}
@@ -572,6 +590,7 @@ export const EditProduct = ({
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
             id={product.id}
+            handleEdit={handleEdit}
           />
         </div>
       </div>
@@ -587,18 +606,11 @@ export const Profile = ({
   contentUpload,
 }) => {
   const steps = ["pending", "shipping", "completed", "cancel"];
-  const [productsBill, setProductBill] = useState([]);
-  const numActive = steps.findIndex((item) => billCurrent.status === item);
+  const [productsBill, setProductBill] = useState(billCurrent);
+  const numActive = steps.findIndex((item) => billCurrent?.status === item);
   const [activeStep, setActiveStep] = useState(numActive);
-  useEffect(() => {
-    const fetchProductsBill = async () => {
-      const res = await apiGetProductsOfBill2(billCurrent.id);
-      setProductBill(res.billData);
-    };
-    fetchProductsBill();
-  }, [contentUpload]);
-  const addressBill = JSON.parse(billCurrent.addressData.address);
-  const address = `${addressBill.province}`;
+  const addressBill = JSON.parse(billCurrent?.addressData.address);
+  const address = `${addressBill?.province}`;
   return (
     <>
       <div
@@ -719,7 +731,7 @@ export const Profile = ({
                 <div className="absolute bottom-0 h-[70px] z-200 bg-gray-200 w-full flex  justify-between p-3">
                   {/* Trang thai don hang */}
 
-                  <StatusBill status={billCurrent.status} />
+                  <StatusTag status={billCurrent.status} />
                   {/* Gia ship , Total */}
                   <div className="">
                     <div className="flex flex-col items-end justify-between">
@@ -793,11 +805,12 @@ export const FilterProductsMobile = ({
           </div>
           <hr />
           <div className="flex flex-col justify-around h-[85%] px-5">
-            {filters.map((filter) => {
+            {filters.map((filter, i) => {
               const value = JSON.stringify(filter);
               return (
                 <div className="" key={filter.valueVi}>
                   <input
+                    id={`option-sort--${i}`}
                     type="radio"
                     value={value}
                     onChange={(e) => {
@@ -805,7 +818,7 @@ export const FilterProductsMobile = ({
                     }}
                     checked={JSON.stringify(selectedFilter) === value}
                   />
-                  <label className="ml-5" htmlFor="">
+                  <label className="ml-5" htmlFor={`option-sort--${i}`}>
                     {filter.valueVi}
                   </label>
                 </div>
@@ -841,10 +854,10 @@ export const FilterProductsMobile = ({
               onChange={handleChange}
               onChangeCommitted={handleChange2}
               valueLabelDisplay="on"
-              step={10000000}
+              step={100000}
               marks
               disableSwap
-              max={100000000}
+              max={1500000}
               valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             />
           </div>

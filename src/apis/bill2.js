@@ -34,6 +34,14 @@ const ApiCheckout = {
       console.log(error);
     }
   },
+  delete: () => {
+    const url = "/api/v1/bill2/cached-products";
+    try {
+      return axiosClients.delete(url);
+    } catch (error) {
+      console.log(error);
+    }
+  },
   create: (data) => {
     const url = "/api/v1/bill2";
     try {
@@ -92,3 +100,8 @@ export const apiCreateBill2 = (payload) => {
   const url = "/api/v1/bill2";
   return axiosClients.post(url, payload);
 };
+
+export const deleteCache=()=>{
+  const url = "/api/v1/bill2/cached-products";
+  return axiosClients.delete(url);
+}
