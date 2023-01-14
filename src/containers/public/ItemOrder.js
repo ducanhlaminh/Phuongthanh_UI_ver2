@@ -16,6 +16,7 @@ const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
   const [address, setAddress] = useState("");
   const [detailBill, setDetailBill] = useState();
+  console.log(productBill,detailBill);
   const [status, setStatus] = useState("");
   const [showPopupCancel, setShowPopupCancel] = useState(false);
   const navigate=useNavigate();
@@ -23,13 +24,13 @@ const ItemOrder = () => {
   useEffect(() => {
     if (detailBill) {
       setAddress(
-        JSON.parse(detailBill?.log)?.address?.addressDetail.detail +
+        detailBill?.log?.address?.addressDetail.detail +
           " " +
-          JSON.parse(detailBill?.log)?.address?.addressDetail.ward +
+          detailBill?.log?.address?.addressDetail.ward +
           " " +
-          JSON.parse(detailBill?.log)?.address?.addressDetail.district +
+          detailBill?.log?.address?.addressDetail.district +
           " " +
-          JSON.parse(detailBill?.log)?.address?.addressDetail.province
+          detailBill?.log?.address?.addressDetail.province
       );
     }
   }, [detailBill]);
@@ -68,7 +69,7 @@ const ItemOrder = () => {
           }}
         >
           <div
-            className="w-[95vw] h-[100px] rounded-[8px] bg-white  flex flex-col justify-center gap-[15px]"
+            className="w-[95vw] md:w-[500px] h-[100px] rounded-[8px] bg-white  flex flex-col justify-center gap-[15px]"
             onClick={(e) => {
               e.stopPropagation();
             }}
@@ -216,7 +217,7 @@ const ItemOrder = () => {
               <div>
                 <p className="text-black font-semibold text-[14px]">
                   {detailBill?.log &&
-                    JSON.parse(detailBill?.log)?.address?.name}
+                    detailBill?.log?.address?.name}
                 </p>
               </div>
               <div>
@@ -227,7 +228,7 @@ const ItemOrder = () => {
               <div>
                 <p className="text-darkGrey font-medium text-[14px]">
                   {detailBill?.log &&
-                    JSON.parse(detailBill?.log)?.address?.phone}
+                    detailBill?.log?.address?.phone}
                 </p>
               </div>
             </div>
@@ -383,7 +384,7 @@ const ItemOrder = () => {
                 <div>
                   <p className="text-black font-medium md:text-[14px] lg:text-[16px]">
                     {detailBill.log
-                      ? JSON.parse(detailBill?.log)?.address?.name
+                      ? detailBill?.log?.address?.name
                       : ""}
                   </p>
                 </div>
@@ -395,7 +396,7 @@ const ItemOrder = () => {
                 <div>
                   <p className="text-black font-medium md:text-[14px] lg:text-[16px]">
                     {detailBill.log
-                      ? JSON.parse(detailBill?.log)?.address?.phone
+                      ? detailBill?.log?.address?.phone
                       : ""}
                   </p>
                 </div>
