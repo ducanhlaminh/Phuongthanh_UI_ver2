@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { PriceCaculator } from "../ultils/caculator";
-import {numFormatter} from '../ultils/fn'
+import { numFormatter } from "../ultils/fn";
 
 const CartItemMobile = ({
-  product,variants,
+  product,
+  variants,
   setQuanityList,
   quanityList,
   checkedList,
@@ -15,21 +16,21 @@ const CartItemMobile = ({
   cartID,
   dataBill,
   setDataBill,
-  setCheckedList}
-  ) => {
-    const{id,name,mainImage} = product || {}
-    const [price, setPrice] = useState(0)
-    const [quanityProduct, setQuanityProduct] = useState(1)
-    const [isChecked, setIsChecked] = useState(false)
-    let idUnique = null
-  
-    const getIdUnique = () => {
-      idUnique=id
-      variants.map((variant) => {
-        idUnique += `--${variant.variant}-${variant.value}_${variant.price}`
-      })
-    }
-    getIdUnique()
+  setCheckedList,
+}) => {
+  const { id, name, mainImage } = product || {};
+  const [price, setPrice] = useState(0);
+  const [quanityProduct, setQuanityProduct] = useState(1);
+  const [isChecked, setIsChecked] = useState(false);
+  let idUnique = null;
+
+  const getIdUnique = () => {
+    idUnique = id;
+    variants.map((variant) => {
+      idUnique += `--${variant.variant}-${variant.value}_${variant.price}`;
+    });
+  };
+  getIdUnique();
   
     useEffect(() => setPrice(PriceCaculator(product,variants)),[])
     useEffect(() => {
@@ -65,15 +66,22 @@ const CartItemMobile = ({
           setCheckedList(prev => prev.filter(id => id !== idUnique))
         }
       }
-    },[quanityProduct,isChecked])
+  }, [quanityProduct, isChecked]);
 
   return (
     <>
       {/*Mobile*/}
-      {isMobile&&<div className="w-full md:hidden bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
-            <div className="flex h-[120px] items-center">
-            <input id={idUnique+'-mobile'} className="cursor-pointer mr-[8px]" type="checkbox" checked={isChecked} onChange={e => setIsChecked(e.target.checked)}/>
-            <label htmlFor={idUnique+'-mobile'} className="flex">
+      {isMobile && (
+        <div className="w-full md:hidden bg-white h-[170px] mb-2 rounded-xl mt-2 px-2 pt-2">
+          <div className="flex h-[120px] items-center">
+            <input
+              id={idUnique + "-mobile"}
+              className="cursor-pointer mr-[8px]"
+              type="checkbox"
+              checked={isChecked}
+              onChange={(e) => setIsChecked(e.target.checked)}
+            />
+            <div className="flex">
               <img
                 src={mainImage}
                 alt="ProductImage"
@@ -81,24 +89,27 @@ const CartItemMobile = ({
               />
               <div className="px-2 flex flex-col justify-around">
                 <b className="text-[12px] font-semibold text-black">{name}</b>
-                <p>{
-                  variants.map((variant,i) => {
-                    let variantLength = variants.length
-                    return(
+                <p>
+                  {variants.map((variant, i) => {
+                    let variantLength = variants.length;
+                    return (
                       <div className="text-[12px] font-medium text-darkGrey">
-                      <span>{variant.variant}: {variant.value}</span>
-                      <span>{i<variantLength-1?', ':''}</span>
+                        <span>
+                          {variant.variant}: {variant.value}
+                        </span>
+                        <span>{i < variantLength - 1 ? ", " : ""}</span>
                       </div>
-                    )
-                  })
-                }</p>
+                    );
+                  })}
+                </p>
                 <div className="flex bg-lightGrey p-1 w-fit items-center rounded-sm mt-[7px] mb-[9px]">
                   <div className="flex justify-center items-center">
                     <span className="text-[12px]">Số lượng :</span>
                   </div>
-                  <select 
+                  <select
                     onChange={(e) => setQuanityProduct(e.target.value)}
-                    className="bg-lightGrey font-bold  text-[12px] rounded-[4px]">
+                    className="bg-lightGrey font-bold  text-[12px] rounded-[4px]"
+                  >
                     <option value={1}>1</option>
                     <option value={2}>2</option>
                     <option value={3}>3</option>
@@ -113,28 +124,33 @@ const CartItemMobile = ({
                 </div>
                 <div className="text-black font-semibold text-[14px]">
                   <label htmlFor="">{`Giá : `}</label>
-                  <span className="font-bold">{numFormatter(price*quanityProduct)}</span>
+                  <span className="font-bold">
+                    {numFormatter(price * quanityProduct)}
+                  </span>
                 </div>
               </div>
-              </label>
-
             </div>
-            <div className="flex h-[40px] border-t-[1px] font-semibold text-[14px] text-primary">
-              <div className="border-r-[1px] w-1/2 flex justify-center items-center my-[6px]">
-                <span>Yêu thích</span>
-              </div>
-              <div
+          </div>
+          <div className="flex h-[40px] border-t-[1px] font-semibold text-[14px] text-primary">
+            <div className="border-r-[1px] w-1/2 flex justify-center items-center my-[6px]">
+              <span>Yêu thích</span>
+            </div>
+            <div
               onClick={() => {
                 setIdDelete(cartID)
                 setOpenAlertPopup(true)
                 setIsChecked(false)
               }}
-               className="w-1/2 flex justify-center items-center ">
-                <span>Xóa</span>
-              </div>
+              className="w-1/2 flex justify-center items-center "
+            >
+              <span>Xóa</span>
             </div>
-          </div>}
+          </div>
+        </div>
+      )}
     </>
   );
-};
+}
+
 export default CartItemMobile;
+
