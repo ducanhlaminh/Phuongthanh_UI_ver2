@@ -28,7 +28,7 @@ import * as actions from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
-import { generatePath } from "../../ultils/fn";
+import { generatePath,numFormatter } from "../../ultils/fn";
 import { AiFillHeart } from "react-icons/ai";
 
 const { AiFillStar, AiOutlineHeart, MdOutlineArrowBackIosNew, RiHandbagLine } =
@@ -143,10 +143,8 @@ const DetailProduct = () => {
 
   useEffect(() => {
     handlerFetchWishlist();
-    console.log(isInWishlist);
     if (wishlist !== 1) {
       wishlist?.forEach((productWishlist, i) => {
-        console.log(productWishlist,product);
         if (productWishlist?.productData.id === product?.id) {
           setIsInWishlist({ status: true, wid: productWishlist?.id });
         }
@@ -256,7 +254,7 @@ const DetailProduct = () => {
                     <AiOutlineShoppingCart size={26} />
                     <span className="absolute top-0 right-0 w-[10px] h-[10px] bg-orange-600 rounded-full"></span>
                   </span> */}
-                  <Link to="/cart" className="relative">
+                  <Link to="/cart" onClick={(e) => e.stopPropagation()} className="relative">
                     <AiOutlineShoppingCart
                       size={26}
                       className={`${
@@ -266,7 +264,6 @@ const DetailProduct = () => {
                           : ""
                       }`}
                       style={{ animationIterationCount: "5" }}
-                      onClick={(e)=>{e.stopPropagation()}}
                     />
                     <span
                       className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
@@ -358,20 +355,16 @@ const DetailProduct = () => {
 
                 <section className="flex items-center">
                   <p className="font-semibold text-[20px] text-[#171520] mr-[10px] md:text-[30px] lg:text-[40px] md:font-semibold">
-                    <span>đ</span>
                     {!canAtc &&
-                      Number(product.costPerUnit?.toFixed(1))?.toLocaleString()}
-                    {canAtc &&
-                      Number(
-                        PriceCaculator(product, variantTypes).toFixed(1)
-                      )?.toLocaleString()}
+                      numFormatter(product.costPerUnit)
+                    }
+                    {canAtc && numFormatter(PriceCaculator(product, variantTypes))}
                   </p>
                   <div className="text-[#626262] relative mr-[8px] md:translate-y-[5px]">
                     <span className=" font-medium text-[14px] leading-5 lg:text-[34px] md:text-[24px] md:font-semibold md:text-[#B6B6B6]">
-                      <span>đ</span>
-                      {Number(
+                      {numFormatter(Number(
                         product.costPerUnit?.toFixed(1)
-                      )?.toLocaleString()}
+                      ))}
                     </span>
                     <div className="absolute w-full h-[1px] top-[50%] left-0 bg-[#626262] md:top-[35%]"></div>
                   </div>

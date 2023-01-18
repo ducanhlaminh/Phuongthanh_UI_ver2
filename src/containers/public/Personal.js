@@ -26,7 +26,6 @@ const Personal = () => {
     avatar: "",
     name: "",
   });
-  console.log()
   const [isShowErrorLog, setIsShowErrorLog] = useState(false);
   useEffect(()=>{},[imageRef?.current?.value]);
   const handleImage = async (e) => {
@@ -82,7 +81,7 @@ const Personal = () => {
                 image}
               className="w-[80px] h-[80px] rounded-[50px]"
               ref={imageRef}
-            ></img>
+              alt="avatar"></img>
             <div
               className="w-[136px]"
               onClick={() => {

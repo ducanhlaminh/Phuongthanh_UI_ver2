@@ -3,6 +3,9 @@ import image from "../assets/anonAvatar.png";
 import { useSelector } from "react-redux";
 import { IoIosArrowForward } from "react-icons/io";
 import SideNavigateMenu from "../components/SideNavigateMenu";
+import { bufferToBase64 } from "../ultils/common";
+import { generatePath } from "../ultils/fn";
+import { contact } from "../ultils/constant";
 
 const MenuNav = ({setShowMenuNav,showMenuNav}) => {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -16,7 +19,9 @@ const MenuNav = ({setShowMenuNav,showMenuNav}) => {
             className="w-full h-[74px] bg-lightGrey rounded-[8px] flex items-center p-[16px] gap-[16px]"
           >
             <div className="h-[42px] w-[42px]">
-              <img src={image} className=" h-full w-full object-fit rounded-[50%]" />
+              <img src={bufferToBase64(userCurrent?.avatar) ||
+                userCurrent?.avatarUrl ||
+                image} className=" h-full w-full object-fit rounded-[50%]" alt="avatar"/>
             </div>
             <div className="w-[55%]">
               <p className="font-semibold text-[20px] text-black">
@@ -31,13 +36,28 @@ const MenuNav = ({setShowMenuNav,showMenuNav}) => {
         <div className="bg-white py-[12px]">
             <p className="text-darkGrey font-medium text-sm pl-[16px] mb-[5px]">Gian hàng</p>
             {categories?.map((category,i)=>{
-                return <SideNavigateMenu key={i} title={category.valueVi}></SideNavigateMenu>
+                return  <Link
+                to={`/${generatePath(category.valueVi)}`}
+              >
+                <SideNavigateMenu key={i} title={category.valueVi} ></SideNavigateMenu>
+              </Link>
             })}
         </div>
 
         <div className="bg-white py-[12px]">
             <p className="text-darkGrey font-medium text-sm pl-[16px] mb-[5px]">Liên hệ</p>
-            <SideNavigateMenu title='Liên hệ với shop'/>
+            <a href={`https://zalo.me/${contact.zalo}`}
+              target="_blank">
+              <SideNavigateMenu title='Liên hệ Zalo'/>
+            </a>
+            <a href={`https://m.me/${contact.message}`}
+               target="_blank">
+              <SideNavigateMenu title='Liên hệ Message'/>
+            </a>
+            <a href={contact.email}
+              target="_blank">
+              <SideNavigateMenu title='Liên hệ Gmail'/>
+            </a>
         </div>
 
       </div>

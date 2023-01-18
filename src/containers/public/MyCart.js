@@ -94,8 +94,10 @@ function MyCart() {
             );
           })}
         </div>
-        <div className="min-h-[200px] bg-white px-[16px] pt-[30px]">
-          <p className="text-[14px] font-semibold">Thông tin hóa đơn</p>
+        <div className="min-h-[120px] bg-white px-[16px] pt-[30px]">
+          <p className="text-[14px] font-semibold">
+            Thông tin hóa đơn
+          </p>
 
           <div className="flex justify-between font-medium text-darkGrey text-[14px] mt-[10px]">
             <div className="w-1/2 ">
