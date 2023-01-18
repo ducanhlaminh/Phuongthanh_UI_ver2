@@ -11,15 +11,17 @@ import LongButton from "../../components/LongButton";
 import { RiDeleteBinLine } from "react-icons/ri";
 import ApiBill from "../../apis/bill";
 import Swal from "sweetalert2";
+import VoteProductPopup from "../../components/VoteProductPopup";
 
 const ItemOrder = () => {
   const [productBill, setProductBill] = useState();
   const [address, setAddress] = useState("");
   const [detailBill, setDetailBill] = useState();
-  console.log(productBill,detailBill);
+  console.log(productBill, detailBill);
   const [status, setStatus] = useState("");
   const [showPopupCancel, setShowPopupCancel] = useState(false);
-  const navigate=useNavigate();
+  const [isVoting, setIsVoting] = useState(false);
+  const navigate = useNavigate();
   const id = useParams().id;
   useEffect(() => {
     if (detailBill) {
@@ -90,22 +92,20 @@ const ItemOrder = () => {
                 className="border-[2px] border-[#b00020] text-[#b00020] rounded-[8px] px-[15px] cursor-pointer "
                 onClick={(e) => {
                   e.stopPropagation();
-                  const cancelBill=async () => {
-                    try{
-                      const res=await ApiBill.update({
-                        id:id,
-                        status:'cancel',
-                        addressId:1
-                      })
-                      if(res.status===0)
-                      {
-                        navigate('/ho-so/hoa-don-cua-toi');
+                  const cancelBill = async () => {
+                    try {
+                      const res = await ApiBill.update({
+                        id: id,
+                        status: "cancel",
+                        addressId: 1,
+                      });
+                      if (res.status === 0) {
+                        navigate("/ho-so/hoa-don-cua-toi");
                       }
+                    } catch (err) {
+                      Swal.fire("Thất bại", err.message, "error");
                     }
-                    catch(err){
-                      Swal.fire('Thất bại',err.message,'error');
-                    }
-                  }
+                  };
                   cancelBill();
                   setShowPopupCancel(false);
                 }}
@@ -117,7 +117,12 @@ const ItemOrder = () => {
         </div>
       )}
       {detailBill && (
-        <div className="w-screen h-screen md:hidden">
+        <div className="w-screen h-screen md:hidden relative">
+          <VoteProductPopup
+            isVoting={isVoting}
+            setIsVoting={setIsVoting}
+            products={productBill}
+          ></VoteProductPopup>
           <div className="text-primary ">
             <Header>
               <div className="flex justify-between w-[100%]">
@@ -216,8 +221,7 @@ const ItemOrder = () => {
             <div className="flex flex-col gap-[8px]">
               <div>
                 <p className="text-black font-semibold text-[14px]">
-                  {detailBill?.log &&
-                    detailBill?.log?.address?.name}
+                  {detailBill?.log && detailBill?.log?.address?.name}
                 </p>
               </div>
               <div>
@@ -227,43 +231,54 @@ const ItemOrder = () => {
               </div>
               <div>
                 <p className="text-darkGrey font-medium text-[14px]">
-                  {detailBill?.log &&
-                    detailBill?.log?.address?.phone}
+                  {detailBill?.log && detailBill?.log?.address?.phone}
                 </p>
               </div>
             </div>
 
             {detailBill?.status === "pending" && (
-            <div className="justify-end pr-[20px] flex">
-              <div
-                className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px] "
-                onClick={() => {
-                  setShowPopupCancel(true);
-                }}
-              >
-                <LongButton
-                  width="136px"
-                  height="38px"
-                  backgroundColor="white"
-                  color="#B00020"
-                  size="14px"
+              <div className="justify-end pr-[20px] flex mt-[16px]">
+                <div
+                  className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px] "
+                  onClick={() => {
+                    setShowPopupCancel(true);
+                  }}
                 >
-                  <RiDeleteBinLine />
-                  <p>Hủy đơn</p>
-                </LongButton>
+                  <LongButton
+                    width="136px"
+                    height="34px"
+                    backgroundColor="white"
+                    color="#B00020"
+                    size="14px"
+                  >
+                    <RiDeleteBinLine />
+                    <p>Hủy đơn</p>
+                  </LongButton>
+                </div>
               </div>
-            </div>
-          )}
+            )}
           </div>
 
-          {detailBill?.status === "pending" && (
+          {detailBill?.status === "completed" && (
             <>
               <div className="h-[66px]"></div>
 
               <ButtonFooterContainer>
-                <LongButton backgroundColor="#1B4B66" width="95%" color="white">
-                  <p>Đánh giá</p>
-                </LongButton>
+                <div
+                  className="w-[95%] h-full"
+                  onClick={() => {
+                    setIsVoting(true);
+                  }}
+                >
+                  <LongButton
+                    backgroundColor="#1B4B66"
+                    width="100%"
+                    height="100%"
+                    color="white"
+                  >
+                    <p>Đánh giá</p>
+                  </LongButton>
+                </div>
               </ButtonFooterContainer>
             </>
           )}
@@ -273,6 +288,12 @@ const ItemOrder = () => {
       {/* Desktop */}
       {detailBill && (
         <div className="hidden md:block mt-[36px]">
+          <VoteProductPopup
+            isVoting={isVoting}
+            setIsVoting={setIsVoting}
+            products={productBill}
+          ></VoteProductPopup>
+
           <div className="text-[26px] font-semibold text-primary pl-[24px]">
             <p>
               Đơn hàng{" "}
@@ -383,9 +404,7 @@ const ItemOrder = () => {
               <div className="flex flex-col gap-[8px]">
                 <div>
                   <p className="text-black font-medium md:text-[14px] lg:text-[16px]">
-                    {detailBill.log
-                      ? detailBill?.log?.address?.name
-                      : ""}
+                    {detailBill.log ? detailBill?.log?.address?.name : ""}
                   </p>
                 </div>
                 <div>
@@ -395,9 +414,7 @@ const ItemOrder = () => {
                 </div>
                 <div>
                   <p className="text-black font-medium md:text-[14px] lg:text-[16px]">
-                    {detailBill.log
-                      ? detailBill?.log?.address?.phone
-                      : ""}
+                    {detailBill.log ? detailBill?.log?.address?.phone : ""}
                   </p>
                 </div>
               </div>
@@ -405,7 +422,7 @@ const ItemOrder = () => {
           </div>
 
           {detailBill?.status === "pending" && (
-            <div className="justify-end pr-[20px] flex">
+            <div className="justify-end pr-[20px] flex mb-[20px]">
               <div
                 className="border-[2px] border-[#b00020] rounded-[8px] translate-y-[2px] "
                 onClick={() => {
@@ -421,6 +438,26 @@ const ItemOrder = () => {
                 >
                   <RiDeleteBinLine />
                   <p>Hủy đơn</p>
+                </LongButton>
+              </div>
+            </div>
+          )}
+          {detailBill?.status === "completed" && (
+            <div className="justify-end pr-[20px] flex mb-[20px]">
+              <div
+                className=" text-white bg-primary rounded-[8px] translate-y-[2px] "
+                onClick={() => {
+                  setIsVoting(true);
+                }}
+              >
+                <LongButton
+                  width="136px"
+                  height="38px"
+                  backgroundColor=""
+                  color="white"
+                  size="14px"
+                >
+                  <p>Đánh giá</p>
                 </LongButton>
               </div>
             </div>
