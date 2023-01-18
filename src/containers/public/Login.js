@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import bgLogin from '../../assets/bg-login.jpg';
 import { Button2 } from "../../components";
-import { InputFieldWithValidate,InputFieldWithValidatePassword } from '../../components/InputCtWidth';
-import ApiChangePassword from "../../apis/changePassword";
-import Swal from "sweetalert2";
+import { InputFieldWithValidate } from '../../components/InputCtWidth';
 import * as actions from "../../store/actions";
 
 const actionTpyeLogin = "Đăng nhập"
 const actionTpyeSigup = "Đăng ký"
 const actionTypeForgotPassword = "Quên mật khẩu ?"
-const actionTypeChangePassword = "Đổi mật khẩu"
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -28,22 +25,10 @@ const Login = () => {
   const [validConfirmPassword, setValidConfirmPassword] = useState('')
   const { isLoggedIn, msg } = useSelector((state) => state.auth);
 
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-
   useEffect(() => {
     setIsLoading(false)
     isLoggedIn && navigate("/");
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    let emailForget = urlParams.get('email')
-    let tokenForget = urlParams.get('token')
-    if(tokenForget&&emailForget){
-      setActionType(actionTypeChangePassword)
-      setEmail(emailForget)
-    }
-  },[])
 
   useEffect(() => {
     if(msg === "Email/Phone chưa đăng ký !" ||
@@ -86,32 +71,8 @@ const Login = () => {
           }
           dispatch(actions.register(payload))   
         }
-    }else if (actionType === actionTypeForgotPassword && isEmail){
-      const sentRequestForget = async () => {
-        const res = await ApiChangePassword.verifyForgetAccount({email})
-        if(res.status === 0 ){
-          Swal.fire("Thành công", res.message, "success")
-          setTimeout(() => window.location.href = 'https://mail.google.com/mail/u/0/#inbox',2400)
-        }else Swal.fire("Thất bại", res.message, "error")
-      }
-      sentRequestForget()
-    }else if (actionType === actionTypeChangePassword){
-      if(password.length < 6) setValidPassword("Mật khẩu tối thiểu 6 ký tự.")
-      if(confirmPassword !== password) setValidConfirmPassword('Mật khẩu không khớp.')
-      if(confirmPassword === password && password.length >= 6){
-        const handlCheckTokenAndCPW = async () => {
-          let resone = await ApiChangePassword.verifyForgetEmail({email,token:urlParams.get('token')})
-          let tokenVerifyEmailSuccess = resone.tokenVerifyEmailSuccess
-          let tokenTemp = resone.token
-          let res = await ApiChangePassword.updatePasswordNoLocalToken(tokenTemp,password,tokenVerifyEmailSuccess,)
-          console.log(res)
-          if(res.status === 200 ){
-            Swal.fire("Thành công", res.data?.message, "success")
-            setTimeout(() => window.location.href = '/auth',3000)
-          }else Swal.fire("Thất bại", res.message, "error")
-        }
-        handlCheckTokenAndCPW()
-      }
+    }else if (actionType === actionTypeForgotPassword){
+      
     }
   }
 
@@ -140,12 +101,9 @@ const Login = () => {
             <h3 className="font-medium text-[20px] lg:text-[34px] md:text-[26px] md:font-semibold text-center text-primary md:py-[24px]">
               {actionType}
             </h3>
-            {actionType === actionTypeChangePassword&&<h3 className="font-medium text-[16px] lg:text-[26px] md:text-[18px] md:font-semibold text-center ">
-              {email}
-            </h3>}
             <div>
               
-                {actionType !== actionTypeChangePassword&&<InputFieldWithValidate 
+                <InputFieldWithValidate 
                 lable={"Email"}
                 PLarge={true}
                 value={email}
@@ -153,7 +111,7 @@ const Login = () => {
                 type={"email"}
                 message={validEmail}
                 setMessage={setValidEmail}
-                />}
+                />
 
                 {actionType === actionTpyeSigup&&<InputFieldWithValidate 
                 lable={"Tên"}
@@ -165,16 +123,17 @@ const Login = () => {
                 setMessage={setValidName}
                 />}
 
-                {actionType !== actionTypeForgotPassword&&<InputFieldWithValidatePassword 
+                {actionType !== actionTypeForgotPassword&&<InputFieldWithValidate 
                 lable={"Mật khẩu"}
                 PLarge={true}
                 value={password}
                 setValue={setPassword}
+                type={"password"}
                 message={validPassword}
                 setMessage={setValidPassword}
                 />}
 
-                {(actionType === actionTpyeSigup || actionType === actionTypeChangePassword)&&<InputFieldWithValidate 
+                {actionType === actionTpyeSigup&&<InputFieldWithValidate 
                 lable={"Nhập lại mật khẩu"}
                 PLarge={true}
                 value={confirmPassword}
@@ -188,13 +147,13 @@ const Login = () => {
               <Button2 handleClick={() => handleButton1()} 
               text={actionType === actionTpyeLogin?actionTpyeLogin:
                 actionType ===actionTpyeSigup ? actionTpyeSigup:"Xác nhận email"}/>
-              {(actionType !== actionTypeForgotPassword && actionType !== actionTypeChangePassword)&&<Button2 handleClick={() => handleButton2()} 
+              {actionType !== actionTypeForgotPassword&&<Button2 handleClick={() => handleButton2()} 
               text={actionType === actionTpyeLogin?actionTpyeSigup:actionTpyeLogin}/>}
               <div 
               onClick={() => handleButton3()}
-              className={`text-[16px] text-primary cursor-pointer ${actionType===actionTypeChangePassword?'hidden':'block'}`}>
+              className="text-[16px] text-primary cursor-pointer">
               {actionType !== actionTypeForgotPassword ? actionTypeForgotPassword : "Đăng nhập."}
-              </div>
+            </div>
             </div>
           </div>
           <Link to={"/"} className="font-medium hover:underline text-white">

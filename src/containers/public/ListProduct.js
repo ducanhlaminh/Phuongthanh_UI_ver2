@@ -12,7 +12,6 @@ import { SelectCustomWidth } from "../../components/InputCtWidth";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import Pagination from "@mui/material/Pagination";
 import BreadCrumb from "../../components/BreadCrumb";
-import { numFormatter } from "../../ultils/fn";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract } = icons;
@@ -28,7 +27,7 @@ function ListProducts({ categoryData, otherData }) {
   const { products, count } = useSelector((state) => {
     return state.products;
   });
-  const [isShowFilter, setIsShowFilter] = useState(false);
+  const [isShowFilter, setIsShowFilter] = useState(true);
   const minDistance = 10000000;
 
   // luu page hien tai
@@ -58,6 +57,12 @@ function ListProducts({ categoryData, otherData }) {
       setValue(newValue);
     }
   };
+  function numFormatter(num) {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(num); // if value < 1000, nothing to do
+  }
   useEffect(() => {
     setPage(1);
   }, [selectedFilter, categoryData, value2, selectedFilterSider]);

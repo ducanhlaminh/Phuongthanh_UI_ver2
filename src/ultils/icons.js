@@ -43,8 +43,6 @@ import {
   AiOutlinePlus,
   AiFillCheckCircle,
   AiOutlineUserAdd,
-  AiFillEyeInvisible,
-  AiFillEye
 } from "react-icons/ai";
 import {
   MdOutlinePhonelink,
@@ -111,8 +109,6 @@ const icons = {
   AiOutlineHeart,
   MdArrowBackIos,
   FiLogOut,
-  AiFillEyeInvisible,
-  AiFillEye,
 };
 
 export default icons;

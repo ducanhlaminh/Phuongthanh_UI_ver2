@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, userDispatch, useDispatch } from "react-redux";
 import LongButton from "../../components/LongButton";
 import * as actions from "../../store/actions";
-import { bufferToBase64 } from "../../ultils/common";
 const UserMobileNav = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,10 +19,7 @@ const UserMobileNav = () => {
         className="w-[90%] h-[112px] bg-lightGrey rounded-[8px] flex p-[16px] gap-[16px] ml-[16px]"
       >
         <div className="h-[80x] w-[80px]">
-          <img src={bufferToBase64(userCurrent?.avatar) ||
-                userCurrent?.avatarUrl ||
-                image} className=" h-full w-full rounded-[50%]" 
-                alt="avatar"/>
+          <img src={image} className=" h-full w-full rounded-[50%]" />
         </div>
         <div className="w-[55%]">
           <p className="font-semibold text-[20px] text-black">
@@ -58,7 +54,7 @@ const UserMobileNav = () => {
       <div className="flex justify-center mt-[8px]">
         {!isLoggedIn && (
           <div
-            onClick={() => navigate("/auth", { state: { flag: false } })}
+            onClick={() => navigate("/login", { state: { flag: false } })}
             className="w-[95%]"
           >
             <LongButton

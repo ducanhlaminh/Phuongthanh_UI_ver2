@@ -156,7 +156,6 @@ const CartItem = ({
                 onClick={() => {
                   setIdDelete(cartID);
                   setOpenAlertPopup(true);
-                  setIsChecked(false);
                 }}
                 className=" text-red border-b-[1px] ml-[24px] font-semibold lg:text-[14px] md:text-[12px] border-red pb-5 w-fit cursor-pointer"
               >

@@ -11,7 +11,7 @@ const {
 } = icons;
 
 export const path = {
-  LOGIN: "/auth",
+  LOGIN: "/login",
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
@@ -56,7 +56,7 @@ export const vi_uf8 = {
   phone2: "01253322599",
   email: "phuongthanhshophn@gmail.com",
   facebook: "Phuong Thanh's Shop",
-  zalo: "0813672409",
+  zalo: "01253322599",
   instagram: "pthanh@shop102",
 };
 export const constant_page = {
@@ -92,16 +92,8 @@ export const filtersBill = [
 ];
 export const filtersSider = [
   {
-    valueVi: "10-15 triệu",
+    valueVi: "Còn hàng",
     code: 1,
-  },
-  {
-    valueVi: "15-20 triệu",
-    code: 2,
-  },
-  {
-    valueVi: "trên 20 triệu",
-    code: 3,
   },
 ];
 export const adminMenu = [
@@ -142,9 +134,3 @@ export const adminMenu = [
     icon: <IoIosCreate size={24} />,
   },
 ];
-
-export var contact = {
-  zalo: "0813672409",
-  message: "anh.tuan.020302",
-  email: "https://mail.google.com/mail/u/0/?pli=1#inbox?compose=GTvVlcSMVkvTCgCnSDNwwtjtBsTnqMSjXMpdnrbwzjXkQwRJZMwlcnXtccZRDHtQFZSfDcstwQlKg",
-}

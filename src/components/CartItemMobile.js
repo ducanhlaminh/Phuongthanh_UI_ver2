@@ -31,41 +31,41 @@ const CartItemMobile = ({
     });
   };
   getIdUnique();
-  
-    useEffect(() => setPrice(PriceCaculator(product,variants)),[])
-    useEffect(() => {
-      let varName=''
-      variants.map((variant) => {
-        varName += `${variant.variant}: ${variant.value}. `
-      })
-      let index = checkedList.indexOf(idUnique)
-      let billData = {
-        pid: id,
-        qty: quanityProduct,
-        variant: varName,
-        cost: price,
-        cid: cartID
+
+  useEffect(() => setPrice(PriceCaculator(product, variants)), []);
+  useEffect(() => {
+    let varName = "";
+    variants.map((variant) => {
+      varName += `${variant.variant}: ${variant.value}. `;
+    });
+    let index = checkedList.indexOf(idUnique);
+    let billData = {
+      pid: id,
+      qty: quanityProduct,
+      variant: varName,
+      cost: price,
+      cid: cartID,
+    };
+    if (isChecked) {
+      if (index !== -1) {
+        quanityList.splice(index, 1, quanityProduct);
+        let data = quanityList;
+        setQuanityList([...data]);
+        dataBill.splice(index, 1, billData);
+        let tempData = dataBill;
+        setDataBill([...tempData]);
+      } else {
+        setQuanityList((prev) => [...prev, quanityProduct]);
+        setCheckedList((prev) => [...prev, idUnique]);
+        setDataBill((prev) => [...prev, billData]);
       }
-      if(isChecked) {
-        if(index !== -1){
-          quanityList.splice(index,1,quanityProduct)
-          let data = quanityList
-          setQuanityList([...data])
-          dataBill.splice(index,1,billData)
-          let tempData = dataBill
-          setDataBill([...tempData])
-        }else{
-          setQuanityList(prev => [...prev,quanityProduct])
-          setCheckedList(prev => [...prev,idUnique])
-          setDataBill(prev => [...prev,billData])
-        }
-      }else if(!isChecked){
-        if(index!==-1){
-          quanityList.splice(index,1)
-          dataBill.splice(index,1)
-          setCheckedList(prev => prev.filter(id => id !== idUnique))
-        }
+    } else if (!isChecked) {
+      if (index !== -1) {
+        quanityList.splice(index, 1);
+        dataBill.splice(index, 1);
+        setCheckedList((prev) => prev.filter((id) => id !== idUnique));
       }
+    }
   }, [quanityProduct, isChecked]);
 
   return (
@@ -137,9 +137,8 @@ const CartItemMobile = ({
             </div>
             <div
               onClick={() => {
-                setIdDelete(cartID)
-                setOpenAlertPopup(true)
-                setIsChecked(false)
+                setIdDelete(cartID);
+                setOpenAlertPopup(true);
               }}
               className="w-1/2 flex justify-center items-center "
             >
@@ -150,7 +149,5 @@ const CartItemMobile = ({
       )}
     </>
   );
-}
-
+};
 export default CartItemMobile;
-
