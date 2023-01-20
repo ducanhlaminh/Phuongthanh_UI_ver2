@@ -15,7 +15,7 @@ import avatar from "../assets/avatar-anon.png";
 import { filters } from "../ultils/constant";
 import { Slider } from "@mui/material";
 import { apiGetProductsOfBill2 } from "../apis/bill2";
-import StatusBill from "./StatusBill";
+import StatusTag from "./StatusTag";
 import StepperBill from "./StepperBill";
 import { NotiStatus } from "./UploadStatus";
 import React from "react";
@@ -477,6 +477,7 @@ export const EditProduct = ({
   setContentUpload,
   setShowUpload,
 }) => {
+  console.log(product);
   const dispatch = useDispatch();
   const [productName, setProductName] = useState(product.name);
   const [selectValue, setSelectValue] = useState(category);
@@ -605,18 +606,11 @@ export const Profile = ({
   contentUpload,
 }) => {
   const steps = ["pending", "shipping", "completed", "cancel"];
-  const [productsBill, setProductBill] = useState([]);
-  const numActive = steps.findIndex((item) => billCurrent.status === item);
+  const [productsBill, setProductBill] = useState(billCurrent.log[0]);
+  const numActive = steps.findIndex((item) => billCurrent?.status === item);
   const [activeStep, setActiveStep] = useState(numActive);
-  useEffect(() => {
-    const fetchProductsBill = async () => {
-      const res = await apiGetProductsOfBill2(billCurrent.id);
-      setProductBill(res.billData);
-    };
-    fetchProductsBill();
-  }, [contentUpload]);
-  const addressBill = JSON.parse(billCurrent.addressData.address);
-  const address = `${addressBill.province}`;
+  const addressBill = (billCurrent?.addressData.address);
+  const address = `${addressBill?.province}`;
   return (
     <>
       <div
@@ -698,20 +692,21 @@ export const Profile = ({
               <hr />
 
               <div className="h-[85%] overflow-auto relative">
-                {productsBill?.map((product) => {
+                {productsBill?.products?.map((product) => {
                   return (
                     <div className="h-[25%] flex m-3 border-b-2">
                       <div className="w-[80%] flex h-full ">
                         <div className="w-1/3 ">
                           <img
-                            src={product.products?.mainImage}
+                            src={product.mainImage
+                            }
                             alt=""
                             className="object-cover h-full w-full rounded-xl"
                           />
                         </div>
 
                         <div className="flex flex-auto flex-col justify-between pl-5">
-                          <b className="text-sm">{product?.products?.name}</b>
+                          <b className="text-sm">{product?.name}</b>
                           <p className="text-xs">Ngày đặt: 12/08/2022</p>
                         </div>
                       </div>
@@ -737,7 +732,7 @@ export const Profile = ({
                 <div className="absolute bottom-0 h-[70px] z-200 bg-gray-200 w-full flex  justify-between p-3">
                   {/* Trang thai don hang */}
 
-                  <StatusBill status={billCurrent.status} />
+                  <StatusTag status={billCurrent.status} />
                   {/* Gia ship , Total */}
                   <div className="">
                     <div className="flex flex-col items-end justify-between">
@@ -811,11 +806,12 @@ export const FilterProductsMobile = ({
           </div>
           <hr />
           <div className="flex flex-col justify-around h-[85%] px-5">
-            {filters.map((filter) => {
+            {filters.map((filter, i) => {
               const value = JSON.stringify(filter);
               return (
                 <div className="" key={filter.valueVi}>
                   <input
+                    id={`option-sort--${i}`}
                     type="radio"
                     value={value}
                     onChange={(e) => {
@@ -823,7 +819,7 @@ export const FilterProductsMobile = ({
                     }}
                     checked={JSON.stringify(selectedFilter) === value}
                   />
-                  <label className="ml-5" htmlFor="">
+                  <label className="ml-5" htmlFor={`option-sort--${i}`}>
                     {filter.valueVi}
                   </label>
                 </div>
@@ -859,10 +855,10 @@ export const FilterProductsMobile = ({
               onChange={handleChange}
               onChangeCommitted={handleChange2}
               valueLabelDisplay="on"
-              step={10000000}
+              step={100000}
               marks
               disableSwap
-              max={100000000}
+              max={1500000}
               valueLabelFormat={(value) => <div>{numFormatter(value)}</div>}
             />
           </div>

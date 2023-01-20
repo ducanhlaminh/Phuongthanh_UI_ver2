@@ -57,15 +57,15 @@ const Bill = () => {
       };
       fetchProducts();
     } catch (error) {}
-  }, [showUpload, selectFilter, selectedStatus]);
+  }, [contentUpload, selectFilter, selectedStatus]);
 
   const renderBillsList = bills?.map((bill, i) => {
-    const address = JSON.parse(bill.addressData.address);
+    const address = bill.addressData.address;
     return (
       <>
         <div
           key={bill?.id}
-          className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full rounded-lg h-[102px]  text-xl "
+          className="flex items-center bg-white [&:not(:last-child)]:mb-[10px] w-full rounded-lg h-[102px] border-b-2 text-xl "
         >
           <div className="w-[5%] flex justify-center">{i + 1}</div>
 
@@ -92,6 +92,7 @@ const Bill = () => {
               width="80%"
               height="3"
               onClick={() => {
+                
                 setSelectedBill(bill);
                 setIsShow(true);
               }}
@@ -116,9 +117,92 @@ const Bill = () => {
         />
       )}
 
-      <h1 className="text-3xl">Hóa Đơn</h1>
+      
 
-      <div className="flex items-center bg-[#d9d9d9] rounded justify-between p-5 ">
+      <div className="w-full flex flex-col h-full bg-white rounded p-4">
+      {/* <h1 className="text-3xl">Hóa Đơn</h1> */}
+      
+      <div className="flex items-center rounded p-3 justify-between ">
+          {showUpload && (
+            <NotiStatus
+            active={contentUpload?.status === 0 ? "success" : "error"}
+            setActive={setShowUpload}
+            content={
+              contentUpload?.status === 0
+                ? "Thay đổi trạng thái đơn hàng thành công"
+                : "Có lỗi xảy ra trong quá trình xử lí"
+            }
+          />
+          )}
+          <div className="w-[30%] pl-[30px] flex items-center justify-around text-xl ">
+      
+          </div>
+          <div className="flex w-[50%] ">
+            <div className=" w-[40%] flex items-center">
+            </div>
+            <div className="flex items-center w-[30%] ">
+            <SelectCustomWidth
+              widthP="full"
+              options={filtersBill}
+              selectValue={selectFilter}
+              setSelectValue={setSelectFilter}
+              onChange={setBills}
+            />
+            </div>
+            <div className="flex items-center w-[30%] ">
+            <SelectCustomWidth
+              widthP="full"
+              options={statusFilter}
+              selectValue={selectedStatus}
+              setSelectValue={setSelectedStatus}
+              onChange={setBills}
+            />
+            </div>
+          </div>
+        </div>
+
+
+
+        <div className=" pt-[10px] pl-[10px] pr-[10px] mt-[20px] rounded-xl flex flex-col flex-auto">
+          <div className="flex h-[50px] border-y-2 items-center text-gray-500 mb-2">
+            <div className="w-[5%] flex justify-center font-bold text-2xl">
+            ID
+          </div>
+          <div className="w-[20%] flex justify-center font-bold text-xl">
+            Tên người nhận
+          </div>
+          <div className="w-[20%] flex justify-center font-bold text-xl">
+            Địa chỉ
+          </div>
+          <div className="w-[15%] flex justify-center font-bold text-xl">
+            Số điện thoại
+          </div>
+          <div className="w-[20%] flex justify-center font-bold text-xl">
+            Tổng hóa đơn
+          </div>
+          <div className="w-[20%] flex justify-center font-bold text-xl">
+            Trạng thái
+          </div>
+          </div>
+          <div className="h-[90%]  overflow-auto relative scroll-smooth">
+            {bills === null ? <LoadingPageDesktop /> : renderBillsList}
+          </div>
+          <div className="flex justify-center w-full min-h-[50px] flex-auto p-2 relative">
+            <div className="absolute bottom-0">
+              <Pagination
+                count={Math.ceil(count / 7)}
+                color="primary"
+                size="large"
+                page={page}
+                onChange={handleChangePage}
+              />
+            </div>
+          </div>
+        </div>
+        
+      </div>
+        
+      {/* <div className="flex items-center bg-[#d9d9d9] rounded justify-between p-5 ">
         {showUpload && (
           <NotiStatus
             active={contentUpload?.status === 0 ? "success" : "error"}
@@ -131,12 +215,6 @@ const Bill = () => {
           />
         )}
         <div className="flex justify-between w-full h-[40px]">
-          {/* <div className="flex items-center w-[50%] ">
-            <InputCustomWidth widthP="full" />
-          </div>
-          <div className="w-[10%] h-full flex items-center">
-            <FiSearch className="ml-2 cursor-pointer text-2xl hover:text-gray-500" />
-          </div> */}
           <div className="w-[30%] ">
             <SelectCustomWidth
               widthP="full"
@@ -191,7 +269,7 @@ const Bill = () => {
             onChange={handleChangePage}
           />
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
