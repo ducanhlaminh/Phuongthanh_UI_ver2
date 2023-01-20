@@ -606,7 +606,7 @@ export const Profile = ({
   contentUpload,
 }) => {
   const steps = ["pending", "shipping", "completed", "cancel"];
-  const [productsBill, setProductBill] = useState(billCurrent);
+  const [productsBill, setProductBill] = useState(billCurrent.log?.products);
   const numActive = steps.findIndex((item) => billCurrent?.status === item);
   const [activeStep, setActiveStep] = useState(numActive);
   const addressBill = JSON.parse(billCurrent?.addressData.address);

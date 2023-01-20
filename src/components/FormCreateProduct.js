@@ -37,8 +37,6 @@ const FormCreateProduct = ({
   contentUpload,
   setShowUpload,
   setContentUpload,
-  imageUrl,
-  type,
   handleEdit,
 }) => {
   const imageMainRef = useRef();
@@ -60,32 +58,35 @@ const FormCreateProduct = ({
   };
 
   const validateForm = () => {
+    console.log(productName , price , image.imageMain , shortDes , selectValue);
     if (productName && price && image.imageMain && shortDes && selectValue) {
+      console.log(productName , price , image.imageMain , shortDes , selectValue);
       return true;
     } else return false;
   };
+
   const handleImageMain = (e) => {
     setImage((prev) => ({
       ...prev,
-      imageMain: e.target.files[0],
+      imageMain: URL.createObjectURL(e.target.files[0]),
     }));
   };
   const handleImage1 = (e) => {
     setImage((prev) => ({
       ...prev,
-      image1: e.target.files[0],
+      image1: URL.createObjectURL(e.target.files[0]),
     }));
   };
   const handleImage2 = (e) => {
     setImage((prev) => ({
       ...prev,
-      image2: e.target.files[0],
+      image2: URL.createObjectURL(e.target.files[0]),
     }));
   };
   const handleImage3 = (e) => {
     setImage((prev) => ({
       ...prev,
-      image3: e.target.files[0],
+      image3: URL.createObjectURL(e.target.files[0]),
     }));
   };
 
@@ -215,9 +216,9 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px] flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => imageMainRef.current.click()}
               >
-                {imageUrl.imageMainUrl ? (
+                {image.imageMain ? (
                   <img
-                    src={imageUrl.imageMainUrl}
+                    src={image.imageMain}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -241,11 +242,12 @@ const FormCreateProduct = ({
               </label>
               <div
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
-                onClick={() => imageMainRef.current.click()}
+                onClick={() => image1Ref.current.click()}
               >
-                {imageUrl.image1Url ? (
+
+                {image.image1 ? (
                   <img
-                    src={imageUrl.image1Url}
+                    src={image.image1}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -269,9 +271,9 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => image2Ref.current.click()}
               >
-                {imageUrl.image2Url ? (
+                {image.image2 ? (
                   <img
-                    src={imageUrl.image2Url}
+                    src={image.image2}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -295,9 +297,9 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => image3Ref.current.click()}
               >
-                {imageUrl.image2Url ? (
+                {image.image3 ? (
                   <img
-                    src={imageUrl.image2Url}
+                    src={image.image3}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -344,11 +346,11 @@ const FormCreateProduct = ({
           height="2"
           onClick={() => {
             if (validateForm()) {
-              if (type === "create") {
-                return handleSubmit();
-              } else {
-                return handleEdit();
-              }
+              
+                 handleSubmit();
+              // } else {
+              //   return handleEdit();
+              // }
             } else {
               console.log(selectValue);
               setShowUpload(true);

@@ -16,7 +16,8 @@ const ItemProduct = ({
   setIsDelete,
   setSelectedDelete,
   setIsShowEdit,
-  isDelete,setSelectProductEit
+  isDelete,
+  setSelectProductEdit
 }) => {
   const navigate=useNavigate();
   return (
@@ -101,8 +102,9 @@ const ItemProduct = ({
               <div
                 className="h-1/2 w-full flex items-center justify-center cursor-pointer hover:bg-slate-400 hover:text-white"
                 onClick={() => {
+
+                  setSelectProductEdit(product);
                   navigate('/system/manage-product/edit-product');
-                  setSelectProductEit(product);
                 }}
               >
                 <span>Sửa</span>

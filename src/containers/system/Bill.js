@@ -60,7 +60,7 @@ const Bill = () => {
   }, [showUpload, selectFilter, selectedStatus]);
 
   const renderBillsList = bills?.map((bill, i) => {
-    const address = JSON.parse(bill.addressData.address);
+    const address = bill.addressData.address;
     return (
       <>
         <div

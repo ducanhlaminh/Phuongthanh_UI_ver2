@@ -5,28 +5,28 @@ import { useSelector } from "react-redux";
 import ApiProduct from "../../apis/product";
 import Preview from "../../components/Preview";
 import FormCreateProduct from "../../components/FormCreateProduct";
-const EditProduct = ({selectProductEdit}) => {
-  const product = selectProductEdit
-  const [productName, setProductName] = useState(product?.name||"");
-  const [selectValue, setSelectValue] = useState(product?.categoryData?.code||"");
-  const [price, setPrice] = useState(product?.costPerUnit||"");
+const EditProduct = ({ selectProductEdit }) => {
+  const product = selectProductEdit;
+  const [productName, setProductName] = useState(product?.name || "");
+  const [selectValue, setSelectValue] = useState(
+    product?.categoryData?.code || ""
+  );
+  const [price, setPrice] = useState(product?.costPerUnit || "");
   const [tags, setTags] = useState([]);
-  const [shortDes, setShortDes] = useState(product?.description||"");
-  const [image, setImage] = useState({
-    imageMain: "",
-    image1: "",
-    image2: "",
-    image3: "",
-  });
-  const [imageUrl, setImageUrl] = useState(product?{imageMainUrl:product?.mainImage,image1Url:product?.image1,image2Url:product?.image2,image3Url:product?.image3}:{
-    imageMainUrl: "",
-    image1Url: "",
-    image2Url: "",
-    image3Url: "",
-  });
-  const [variants, setVariants] = useState(product?.variants||[]);
-  const [variantValue, setVariantValue] = useState(product?.name||{ name: "", value: [] });
-  const [variantChild, setVariantChild] = useState(product?.name||{ type: "", price: "" });
+  const [shortDes, setShortDes] = useState(product?.description || "");
+  const [image, setImage] = useState(
+    product
+      ? { imageMain: product.mainImage, image1: product.image1, image2: product.image2, image3: product.image3 }
+      : {
+          imageMain: "",
+          image1: "",
+          image2: "",
+          image3: "",
+        }
+  );
+  const [variants, setVariants] = useState(product?.variants || []);
+  const [variantValue, setVariantValue] = useState({ name: "", value: [] });
+  const [variantChild, setVariantChild] = useState({ type: "", price: "" });
   const { categories } = useSelector((state) => state.app);
   const [showUpload, setShowUpload] = useState(false);
   const [contentUpload, setContentUpload] = useState();
@@ -57,28 +57,7 @@ const EditProduct = ({selectProductEdit}) => {
   useEffect(() => {
     categories.length > 0 && setSelectValue(categories[0].code);
   }, [categories]);
-  useEffect(() => {
-    if (typeof image.imageMain !== "string")
-      setImageUrl((prev) => ({
-        ...prev,
-        imageMainUrl: URL.createObjectURL(image.imageMain),
-      }));
-    if (typeof image.image1 !== "string")
-      setImageUrl((prev) => ({
-        ...prev,
-        image1Url: URL.createObjectURL(image.image1),
-      }));
-    if (typeof image.image2 !== "string")
-      setImageUrl((prev) => ({
-        ...prev,
-        image2Url: URL.createObjectURL(image.image2),
-      }));
-    if (typeof image.image3 !== "string")
-      setImageUrl((prev) => ({
-        ...prev,
-        image3Url: URL.createObjectURL(image.image3),
-      }));
-  }, [image]);
+  useEffect(() => {}, [image]);
 
   return (
     <>
@@ -107,8 +86,6 @@ const EditProduct = ({selectProductEdit}) => {
         showUpload={showUpload}
         setShowUpload={setShowUpload}
         setContentUpload={setContentUpload}
-        imageUrl={imageUrl}
-        type={"create"}
       />
       {/* <Preview /> */}
     </>
