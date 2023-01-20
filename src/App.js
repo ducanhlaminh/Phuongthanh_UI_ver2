@@ -55,6 +55,7 @@ function App() {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const chatBotRef = useRef();
   useEffect(() => {
     dispatch(fetchWishlist());
@@ -154,7 +155,7 @@ function App() {
           <Route path={path.UPDATE_PROFILE} element={<UpdateProfile />} />
         </Route>
       </Routes>
-      <div>
+      {window.location.href.split('/')[window.location.href.split('/').length-1]!=='login' &&<div>
         <div
           className={`fixed z-10 md:right-[0px] md:top-1/2 ${
             window.innerWidth < 768
@@ -196,7 +197,7 @@ function App() {
             setHideChatBot={setHideChatBot}
           />
         </div>
-      </div>
+      </div>}
 
       <div
         className={`fixed ${
