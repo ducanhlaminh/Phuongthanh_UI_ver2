@@ -606,10 +606,10 @@ export const Profile = ({
   contentUpload,
 }) => {
   const steps = ["pending", "shipping", "completed", "cancel"];
-  const [productsBill, setProductBill] = useState(billCurrent);
+  const [productsBill, setProductBill] = useState(billCurrent.log[0]);
   const numActive = steps.findIndex((item) => billCurrent?.status === item);
   const [activeStep, setActiveStep] = useState(numActive);
-  const addressBill = JSON.parse(billCurrent?.addressData.address);
+  const addressBill = (billCurrent?.addressData.address);
   const address = `${addressBill?.province}`;
   return (
     <>
@@ -692,20 +692,21 @@ export const Profile = ({
               <hr />
 
               <div className="h-[85%] overflow-auto relative">
-                {productsBill?.map((product) => {
+                {productsBill?.products?.map((product) => {
                   return (
                     <div className="h-[25%] flex m-3 border-b-2">
                       <div className="w-[80%] flex h-full ">
                         <div className="w-1/3 ">
                           <img
-                            src={product.products?.mainImage}
+                            src={product.mainImage
+                            }
                             alt=""
                             className="object-cover h-full w-full rounded-xl"
                           />
                         </div>
 
                         <div className="flex flex-auto flex-col justify-between pl-5">
-                          <b className="text-sm">{product?.products?.name}</b>
+                          <b className="text-sm">{product?.name}</b>
                           <p className="text-xs">Ngày đặt: 12/08/2022</p>
                         </div>
                       </div>

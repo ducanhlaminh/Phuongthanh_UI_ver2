@@ -13,7 +13,7 @@ import Pagination from "@mui/material/Pagination";
 import { NotiStatus } from "../../components/UploadStatus";
 import { LoadingPageDesktop } from "../../components/LoadingPage";
 import ItemProduct from "../../components/ItemProduct";
-const ManageProduct = ({setSelectProductEit,selectProductEit}) => {
+const ManageProduct = ({setSelectProductEdit}) => {
   const dispatch = useDispatch();
   const { categories, loading } = useSelector((state) => {
     return state.app;
@@ -79,7 +79,7 @@ const ManageProduct = ({setSelectProductEit,selectProductEit}) => {
         setSelectedDelete={setSelectedDelete}
         setIsShowEdit={setIsShowEdit}
         isDelete={isDelete}
-        setSelectProductEit={setSelectProductEit}
+        setSelectProductEdit={setSelectProductEdit}
       />
     );
   });

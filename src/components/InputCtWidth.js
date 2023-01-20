@@ -370,7 +370,7 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
-            disabled={variantValue?.value.length > 0 ? false : true}
+            disabled={variantValue?.value?.length > 0 ? false : true}
             onClick={() => {
               if (variantValue.value.length > 0) {
                 setVariants((prev) => [...prev, variantValue]);
