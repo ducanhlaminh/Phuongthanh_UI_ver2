@@ -23,67 +23,64 @@ const WishList = () => {
     };
     fetchWishlist();
   }, []);
-
   return (
     <>
-      {wishlist && (
-        <>
-          <div>
-            <div className="md:hidden">
-              <Header>
-                <div className="flex text-[14px] text-primary items-center font-[600] gap-[20px]">
-                  <MdOutlineArrowBackIosNew size="24" />
-                  <div className="text-[20px]">Yêu thích</div>
-                </div>
-              </Header>
-            </div>
-
-            {wishlist?.length === 0 && (
-              <div className="flex flex-col items-center justify-center px-[35px] mt-[80px]">
-                <img src={noWishlist} />
-                <p className="text-black text-[28px] font-[700] mt-[30px] mb-[16px]">
-                  Hmmm...
-                </p>
-                <p className="text-center text-black font-[500] text-[14px]">
-                  Có vẻ như bạn chưa thêm sản phẩm nào danh sách yêu thích
-                </p>
+      <>
+        <div>
+          <div className="md:hidden">
+            <Header>
+              <div className="flex text-[14px] text-primary items-center font-[600] gap-[20px]">
+                <MdOutlineArrowBackIosNew size="24" />
+                <div className="text-[20px]">Yêu thích</div>
               </div>
-            )}
-            <div className="flex flex-wrap gap-[22px] md:gap-[16px] px-[16px] justify-center md:px-0 md:justify-start">
-              {wishlist?.map((item) => (
-                <div className="md:w-[31%] lg:w-[32%] md:flex md:justify-start">
-                  <ProductItem
-                    votedCounter={item.productData.votedCounter}
-                    soldCounter={item.productData.soldCounter}
-                    key={item.productData.id}
-                    productId={item.productData.id}
-                    image={item.productData?.mainImage}
-                    title={item.productData?.name}
-                    description={item.productData?.description}
-                    cost={item.productData?.costPerUnit}
-                  />
-                </div>
-              ))}
-            </div>
-            {wishlist?.length === 0 && (
-              <div className="md:hidden w-full h-full">
-                <ButtonFooterContainer>
-                  <Link to="/" className="w-[95%]">
-                    <LongButton
-                      width="100%"
-                      height="44px"
-                      backgroundColor="#1B4B66"
-                      color="white"
-                    >
-                      <p>Trở về trang chủ</p>
-                    </LongButton>
-                  </Link>
-                </ButtonFooterContainer>
-              </div>
-            )}
+            </Header>
           </div>
-        </>
-      )}
+
+          {!wishlist && (
+            <div className="flex flex-col items-center justify-center px-[35px] mt-[80px]">
+              <img src={noWishlist} />
+              <p className="text-black text-[28px] font-[700] mt-[30px] mb-[16px]">
+                Hmmm...
+              </p>
+              <p className="text-center text-black font-[500] text-[14px]">
+                Có vẻ như bạn chưa thêm sản phẩm nào danh sách yêu thích
+              </p>
+            </div>
+          )}
+          <div className="flex flex-wrap gap-[22px] md:gap-[16px] px-[16px] justify-center md:px-0 md:justify-start">
+            {wishlist?.map((item) => (
+              <div className="md:w-[31%] lg:w-[32%] md:flex md:justify-start">
+                <ProductItem
+                  votedCounter={item.productData.votedCounter}
+                  soldCounter={item.productData.soldCounter}
+                  key={item.productData.id}
+                  productId={item.productData.id}
+                  image={item.productData?.mainImage}
+                  title={item.productData?.name}
+                  description={item.productData?.description}
+                  cost={item.productData?.costPerUnit}
+                />
+              </div>
+            ))}
+          </div>
+          {!wishlist && (
+            <div className="md:hidden w-full h-full">
+              <ButtonFooterContainer>
+                <Link to="/" className="w-[95%]">
+                  <LongButton
+                    width="100%"
+                    height="44px"
+                    backgroundColor="#1B4B66"
+                    color="white"
+                  >
+                    <p>Trở về trang chủ</p>
+                  </LongButton>
+                </Link>
+              </ButtonFooterContainer>
+            </div>
+          )}
+        </div>
+      </>
     </>
   );
 };

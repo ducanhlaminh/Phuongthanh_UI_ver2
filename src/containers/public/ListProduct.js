@@ -14,7 +14,8 @@ import Pagination from "@mui/material/Pagination";
 import BreadCrumb from "../../components/BreadCrumb";
 import Header from "../../components/Header";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract } = icons;
+import { numFormatter } from "../../ultils/fn";
+const { AiOutlinePlus, GrSubtract } = icons;
 
 function ListProducts({ categoryData, otherData }) {
   const dispatch = useDispatch();
@@ -27,8 +28,9 @@ function ListProducts({ categoryData, otherData }) {
   const { products, count } = useSelector((state) => {
     return state.products;
   });
-  const [isShowFilter, setIsShowFilter] = useState(true);
-  const minDistance = 10000000;
+
+  const [isShowFilter, setIsShowFilter] = useState(false);
+  const minDistance = 100000;
 
   // luu page hien tai
   const [page, setPage] = useState(1);

@@ -11,7 +11,7 @@ const {
 } = icons;
 
 export const path = {
-  LOGIN: "/login",
+  LOGIN: "/auth",
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
@@ -94,6 +94,16 @@ export const filtersSider = [
   {
     valueVi: "Còn hàng",
     code: 1,
+  },
+  {
+    valueVi: "500.000 - 1.000.000",
+    code: 2,
+    price:[500000,1000000]
+  },
+  {
+    valueVi: "1.000.000 - 1.500.000",
+    code: 3,
+    price:[1000000,1500000]
   },
 ];
 export const adminMenu = [

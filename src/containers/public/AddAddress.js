@@ -17,11 +17,11 @@ import { AiOutlinePlus } from "react-icons/ai";
 import Loading from "../../components/Loading";
 import Swal from "sweetalert2";
 import { deleteCache } from "../../apis/bill2";
-import {MdArrowBackIos} from "react-icons/md"
-import {useNavigate} from "react-router-dom"
+import { MdArrowBackIos } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 function AddAddress() {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const [status, setStatus] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [infoUser, setInfoUser] = useState({ name: "", phone: "" });
@@ -80,18 +80,23 @@ function AddAddress() {
     };
     getBillInfo();
   }, []);
-
+  const fetchFirstAddress = async () => {
+    const res = await ApiAddress.Get();
+    if (res.status === 0) {
+      let code = JSON.parse(res?.yourAddress[0]?.address).code;
+      setAddress(res?.yourAddress);
+      setSelectAddress({ id: res?.yourAddress[0]?.id, code: code });
+    }
+  };
+  const fetchAddress = async () => {
+    const res = await ApiAddress.Get();
+    if (res.status === 0) {
+      setAddress(res?.yourAddress);
+    }
+  };
   //GET ADDRESS
   useEffect(() => {
-    const fetchAddress = async () => {
-      const res = await ApiAddress.Get();
-      if (res.status === 0) {
-        let code = JSON.parse(res?.yourAddress[0]?.address).code;
-        setAddress(res?.yourAddress);
-        setSelectAddress({ id: res?.yourAddress[0]?.id, code: code });
-      }
-    };
-    fetchAddress();
+    fetchFirstAddress();
   }, [selected, showPopupAddress]);
 
   useEffect(() => {
@@ -184,7 +189,7 @@ function AddAddress() {
   const handleUpdateAddress = async () => {
     setIsLoading(true);
     const data = {
-      address: JSON.stringify( {
+      address: JSON.stringify({
         detail: detailAddress,
         province: provinceCur.ProvinceName,
         district: districtCur.DistrictName,
@@ -364,6 +369,7 @@ function AddAddress() {
                           };
                           deleteAddress();
                           setShowPopupAddress(false);
+                          fetchAddress();
                           setIsLoading(false);
                         }}
                       >
@@ -389,8 +395,6 @@ function AddAddress() {
           </div>
         </DownPopup>
 
-
-
         <div className="top-0 w-full bg-white min-h-[56px] flex items-center">
           <div className="min-h-[26px] w-[90%] flex text-2xl">
             <div
@@ -408,8 +412,6 @@ function AddAddress() {
             <div className=" h-full text-primary font-semibold">Thanh toán</div>
           </div>
         </div>
-
-
 
         <div className="bg-white">
           <div className="mx-[16px] mt-[16px]">
