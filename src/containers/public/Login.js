@@ -31,6 +31,7 @@ const Login = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
+  
   useEffect(() => {
     setIsLoading(false)
     isLoggedIn && navigate("/");
