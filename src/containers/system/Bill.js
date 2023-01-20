@@ -57,7 +57,7 @@ const Bill = () => {
       };
       fetchProducts();
     } catch (error) {}
-  }, [showUpload, selectFilter, selectedStatus]);
+  }, [contentUpload, selectFilter, selectedStatus]);
 
   const renderBillsList = bills?.map((bill, i) => {
     const address = bill.addressData.address;
