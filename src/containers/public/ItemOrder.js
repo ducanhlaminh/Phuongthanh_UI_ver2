@@ -166,6 +166,7 @@ const ItemOrder = () => {
                 {productBill?.map((product, i) => (
                   <BillItem
                     key={i}
+                    id={product?.product?.pid}
                     name={product?.products?.name}
                     image={product?.products?.mainImage}
                     qty={product?.qty}

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { PriceCaculator } from "../ultils/caculator";
 import { numFormatter } from "../ultils/fn";
+import { BiPlus, BiMinus } from "react-icons/bi";
 
 const CartItemMobile = ({
   product,
@@ -102,8 +103,23 @@ const CartItemMobile = ({
                     );
                   })}
                 </p>
-                <div className="flex bg-lightGrey p-1 w-fit items-center rounded-sm mt-[7px] mb-[9px]">
-                  <div className="flex justify-center items-center">
+                <div className="flex justify-around md:w-[73px] border-[1px] border-primary rounded-[8px] items-center lg:text-[14px] font-normal md:text-[12px] text-black px-[5px] py-[3px]">
+                    <BiMinus
+                      onClick={() => {
+                        if (quanityProduct > 1) {
+                          setQuanityProduct((prev) => prev - 1);
+                        }
+                      }}
+                    ></BiMinus>
+                    <p>{quanityProduct}</p>
+                    <BiPlus
+                      onClick={() => {
+                        setQuanityProduct((prev) => prev + 1);
+                      }}
+                    ></BiPlus>
+                  </div>
+                {/* <div className="flex bg-lightGrey p-1 w-fit items-center rounded-sm mt-[7px] mb-[9px]">
+                   <div className="flex justify-center items-center">
                     <span className="text-[12px]">Số lượng :</span>
                   </div>
                   <select
@@ -120,8 +136,11 @@ const CartItemMobile = ({
                     <option value={8}>8</option>
                     <option value={9}>9</option>
                     <option value={10}>10</option>
-                  </select>
-                </div>
+                  </select> 
+                   
+                  
+
+                </div> */}
                 <div className="text-black font-semibold text-[14px]">
                   <label htmlFor="">{`Giá : `}</label>
                   <span className="font-bold">
