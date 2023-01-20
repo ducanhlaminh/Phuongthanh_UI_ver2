@@ -7,7 +7,7 @@ import icons from "../ultils/icons";
     PLarge : large or small padding
     @Anhtd
 */
-const { AiOutlineClose } = icons;
+const { AiOutlineClose, AiFillEye, AiFillEyeInvisible } = icons;
 const InputCustomWidth = React.memo(
   ({
     lable,
@@ -556,6 +556,45 @@ const InputFieldWithValidate = React.memo(
     );
   }
 );
+const InputFieldWithValidatePassword = React.memo(
+  ({ lable, value, setValue, message, setMessage }) => {
+    const [isPassword, setIsPassword] = useState(true)
+    const handleClick = ()=> {
+      setIsPassword(!isPassword)
+    }
+    return (
+      <div className={`w-full relative h-full mb-[24px]`}>
+        <div onClick={() => handleClick()} className="absolute select-none top-[34px] cursor-pointer right-[18px]">
+          {isPassword?<AiFillEye size={24} color="#325d76" />: <AiFillEyeInvisible size={24} color="#325d76" />}
+        </div>
+        <label
+          htmlFor="field"
+          className={`font-bold text-l flex items-center text-primary`}
+        >
+          {lable}
+        </label>
+
+        <input
+          type={isPassword?'password':'text'}
+          className={`bg-[#F1F1F1] rounded-[8px] w-full h-[42px] px-[8px]`}
+          value={value}
+          required
+          onChange={(e) => {
+            setMessage(null);
+            setValue(e.target.value);
+          }}
+        />
+        <div
+          className={`${
+            message ? "visible" : "invisible"
+          }text-sm text-highlight`}
+        >
+          {message}
+        </div>
+      </div>
+    );
+  }
+);
 
 export {
   InputCustomWidth,
@@ -566,6 +605,7 @@ export {
   InputSearch,
   InputVariant,
   InputFieldWithValidate,
+  InputFieldWithValidatePassword,
   SelectPayment,
 };
 // setVariantValue((prev)=>({
