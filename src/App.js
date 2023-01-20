@@ -158,7 +158,7 @@ function App() {
           </Route>
         )}
       </Routes>
-      {window.location.href.split('/')[window.location.href.split('/').length-1]!=='login' &&<div>
+      {window.location.href.split('/')[window.location.href.split('/').length-1]!=='auth' &&<div>
         <div
           className={`fixed z-10 md:right-[0px] md:top-1/2 ${
             window.innerWidth < 768
