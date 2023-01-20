@@ -8,6 +8,7 @@ import * as actions from "../../store/actions";
 const UserMobileNav = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //hee
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
   return (
     <div className="h-screen">
