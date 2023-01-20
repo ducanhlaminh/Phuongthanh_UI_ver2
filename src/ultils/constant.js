@@ -21,13 +21,15 @@ export const path = {
   FEED: "/feed",
   CART: "cart/",
   GENERAL: "*",
-  EDIT_PRODUCT: "edit-product",
+  CREATE_PRODUCT: "create-product",
+  EDIT_PRODUCT: "manage-product/edit-product",
   MANAGE_PRODUCT: "manage-product",
   MANAGE_CATEGORY: "manage-category",
   USERMOBILENAV: "tai-khoan",
   CATEGORY: "gian-hang",
   USER: "user",
   BILL: "bill",
+  ANALYST: "thong-ke",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
   DISCOUNT: "giam-gia",
@@ -92,8 +94,9 @@ export const filtersBill = [
 ];
 export const filtersSider = [
   {
-    valueVi: "Còn hàng",
+    valueVi: "100.000 - 500.000",
     code: 1,
+    price:[100000,500000]
   },
   {
     valueVi: "500.000 - 1.000.000",
@@ -134,13 +137,13 @@ export const adminMenu = [
   },
   {
     name: "Thống kê",
-    path: "/system/analytics",
+    path: "/system/thong-ke",
     icon: <RiProductHuntLine size={24} />,
   },
   // { name: 'Quản lý thành viên', path: '/system/manage-user', icon: <FaUserEdit size={24} /> },
   {
     name: "Thêm sản phẩm",
-    path: "/system/edit-product",
+    path: "/system/create-product",
     icon: <IoIosCreate size={24} />,
   },
 ];

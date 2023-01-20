@@ -60,15 +60,17 @@ const StepperBill = ({
               height="2"
               onClick={async () => {
                 try {
-                  const res = await ApiBill.update({
+                  const data = {
                     id: billCur.id,
                     status: steps[isStep].status,
                     addressId: 1,
-                  });
+                  }
+                  const res = await ApiBill.update(data);
                   if (res.status === 0) {
+setContentUpload(res);
                     setShowUpload(true);
                     setIsShow(false);
-                    setContentUpload(res);
+                    
                   }
                 } catch (error) {}
               }}
