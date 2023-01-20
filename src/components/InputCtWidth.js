@@ -51,7 +51,7 @@ const InputCustomWidth = React.memo(
           className={` outline-none block w-full bg-lightGrey ${
             checkRequired === true && "border-[1px] border-rose-500"
           }  ${PLarge ? "pl-7 pr-12" : " px-7"} sm:text-sm 
-                  h-[42px]
+                rounded-md  ${lable ? "min-h-[42px]" : "h-full"}
                  `}
           value={value}
           placeholder={placeholder}
@@ -102,7 +102,7 @@ const SelectCustomWidth = React.memo(
           <select
             className="mr-3  focus:ring-indigo-500 
                 focus:border-indigo-500 block w-full pl-2 pr-2 sm:text-sm 
-                h-[42px] bg-lightGrey"
+                border-gray-300 rounded-md min-h-[42px]"
             onChange={(e) => {
               if (options[0]?.sort) {
                 onChange && onChange(null);
@@ -132,6 +132,7 @@ const SelectCustomWidth = React.memo(
               <option value="null">Chưa có lựa chọn</option>
             )}
           </select>
+          <BiSortAlt2 className="text-2xl" />
         </div>
       </div>
     );
@@ -370,7 +371,7 @@ const InputVariant = ({
             bgColor="#4ed14b"
             textColor="#fff"
             height="2"
-            disabled={variantValue?.value?.length > 0 ? false : true}
+            disabled={variantValue?.value.length > 0 ? false : true}
             onClick={() => {
               if (variantValue.value.length > 0) {
                 setVariants((prev) => [...prev, variantValue]);

@@ -36,7 +36,7 @@ const User = () => {
     return (
       <div
         key={i}
-        className="flex rounded w-full bg-white items-center h-[90px] [&:not(:first-child)]:mt-2 border-b-2"
+        className="flex rounded w-full bg-white items-center h-[90px] [&:not(:first-child)]:mt-2"
       >
         <div className="w-[5%] text-center">
           <span>{i + 1}</span>
@@ -61,6 +61,16 @@ const User = () => {
         </div>
         <div className="w-[30%] flex justify-around">
           <Button
+            text="Đi tới trang cá nhân"
+            bgColor="#4ed14b"
+            textColor="#fff"
+            width="40%"
+            onClick={async () => {
+              const res = await ApiBill.getUserbyAdmin(user?.id);
+              console.log(res);
+            }}
+          ></Button>
+          <Button
             text="Xóa"
             bgColor="#cf2b2b"
             textColor="#fff"
@@ -77,59 +87,62 @@ const User = () => {
   });
 
   return (
-    <>
-      <div className="w-full flex flex-col h-full bg-white rounded p-4">
-        {showUpload && (
-          <NotiStatus
-            active={contentUpload?.status === 0 ? "success" : "error"}
-            setActive={setShowUpload}
-            content={
-              contentUpload?.status === 0
-                ? "Xóa sản phẩm thành công"
-                : "Có lỗi xảy ra trong quá trình xử lí"
-            }
-          />
-        )}
-        <div className=" pt-[10px] pl-[10px] pr-[10px] mt-[20px] rounded-xl flex flex-col flex-auto">
-          <div className="flex h-[50px] border-y-2 items-center text-gray-500 mb-2">
-            <div className="w-[5%]  font-bold text-center">ID</div>
-            <div className="w-[15%] font-bold text-center">Ảnh đại diện</div>
-            <div className="w-[10%]  font-bold text-center">Tên người dùng</div>
-            <div className="w-[20%]  font-bold text-center">Số điện thoại</div>
-            <div className="w-[20%]  font-bold text-center">Email</div>
-          </div>
-          <div className="h-[90%]  overflow-auto relative scroll-smooth">
-            {isLoading ? <LoadingPageDesktop /> : renderUser}
-          </div>
-          <div className="flex justify-center w-full min-h-[50px] flex-auto p-2 relative">
-            <div className="absolute bottom-0">
-              <Pagination
-                count={Math.ceil(count / 7)}
-                color="primary"
-                size="large"
-                page={page}
-                onChange={handleChangePage}
-              />
-            </div>
-          </div>
-        </div>
-        {isDelete ? (
-          <PopupDeleteUser
-            setIsDelete={setIsDelete}
-            isDelete={isDelete}
-            user={userSelected}
-            contentUpload={contentUpload}
-            showUpload={showUpload}
-            setShowUpload={setShowUpload}
-            setContentUpload={setContentUpload}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-          />
-        ) : (
-          ""
-        )}
+    <div>
+      <h1 className="text-3xl">Quản lí người dùng</h1>
+      {showUpload && (
+        <NotiStatus
+          active={contentUpload?.status === 0 ? "success" : "error"}
+          setActive={setShowUpload}
+          content={
+            contentUpload?.status === 0
+              ? "Xóa sản phẩm thành công"
+              : "Có lỗi xảy ra trong quá trình xử lí"
+          }
+        />
+      )}
+      <div className="bg-[#d9d9d9] h-[64px] flex items-center justify-end rounded-xl py-3 px-5">
+        <InputCustomWidth widthP={"full"} />
+
+        <FiSearch className="ml-2 cursor-pointer text-2xl hover:text-gray-500 " />
       </div>
-    </>
+
+      <div className="bg-[#d9d9d9] pt-[10px] pl-[10px] pr-[10px] mt-[20px] rounded-xl  h-[525px] flex flex-col">
+        <div className="flex h-[50px]">
+          <div className="w-[5%]  font-bold text-center">ID</div>
+          <div className="w-[15%] font-bold text-center">Ảnh đại diện</div>
+          <div className="w-[10%]  font-bold text-center">Tên người dùng</div>
+          <div className="w-[20%]  font-bold text-center">Số điện thoại</div>
+          <div className="w-[20%]  font-bold text-center">Email</div>
+        </div>
+        <div className="h-5/6 overflow-auto relative">
+          {isLoading ? <LoadingPageDesktop /> : renderUser}
+        </div>
+        <div className="flex justify-center w-full flex-auto items-end p-2">
+          <Pagination
+            count={Math.ceil(count / 7)}
+            color="primary"
+            size="large"
+            page={page}
+            onChange={handleChangePage}
+          />
+        </div>
+      </div>
+      {isDelete ? (
+        <PopupDeleteUser
+          setIsDelete={setIsDelete}
+          isDelete={isDelete}
+          user={userSelected}
+          contentUpload={contentUpload}
+          showUpload={showUpload}
+          setShowUpload={setShowUpload}
+          setContentUpload={setContentUpload}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
+      ) : (
+        ""
+      )}
+    </div>
   );
 };
 

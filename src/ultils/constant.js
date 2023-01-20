@@ -11,7 +11,7 @@ const {
 } = icons;
 
 export const path = {
-  LOGIN: "/auth",
+  LOGIN: "/login",
   PUBLIC: "/*",
   SYSTEM: "/system/*",
   USERCLIENT: "/user/*",
@@ -21,15 +21,13 @@ export const path = {
   FEED: "/feed",
   CART: "cart/",
   GENERAL: "*",
-  CREATE_PRODUCT: "create-product",
-  EDIT_PRODUCT: "manage-product/edit-product",
+  EDIT_PRODUCT: "edit-product",
   MANAGE_PRODUCT: "manage-product",
   MANAGE_CATEGORY: "manage-category",
   USERMOBILENAV: "tai-khoan",
   CATEGORY: "gian-hang",
   USER: "user",
   BILL: "bill",
-  ANALYST: "thong-ke",
   CREATE_CATEGORY: "create-category",
   UPDATE_PROFILE: "update-profile",
   DISCOUNT: "giam-gia",
@@ -94,19 +92,8 @@ export const filtersBill = [
 ];
 export const filtersSider = [
   {
-    valueVi: "100.000 - 500.000",
+    valueVi: "Còn hàng",
     code: 1,
-    price:[100000,500000]
-  },
-  {
-    valueVi: "500.000 - 1.000.000",
-    code: 2,
-    price:[500000,1000000]
-  },
-  {
-    valueVi: "1.000.000 - 1.500.000",
-    code: 3,
-    price:[1000000,1500000]
   },
 ];
 export const adminMenu = [
@@ -137,13 +124,13 @@ export const adminMenu = [
   },
   {
     name: "Thống kê",
-    path: "/system/thong-ke",
+    path: "/system/analytics",
     icon: <RiProductHuntLine size={24} />,
   },
   // { name: 'Quản lý thành viên', path: '/system/manage-user', icon: <FaUserEdit size={24} /> },
   {
     name: "Thêm sản phẩm",
-    path: "/system/create-product",
+    path: "/system/edit-product",
     icon: <IoIosCreate size={24} />,
   },
 ];

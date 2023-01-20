@@ -28,9 +28,10 @@ import {
   ManageCategory,
   User,
   Bill,
+  UpdateProfile,
   Profile,
   Orders,
-  Analyst
+  PersonalInformation,
 } from "./containers/system";
 import { Contact, BoxChat } from "./components";
 import { path } from "./ultils/constant";
@@ -43,7 +44,7 @@ import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
 
 function App() {
-  const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
   const [isStartChatBot, setIsStartChatBot] = useState(false);
   const [hideChatbot, setHideChatBot] = useState(false);
@@ -52,7 +53,6 @@ function App() {
     top: "50%",
   });
   const [show, setShow] = useState(false);
-  const [selectProductEdit, setSelectProductEdit] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const chatBotRef = useRef();
@@ -144,18 +144,15 @@ function App() {
         </Route>
 
         <Route path={path.LOGIN} element={<Login />} />
-        {userCurrent.role?.code === "R1" && (
-          <Route path={path.SYSTEM} element={<System />}>
-            <Route path={path.GENERAL} element={<General />} />
-            <Route path={path.MANAGE_PRODUCT} element={<ManageProduct  setSelectProductEdit={setSelectProductEdit} />} />
-            <Route path={path.EDIT_PRODUCT} element={<EditProduct selectProductEdit={selectProductEdit}/>} />
-            <Route path={path.CREATE_PRODUCT} element={<EditProduct />} />
-            <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
-            <Route path={path.USER} element={<User />} />
-            <Route path={path.BILL} element={<Bill />} />
-            <Route path={path.ANALYST} element={<Analyst />} />
-          </Route>
-        )}
+        <Route path={path.SYSTEM} element={<System />}>
+          <Route path={path.GENERAL} element={<General />} />
+          <Route path={path.MANAGE_PRODUCT} element={<ManageProduct />} />
+          <Route path={path.EDIT_PRODUCT} element={<EditProduct />} />
+          <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
+          <Route path={path.USER} element={<User />} />
+          <Route path={path.BILL} element={<Bill />} />
+          <Route path={path.UPDATE_PROFILE} element={<UpdateProfile />} />
+        </Route>
       </Routes>
       <div>
         <div

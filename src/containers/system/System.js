@@ -18,9 +18,9 @@ const System = () => {
   return (
     <div className="flex h-screen w-screen bg-white ">
       {isShowSidebar && <Sidebar />}
-      <div className="flex flex-col w-full overflow-auto">
+      <div className="flex-auto overflow-auto">
         <Header setIsShowSidebar={setIsShowSidebar} />
-        <div className="p-9 bg-slate-200 flex-auto">
+        <div className="p-5">
           <Outlet />
         </div>
       </div>
