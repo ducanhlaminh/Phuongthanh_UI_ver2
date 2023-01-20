@@ -10,4 +10,3 @@ export { default as UpdateProfile } from "./UpdateProfile";
 export { default as Profile } from './Profile'
 export { default as PersonalInformation } from './PersonalInformation'
 export { default as Orders } from './Orders'
-export { default as Analyst } from './Analyst'

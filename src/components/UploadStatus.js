@@ -71,7 +71,7 @@ export const NotiStatusMobile = ({content,active,setActive}) => {
     }
     return (<div 
         onAnimationEnd={() => setActive(false)}
-        className={`absolute  z-70 md:hidden w-[60%] translate-y-[-70px] translate-x-[35%] h-[50px] border-solid border-2 ${borderColor}
+        className={`fixed z-70 md:hidden w-[60%] translate-y-[-70px] translate-x-[35%] h-[50px] border-solid border-2 ${borderColor}
     shadow-md gap-[8px] transition-all bg-white rounded-[8px] flex items-center justify-center 
     ${active?'animate-top-popup2':''}`}>
                 <p>{content||contentDefault}</p>

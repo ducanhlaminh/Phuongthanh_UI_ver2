@@ -37,6 +37,8 @@ const FormCreateProduct = ({
   contentUpload,
   setShowUpload,
   setContentUpload,
+  imageUrl,
+  type,
   handleEdit,
 }) => {
   const imageMainRef = useRef();
@@ -58,40 +60,37 @@ const FormCreateProduct = ({
   };
 
   const validateForm = () => {
-    console.log(productName , price , image.imageMain , shortDes , selectValue);
     if (productName && price && image.imageMain && shortDes && selectValue) {
-      console.log(productName , price , image.imageMain , shortDes , selectValue);
       return true;
     } else return false;
   };
-
   const handleImageMain = (e) => {
     setImage((prev) => ({
       ...prev,
-      imageMain: URL.createObjectURL(e.target.files[0]),
+      imageMain: e.target.files[0],
     }));
   };
   const handleImage1 = (e) => {
     setImage((prev) => ({
       ...prev,
-      image1: URL.createObjectURL(e.target.files[0]),
+      image1: e.target.files[0],
     }));
   };
   const handleImage2 = (e) => {
     setImage((prev) => ({
       ...prev,
-      image2: URL.createObjectURL(e.target.files[0]),
+      image2: e.target.files[0],
     }));
   };
   const handleImage3 = (e) => {
     setImage((prev) => ({
       ...prev,
-      image3: URL.createObjectURL(e.target.files[0]),
+      image3: e.target.files[0],
     }));
   };
 
   return (
-    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
+    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative h-[90%] ">
       {showUpload && (
         <NotiStatus
           active={contentUpload.status === 0 ? "success" : "error"}
@@ -216,9 +215,9 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px] flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => imageMainRef.current.click()}
               >
-                {image.imageMain ? (
+                {imageUrl.imageMainUrl ? (
                   <img
-                    src={image.imageMain}
+                    src={imageUrl.imageMainUrl}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -242,12 +241,11 @@ const FormCreateProduct = ({
               </label>
               <div
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
-                onClick={() => image1Ref.current.click()}
+                onClick={() => imageMainRef.current.click()}
               >
-
-                {image.image1 ? (
+                {imageUrl.image1Url ? (
                   <img
-                    src={image.image1}
+                    src={imageUrl.image1Url}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -271,9 +269,9 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => image2Ref.current.click()}
               >
-                {image.image2 ? (
+                {imageUrl.image2Url ? (
                   <img
-                    src={image.image2}
+                    src={imageUrl.image2Url}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -297,9 +295,9 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => image3Ref.current.click()}
               >
-                {image.image3 ? (
+                {imageUrl.image2Url ? (
                   <img
-                    src={image.image3}
+                    src={imageUrl.image2Url}
                     alt=""
                     className="object-cover h-full w-full"
                   />
@@ -346,11 +344,11 @@ const FormCreateProduct = ({
           height="2"
           onClick={() => {
             if (validateForm()) {
-              
-                 handleSubmit();
-              // } else {
-              //   return handleEdit();
-              // }
+              if (type === "create") {
+                return handleSubmit();
+              } else {
+                return handleEdit();
+              }
             } else {
               console.log(selectValue);
               setShowUpload(true);

@@ -12,10 +12,12 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={` disabled:opacity-30 disabled:cursor-not-allowed bg-transparent hover:bg-primary-tint text-primary font-semibold hover:text-white py-2 px-4 border border-primary hover:border-transparent rounded`}
+      className={`outline-none rounded-md  disabled:opacity-30 disabled:cursor-not-allowed `}
       disabled={disabled}
       onClick={onClick}
       style={{
+        backgroundColor: `${bgColor}`,
+        color: `${textColor}`,
         width: `${width}`,
         height: `${height}`,
         padding: `${height * 4}px 0`,
