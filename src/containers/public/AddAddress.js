@@ -621,7 +621,7 @@ function AddAddress() {
                       </div>
                     </div>
                     <div className="" onClick={() => handleAddAdress()}>
-                      <Button2 text="Thêm đại chỉ" />
+                      <Button2 text="Thêm địa chỉ" />
                     </div>
                   </div>
                 </>

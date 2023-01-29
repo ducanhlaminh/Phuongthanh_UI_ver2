@@ -40,21 +40,17 @@ const data = {
       labels: "data3",
       data: data3,
 
-
       backgroundColor: "rgb(43%, 54%, 71%,0.8)",
-
     },
     {
       labels: "data1",
       data: data1,
       backgroundColor: "rgb(96%, 53%, 52%,0.8)",
-
     },
     {
       labels: "data2",
       data: data2,
       backgroundColor: "rgb(58%, 81%, 59%,0.8)",
-
     },
   ],
 };
@@ -126,7 +122,7 @@ function Analyst() {
         setCount(res.billData.count);
       };
       fetchProducts();
-    } catch (error) { }
+    } catch (error) {}
   }, []);
   return (
     <div>
@@ -192,9 +188,7 @@ function Analyst() {
               />
             </div>
             <div>
-              <p className="font-semibold text-gray-500 pb-1">
-                Doanh thu :
-              </p>
+              <p className="font-semibold text-gray-500 pb-1">Doanh thu :</p>
               <p className="text-xs pb-1">{`${sumData(
                 data3
               )} lượt truy cập`}</p>
