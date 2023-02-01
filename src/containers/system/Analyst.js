@@ -19,7 +19,7 @@ import StatusTag from "../../components/StatusTag";
 import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// abc
+
 import dayjs from "dayjs";
 ChartJS.register(
   CategoryScale,
@@ -39,22 +39,22 @@ const data = {
     {
       labels: "data3",
       data: data3,
-
-
+      
+      
       backgroundColor: "rgb(43%, 54%, 71%,0.8)",
-
+      
     },
     {
       labels: "data1",
       data: data1,
       backgroundColor: "rgb(96%, 53%, 52%,0.8)",
-
+      
     },
     {
       labels: "data2",
       data: data2,
       backgroundColor: "rgb(58%, 81%, 59%,0.8)",
-
+      
     },
   ],
 };
@@ -126,7 +126,7 @@ function Analyst() {
         setCount(res.billData.count);
       };
       fetchProducts();
-    } catch (error) { }
+    } catch (error) {}
   }, []);
   return (
     <div>
