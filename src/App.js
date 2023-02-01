@@ -146,7 +146,7 @@ function App() {
           <Route path={path.SYSTEM} element={<System />}>
             <Route path={path.GENERAL} element={<General />} />
             <Route path={path.MANAGE_PRODUCT} element={<ManageProduct  setSelectProductEdit={setSelectProductEdit} />} />
-            <Route path={path.EDIT_PRODUCT} element={<EditProduct selectProductEdit={selectProductEdit}/>} />
+            <Route path={path.EDIT_PRODUCT} element={<EditProduct selectProductEdit={selectProductEdit} setSelectProductEdit={setSelectProductEdit}/>} />
             <Route path={path.CREATE_PRODUCT} element={<EditProduct />} />
             <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
             <Route path={path.USER} element={<User />} />

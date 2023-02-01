@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
-import Button from "../../components/Button";
+import React, { useEffect, useState } from "react";
 import FormData from "form-data";
 import { useSelector } from "react-redux";
 import ApiProduct from "../../apis/product";
-import Preview from "../../components/Preview";
 import FormCreateProduct from "../../components/FormCreateProduct";
-const EditProduct = ({ selectProductEdit }) => {
+const EditProduct = ({ selectProductEdit,setSelectProductEdit }) => {
   const product = selectProductEdit;
   const [productName, setProductName] = useState(product?.name || "");
   const [selectValue, setSelectValue] = useState(
     product?.categoryData?.code || ""
   );
   const [price, setPrice] = useState(product?.costPerUnit || "");
-  const [tags, setTags] = useState([]);
+  const [preSale, setPreSale] = useState("");
+  const [tags, setTags] = useState(product?.hashtags ? JSON.parse(product?.hashtags)  : "");
   const [shortDes, setShortDes] = useState(product?.description || "");
   const [image, setImage] = useState(
     product
@@ -43,8 +42,13 @@ const EditProduct = ({ selectProductEdit }) => {
     bodyFormData.append("variants", JSON.stringify(variants));
     bodyFormData.append("tags", JSON.stringify(tags));
     bodyFormData.append("inStocking", 1);
+
+    const data = {
+      bodyFormData,preSale
+    }
+    console.log(data);
     try {
-      const res = await ApiProduct.create(bodyFormData);
+      const res = await ApiProduct.create(data);
       if (res.status === 0) {
         setShowUpload(true);
         setContentUpload(res);
@@ -57,11 +61,11 @@ const EditProduct = ({ selectProductEdit }) => {
   useEffect(() => {
     categories.length > 0 && setSelectValue(categories[0].code);
   }, [categories]);
-  useEffect(() => {}, [image]);
 
   return (
     <>
       <FormCreateProduct
+        selectProductEdit={selectProductEdit}
         productName={productName}
         setProductName={setProductName}
         categories={categories}
@@ -69,6 +73,8 @@ const EditProduct = ({ selectProductEdit }) => {
         setSelectValue={setSelectValue}
         price={price}
         setPrice={setPrice}
+        preSale={preSale}
+        setPreSale={setPreSale}
         tags={tags}
         setTags={setTags}
         setVariantChild={setVariantChild}

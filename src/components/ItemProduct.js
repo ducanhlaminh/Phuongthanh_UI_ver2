@@ -42,11 +42,11 @@ const ItemProduct = ({
           checked={addDeletes.some((item) => product.id === item)}
         ></input>
       </div>
-      <div className=" w-[20%] flex justify-center h-4/5">
+      <div className=" w-[20%] flex justify-center h-4/5 ">
         <img
           src={product.mainImage}
           alt=""
-          className="object-contain w-[70%]"
+          className="object-cover w-[50%] rounded-md"
         ></img>
       </div>
       <div className="w-[20%] flex justify-center ">

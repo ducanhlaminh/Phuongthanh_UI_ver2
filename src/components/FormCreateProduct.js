@@ -13,6 +13,7 @@ import { NotiStatus } from "../components/UploadStatus";
 import ApiProduct from "../apis/product";
 const { AiFillCheckCircle, BsUpload } = icons;
 const FormCreateProduct = ({
+  selectProductEdit,
   productName,
   setProductName,
   categories,
@@ -20,6 +21,8 @@ const FormCreateProduct = ({
   setSelectValue,
   price,
   setPrice,
+  preSale,
+  setPreSale,
   tags,
   setTags,
   setVariantChild,
@@ -37,13 +40,18 @@ const FormCreateProduct = ({
   contentUpload,
   setShowUpload,
   setContentUpload,
-  handleEdit,
 }) => {
   const imageMainRef = useRef();
   const image1Ref = useRef();
   const image2Ref = useRef();
   const image3Ref = useRef();
   const editorRef = useRef();
+  const [imageUrl, setImageUrl] = useState({
+    imageMain: "",
+    image1: "",
+    image2: "",
+    image3: "",
+  });
   const [validatesForm, setValidatesForm] = useState([
     { name: "name", status: false },
     { name: "price", status: false },
@@ -56,40 +64,91 @@ const FormCreateProduct = ({
       setShortDes(des);
     }
   };
-
+  const handleEdit = async () => {
+    const bodyFormData = new FormData();
+    bodyFormData.append("id", selectProductEdit?.id);
+    bodyFormData.append("mainImage", image.imageMain);
+    bodyFormData.append("image1", image.image1);
+    bodyFormData.append("image2", image.image2);
+    bodyFormData.append("image3", image.image3);
+    bodyFormData.append("name", productName);
+    bodyFormData.append("costPerUnit", price);
+    bodyFormData.append("description", shortDes);
+    bodyFormData.append("categoryCode", selectValue);
+    bodyFormData.append("variants", JSON.stringify(variants));
+    bodyFormData.append("tags", JSON.stringify(tags));
+    bodyFormData.append("inStocking", 1);
+    const data = {
+      bodyFormData,preSale
+    }
+    console.log(bodyFormData);
+    try {
+      const res = await ApiProduct.update(data);
+      if (res.status === 0) {
+        setShowUpload(true);
+        setContentUpload(res);
+      }
+    } catch (error) {
+      console.log(error);
+      setContentUpload(true);
+    }
+  };
   const validateForm = () => {
-    console.log(productName , price , image.imageMain , shortDes , selectValue);
+
     if (productName && price && image.imageMain && shortDes && selectValue) {
-      console.log(productName , price , image.imageMain , shortDes , selectValue);
+      
       return true;
     } else return false;
   };
 
   const handleImageMain = (e) => {
-    setImage((prev) => ({
+    setImageUrl((prev) => ({
       ...prev,
       imageMain: URL.createObjectURL(e.target.files[0]),
     }));
+    setImage((prev) => ({
+      ...prev,
+      imageMain: (e.target.files[0]),
+    }));
   };
   const handleImage1 = (e) => {
-    setImage((prev) => ({
+    setImageUrl((prev) => ({
       ...prev,
       image1: URL.createObjectURL(e.target.files[0]),
     }));
+    setImage((prev) => ({
+      ...prev,
+      image1: (e.target.files[0]),
+    }));
   };
   const handleImage2 = (e) => {
-    setImage((prev) => ({
+    setImageUrl((prev) => ({
       ...prev,
       image2: URL.createObjectURL(e.target.files[0]),
     }));
+    setImage((prev) => ({
+      ...prev,
+      image2: (e.target.files[0]),
+    }));
   };
   const handleImage3 = (e) => {
-    setImage((prev) => ({
+    setImageUrl((prev) => ({
       ...prev,
       image3: URL.createObjectURL(e.target.files[0]),
     }));
+    setImage((prev) => ({
+      ...prev,
+      image3: (e.target.files[0]),
+    }));
   };
-
+  useEffect(() => {
+    setImageUrl((prev) => ({
+      imageMain: image.imageMain,
+      image1: image.image1,
+      image2: image.image2,
+      image3: image.image3,
+    }));
+  },[])
   return (
     <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
       {showUpload && (
@@ -103,7 +162,7 @@ const FormCreateProduct = ({
           }
         />
       )}
-      <h1 className="text-3xl text-center">Nhập thông tin tại đây</h1>
+      <h1 className="text-3xl text-center font-semibold">Nhập thông tin tại đây</h1>
       <div className="h-[15%]">
         <InputCustomWidth
           required={!productName ? true : false}
@@ -131,10 +190,16 @@ const FormCreateProduct = ({
             lable="Giá"
             required={!price ? true : false}
             placeholder="Giá: VND"
-            PLarge={false}
             value={price}
             setValue={setPrice}
             setValidatesForm={setValidatesForm}
+            validateType={"price"}
+          />
+          <InputCustomWidth
+            lable="Giảm giá (%)"
+            placeholder="20"
+            value={preSale}
+            setValue={setPreSale}
             validateType={"price"}
           />
         </div>
@@ -150,6 +215,7 @@ const FormCreateProduct = ({
       <div className="flex ">
         <div className=" w-1/2 pr-3">
           <div className="h-[350px]">
+            <b>Mô tả sản phẩm :</b>
             <Editor
               apiKey="your-api-key"
               onInit={(evt, editor) => {
@@ -181,7 +247,7 @@ const FormCreateProduct = ({
               }}
             />
             <Button
-              text="ADD CONTENT"
+              text="Thêm mô tả sản phẩm"
               bgColor="#4ed14b"
               textColor="#fff"
               width="100%"
@@ -216,11 +282,11 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px] flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => imageMainRef.current.click()}
               >
-                {image.imageMain ? (
+                {imageUrl.imageMain ? (
                   <img
-                    src={image.imageMain}
+                    src={imageUrl.imageMain}
                     alt=""
-                    className="object-cover h-full w-full"
+                    className="object-cover h-full w-full rounded-md"
                   />
                 ) : (
                   <BsUpload fontSize="30px" />
@@ -244,12 +310,11 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => image1Ref.current.click()}
               >
-
-                {image.image1 ? (
+                {imageUrl.image1 ? (
                   <img
-                    src={image.image1}
+                    src={imageUrl.image1}
                     alt=""
-                    className="object-cover h-full w-full"
+                    className="object-cover h-full w-full rounded-md"
                   />
                 ) : (
                   <BsUpload fontSize="30px" />
@@ -271,11 +336,11 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => image2Ref.current.click()}
               >
-                {image.image2 ? (
+                {imageUrl.image2 ? (
                   <img
-                    src={image.image2}
+                    src={imageUrl.image2}
                     alt=""
-                    className="object-cover h-full w-full"
+                    className="object-cover h-full w-full rounded-md"
                   />
                 ) : (
                   <BsUpload fontSize="30px" />
@@ -297,11 +362,11 @@ const FormCreateProduct = ({
                 className="h-[200px] w-[200px]  flex justify-center items-center bg-white rounded-md cursor-pointer hover:bg-slate-300"
                 onClick={() => image3Ref.current.click()}
               >
-                {image.image3 ? (
+                {imageUrl.image3 ? (
                   <img
-                    src={image.image3}
+                    src={imageUrl.image3}
                     alt=""
-                    className="object-cover h-full w-full"
+                    className="object-cover h-full w-full rounded-md"
                   />
                 ) : (
                   <BsUpload fontSize="30px" />
@@ -337,33 +402,27 @@ const FormCreateProduct = ({
           </div>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex justify-center mt-5">
         <Button
-          text="ADD PRODUCT"
+          text="TẠO SẢN PHẨM"
           bgColor="#4ed14b"
           textColor="#fff"
           width="50%"
           height="2"
           onClick={() => {
             if (validateForm()) {
-              
-                 handleSubmit();
-              // } else {
-              //   return handleEdit();
-              // }
+              if (selectProductEdit) {
+                
+                return handleEdit();
+              } else {
+                handleSubmit();
+              }
             } else {
               console.log(selectValue);
               setShowUpload(true);
               setContentUpload({ status: 1 });
             }
           }}
-        ></Button>
-        <Button
-          text="SEE PREVIEW"
-          bgColor="#cf2b2b"
-          textColor="#fff"
-          width="50%"
-          height="2"
         ></Button>
       </div>
     </div>

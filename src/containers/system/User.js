@@ -36,7 +36,7 @@ const User = () => {
     return (
       <div
         key={i}
-        className="flex rounded w-full bg-white items-center h-[90px] [&:not(:first-child)]:mt-2 border-b-2"
+        className="flex rounded w-full bg-white items-center h-[100px] [&:not(:first-child)]:mt-2 border-b-2"
       >
         <div className="w-[5%] text-center">
           <span>{i + 1}</span>
@@ -46,7 +46,7 @@ const User = () => {
           <img
             src={bufferToBase64(user?.avatar) || user?.avatarUrl || avatar}
             alt="avatar "
-            className="h-[90%] rounded-sm w-[100px] object-cover"
+            className="h-[90%] rounded-md w-[100px] object-cover"
           ></img>
         </div>
         <div className="w-[10%] text-center">

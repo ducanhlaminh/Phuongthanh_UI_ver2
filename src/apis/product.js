@@ -20,17 +20,17 @@ const ApiProduct = {
   // getAll: {id:???}
   // )
 
-  create: (data) => {
-    const url = "/api/v1/product";
-    return axiosClients.post(url, data);
+  create: ({bodyFormData,preSale}) => {
+    const url = `/api/v1/product/update?sale=${preSale}&operator=plus`;
+    return axiosClients.post(url, bodyFormData);
   },
   delete: (params) => {
     const url = "/api/v1/product/delete";
     return axiosClients.delete(url, { params });
   },
-  update: (data) => {
-    const url = "/api/v1/product/update";
-    return axiosClients.put(url, data);
+  update: ({bodyFormData,preSale}) => {
+    const url = `/api/v1/product/update?sale=${preSale}&operator=plus`;
+    return axiosClients.put(url, bodyFormData);
   },
   getProductById: (params) => {
     const url = `/api/v1/admin/product/`;

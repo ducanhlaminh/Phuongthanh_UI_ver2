@@ -249,7 +249,7 @@ const HashTagCustomWidth = React.memo(
             onKeyDown={(e) => handleKeyCode(e)}
           />
           <Button
-            text="Them"
+            text="Thêm"
             bgColor="#4ed14b"
             textColor="#fff"
             width="40%"
@@ -437,7 +437,7 @@ const InputVariant = ({
           ></Button>
         </div>
       </div>
-      <div className="flex flex-wrap">
+      <div className="w-fit pt-5">
         {variants &&
           variants?.map((variant, index) => (
             <div
@@ -445,7 +445,7 @@ const InputVariant = ({
               key={index}
             >
               <div
-                className="font-bold absolute top-0 left-[94%] cursor-pointer"
+                className="font-bold text-white absolute top-0 left-full translate-x-[-50%] translate-y-[-50%] cursor-pointer bg-slate-500 p-[3px] rounded-md"
                 onClick={() =>
                   setVariants((prev) =>
                     [...prev].filter((item, i) => i !== index)
