@@ -29,7 +29,7 @@ const ApiProduct = {
     return axiosClients.delete(url, { params });
   },
   update: ({bodyFormData,preSale}) => {
-    const url = `/api/v1/product/update?sale=${preSale}&operator=plus`;
+    const url = `/api/v1/product/update${preSale!=="" ? `?sale=${preSale}&operator=plus`:''}`;
     return axiosClients.put(url, bodyFormData);
   },
   getProductById: (params) => {

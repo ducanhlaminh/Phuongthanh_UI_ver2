@@ -6,6 +6,7 @@ import {
   InputVariant,
 } from "../components/InputCtWidth";
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import { useEffect, useRef, useState } from "react";
 import icons from "../ultils/icons";
@@ -16,6 +17,8 @@ const FormCreateProduct = ({
   selectProductEdit,
   productName,
   setProductName,
+  inStocking,
+  setInStocking,
   categories,
   selectValue,
   setSelectValue,
@@ -41,6 +44,7 @@ const FormCreateProduct = ({
   setShowUpload,
   setContentUpload,
 }) => {
+  const navigate = useNavigate();
   const imageMainRef = useRef();
   const image1Ref = useRef();
   const image2Ref = useRef();
@@ -65,10 +69,12 @@ const FormCreateProduct = ({
     }
   };
   const handleEdit = async () => {
+    const status = inStocking ? 1:0
     const bodyFormData = new FormData();
     bodyFormData.append("id", selectProductEdit?.id);
     bodyFormData.append("mainImage", image.imageMain);
     bodyFormData.append("image1", image.image1);
+    bodyFormData.append("inStocking",inStocking ? true:false );
     bodyFormData.append("image2", image.image2);
     bodyFormData.append("image3", image.image3);
     bodyFormData.append("name", productName);
@@ -77,26 +83,25 @@ const FormCreateProduct = ({
     bodyFormData.append("categoryCode", selectValue);
     bodyFormData.append("variants", JSON.stringify(variants));
     bodyFormData.append("tags", JSON.stringify(tags));
-    bodyFormData.append("inStocking", 1);
     const data = {
-      bodyFormData,preSale
-    }
-    console.log(bodyFormData);
+      bodyFormData,
+      preSale,
+    };
     try {
       const res = await ApiProduct.update(data);
       if (res.status === 0) {
         setShowUpload(true);
         setContentUpload(res);
+        setTimeout(() => {
+          navigate(-1);
+        }, 5000);
       }
     } catch (error) {
-      console.log(error);
       setContentUpload(true);
     }
   };
   const validateForm = () => {
-
     if (productName && price && image.imageMain && shortDes && selectValue) {
-      
       return true;
     } else return false;
   };
@@ -108,7 +113,7 @@ const FormCreateProduct = ({
     }));
     setImage((prev) => ({
       ...prev,
-      imageMain: (e.target.files[0]),
+      imageMain: e.target.files[0],
     }));
   };
   const handleImage1 = (e) => {
@@ -118,7 +123,7 @@ const FormCreateProduct = ({
     }));
     setImage((prev) => ({
       ...prev,
-      image1: (e.target.files[0]),
+      image1: e.target.files[0],
     }));
   };
   const handleImage2 = (e) => {
@@ -128,7 +133,7 @@ const FormCreateProduct = ({
     }));
     setImage((prev) => ({
       ...prev,
-      image2: (e.target.files[0]),
+      image2: e.target.files[0],
     }));
   };
   const handleImage3 = (e) => {
@@ -138,7 +143,7 @@ const FormCreateProduct = ({
     }));
     setImage((prev) => ({
       ...prev,
-      image3: (e.target.files[0]),
+      image3: e.target.files[0],
     }));
   };
   useEffect(() => {
@@ -148,9 +153,9 @@ const FormCreateProduct = ({
       image2: image.image2,
       image3: image.image3,
     }));
-  },[])
+  }, []);
   return (
-    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative">
+    <div className="w-full items-center bg-[#d9d9d9] rounded justify-between p-5 relative select-none">
       {showUpload && (
         <NotiStatus
           active={contentUpload.status === 0 ? "success" : "error"}
@@ -162,7 +167,9 @@ const FormCreateProduct = ({
           }
         />
       )}
-      <h1 className="text-3xl text-center font-semibold">Nhập thông tin tại đây</h1>
+      <h1 className="text-3xl text-center font-semibold">
+        Nhập thông tin tại đây
+      </h1>
       <div className="h-[15%]">
         <InputCustomWidth
           required={!productName ? true : false}
@@ -211,6 +218,28 @@ const FormCreateProduct = ({
           tags={tags}
           setTags={setTags}
         />
+      </div>
+      <div className="mb-5 flex">
+        <div
+          className={`px-5 py-2 bg-[#00C292] rounded-l-md text-white ${
+            !inStocking && "opacity-50"
+          } cursor-pointer select-none`}
+          onClick={() => {
+            setInStocking(true);
+          }}
+        >
+          Còn hàng
+        </div>
+        <div
+          className={`px-5 py-2 text-rose-500 bg-[#FECDD3] rounded-r-md ${
+            inStocking && "opacity-50"
+          } cursor-pointer select-none`}
+          onClick={() => {
+            setInStocking(false);
+          }}
+        >
+          Hết hàng
+        </div>
       </div>
       <div className="flex ">
         <div className=" w-1/2 pr-3">
@@ -412,7 +441,6 @@ const FormCreateProduct = ({
           onClick={() => {
             if (validateForm()) {
               if (selectProductEdit) {
-                
                 return handleEdit();
               } else {
                 handleSubmit();
