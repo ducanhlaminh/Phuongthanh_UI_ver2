@@ -1,9 +1,12 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import * as actions from '../store/actions'
+import { useNavigate } from 'react-router-dom'
+import { path } from '../ultils/constant'
 
 const Postcard = ({ isBot, image, title, subtitle, btns, className, id }) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const handleSubmit = (i) => {
         dispatch(actions.addTextUser(i))
         dispatch(actions.loadingBot(true))
@@ -28,7 +31,12 @@ const Postcard = ({ isBot, image, title, subtitle, btns, className, id }) => {
                                 key={id}
                                 type='button'
                                 className='p-2 w-full font-medium outline-none rounded-md bg-gray-500 whitespace-nowrap overflow-hidden text-ellipsis'
-                                onClick={() => i.code === 'BUY' ? dispatch(actions.buy({ isBuy: true, data: { id, image, title, price: subtitle, quantity: 1 } })) : handleSubmit(i)}
+                                onClick={() => i.code === 'BUY'
+                                    ? dispatch(actions.buy({ isBuy: true, pid: i.pid }))
+                                    : i.code === 'DETAIL_PRODUCT'
+                                        ? navigate(`/${path.DETAIL}/${i.pid}`)
+                                        : handleSubmit(i)
+                                }
                             >
                                 {i.value}
                             </button>

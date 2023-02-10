@@ -11,6 +11,7 @@ const Messages = ({ isStart, setIsStart }) => {
     const dispatch = useDispatch()
     const { messages, isLoadingBot, buyData } = useSelector(state => state.chatbot)
     const viewRef = useRef()
+    // console.log(messages);
     const handleSendMessage = async (i) => {
         setIsStart(true)
         dispatch(actions.addTextUser(i))
@@ -54,6 +55,7 @@ const Messages = ({ isStart, setIsStart }) => {
                                 text={message.text}
                                 key={Math.random()}
                                 list={message.list}
+                                detail={message?.detail}
                             />
                         )
                     })}

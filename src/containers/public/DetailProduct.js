@@ -76,7 +76,7 @@ const DetailProduct = () => {
           setWishlist(res.wishlist);
         }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
   useEffect(() => {
     const fetchCartQuantity = async () => {
@@ -109,6 +109,7 @@ const DetailProduct = () => {
       setVariantTypes(new Array(product?.variants.length).fill(null));
     };
     fetchProduct();
+    window.scrollTo(0, 0)
   }, [id]);
   useEffect(() => {
     const fetchRelatedProducts = async () => {
@@ -120,7 +121,7 @@ const DetailProduct = () => {
           });
           setRelatedProducts(res?.productData.rows);
         }
-      } catch (e) {}
+      } catch (e) { }
     };
 
     fetchRelatedProducts();
@@ -146,13 +147,13 @@ const DetailProduct = () => {
     console.log(isInWishlist);
     if (wishlist !== 1) {
       wishlist?.forEach((productWishlist, i) => {
-        console.log(productWishlist,product);
+        console.log(productWishlist, product);
         if (productWishlist?.productData.id === product?.id) {
           setIsInWishlist({ status: true, wid: productWishlist?.id });
         }
       });
     }
-  }, [wishlist,product]);
+  }, [wishlist, product]);
 
   const hanlePickVariants = (variant, value, price, index) => {
     setVariantTypes((prev) => {
@@ -213,14 +214,14 @@ const DetailProduct = () => {
             }
           });
         }
-      } catch (err) {}
+      } catch (err) { }
     } else {
       try {
         const res = await wishlistApi.delete({ wids: [isInWishlist.wid] });
         if (res.status === 0) {
           setIsInWishlist({ status: false, wid: null });
         }
-      } catch (err) {}
+      } catch (err) { }
     }
   };
   return (
@@ -259,22 +260,20 @@ const DetailProduct = () => {
                   <Link to="/cart" className="relative">
                     <AiOutlineShoppingCart
                       size={26}
-                      className={`${
-                        activeNotiStatus === "success" ||
-                        activeNotiStatus === "warning"
+                      className={`${activeNotiStatus === "success" ||
+                          activeNotiStatus === "warning"
                           ? "animate-bounce2"
                           : ""
-                      }`}
+                        }`}
                       style={{ animationIterationCount: "5" }}
-                      onClick={(e)=>{e.stopPropagation()}}
+                      onClick={(e) => { e.stopPropagation() }}
                     />
                     <span
-                      className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${
-                        activeNotiStatus === "success" ||
-                        activeNotiStatus === "warning"
+                      className={`absolute top-[-3px] right-[-3px] w-[15px] h-[15px] bg-orange-600 rounded-full text-white text-[8px] flex items-center justify-center ${activeNotiStatus === "success" ||
+                          activeNotiStatus === "warning"
                           ? "animate-bounce2"
                           : ""
-                      }`}
+                        }`}
                       style={{ animationIterationCount: "5" }}
                     >
                       {isLoggedIn ? cartQuantity : "0"}
@@ -387,9 +386,8 @@ const DetailProduct = () => {
 
                 <div className="hidden md:block mb-[16px]">
                   <div
-                    className={`text-[#e21d1d] ${
-                      canAtc ? "invisible" : "visible"
-                    }`}
+                    className={`text-[#e21d1d] ${canAtc ? "invisible" : "visible"
+                      }`}
                   >
                     Vui lòng chọn loại hàng để thêm vào giỏ
                   </div>
@@ -411,11 +409,10 @@ const DetailProduct = () => {
                                 )
                               }
                               key={value.id}
-                              className={`p-[8px] cursor-pointer border-[3px] rounded-[8px] ${
-                                variantTypes[index]?.value === value?.type
+                              className={`p-[8px] cursor-pointer border-[3px] rounded-[8px] ${variantTypes[index]?.value === value?.type
                                   ? "border-[#1b4b66]"
                                   : ""
-                              }`}
+                                }`}
                             >
                               {value.type}
                             </div>
