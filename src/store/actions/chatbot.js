@@ -5,6 +5,7 @@ import { apiSendMessage } from '../../apis/chatbot'
 export const getResponseBot = (payload) => async (dispatch) => {
     try {
         const response = await apiSendMessage(payload)
+        console.log(response);
         if (response?.err === 0) {
             dispatch({
                 type: actionTypes.MESSAGE_BOT,

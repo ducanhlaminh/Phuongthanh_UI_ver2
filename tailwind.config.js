@@ -46,7 +46,6 @@ module.exports = {
       },
       animation: {
         'modalShow': 'modalShow .3s linear ',
-        'showFilter': 'showFilter .3s linear ',
         'modalClose': 'modalShow .3s linear ',
         'slide-right': 'slide-right 0.3s ease-out both;',
         'slide-left': 'slide-left 0.3s ease-out both;',
@@ -75,10 +74,6 @@ module.exports = {
         }
         ,
         modalShow: {
-          '0%': { transform: 'translateX(-100px)', },
-          '100%': { transform: 'translateX(0%)' }
-        },
-        showFilter: {
           '0%': { transform: 'translateX(-100px)', },
           '100%': { transform: 'translateX(0%)' }
         },

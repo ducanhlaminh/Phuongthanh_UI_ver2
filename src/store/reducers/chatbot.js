@@ -2,23 +2,27 @@ import actionTypes from "../actions/actionTypes";
 
 const initState = {
     messages: [],
-    isBuy: false,
-    buyData: [],
+    buyData: {
+        isBuy: false,
+        pid: null
+    },
     isLoadingBot: false
 }
 
 const chatbotReducer = (state = initState, action) => {
     switch (action.type) {
         case actionTypes.MESSAGE_BOT:
+            console.log(action);
             return {
                 ...state,
                 messages: action.message
                     ? [...state.messages, ...action.message.map(i => ({
-                        text: i.text,
+                        text: i?.text,
                         isBot: true,
-                        postcard: i.postcard,
-                        className: i.className,
-                        list: i.list,
+                        postcard: i?.postcard,
+                        className: i?.className,
+                        list: i?.list,
+                        detail: i?.detail
                     }))]
                     : state.messages
             }
@@ -31,19 +35,9 @@ const chatbotReducer = (state = initState, action) => {
         case actionTypes.BUY:
             return {
                 ...state,
-                isBuy: action.data.isBuy,
-                buyData: !action.data.data
-                    ? state.buyData
-                    : state.buyData?.some(i => i?.id === action.data?.data?.id)
-                        ? [
-                            ...state.buyData.filter(i => i.id !== action.data.data?.id),
-                            {
-                                ...state.buyData.find(i => i.id === action.data.data.id),
-                                quantity: state.buyData.find(i => i.id === action.data.data.id).quantity + 1
-                            }
-                        ]
-                        : [...state.buyData, action.data?.data]
+                buyData: action.data
             }
+
         case actionTypes.CANCEL_BUY:
             return {
                 ...state,

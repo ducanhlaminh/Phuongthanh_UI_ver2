@@ -1,12 +1,12 @@
 import React, { memo, useState, useEffect } from 'react'
-import bot from '../assets/chatbot.png'
+import bot from '../assets/logo192.png'
 import Postcard from './Postcard'
 import { MdOutlineNavigateNext, MdKeyboardArrowLeft } from 'react-icons/md'
 // import { formatMoney } from '../ultis/format'
 import { GoPrimitiveDot } from 'react-icons/go'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 
-const Message = ({ text, isBot, postcard, className, list }) => {
+const Message = ({ text, isBot, postcard, className, list, detail }) => {
     const [direction, setDirection] = useState(null)
     const [index, setIndex] = useState(0)
     useEffect(() => {
@@ -129,6 +129,9 @@ const Message = ({ text, isBot, postcard, className, list }) => {
                     </button>}
                 </>}
             </div>}
+            {/* {detail && <div>
+                <DetailProductChatbot />
+            </div>} */}
         </div >
     )
 }

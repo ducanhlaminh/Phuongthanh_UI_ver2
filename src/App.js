@@ -38,6 +38,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import { useEffect, useState, useRef } from "react";
 import { fetchWishlist } from "./store/actions/wishlistAction";
+import DetailProductChatbot from './components/DetailProductChatbot'
 
 import { generatePath } from "../src/ultils/fn";
 import ListProducts from "./containers/public/ListProduct";
@@ -45,6 +46,7 @@ import ListProducts from "./containers/public/ListProduct";
 function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
+  const { buyData } = useSelector(state => state.chatbot)
   const [isStartChatBot, setIsStartChatBot] = useState(false);
   const [hideChatbot, setHideChatBot] = useState(false);
   const [chatBotPosition, setChatBotPosition] = useState({
@@ -60,7 +62,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchWishlist());
   }, []);
-
+  console.log(buyData);
   // Khi reload page get userdata again
   useEffect(() => {
     isLoggedIn &&
@@ -85,6 +87,9 @@ function App() {
 
   return (
     <div className="bg-lightGrey m-auto overflow-y-auto h-screen relative">
+      {buyData?.isBuy && <div className="fixed z-70 w-screen h-screen flex justify-center items-center bg-overlay-70">
+        <DetailProductChatbot pid={buyData?.pid} />
+      </div>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
@@ -148,8 +153,8 @@ function App() {
         {userCurrent.role?.code === "R1" && (
           <Route path={path.SYSTEM} element={<System />}>
             <Route path={path.GENERAL} element={<General />} />
-            <Route path={path.MANAGE_PRODUCT} element={<ManageProduct  setSelectProductEdit={setSelectProductEdit} />} />
-            <Route path={path.EDIT_PRODUCT} element={<EditProduct selectProductEdit={selectProductEdit}/>} />
+            <Route path={path.MANAGE_PRODUCT} element={<ManageProduct setSelectProductEdit={setSelectProductEdit} />} />
+            <Route path={path.EDIT_PRODUCT} element={<EditProduct selectProductEdit={selectProductEdit} />} />
             <Route path={path.CREATE_PRODUCT} element={<EditProduct />} />
             <Route path={path.MANAGE_CATEGORY} element={<ManageCategory />} />
             <Route path={path.USER} element={<User />} />
@@ -158,17 +163,15 @@ function App() {
           </Route>
         )}
       </Routes>
-      {window.location.href.split('/')[window.location.href.split('/').length-1]!=='auth' &&<div>
+      {window.location.href.split('/')[window.location.href.split('/').length - 1] !== 'auth' && <div>
         <div
-          className={`fixed z-10 md:right-[0px] md:top-1/2 ${
-            window.innerWidth < 768
-              ? !show
-                ? `right-[-3%] top-1/2`
-                : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)]  w-screen h-screen"
-              : ""
-          } text-primary transition-all text-[30px] ${
-            hideChatbot ? "translate-x-[0vw]" : "translate-x-[20vw]"
-          } `}
+          className={`fixed z-10 md:right-[0px] md:top-1/2 ${window.innerWidth < 768
+            ? !show
+              ? `right-[-3%] top-1/2`
+              : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)]  w-screen h-screen"
+            : ""
+            } text-primary transition-all text-[30px] ${hideChatbot ? "translate-x-[0vw]" : "translate-x-[20vw]"
+            } `}
           onClick={() => {
             setHideChatBot(false);
           }}
@@ -177,15 +180,13 @@ function App() {
         </div>
 
         <div
-          className={`fixed z-10 md:right-[32px] md:top-1/2 transition-all ${
-            hideChatbot ? "translate-x-[40vw]" : ""
-          }  ${
-            window.innerWidth < 768
+          className={`fixed z-10 md:right-[32px] md:top-1/2 transition-all ${hideChatbot ? "translate-x-[40vw]" : ""
+            }  ${window.innerWidth < 768
               ? !show
                 ? `left-[80%] top-1/2`
                 : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)]  w-screen h-screen"
               : ""
-          } `}
+            } `}
           onClick={() => {
             if (window.innerWidth < 768) {
               setShow((prev) => !prev);
@@ -203,13 +204,11 @@ function App() {
       </div>}
 
       <div
-        className={`fixed ${
-          isStartChatBot
-            ? `${window.innerWidth < 768 ? "top-[12%]" : "bottom-0"}`
-            : `${window.innerWidth < 768 ? "top-[100%]" : "bottom-[-100%]"}`
-        } transition-all z-10 md:right-[100px] w-full ${
-          window.innerWidth < 768 ? "h-[100%]" : ""
-        }  md:w-auto bg-red-500`}
+        className={`fixed ${isStartChatBot
+          ? `${window.innerWidth < 768 ? "top-[12%]" : "bottom-0"}`
+          : `${window.innerWidth < 768 ? "top-[100%]" : "bottom-[-100%]"}`
+          } transition-all z-10 md:right-[100px] w-full ${window.innerWidth < 768 ? "h-[100%]" : ""
+          }  md:w-auto bg-red-500`}
       >
         <BoxChat
           setIsStartChatBot={setIsStartChatBot}
