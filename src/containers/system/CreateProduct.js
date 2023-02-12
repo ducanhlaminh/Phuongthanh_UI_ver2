@@ -24,7 +24,6 @@ const EditProduct = ({ selectProductEdit,setSelectProductEdit }) => {
         }
   );
   const [variants, setVariants] = useState(product?.variants || []);
-  const [inStocking,setInStocking] = useState(product?.inStocking||true)
   const [variantValue, setVariantValue] = useState({ name: "", value: [] });
   const [variantChild, setVariantChild] = useState({ type: "", price: "" });
   const { categories } = useSelector((state) => state.app);
@@ -42,7 +41,7 @@ const EditProduct = ({ selectProductEdit,setSelectProductEdit }) => {
     bodyFormData.append("categoryCode", selectValue);
     bodyFormData.append("variants", JSON.stringify(variants));
     bodyFormData.append("tags", JSON.stringify(tags));
-    bodyFormData.append("inStocking", inStocking ? 1:0);
+    bodyFormData.append("inStocking", 1);
 
     const data = {
       bodyFormData,preSale
@@ -78,8 +77,6 @@ const EditProduct = ({ selectProductEdit,setSelectProductEdit }) => {
         setPreSale={setPreSale}
         tags={tags}
         setTags={setTags}
-        inStocking={inStocking}
-        setInStocking={setInStocking}
         setVariantChild={setVariantChild}
         variantChild={variantChild}
         setVariants={setVariants}
