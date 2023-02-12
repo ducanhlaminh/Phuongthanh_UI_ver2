@@ -16,6 +16,7 @@ import { numFormatter } from "../../ultils/fn";
 import Header from "../../components/Header";
 const { FaSortAmountDownAlt, AiOutlinePlus, GrSubtract,FaMoneyBillWave,MdOutlineArrowBackIosNew } = icons;
 
+
 function ListProducts({ categoryData, otherData }) {
   const dispatch = useDispatch();
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
@@ -28,6 +29,7 @@ function ListProducts({ categoryData, otherData }) {
   const { products, count } = useSelector((state) => {
     return state.products;
   });
+
   const [isShowFilter, setIsShowFilter] = useState(false);
   const minDistance = 100000;
 
@@ -59,6 +61,12 @@ function ListProducts({ categoryData, otherData }) {
       setValue(newValue);
     }
   };
+  function numFormatter(num) {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(num); // if value < 1000, nothing to do
+  }
   useEffect(() => {
     setPage(1);
   }, [selectedFilter, categoryData, value2, selectedFilterSider]);
@@ -130,23 +138,6 @@ function ListProducts({ categoryData, otherData }) {
               page={page}
               onChange={handleChangePage}
             />
-          </div>
-          <div className="fixed bottom-0 w-full h-[56px] bg-[#eeeeeefc]">
-            <div
-              className="flex w-full h-full"
-              onClick={(e) => {
-                setIsShow(true);
-              }}
-            >
-              <div className="w-full h-full flex justify-center items-center">
-                <b className="flex">
-                  <span className="text-xl mr-1">
-                    <FaSortAmountDownAlt />
-                  </span>
-                  Lọc theo điều kiện
-                </b>
-              </div>
-            </div>
           </div>
         </div>
         {isShow && (

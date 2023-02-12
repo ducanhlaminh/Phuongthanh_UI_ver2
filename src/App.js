@@ -1,5 +1,6 @@
 import { Routes, Route, useNavigate, useNavigation } from "react-router-dom";
 import takeParamsVerifyToken from "./ultils/takeParamsVerifyToken";
+import { BsArrowLeftCircleFill } from "react-icons/bs";
 
 import {
   Public,
@@ -45,6 +46,7 @@ function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.app);
   const [isStartChatBot, setIsStartChatBot] = useState(false);
+  const [hideChatbot, setHideChatBot] = useState(false);
   const [chatBotPosition, setChatBotPosition] = useState({
     left: "80%",
     top: "50%",
@@ -53,6 +55,7 @@ function App() {
   const [selectProductEdit, setSelectProductEdit] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const chatBotRef = useRef();
   useEffect(() => {
     dispatch(fetchWishlist());
@@ -155,30 +158,49 @@ function App() {
           </Route>
         )}
       </Routes>
+      {window.location.href.split('/')[window.location.href.split('/').length-1]!=='auth' &&<div>
+        <div
+          className={`fixed z-10 md:right-[0px] md:top-1/2 ${
+            window.innerWidth < 768
+              ? !show
+                ? `right-[-3%] top-1/2`
+                : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)]  w-screen h-screen"
+              : ""
+          } text-primary transition-all text-[30px] ${
+            hideChatbot ? "translate-x-[0vw]" : "translate-x-[20vw]"
+          } `}
+          onClick={() => {
+            setHideChatBot(false);
+          }}
+        >
+          <BsArrowLeftCircleFill></BsArrowLeftCircleFill>
+        </div>
 
-      <div
-        className={`fixed z-10 md:right-[32px] md:top-1/2 transition-all ${
-          window.innerWidth < 768
-            ? !show
-              ? `left-[80%] top-1/2`
-              : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)] w-screen h-screen"
-            : ""
-        } `}
-        onClick={() => {
-          if (window.innerWidth < 768) {
-            setShow((prev) => !prev);
-            setIsStartChatBot((prev) => !prev);
-          }
-        }}
-        // ref={chatBotRef}
-        // onTouchMove={(e) => {
-        //   console.log(window.getComputedStyle(chatBotRef.current).left);
-        //   console.log(e);
-        //   // setChatBotPosition({'left':e.target.offsetLeft,'top':e.target.offsetTop})
-        // }}
-      >
-        <Contact setIsStartChatBot={setIsStartChatBot} show={show} />
-      </div>
+        <div
+          className={`fixed z-10 md:right-[32px] md:top-1/2 transition-all ${
+            hideChatbot ? "translate-x-[40vw]" : ""
+          }  ${
+            window.innerWidth < 768
+              ? !show
+                ? `left-[80%] top-1/2`
+                : " top-[0] left-[0] pt-[50px] pl-[20px] bg-[rgba(0,0,0,.25)]  w-screen h-screen"
+              : ""
+          } `}
+          onClick={() => {
+            if (window.innerWidth < 768) {
+              setShow((prev) => !prev);
+              setIsStartChatBot((prev) => !prev);
+            }
+          }}
+        >
+          <Contact
+            setIsStartChatBot={setIsStartChatBot}
+            show={show}
+            hideChatBot={hideChatbot}
+            setHideChatBot={setHideChatBot}
+          />
+        </div>
+      </div>}
 
       <div
         className={`fixed ${

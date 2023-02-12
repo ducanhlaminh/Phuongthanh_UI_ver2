@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import bgLogin from '../../assets/bg-login.jpg';
 import { Button2 } from "../../components";
-import { InputFieldWithValidate } from '../../components/InputCtWidth';
+import { InputFieldWithValidate,InputFieldWithValidatePassword } from '../../components/InputCtWidth';
 import ApiChangePassword from "../../apis/changePassword";
 import Swal from "sweetalert2";
 import * as actions from "../../store/actions";
@@ -31,6 +31,7 @@ const Login = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
+  
   useEffect(() => {
     setIsLoading(false)
     isLoggedIn && navigate("/");
@@ -165,12 +166,11 @@ const Login = () => {
                 setMessage={setValidName}
                 />}
 
-                {actionType !== actionTypeForgotPassword&&<InputFieldWithValidate 
+                {actionType !== actionTypeForgotPassword&&<InputFieldWithValidatePassword 
                 lable={"Mật khẩu"}
                 PLarge={true}
                 value={password}
                 setValue={setPassword}
-                type={"password"}
                 message={validPassword}
                 setMessage={setValidPassword}
                 />}

@@ -38,7 +38,7 @@ const ApiProduct = {
   },
   voteProduct: (data) => {
     const url = "/api/v1/product/votes";
-    return axiosClients.post(url, { ...data });
+    return axiosClients.put(url, { ...data });
   },
 };
 

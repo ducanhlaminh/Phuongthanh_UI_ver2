@@ -3,6 +3,7 @@ import image from "../assets/anonAvatar.png";
 import { useSelector } from "react-redux";
 import { IoIosArrowForward } from "react-icons/io";
 import SideNavigateMenu from "../components/SideNavigateMenu";
+import MobileNav from "./MobileNav";
 
 const MenuNav = ({setShowMenuNav,showMenuNav}) => {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -30,8 +31,8 @@ const MenuNav = ({setShowMenuNav,showMenuNav}) => {
         </div>
         <div className="bg-white py-[12px]">
             <p className="text-darkGrey font-medium text-sm pl-[16px] mb-[5px]">Gian hàng</p>
-            {categories?.map((category,i)=>{
-                return <SideNavigateMenu key={i} title={category.valueVi}></SideNavigateMenu>
+            {categories?.map((category,i)=>{ 
+                return <MobileNav key={i} title={category.valueVi}></MobileNav>
             })}
         </div>
 

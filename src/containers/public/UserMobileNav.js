@@ -8,6 +8,7 @@ import * as actions from "../../store/actions";
 const UserMobileNav = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //hee
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
   return (
     <div className="h-screen">
@@ -54,7 +55,7 @@ const UserMobileNav = () => {
       <div className="flex justify-center mt-[8px]">
         {!isLoggedIn && (
           <div
-            onClick={() => navigate("/login", { state: { flag: false } })}
+            onClick={() => navigate("/auth", { state: { flag: false } })}
             className="w-[95%]"
           >
             <LongButton
